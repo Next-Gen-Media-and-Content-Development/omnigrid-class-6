@@ -181,4 +181,30 @@ nav ul li a { text-decoration: none; color: #1a1a2e; font-weight: 600; }
     z-index: 2000;
 }
 
-.chatbot-hidden { display: none; }
+.chatbot-hidden { display: none; }/* Anya ka Floating Animation */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Anya ka Glow Animation */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(233, 69, 96, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0); }
+}
+
+#open-chat-btn img {
+    width: 80px; /* Thoda bada size */
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid #e94560;
+    animation: float 3s ease-in-out infinite, pulse-glow 2s infinite; /* Dono effects ek saath */
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+#open-chat-btn:hover img {
+    transform: scale(1.1) rotate(5deg); /* Mouse le jane par thoda ghumega */
+}
