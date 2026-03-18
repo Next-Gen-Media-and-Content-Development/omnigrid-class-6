@@ -1,250 +1,60 @@
-/* --- GLOBAL SETTINGS --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-姿勢: border-box;
-}
-
-body.anime-theme {
-    font-family: 'Jost', sans-serif;
-    background-color: #f0f4f8;
-    background-image: url('anime-background.jpg'); 
-    background-size: cover;
-    background-attachment: fixed;
-    color: #1a1a2e;
-    line-height: 1.6;
-}
-
-/* --- NAVIGATION --- */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 8%;
-    background: rgba(255, 255, 255, 0.95);
-    border-bottom: 4px double #e94560;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #e94560;
-}
-
-nav ul { display: flex; list-style: none; }
-nav ul li { margin-left: 25px; }
-nav ul li a { text-decoration: none; color: #1a1a2e; font-weight: 600; }
-
-/* --- HERO SECTION --- */
-.hero {
-    text-align: center;
-    padding: 60px 20px;
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(5px);
-}
-
-.companion-intro-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid #e94560;
-    margin-bottom: 20px;
-}
-
-/* --- GRID CONTAINER (THE FIX) --- */
-.landing-section {
-    padding: 50px 8%;
-}
-
-.grid-container {
-    display: grid;
-    /* Isse cards barabar width ke honge */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    align-items: stretch; /* Cards ki height barabar karne ke liye */
-}
-
-/* --- ANIME CARD (THE FIX) --- */
-.card.anime-card {
-    background: #ffffff;
-    border-radius: 20px;
-    border: 3px solid #1a1a2e;
-    display: flex;
-    flex-direction: column; /* Content vertical align hoga */
-    transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
-}
-
-.card.anime-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-/* Image alignment fix */
-.card-image {
-    width: 100%;
-    height: 180px; 
-    background-size: cover;
-    background-position: center;
-    border-bottom: 3px solid #1a1a2e;
-}
-
-/* Content alignment fix */
-.card-content {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; /* Isse content bachi hui jagah le lega */
-}
-
-.subject-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.subject-tag {
-    background: #e94560;
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-    color: #1a1a2e;
-}
-
-.card p {
-    font-size: 0.95rem;
-    color: #535c68;
-    margin-bottom: 20px;
-    flex-grow: 1; /* Isse description kitna bhi ho, button bottom mein rahega */
-}
-
-/* Button Alignment Fix */
-.btn {
-    display: block;
-    text-align: center;
-    padding: 10px;
-    background: #1a1a2e;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    margin-top: auto; /* Push button to the bottom */
-    transition: background 0.3s;
-}
-
-.btn:hover {
-    background: #e94560;
-}
-
-/* --- CHATBOT FLOATING BUTTON --- */
+/* --- ANYA (AI COMPANION) FIX --- */
+/* Isse badi image choti ho jayegi aur corner mein set ho jayegi */
 #open-chat-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 2000;
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 70px !important; /* Size control */
+    height: 70px !important;
+    z-index: 9999 !important; /* Sabse upar dikhegi */
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
 }
 
 #open-chat-btn img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 3px solid #e94560;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    border: 3px solid #e94560 !important;
+    object-fit: cover !important; /* Image ko stretch hone se bachata hai */
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.5) !important;
+    animation: float 3s ease-in-out infinite !important;
 }
 
-/* Chatbot window fix */
-#chatbot-container {
-    position: fixed;
-    bottom: 100px;
-    right: 20px;
-    width: 320px;
-    height: 450px;
-    background: white;
-    border: 3px solid #1a1a2e;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    z-index: 2000;
-}
-
-.chatbot-hidden { display: none; }/* Anya ka Floating Animation */
+/* Floating Animation */
 @keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
 }
 
-/* Anya ka Glow Animation */
-@keyframes pulse-glow {
-    0% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0.7); }
-    70% { box-shadow: 0 0 0 15px rgba(233, 69, 96, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(233, 69, 96, 0); }
-}
-
-#open-chat-btn img {
-    width: 80px; /* Thoda bada size */
-    height: 80px;
-    border-radius: 50%;
-    border: 4px solid #e94560;
-    animation: float 3s ease-in-out infinite, pulse-glow 2s infinite; /* Dono effects ek saath */
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-#open-chat-btn:hover img {
-    transform: scale(1.1) rotate(5deg); /* Mouse le jane par thoda ghumega */
-}
-/* Anya (Chatbot Button) ka size aur position fix */
-#open-chat-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 2000;
-    width: 80px; /* Isse image control mein rahegi */
-    height: 80px;
-}
-
-#open-chat-btn img {
-    width: 100%; /* Button ke container ke barabar */
-    height: 100%;
-    border-radius: 50%;
-    border: 4px solid #e94560;
-    object-fit: cover; /* Image ko golai mein set karega */
-    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
-    animation: float 3s ease-in-out infinite;
-}
-
-/* Hero section mein agar badi image hai toh use bhi fix karein */
-.companion-intro-img {
-    max-width: 150px; /* Hero section mein Anya ka size */
-    height: auto;
-    border-radius: 50%;
-    margin-bottom: 20px;
-}
-
-/* Grid Layout Fix (taaki saare cards dikhein) */
+/* --- GRID & CARDS FIX --- */
+/* Taaki cards ek line mein properly dikhen */
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 20px;
-    position: relative; 
-    z-index: 1; /* Taaki cards Anya ke peeche na chhupen */
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 25px !important;
+    padding: 40px 5% !important;
+    width: 90% !important;
+    margin: 0 auto !important;
+    clear: both !important; /* Background issues fix karne ke liye */
+}
+
+.card.anime-card {
+    background: #ffffff !important;
+    border-radius: 15px !important;
+    border: 2px solid #1a1a2e !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important; /* Equal height for all cards */
+    overflow: hidden !important;
+}
+
+.card-image {
+    height: 180px !important;
+    width: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
 }
