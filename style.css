@@ -1,108 +1,285 @@
-/* General Settings */
+/* --- GLOBAL ANIME & TYPOGRAPHY SETTINGS --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body {
-    background-color: #0f172a; /* Deep Dark Blue */
-    color: #f1f5f9;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body.anime-theme {
+    font-family: 'Jost', sans-serif; /* PLAYFUL & TECH FONT */
+    color: #1a1a2e; /* Dark Blue-Black */
+    background-color: #f7f9fc; /* Very light cool grey */
+    
+    /* ADD YOUR ANIME BACKGROUND IMAGE HERE (e.g., subtle stars, clouds) */
+    background-image: url('anime-background.jpg'); 
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     line-height: 1.6;
 }
 
-/* Navbar Style */
+/* --- NAVIGATION & LOGO --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 10%;
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(10px); /* Glass effect */
+    padding: 20px 8%;
+    background-color: rgba(255, 255, 255, 0.9); /* Transparent White */
+    border-bottom: 3px double #e94560; /* MAGENTA DOUBLE BORDER */
+    backdrop-filter: blur(10px);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #38bdf8;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #e94560; /* Magenta */
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 nav ul { display: flex; list-style: none; }
-nav ul li { margin-left: 20px; }
-nav ul li a { color: white; text-decoration: none; font-weight: 500; }
+nav ul li { margin-left: 30px; }
+nav ul li a { 
+    color: #16213e; /* Dark Navy */
+    text-decoration: none; 
+    font-weight: 600;
+    transition: color 0.3s, border-bottom 0.3s;
+    border-bottom: 2px solid transparent;
+}
+nav ul li a:hover { 
+    color: #0f3460; /* Lighter Blue */
+    border-bottom: 2px solid #0f3460;
+}
 
-/* Hero Section */
+/* --- HERO SECTION with COMPANION --- */
 .hero {
     text-align: center;
-    padding: 80px 20px;
-    background: linear-gradient(to bottom, #1e293b, #0f172a);
+    padding: 120px 20px 100px;
+    background: linear-gradient(135deg, #f7f9fc 0%, #e0f2fe 100%); /* Cool Blue Gradient */
 }
 
-.hero h1 { font-size: 2.5rem; margin-bottom: 10px; color: #38bdf8; }
+.hero-content h1 { 
+    font-size: 3.8rem; 
+    margin: 20px 0 15px; 
+    font-weight: 700;
+    color: #1a1a2e;
+    text-shadow: 2px 2px 0px rgba(255,255,255,0.7); /* Subtle offset text shadow for playfulness */
+}
 
-/* Grid System */
+.companion-intro-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #0f3460; /* CYAN BORDER */
+    display: block;
+    margin: 0 auto 30px;
+    box-shadow: 0 5px 20px rgba(15, 52, 96, 0.3);
+}
+
+.hero p { 
+    font-size: 1.3rem; 
+    max-width: 700px; 
+    margin: 0 auto 40px; 
+    color: #535c68;
+}
+
+/* Call-to-Action Button */
+.cta-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: #e94560; /* Magenta */
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+}
+.cta-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+    background-color: #d13251;
+    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5);
+}
+
+/* --- LANDING SECTION & GRID --- */
+.landing-section {
+    padding: 80px 8%;
+    background-color: rgba(255, 255, 255, 0.85); /* Slightly transparent for bg show-through */
+    border-top: 3px double #0f3460;
+}
+.landing-section h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 60px;
+    color: #1a1a2e;
+    font-weight: 700;
+}
+
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 40px 10%;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
 }
 
-/* Card Design */
-.card {
-    background: #1e293b;
-    border-radius: 15px;
+/* --- ANIME CARD DESIGN --- */
+.card.anime-card {
+    background: #ffffff;
+    border-radius: 20px;
     overflow: hidden;
-    border: 1px solid #334155;
-    transition: all 0.4s ease;
+    
+    /* BORDER STYLING for ANIME FEEL */
+    border: 3px solid transparent; /* Start with transparent border */
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    border-color: #38bdf8;
-    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+/* Hover Effect for Anime Cards */
+.card.anime-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
+
+/* Colored Borders on Hover for Each Subject */
+.card.science-card.anime-card:hover { border-color: #0f3460; } /* Cyan */
+.card.maths-card.anime-card:hover { border-color: #e94560; } /* Magenta */
+.card.english-card.anime-card:hover { border-color: #ffd700; } /* Gold Yellow */
+.card.sst-card.anime-card:hover { border-color: #3b82f6; } /* Electric Blue */
 
 .card-image {
-    height: 180px;
+    height: 190px;
     background-size: cover;
     background-position: center;
+    border-bottom: 3px double transparent; /* Reserve border area for hover */
+    transition: border-bottom-color 0.3s;
+}
+.card.anime-card:hover .card-image { border-bottom-color: rgba(0, 0, 0, 0.1); }
+
+.card-content { padding: 30px; text-align: left;}
+
+/* Subject Header (Tags + Icons) */
+.subject-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.subject-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    color: #535c68; /* Default icon color */
+    transition: color 0.3s;
 }
 
-.card-content { padding: 20px; }
+/* Match Icon Color to Subject Color on Hover */
+.card.science-card.anime-card:hover .subject-icon { color: #0f3460; }
+.card.maths-card.anime-card:hover .subject-icon { color: #e94560; }
+.card.english-card.anime-card:hover .subject-icon { color: #ffd700; }
+.card.sst-card.anime-card:hover .subject-icon { color: #3b82f6; }
 
-.tag {
-    background: #38bdf8;
-    color: #0f172a;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+.subject-tag {
+    color: #16213e;
+    padding: 6px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
     font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s, background 0.3s;
+    border: 2px solid #535c68; /* Outlined Tag */
 }
 
-.card h3 { margin: 15px 0 10px; color: #f8fafc; }
+/* Change Tag Style on Hover */
+.card.science-card.anime-card:hover .subject-tag { background: #0f3460; color: white; border-color: #0f3460; }
+.card.maths-card.anime-card:hover .subject-tag { background: #e94560; color: white; border-color: #e94560; }
+.card.english-card.anime-card:hover .subject-tag { background: #ffd700; color: #1a1a2e; border-color: #ffd700; }
+.card.sst-card.anime-card:hover .subject-tag { background: #3b82f6; color: white; border-color: #3b82f6; }
 
-/* Button */
+.card h3 { 
+    margin-bottom: 15px; 
+    color: #1a1a2e; 
+    font-size: 1.6rem; 
+    font-weight: 700;
+}
+.card p {
+    color: #535c68;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+/* Main Action Button (Inlined Anime Style) */
 .btn {
     display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
+    padding: 12px 25px;
     background-color: transparent;
-    border: 2px solid #38bdf8;
-    color: #38bdf8;
+    border: 3px solid #1a1a2e; /* Dark Border Button */
+    color: #1a1a2e;
     text-decoration: none;
     border-radius: 8px;
-    font-weight: bold;
-    transition: 0.3s;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .btn:hover {
-    background-color: #38bdf8;
-    color: #0f172a;
+    background-color: #1a1a2e;
+    color: white;
 }
 
-footer { text-align: center; padding: 40px; color: #64748b; }
+/* --- CHATBOT UI STYLING --- */
+#chatbot-container {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 480px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 3px double #e94560; /* MAGENTA DOUBLE BORDER */
+    z-index: 2000;
+    transition: opacity 0.3s, transform 0.3s;
+}
+.chatbot-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+
+.chatbot-header {
+    background-color: #e94560;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.chatbot-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; margin-right: 10px; }
+.chatbot-name { font-weight: 700; font-size: 1rem; flex-grow: 1; }
+#close-chat { background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
+
+#chatbot-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.message { padding: 10px 15px; border-radius: 10px; max-width: 80%; font-size: 0.95rem; }
+.user-message { background-color: #e0f2fe; align-self: flex-end; color: #1a1a2e; }
+.bot-message { background-color: #f1f5f9; align-self: flex-start; color: #1a1a2e; border: 1px dashed #535c68; /* DASHED BORDER for BOT MSG */ }
+
+.chatbot-input-area { display: flex; padding: 15px; border-top: 1px solid #e2e8f0; background: white; }
+#user-input { flex-grow: 1; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; }
+#send-btn { margin-left: 10px; padding: 10px 20px; background-color: #e94560; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+#send-btn:hover { background-color: #d13251; }
+
+#open-chat-btn { position: fixed; bottom: 20px; right: 20px; background: none; border: none; cursor: pointer; z-index: 1000; }
+#open-chat-btn img { width: 70px; height: 70px; border-radius: 50%; border: 4px solid #e94560; box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); transition: transform 0.3s; }
+#open-chat-btn:hover img { transform: scale(1.1); }
+
+/* --- FOOTER --- */
+footer { 
+    text-align: center; 
+    padding: 40px; 
+    color: #64748b; 
+    background-color: #ffffff; 
+    border-top: 3px double #e94560;
+}

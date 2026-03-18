@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNIGRID 6 | Your Anime Academy</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.min.css">
+</head>
+<body class="anime-theme">
+
+    <nav>
+        <div class="logo">OMNIGRID 6</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#subjects">Subjects</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <img src="companion-avatar.png" alt="Your AI Companion" class="companion-intro-img"> 
+            <h1>Welcome, Fellow Adventurer!</h1>
+            <p>I'm **Anya**, your AI Companion! Together, we'll conquer Class 6. Ask me anything to get started, or explore the subjects below!</p>
+            <a href="#subjects" class="cta-btn">Start My Journey</a>
+        </div>
+    </header>
+
+    <main id="subjects" class="landing-section">
+        <h2>Choose Your Quest</h2>
+        
+        <div class="grid-container">
+            
+            <div class="card science-card anime-card">
+                <div class="card-image" style="background-image: url('science-anime.jpg');"></div>
+                <div class="card-content">
+                    <div class="subject-header">
+                        <i class="fas fa-flask subject-icon"></i> <a href="science_chapters.html" class="subject-tag">Science</a>
+                    </div>
+                    <h3>Explore the Universe</h3>
+                    <p>Unlock the secrets of food, materials, light, and electricity!</p>
+                    <a href="science_chapters.html" class="btn">View Chapters</a>
+                </div>
+            </div>
+
+            <div class="card maths-card anime-card">
+                <div class="card-image" style="background-image: url('maths-anime.jpg');"></div>
+                <div class="card-content">
+                    <div class="subject-header">
+                        <i class="fas fa-calculator subject-icon"></i> <a href="maths_chapters.html" class="subject-tag">Maths</a>
+                    </div>
+                    <h3>Master the Numbers</h3>
+                    <p>Play with whole numbers, fractions, decimals, and algebra!</p>
+                    <a href="maths_chapters.html" class="btn">View Chapters</a>
+                </div>
+            </div>
+
+            <div class="card english-card anime-card">
+                <div class="card-image" style="background-image: url('english-anime.jpg');"></div>
+                <div class="card-content">
+                    <div class="subject-header">
+                        <i class="fas fa-book-open subject-icon"></i> <a href="english_chapters.html" class="subject-tag">English</a>
+                    </div>
+                    <h3>Unleash Your Words</h3>
+                    <p>Dive into magical stories, powerful poems, and master grammar!</p>
+                    <a href="english_chapters.html" class="btn">View Chapters</a>
+                </div>
+            </div>
+
+            <div class="card sst-card anime-card">
+                <div class="card-image" style="background-image: url('sst-anime.jpg');"></div>
+                <div class="card-content">
+                    <div class="subject-header">
+                        <i class="fas fa-globe-americas subject-icon"></i> <a href="sst_chapters.html" class="subject-tag">SST</a>
+                    </div>
+                    <h3>Discover Our World</h3>
+                    <p>Travel through history, explore geography, and learn about our society!</p>
+                    <a href="sst_chapters.html" class="btn">View Chapters</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="chatbot-container" class="chatbot-hidden">
+        <div class="chatbot-header">
+            <img src="companion-avatar.png" alt="Anya Avatar" class="chatbot-avatar">
+            <span class="chatbot-name">Anya (Your AI Companion)</span>
+            <button id="close-chat">×</button>
+        </div>
+        <div id="chatbot-messages">
+            </div>
+        <div class="chatbot-input-area">
+            <input type="text" id="user-input" placeholder="Ask me about a subject, chapter, or quiz...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    
+    <button id="open-chat-btn">
+        <img src="companion-avatar.png" alt="Chat with Anya">
+    </button>
+
+    <footer>
+        <p>© 2026 Your Anime Academy | Guiding you to greatness!</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
