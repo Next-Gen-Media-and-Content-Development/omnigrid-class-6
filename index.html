@@ -7,8 +7,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS DESIGN --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* 1. Base Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: 'Jost', sans-serif;
+        background: #0f172a;
+        color: white;
+        line-height: 1.4;
+    }
+
+    /* 2. Grid Fix - Ensures cards don't stretch weirdly */
+    .grid-container {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        padding: 30px 5% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+    }
+
+    /* 3. Card Size Lock - Prevents the vertical stretching seen in your screenshot */
+    .card {
+        background: #1e293b !important;
+        width: 280px !important; /* Constant width */
+        min-height: 380px !important; /* Minimum height to keep them equal */
+        max-height: 420px !important; /* Prevents them from growing too long */
+        border-radius: 15px !important;
+        border: 2px solid #334155 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        transition: transform 0.3s ease !important;
+    }
+
+    .card:hover { 
+        transform: translateY(-5px) !important;
+        border-color: #e94560 !important; 
+    }
+
+    /* 4. Image Fix */
+    .card-image { 
+        height: 160px !important; 
+        width: 100% !important;
+        background-size: cover !important; 
+        background-position: center !important;
+        flex-shrink: 0 !important; /* Keeps image from squishing */
+    }
+
+    .card-content { 
+        padding: 15px !important; 
+        flex-grow: 1 !important; 
+        display: flex !important; 
+        flex-direction: column !important;
+        justify-content: space-between !important; /* Pushes button to bottom */
+    }
+
+    .subject-tag {
+        background: #e94560;
+        padding: 3px 10px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: bold;
+        width: fit-content;
+        margin-bottom: 8px;
+    }
+
+    .btn {
+        background: #1e293b;
+        border: 2px solid #e94560;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 700;
+        margin-top: 10px;
+    }
+
+    .btn:hover { background: #e94560; }
+</style>
         
         body {
             font-family: 'Jost', sans-serif;
