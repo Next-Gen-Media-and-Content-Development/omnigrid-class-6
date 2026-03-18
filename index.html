@@ -7,151 +7,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-    /* 1. Base Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-        font-family: 'Jost', sans-serif;
-        background: #0f172a;
-        color: white;
-        line-height: 1.4;
-    }
-
-    /* 2. Grid Fix - Ensures cards don't stretch weirdly */
-    .grid-container {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-        gap: 20px !important;
-        padding: 30px 5% !important;
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-    }
-
-    /* 3. Card Size Lock - Prevents the vertical stretching seen in your screenshot */
-    .card {
-        background: #1e293b !important;
-        width: 280px !important; /* Constant width */
-        min-height: 380px !important; /* Minimum height to keep them equal */
-        max-height: 420px !important; /* Prevents them from growing too long */
-        border-radius: 15px !important;
-        border: 2px solid #334155 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        overflow: hidden !important;
-        transition: transform 0.3s ease !important;
-    }
-
-    .card:hover { 
-        transform: translateY(-5px) !important;
-        border-color: #e94560 !important; 
-    }
-
-    /* 4. Image Fix */
-    .card-image { 
-        height: 160px !important; 
-        width: 100% !important;
-        background-size: cover !important; 
-        background-position: center !important;
-        flex-shrink: 0 !important; /* Keeps image from squishing */
-    }
-
-    .card-content { 
-        padding: 15px !important; 
-        flex-grow: 1 !important; 
-        display: flex !important; 
-        flex-direction: column !important;
-        justify-content: space-between !important; /* Pushes button to bottom */
-    }
-
-    .subject-tag {
-        background: #e94560;
-        padding: 3px 10px;
-        border-radius: 5px;
-        font-size: 11px;
-        font-weight: bold;
-        width: fit-content;
-        margin-bottom: 8px;
-    }
-
-    .btn {
-        background: #1e293b;
-        border: 2px solid #e94560;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: 700;
-        margin-top: 10px;
-    }
-
-    .btn:hover { background: #e94560; }
-</style>
+        /* 1. Global Reset */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Jost', sans-serif;
-            background: #0f172a;
-            background-image: url('anime-background.jpg');
+            background: #0f172a; /* Solid dark color first */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('anime-background.jpg');
             background-size: cover;
             background-attachment: fixed;
             color: white;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 8%;
-            background: rgba(30, 41, 59, 0.9);
-            border-bottom: 2px solid #e94560;
+        /* 2. Hero Section - Anya Fix */
+        .hero { text-align: center; padding: 60px 20px; }
+        .hero img { 
+            width: 140px !important; 
+            height: 140px !important; 
+            border-radius: 50%; 
+            border: 4px solid #e94560; 
+            object-fit: cover; 
+            margin-bottom: 20px;
         }
 
-        .logo { font-size: 1.8rem; font-weight: bold; color: #e94560; }
-
-        .hero { text-align: center; padding: 50px 20px; }
-        .hero img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; margin-bottom: 15px; }
-
-        /* GRID FIX: Cards center mein aur barabar size ke rahenge */
+        /* 3. Grid Container - No more vertical stretching */
         .grid-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
-            padding: 40px 5%;
-            max-width: 1300px;
-            margin: 0 auto;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+            gap: 25px !important;
+            padding: 20px 5% 100px 5% !important; /* Bottom padding for chatbot space */
+            max-width: 1200px !important;
+            margin: 0 auto !important;
         }
 
+        /* 4. Card Fix - image_6d50a0 wali stretching hatane ke liye */
         .card {
-            background: #1e293b;
-            width: 280px;
-            border-radius: 15px;
-            border: 2px solid #334155;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: 0.3s ease;
+            background: #1e293b !important;
+            width: 280px !important;
+            height: 420px !important; /* Fixed height so cards stay uniform */
+            border-radius: 15px !important;
+            border: 2px solid #334155 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            overflow: hidden !important;
+            transition: 0.3s ease !important;
         }
 
-        .card:hover { border-color: #e94560; transform: translateY(-8px); }
+        .card:hover { transform: translateY(-10px); border-color: #e94560; }
 
-        .card-image { height: 160px; width: 100%; background-size: cover; background-position: center; }
+        .card-image { 
+            height: 160px !important; 
+            width: 100% !important; 
+            background-size: cover !important; 
+            background-position: center !important;
+        }
 
-        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-content { 
+            padding: 20px !important; 
+            flex-grow: 1 !important; 
+            display: flex !important; 
+            flex-direction: column !important;
+            justify-content: space-between !important;
+        }
+
+        .subject-tag { background: #e94560; padding: 4px 12px; border-radius: 5px; font-size: 12px; width: fit-content; }
         
-        .subject-tag {
-            background: #e94560;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            width: fit-content;
-            margin-bottom: 10px;
-        }
-
         .btn {
-            margin-top: auto;
+            background: #1e293b;
             border: 2px solid #e94560;
             color: white;
             padding: 10px;
@@ -159,75 +83,52 @@
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
-            transition: 0.3s;
         }
         .btn:hover { background: #e94560; }
 
-        /* CHATBOT STYLING */
-        #chatbot-container {
+        /* 5. Chatbot Interface Fix */
+        #chat-window {
             position: fixed;
-            bottom: 100px;
-            right: 20px;
+            bottom: 110px;
+            right: 25px;
             width: 320px;
-            height: 450px;
+            height: 400px;
             background: #1e293b;
             border: 2px solid #e94560;
             border-radius: 15px;
-            display: none; /* Initially Hidden */
+            display: none;
             flex-direction: column;
-            z-index: 9999;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 10000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
-        .chat-header {
-            background: #e94560;
-            padding: 12px;
-            border-radius: 12px 12px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        #chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+        .m { padding: 8px 12px; border-radius: 10px; max-width: 85%; }
+        .a { background: #334155; align-self: flex-start; } /* Anya Msg */
+        .u { background: #e94560; align-self: flex-end; } /* User Msg */
 
-        #chat-messages {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        #chat-input-container { display: flex; padding: 10px; gap: 5px; background: #0f172a; border-radius: 0 0 15px 15px; }
+        #user-in { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; }
 
-        .msg { padding: 8px 12px; border-radius: 10px; max-width: 80%; font-size: 14px; }
-        .anya { background: #334155; align-self: flex-start; }
-        .user { background: #e94560; align-self: flex-end; }
-
-        .chat-input { display: flex; padding: 10px; gap: 5px; background: #0f172a; }
-        #user-text { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; }
-
-        #open-chat-btn {
+        /* Floating Button */
+        #bot-trigger {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 25px;
+            right: 25px;
             width: 75px;
             height: 75px;
-            background: none;
-            border: none;
             cursor: pointer;
-            z-index: 9998;
+            z-index: 9999;
         }
-        #open-chat-btn img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; }
+        #bot-trigger img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">OMNIGRID 6</div>
-    </nav>
-
     <header class="hero">
         <img src="companion-avatar.png" alt="Anya">
         <h1>Welcome, Adventurer!</h1>
-        <p>I'm Anya, your AI guide. Let's conquer Class 6 together!</p>
+        <p>I'm Anya. Ready to level up your learning?</p>
     </header>
 
     <main class="grid-container">
@@ -240,92 +141,79 @@
                 <a href="science_chapters.html" class="btn">Start Quest</a>
             </div>
         </div>
-
         <div class="card">
             <div class="card-image" style="background-image: url('maths-anime.jpg');"></div>
             <div class="card-content">
                 <span class="subject-tag">Maths</span>
                 <h3>Number Ninja</h3>
-                <p>Master Numbers, Fractions, and Algebra.</p>
-                <a href="maths_chapters.html" class="btn">Start Quest</a>
+                <p>Master Numbers and Algebra.</p>
+                <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
-
         <div class="card">
             <div class="card-image" style="background-image: url('english-anime.jpg');"></div>
             <div class="card-content">
                 <span class="subject-tag">English</span>
                 <h3>Word Master</h3>
-                <p>Unlock stories and grammar magic.</p>
-                <a href="english_chapters.html" class="btn">Start Quest</a>
+                <p>Unlock stories and grammar.</p>
+                <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
-
         <div class="card">
             <div class="card-image" style="background-image: url('sst-anime.jpg');"></div>
             <div class="card-content">
                 <span class="subject-tag">SST</span>
                 <h3>World Traveler</h3>
-                <p>History and Geography adventures.</p>
-                <a href="sst_chapters.html" class="btn">Start Quest</a>
+                <p>History and Geography quests.</p>
+                <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
     </main>
 
-    <div id="chatbot-container">
-        <div class="chat-header">
-            <span>Anya AI</span>
-            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">×</button>
+    <div id="chat-window">
+        <div style="background:#e94560; padding:10px; display:flex; justify-content:space-between; border-radius:12px 12px 0 0;">
+            <b>Anya AI</b>
+            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-weight:bold; cursor:pointer;">X</button>
         </div>
         <div id="chat-messages">
-            <div class="msg anya">Konnichiwa! Main Anya hoon. Kya hum padhai shuru karein?</div>
+            <div class="m a">Konnichiwa! Main Anya hoon. Kya hum padhai shuru karein?</div>
         </div>
-        <div class="chat-input">
-            <input type="text" id="user-text" placeholder="Type Hi...">
-            <button onclick="sendMsg()" style="background:#e94560; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">Send</button>
+        <div id="chat-input-container">
+            <input type="text" id="user-in" placeholder="Say Hi...">
+            <button onclick="sendMsg()" style="background:#e94560; color:white; border:none; padding:8px 12px; border-radius:5px; cursor:pointer;">Send</button>
         </div>
     </div>
 
-    <button id="open-chat-btn" onclick="toggleChat()">
-        <img src="companion-avatar.png">
-    </button>
+    <div id="bot-trigger" onclick="toggleChat()">
+        <img src="companion-avatar.png" alt="Anya">
+    </div>
 
     <script>
-        // Toggle Chat Window
         function toggleChat() {
-            const chat = document.getElementById('chatbot-container');
-            chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+            const win = document.getElementById('chat-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // Send Message Logic
         function sendMsg() {
-            const input = document.getElementById('user-text');
+            const input = document.getElementById('user-in');
             const box = document.getElementById('chat-messages');
-            if (input.value.trim() === "") return;
+            if(!input.value.trim()) return;
 
-            // User msg
-            const uDiv = document.createElement('div');
-            uDiv.className = 'msg user';
-            uDiv.innerText = input.value;
-            box.appendChild(uDiv);
+            const u = document.createElement('div');
+            u.className = 'm u';
+            u.innerText = input.value;
+            box.appendChild(u);
 
-            const val = input.value.toLowerCase();
+            const txt = input.value.toLowerCase();
             input.value = "";
 
-            // Anya reply
             setTimeout(() => {
-                const aDiv = document.createElement('div');
-                aDiv.className = 'msg anya';
-                
-                if (val.includes("hi") || val.includes("hello")) {
-                    aDiv.innerText = "Hello! Aaj hum kaunsa subject padhenge? Science ya Maths?";
-                } else if (val.includes("science")) {
-                    aDiv.innerText = "Science cool hai! Science card par click karke Chapters dekhein.";
-                } else {
-                    aDiv.innerText = "Main seekh rahi hoon! Par filhaal aap koi subject chunein.";
-                }
-                
-                box.appendChild(aDiv);
+                const a = document.createElement('div');
+                a.className = 'm a';
+                if(txt.includes("hi")) a.innerText = "Hello Adventurer! Aaj Science padhna hai?";
+                else if(txt.includes("science")) a.innerText = "Science card par click karein, quest wahi hai!";
+                else a.innerText = "Main abhi seekh rahi hoon, par aap chapters padhna shuru kar sakte hain!";
+                box.appendChild(a);
                 box.scrollTop = box.scrollHeight;
             }, 600);
         }
