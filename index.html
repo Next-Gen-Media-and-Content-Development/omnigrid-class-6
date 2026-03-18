@@ -5,136 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMNIGRID 6 | Anime Academy</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
-        /* --- EMERGENCY CSS (Internal) --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Jost', sans-serif; background: #0f172a; color: white; overflow-x: hidden; }
         
-        body {
-            font-family: 'Jost', sans-serif;
-            background: #0f172a; /* Dark Anime Theme */
-            color: white;
-            overflow-x: hidden;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 8%;
-            background: rgba(30, 41, 59, 0.9);
-            border-bottom: 2px solid #e94560;
-        }
-
+        /* Navbar */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; background: #1e293b; border-bottom: 2px solid #e94560; }
         .logo { font-size: 1.5rem; font-weight: bold; color: #e94560; }
 
-        .hero {
-            text-align: center;
-            padding: 50px 20px;
-            background: linear-gradient(to bottom, #1e293b, #0f172a);
-        }
+        /* Hero */
+        .hero { text-align: center; padding: 40px 20px; }
+        .companion-intro-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; margin-bottom: 15px; }
 
-        /* ANYA FIX (Hero Section) */
-        .companion-intro-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid #e94560;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            padding: 40px 8%;
-        }
-
-        .card {
-            background: #1e293b;
-            border-radius: 15px;
-            border: 1px solid #334155;
-            overflow: hidden;
-            transition: 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover { transform: translateY(-10px); border-color: #e94560; }
-
-        .card-image {
-            height: 150px;
-            background-size: cover;
-            background-position: center;
-        }
-
+        /* Grid - Card alignment fix */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px 8%; }
+        .card { background: #1e293b; border-radius: 15px; border: 1px solid #334155; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
+        .card:hover { border-color: #e94560; transform: translateY(-5px); }
+        .card-image { height: 150px; background-size: cover; background-position: center; }
         .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        
-        .subject-tag {
-            background: #e94560;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: inline-block;
-            margin-bottom: 10px;
-            text-decoration: none;
-            color: white;
-            width: fit-content;
-        }
+        .subject-tag { background: #e94560; padding: 4px 10px; border-radius: 5px; font-size: 12px; margin-bottom: 10px; display: inline-block; width: fit-content; }
+        .btn { margin-top: auto; border: 2px solid #e94560; color: white; padding: 8px; text-align: center; text-decoration: none; border-radius: 5px; }
 
-        .btn {
-            margin-top: auto;
-            background: transparent;
-            border: 2px solid #e94560;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
+        /* Chatbot Window Fix */
+        #chatbot-container { position: fixed; bottom: 100px; right: 20px; width: 300px; height: 400px; background: #1e293b; border: 2px solid #e94560; border-radius: 15px; flex-direction: column; z-index: 10000; display: none; }
+        .chatbot-header { background: #e94560; padding: 10px; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; }
+        #chatbot-messages { flex-grow: 1; padding: 10px; overflow-y: auto; color: white; font-size: 14px; }
+        .chatbot-input-area { padding: 10px; display: flex; gap: 5px; }
+        #user-input { flex-grow: 1; padding: 5px; border-radius: 5px; border: none; }
+        #send-btn { background: #e94560; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
 
-        .btn:hover { background: #e94560; }
-
-        /* ANYA FLOATING BUTTON FIX */
-        #open-chat-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 70px;
-            height: 70px;
-            z-index: 9999;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        #open-chat-btn img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.5);
-        }
-
-        /* Chatbox Hidden by Default */
-        .chatbot-hidden { display: none; }
+        /* Anya Floating Button */
+        #open-chat-btn { position: fixed; bottom: 20px; right: 20px; width: 70px; height: 70px; z-index: 9999; background: none; border: none; cursor: pointer; }
+        #open-chat-btn img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">OMNIGRID 6</div>
-        <div style="color: white;">Class 6th Digital Library</div>
-    </nav>
+    <nav><div class="logo">OMNIGRID 6</div></nav>
 
     <header class="hero">
-        <img src="companion-avatar.png" alt="Anya" class="companion-intro-img">
+        <img src="companion-avatar.png" class="companion-intro-img">
         <h1>Welcome, Adventurer!</h1>
-        <p>I'm Anya, your AI Companion. Ready to level up?</p>
+        <p>I'm Anya. Ready to level up your learning?</p>
     </header>
 
     <main class="grid-container">
@@ -143,46 +55,57 @@
             <div class="card-content">
                 <span class="subject-tag">Science</span>
                 <h3>Universe Explorer</h3>
-                <p>Learn about Food, Light, and Electricity.</p>
+                <p>Unlock secrets of Food & Light.</p>
                 <a href="science_chapters.html" class="btn">Start Learning</a>
             </div>
         </div>
+        </main>
 
-        <div class="card">
-            <div class="card-image" style="background-image: url('maths-anime.jpg');"></div>
-            <div class="card-content">
-                <span class="subject-tag">Maths</span>
-                <h3>Number Ninja</h3>
-                <p>Master Fractions and Algebra.</p>
-                <a href="maths_chapters.html" class="btn">Start Learning</a>
-            </div>
+    <div id="chatbot-container">
+        <div class="chatbot-header"><span>Anya AI</span><button id="close-chat" style="background:none; border:none; color:white; font-weight:bold; cursor:pointer;">X</button></div>
+        <div id="chatbot-messages"></div>
+        <div class="chatbot-input-area">
+            <input type="text" id="user-input" placeholder="Say Hi...">
+            <button id="send-btn">Send</button>
         </div>
+    </div>
 
-        <div class="card">
-            <div class="card-image" style="background-image: url('english-anime.jpg');"></div>
-            <div class="card-content">
-                <span class="subject-tag">English</span>
-                <h3>Story Master</h3>
-                <p>Unleash the magic of words.</p>
-                <a href="english_chapters.html" class="btn">Start Learning</a>
-            </div>
-        </div>
+    <button id="open-chat-btn"><img src="companion-avatar.png"></button>
 
-        <div class="card">
-            <div class="card-image" style="background-image: url('sst-anime.jpg');"></div>
-            <div class="card-content">
-                <span class="subject-tag">SST</span>
-                <h3>World Traveler</h3>
-                <p>History and Geography quests.</p>
-                <a href="sst_chapters.html" class="btn">Start Learning</a>
-            </div>
-        </div>
-    </main>
+    <script>
+        const chatBtn = document.getElementById('open-chat-btn');
+        const chatContainer = document.getElementById('chatbot-container');
+        const closeBtn = document.getElementById('close-chat');
+        const sendBtn = document.getElementById('send-btn');
+        const userInput = document.getElementById('user-input');
+        const messages = document.getElementById('chatbot-messages');
 
-    <button id="open-chat-btn">
-        <img src="companion-avatar.png" alt="Chat">
-    </button>
+        // Toggle Chat
+        chatBtn.onclick = () => { chatContainer.style.display = 'flex'; };
+        closeBtn.onclick = () => { chatContainer.style.display = 'none'; };
 
-    <script src="script.js"></script>
+        // Anya Logic
+        function addMessage(text, sender) {
+            const msg = document.createElement('div');
+            msg.style.margin = "5px 0";
+            msg.innerHTML = `<b>${sender}:</b> ${text}`;
+            messages.appendChild(msg);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        sendBtn.onclick = () => {
+            const text = userInput.value;
+            if(!text) return;
+            addMessage(text, "You");
+            userInput.value = "";
+            
+            // Anya's Response
+            setTimeout(() => {
+                let response = "Konnichiwa! Main aapki help kaise kar sakti hoon?";
+                if(text.toLowerCase().includes("hi")) response = "Hello Adventurer! Chapter 1 padhna hai?";
+                addMessage(response, "Anya");
+            }, 500);
+        };
+    </script>
 </body>
 </html>
