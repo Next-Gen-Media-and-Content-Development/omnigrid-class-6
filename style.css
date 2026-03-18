@@ -1,285 +1,184 @@
-/* --- GLOBAL ANIME & TYPOGRAPHY SETTINGS --- */
+/* --- GLOBAL SETTINGS --- */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-姿勢: border-box;
 }
 
 body.anime-theme {
-    font-family: 'Jost', sans-serif; /* PLAYFUL & TECH FONT */
-    color: #1a1a2e; /* Dark Blue-Black */
-    background-color: #f7f9fc; /* Very light cool grey */
-    
-    /* ADD YOUR ANIME BACKGROUND IMAGE HERE (e.g., subtle stars, clouds) */
+    font-family: 'Jost', sans-serif;
+    background-color: #f0f4f8;
     background-image: url('anime-background.jpg'); 
     background-size: cover;
     background-attachment: fixed;
-    background-position: center;
+    color: #1a1a2e;
     line-height: 1.6;
 }
 
-/* --- NAVIGATION & LOGO --- */
+/* --- NAVIGATION --- */
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 8%;
-    background-color: rgba(255, 255, 255, 0.9); /* Transparent White */
-    border-bottom: 3px double #e94560; /* MAGENTA DOUBLE BORDER */
-    backdrop-filter: blur(10px);
+    padding: 15px 8%;
+    background: rgba(255, 255, 255, 0.95);
+    border-bottom: 4px double #e94560;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
 .logo {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    color: #e94560; /* Magenta */
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    color: #e94560;
 }
 
 nav ul { display: flex; list-style: none; }
-nav ul li { margin-left: 30px; }
-nav ul li a { 
-    color: #16213e; /* Dark Navy */
-    text-decoration: none; 
-    font-weight: 600;
-    transition: color 0.3s, border-bottom 0.3s;
-    border-bottom: 2px solid transparent;
-}
-nav ul li a:hover { 
-    color: #0f3460; /* Lighter Blue */
-    border-bottom: 2px solid #0f3460;
-}
+nav ul li { margin-left: 25px; }
+nav ul li a { text-decoration: none; color: #1a1a2e; font-weight: 600; }
 
-/* --- HERO SECTION with COMPANION --- */
+/* --- HERO SECTION --- */
 .hero {
     text-align: center;
-    padding: 120px 20px 100px;
-    background: linear-gradient(135deg, #f7f9fc 0%, #e0f2fe 100%); /* Cool Blue Gradient */
-}
-
-.hero-content h1 { 
-    font-size: 3.8rem; 
-    margin: 20px 0 15px; 
-    font-weight: 700;
-    color: #1a1a2e;
-    text-shadow: 2px 2px 0px rgba(255,255,255,0.7); /* Subtle offset text shadow for playfulness */
+    padding: 60px 20px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
 }
 
 .companion-intro-img {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    border: 5px solid #0f3460; /* CYAN BORDER */
-    display: block;
-    margin: 0 auto 30px;
-    box-shadow: 0 5px 20px rgba(15, 52, 96, 0.3);
+    border: 4px solid #e94560;
+    margin-bottom: 20px;
 }
 
-.hero p { 
-    font-size: 1.3rem; 
-    max-width: 700px; 
-    margin: 0 auto 40px; 
-    color: #535c68;
-}
-
-/* Call-to-Action Button */
-.cta-btn {
-    display: inline-block;
-    padding: 15px 40px;
-    background-color: #e94560; /* Magenta */
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2rem;
-    border-radius: 50px;
-    box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
-    transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-}
-.cta-btn:hover {
-    transform: translateY(-4px) scale(1.03);
-    background-color: #d13251;
-    box-shadow: 0 8px 25px rgba(233, 69, 96, 0.5);
-}
-
-/* --- LANDING SECTION & GRID --- */
+/* --- GRID CONTAINER (THE FIX) --- */
 .landing-section {
-    padding: 80px 8%;
-    background-color: rgba(255, 255, 255, 0.85); /* Slightly transparent for bg show-through */
-    border-top: 3px double #0f3460;
-}
-.landing-section h2 {
-    text-align: center;
-    font-size: 2.8rem;
-    margin-bottom: 60px;
-    color: #1a1a2e;
-    font-weight: 700;
+    padding: 50px 8%;
 }
 
 .grid-container {
     display: grid;
+    /* Isse cards barabar width ke honge */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
+    gap: 30px;
+    align-items: stretch; /* Cards ki height barabar karne ke liye */
 }
 
-/* --- ANIME CARD DESIGN --- */
+/* --- ANIME CARD (THE FIX) --- */
 .card.anime-card {
     background: #ffffff;
     border-radius: 20px;
+    border: 3px solid #1a1a2e;
+    display: flex;
+    flex-direction: column; /* Content vertical align hoga */
+    transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
-    
-    /* BORDER STYLING for ANIME FEEL */
-    border: 3px solid transparent; /* Start with transparent border */
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Hover Effect for Anime Cards */
 .card.anime-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
-/* Colored Borders on Hover for Each Subject */
-.card.science-card.anime-card:hover { border-color: #0f3460; } /* Cyan */
-.card.maths-card.anime-card:hover { border-color: #e94560; } /* Magenta */
-.card.english-card.anime-card:hover { border-color: #ffd700; } /* Gold Yellow */
-.card.sst-card.anime-card:hover { border-color: #3b82f6; } /* Electric Blue */
-
+/* Image alignment fix */
 .card-image {
-    height: 190px;
+    width: 100%;
+    height: 180px; 
     background-size: cover;
     background-position: center;
-    border-bottom: 3px double transparent; /* Reserve border area for hover */
-    transition: border-bottom-color 0.3s;
+    border-bottom: 3px solid #1a1a2e;
 }
-.card.anime-card:hover .card-image { border-bottom-color: rgba(0, 0, 0, 0.1); }
 
-.card-content { padding: 30px; text-align: left;}
+/* Content alignment fix */
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Isse content bachi hui jagah le lega */
+}
 
-/* Subject Header (Tags + Icons) */
 .subject-header {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
-    margin-bottom: 25px;
+    gap: 10px;
+    margin-bottom: 15px;
 }
-.subject-icon {
-    font-size: 1.5rem;
-    margin-right: 15px;
-    color: #535c68; /* Default icon color */
-    transition: color 0.3s;
-}
-
-/* Match Icon Color to Subject Color on Hover */
-.card.science-card.anime-card:hover .subject-icon { color: #0f3460; }
-.card.maths-card.anime-card:hover .subject-icon { color: #e94560; }
-.card.english-card.anime-card:hover .subject-icon { color: #ffd700; }
-.card.sst-card.anime-card:hover .subject-icon { color: #3b82f6; }
 
 .subject-tag {
-    color: #16213e;
-    padding: 6px 15px;
-    border-radius: 50px;
-    font-size: 0.9rem;
+    background: #e94560;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     font-weight: bold;
-    text-transform: uppercase;
     text-decoration: none;
-    transition: color 0.3s, background 0.3s;
-    border: 2px solid #535c68; /* Outlined Tag */
 }
 
-/* Change Tag Style on Hover */
-.card.science-card.anime-card:hover .subject-tag { background: #0f3460; color: white; border-color: #0f3460; }
-.card.maths-card.anime-card:hover .subject-tag { background: #e94560; color: white; border-color: #e94560; }
-.card.english-card.anime-card:hover .subject-tag { background: #ffd700; color: #1a1a2e; border-color: #ffd700; }
-.card.sst-card.anime-card:hover .subject-tag { background: #3b82f6; color: white; border-color: #3b82f6; }
-
-.card h3 { 
-    margin-bottom: 15px; 
-    color: #1a1a2e; 
-    font-size: 1.6rem; 
-    font-weight: 700;
-}
-.card p {
-    color: #535c68;
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
-
-/* Main Action Button (Inlined Anime Style) */
-.btn {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: transparent;
-    border: 3px solid #1a1a2e; /* Dark Border Button */
+.card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
     color: #1a1a2e;
+}
+
+.card p {
+    font-size: 0.95rem;
+    color: #535c68;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Isse description kitna bhi ho, button bottom mein rahega */
+}
+
+/* Button Alignment Fix */
+.btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: #1a1a2e;
+    color: white;
     text-decoration: none;
     border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: background 0.3s, color 0.3s, border-color 0.3s;
+    font-weight: 600;
+    margin-top: auto; /* Push button to the bottom */
+    transition: background 0.3s;
 }
 
 .btn:hover {
-    background-color: #1a1a2e;
-    color: white;
+    background: #e94560;
 }
 
-/* --- CHATBOT UI STYLING --- */
+/* --- CHATBOT FLOATING BUTTON --- */
+#open-chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 2000;
+}
+
+#open-chat-btn img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #e94560;
+}
+
+/* Chatbot window fix */
 #chatbot-container {
     position: fixed;
-    bottom: 90px;
+    bottom: 100px;
     right: 20px;
-    width: 350px;
-    height: 480px;
-    background: #ffffff;
+    width: 320px;
+    height: 450px;
+    background: white;
+    border: 3px solid #1a1a2e;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    border: 3px double #e94560; /* MAGENTA DOUBLE BORDER */
     z-index: 2000;
-    transition: opacity 0.3s, transform 0.3s;
 }
-.chatbot-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
 
-.chatbot-header {
-    background-color: #e94560;
-    color: white;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-.chatbot-avatar { width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; margin-right: 10px; }
-.chatbot-name { font-weight: 700; font-size: 1rem; flex-grow: 1; }
-#close-chat { background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
-
-#chatbot-messages { flex-grow: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-.message { padding: 10px 15px; border-radius: 10px; max-width: 80%; font-size: 0.95rem; }
-.user-message { background-color: #e0f2fe; align-self: flex-end; color: #1a1a2e; }
-.bot-message { background-color: #f1f5f9; align-self: flex-start; color: #1a1a2e; border: 1px dashed #535c68; /* DASHED BORDER for BOT MSG */ }
-
-.chatbot-input-area { display: flex; padding: 15px; border-top: 1px solid #e2e8f0; background: white; }
-#user-input { flex-grow: 1; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Jost', sans-serif; font-size: 0.9rem; }
-#send-btn { margin-left: 10px; padding: 10px 20px; background-color: #e94560; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
-#send-btn:hover { background-color: #d13251; }
-
-#open-chat-btn { position: fixed; bottom: 20px; right: 20px; background: none; border: none; cursor: pointer; z-index: 1000; }
-#open-chat-btn img { width: 70px; height: 70px; border-radius: 50%; border: 4px solid #e94560; box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); transition: transform 0.3s; }
-#open-chat-btn:hover img { transform: scale(1.1); }
-
-/* --- FOOTER --- */
-footer { 
-    text-align: center; 
-    padding: 40px; 
-    color: #64748b; 
-    background-color: #ffffff; 
-    border-top: 3px double #e94560;
-}
+.chatbot-hidden { display: none; }
