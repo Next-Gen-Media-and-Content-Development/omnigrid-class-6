@@ -131,4 +131,33 @@ function getBotResponse(userText) {
     } else {
         addMessage('bot', "Anya is puzzled... that sounds like a complex quest! Can you rephrase or try asking about a specific subject (Science, Maths, SST, English) or the 'Quiz'?");
     }
-}
+}window.onload = () => {
+    setTimeout(() => {
+        const welcomePopup = document.createElement('div');
+        welcomePopup.id = "anya-flash";
+        welcomePopup.innerHTML = "<b>Anya:</b> Konnichiwa! 👋 Quest shuru karein?";
+        welcomePopup.style = `
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            background: #e94560;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-family: 'Jost', sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 2500;
+            max-width: 200px;
+            font-size: 14px;
+            border: 2px solid white;
+        `;
+        document.body.appendChild(welcomePopup);
+
+        // 6 second baad gayab ho jaye
+        setTimeout(() => {
+            if(document.getElementById("anya-flash")) {
+                document.getElementById("anya-flash").remove();
+            }
+        }, 6000);
+    }, 2000);
+};
