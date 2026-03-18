@@ -1,153 +1,255 @@
-<style>
-    /* 1. Grid ko Flexbox mein badal diya taaki cards bade na ho jayein */
-    .grid-container {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important; /* Cards center mein rahenge */
-        gap: 25px !important;
-        padding: 40px 5% !important;
-        max-width: 1200px !important;
-        margin: 0 auto !important;
-    }
-
-    /* 2. Card ki fixed width set kar di */
-    .card {
-        background: #1e293b !important;
-        border-radius: 15px !important;
-        border: 2px solid #334155 !important;
-        width: 280px !important; /* Cards ka size ab fix rahega */
-        display: flex !important;
-        flex-direction: column !important;
-        overflow: hidden !important;
-        transition: 0.3s !important;
-    }
-
-    .card-image {
-        height: 160px !important;
-        width: 100% !important;
-        background-size: cover !important;
-        background-position: center !important;
-    }
-
-    /* 3. Chatbot Window (Initially Hidden) */
-    #chatbot-container {
-        position: fixed !important;
-        bottom: 100px !important;
-        right: 20px !important;
-        width: 300px !important;
-        height: 400px !important;
-        background: #1e293b !important;
-        border: 2px solid #e94560 !important;
-        border-radius: 15px !important;
-        display: none; /* JS isse open karega */
-        flex-direction: column !important;
-        z-index: 10000 !important;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
-    }
-
-    .chatbot-header {
-        background: #e94560 !important;
-        color: white !important;
-        padding: 10px !important;
-        border-radius: 12px 12px 0 0 !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-    }
-
-    #chatbot-messages {
-        flex-grow: 1 !important;
-        padding: 15px !important;
-        overflow-y: auto !important;
-        font-size: 14px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 10px !important;
-    }
-
-    .message {
-        padding: 8px 12px !important;
-        border-radius: 10px !important;
-        max-width: 85% !important;
-    }
-
-    .anya-msg { background: #334155 !important; align-self: flex-start !important; }
-    .user-msg { background: #e94560 !important; align-self: flex-end !important; }
-
-    .chatbot-input-area {
-        display: flex !important;
-        padding: 10px !important;
-        gap: 5px !important;
-        background: #0f172a !important;
-    }
-
-    #user-input {
-        flex-grow: 1 !important;
-        padding: 8px !important;
-        border-radius: 5px !important;
-        border: none !important;
-        outline: none !important;
-    }
-</style>
-
-<div id="chatbot-container">
-    <div class="chatbot-header">
-        <span>Anya AI Companion</span>
-        <button onclick="toggleChat()" style="background:none; border:none; color:white; cursor:pointer; font-size:20px;">×</button>
-    </div>
-    <div id="chatbot-messages">
-        <div class="message anya-msg">Konnichiwa! Main Anya hoon. Main aapki kaise madad kar sakti hoon?</div>
-    </div>
-    <div class="chatbot-input-area">
-        <input type="text" id="user-input" placeholder="Type a message...">
-        <button onclick="sendMessage()" style="background:#e94560; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">Send</button>
-    </div>
-</div>
-
-<button id="open-chat-btn" onclick="toggleChat()">
-    <img src="companion-avatar.png">
-</button>
-
-<script>
-    function toggleChat() {
-        const chat = document.getElementById('chatbot-container');
-        if (chat.style.display === 'none' || chat.style.display === '') {
-            chat.style.display = 'flex';
-        } else {
-            chat.style.display = 'none';
-        }
-    }
-
-    function sendMessage() {
-        const input = document.getElementById('user-input');
-        const msgContainer = document.getElementById('chatbot-messages');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNIGRID 6 | Anime Academy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS DESIGN --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        if (input.value.trim() === "") return;
+        body {
+            font-family: 'Jost', sans-serif;
+            background: #0f172a;
+            background-image: url('anime-background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: white;
+            line-height: 1.6;
+        }
 
-        // User message
-        const userDiv = document.createElement('div');
-        userDiv.className = 'message user-msg';
-        userDiv.innerText = input.value;
-        msgContainer.appendChild(userDiv);
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 8%;
+            background: rgba(30, 41, 59, 0.9);
+            border-bottom: 2px solid #e94560;
+        }
 
-        const userText = input.value.toLowerCase();
-        input.value = "";
+        .logo { font-size: 1.8rem; font-weight: bold; color: #e94560; }
 
-        // Anya reply
-        setTimeout(() => {
-            const anyaDiv = document.createElement('div');
-            anyaDiv.className = 'message anya-msg';
-            
-            if (userText.includes("hi") || userText.includes("hello")) {
-                anyaDiv.innerText = "Hello Adventurer! Aaj kaunsa subject padhna hai? Science ya Maths?";
-            } else if (userText.includes("science")) {
-                anyaDiv.innerText = "Science mera favorite hai! 'Universe Explorer' card par click karein.";
-            } else {
-                anyaDiv.innerText = "Mujhe samajh nahi aaya, par main seekh rahi hoon! ✨";
-            }
-            
-            msgContainer.appendChild(anyaDiv);
-            msgContainer.scrollTop = msgContainer.scrollHeight;
-        }, 600);
-    }
-</script>
+        .hero { text-align: center; padding: 50px 20px; }
+        .hero img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; margin-bottom: 15px; }
+
+        /* GRID FIX: Cards center mein aur barabar size ke rahenge */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            padding: 40px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #1e293b;
+            width: 280px;
+            border-radius: 15px;
+            border: 2px solid #334155;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s ease;
+        }
+
+        .card:hover { border-color: #e94560; transform: translateY(-8px); }
+
+        .card-image { height: 160px; width: 100%; background-size: cover; background-position: center; }
+
+        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        
+        .subject-tag {
+            background: #e94560;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            width: fit-content;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            margin-top: auto;
+            border: 2px solid #e94560;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #e94560; }
+
+        /* CHATBOT STYLING */
+        #chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 320px;
+            height: 450px;
+            background: #1e293b;
+            border: 2px solid #e94560;
+            border-radius: 15px;
+            display: none; /* Initially Hidden */
+            flex-direction: column;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .chat-header {
+            background: #e94560;
+            padding: 12px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .msg { padding: 8px 12px; border-radius: 10px; max-width: 80%; font-size: 14px; }
+        .anya { background: #334155; align-self: flex-start; }
+        .user { background: #e94560; align-self: flex-end; }
+
+        .chat-input { display: flex; padding: 10px; gap: 5px; background: #0f172a; }
+        #user-text { flex-grow: 1; padding: 8px; border-radius: 5px; border: none; outline: none; }
+
+        #open-chat-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 75px;
+            height: 75px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 9998;
+        }
+        #open-chat-btn img { width: 100%; height: 100%; border-radius: 50%; border: 3px solid #e94560; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">OMNIGRID 6</div>
+    </nav>
+
+    <header class="hero">
+        <img src="companion-avatar.png" alt="Anya">
+        <h1>Welcome, Adventurer!</h1>
+        <p>I'm Anya, your AI guide. Let's conquer Class 6 together!</p>
+    </header>
+
+    <main class="grid-container">
+        <div class="card">
+            <div class="card-image" style="background-image: url('science-anime.jpg');"></div>
+            <div class="card-content">
+                <span class="subject-tag">Science</span>
+                <h3>Universe Explorer</h3>
+                <p>Learn about Food, Components, and Light.</p>
+                <a href="science_chapters.html" class="btn">Start Quest</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image" style="background-image: url('maths-anime.jpg');"></div>
+            <div class="card-content">
+                <span class="subject-tag">Maths</span>
+                <h3>Number Ninja</h3>
+                <p>Master Numbers, Fractions, and Algebra.</p>
+                <a href="maths_chapters.html" class="btn">Start Quest</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image" style="background-image: url('english-anime.jpg');"></div>
+            <div class="card-content">
+                <span class="subject-tag">English</span>
+                <h3>Word Master</h3>
+                <p>Unlock stories and grammar magic.</p>
+                <a href="english_chapters.html" class="btn">Start Quest</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-image" style="background-image: url('sst-anime.jpg');"></div>
+            <div class="card-content">
+                <span class="subject-tag">SST</span>
+                <h3>World Traveler</h3>
+                <p>History and Geography adventures.</p>
+                <a href="sst_chapters.html" class="btn">Start Quest</a>
+            </div>
+        </div>
+    </main>
+
+    <div id="chatbot-container">
+        <div class="chat-header">
+            <span>Anya AI</span>
+            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:20px; cursor:pointer;">×</button>
+        </div>
+        <div id="chat-messages">
+            <div class="msg anya">Konnichiwa! Main Anya hoon. Kya hum padhai shuru karein?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-text" placeholder="Type Hi...">
+            <button onclick="sendMsg()" style="background:#e94560; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">Send</button>
+        </div>
+    </div>
+
+    <button id="open-chat-btn" onclick="toggleChat()">
+        <img src="companion-avatar.png">
+    </button>
+
+    <script>
+        // Toggle Chat Window
+        function toggleChat() {
+            const chat = document.getElementById('chatbot-container');
+            chat.style.display = (chat.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        // Send Message Logic
+        function sendMsg() {
+            const input = document.getElementById('user-text');
+            const box = document.getElementById('chat-messages');
+            if (input.value.trim() === "") return;
+
+            // User msg
+            const uDiv = document.createElement('div');
+            uDiv.className = 'msg user';
+            uDiv.innerText = input.value;
+            box.appendChild(uDiv);
+
+            const val = input.value.toLowerCase();
+            input.value = "";
+
+            // Anya reply
+            setTimeout(() => {
+                const aDiv = document.createElement('div');
+                aDiv.className = 'msg anya';
+                
+                if (val.includes("hi") || val.includes("hello")) {
+                    aDiv.innerText = "Hello! Aaj hum kaunsa subject padhenge? Science ya Maths?";
+                } else if (val.includes("science")) {
+                    aDiv.innerText = "Science cool hai! Science card par click karke Chapters dekhein.";
+                } else {
+                    aDiv.innerText = "Main seekh rahi hoon! Par filhaal aap koi subject chunein.";
+                }
+                
+                box.appendChild(aDiv);
+                box.scrollTop = box.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
