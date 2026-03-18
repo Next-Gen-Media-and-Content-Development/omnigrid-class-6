@@ -1,4 +1,29 @@
-// --- CHATBOT LOGIC ---
+//// Website khulne ke 2 second baad Anya ek message degi
+window.onload = () => {
+    setTimeout(() => {
+        const welcomePopup = document.createElement('div');
+        welcomePopup.innerHTML = "<b>Anya:</b> Konnichiwa! Mujhse baat karne ke liye yahan click karein! ✨";
+        welcomePopup.style = `
+            position: fixed;
+            bottom: 110px;
+            right: 20px;
+            background: #e94560;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-family: 'Jost', sans-serif;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 2500;
+            animation: float 3s infinite;
+        `;
+        document.body.appendChild(welcomePopup);
+
+        // 5 second baad ye popup apne aap hat jayega
+        setTimeout(() => {
+            welcomePopup.remove();
+        }, 6000);
+    }, 2000);
+}; --- CHATBOT LOGIC ---
 
 const openChatBtn = document.getElementById('open-chat-btn');
 const closeChatBtn = document.getElementById('close-chat');
