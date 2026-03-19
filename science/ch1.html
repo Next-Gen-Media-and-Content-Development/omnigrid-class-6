@@ -1931,7 +1931,8 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
   <div class="mnya"><div class="mh"></div><div class="mb2"></div><div class="me2"><div class="mey"></div><div class="mey"></div></div></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
 // ══ FLOATING CHARACTER ══
 const floatTips=[
   '🍃 Naru says: Click yellow keywords to see their meaning!',
@@ -1973,10 +1974,8 @@ setInterval(()=>{
 },30000);
 
 // ══ SCROLL REVEAL ══
-const revealObs=typeof IntersectionObserver!=="undefined"?new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
-},{threshold:0.15});
-document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+const revealObs=typeof IntersectionObserver!=='undefined'?new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15}):null;
+if(revealObs)document.querySelectorAll('.reveal').forEach(el=>{if(el)revealObs.observe(el);});
 
 
 // ══ FLIPBOOK ══
@@ -2021,8 +2020,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-</script>
-<script>
+
 // TAB
 function switchTab(n,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('tab-'+n).classList.add('active');}
 
@@ -2206,17 +2204,30 @@ function toggleQuiz(id){const p=document.getElementById(id);p.classList.toggle('
 function renderTQ(id){
   const qs=QD[id];const st=qzSt[id];
   const de=document.getElementById(id+'-dots');
-  if(de)de.innerHTML=qs.map((_,i)=>`<div class="qpdot${i<st.idx?' done':''}"></div>`).join('');
+  if(de)de.innerHTML=qs.map((_,i)=>'<div class="qpdot'+(i<st.idx?' done':'')+'"></div>').join('');
   const cont=document.getElementById(id+'-q');
+  if(!cont)return;
   if(st.idx>=qs.length){
-  const medal=st.score>=5?'🥇':st.score>=4?'🥈':st.score>=3?'🥉':'⭐';
-  const msg=st.score>=5?'Perfect Score!':st.score>=4?'Excellent!':st.score>=3?'Good Job!':'Keep Practising!';
-  const charHtml=st.score>=3?`<div class="char-naru" style="width:80px;height:100px;"><div class="nn-chakra"></div><div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div><div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div><div class="nn-hair-base"></div><div class="nn-band"></div><div class="nn-head"><div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div><div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div><div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div><div class="nn-blush l"></div><div class="nn-blush r"></div><div class="nn-mouth"></div></div><div class="nn-spiral"></div><div class="nn-arm-l"><div class="nn-glove-l"></div></div><div class="nn-arm-r"><div class="nn-glove-r"></div></div><div class="nn-body"></div><div class="nn-legs"><div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div><div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div></div></div>`:`<div class="char-sasu" style="width:80px;height:100px;"><div class="nn-spike ns-bs1"></div><div class="nn-spike ns-bs2"></div><div class="nn-spike ns-bs3"></div><div class="ns-hair-base"></div><div class="ns-bang"></div><div class="ns-band"></div><div class="ns-head"><div class="ns-mark"></div><div class="ns-eyes"><div class="ns-eye"></div><div class="ns-eye"></div></div><div class="ns-mouth"></div></div><div class="ns-collar"></div><div class="ns-arm-l"><div class="ns-glove-l"></div></div><div class="ns-arm-r"><div class="ns-glove-r"></div></div><div class="ns-body"><div class="ns-emblem"></div></div><div class="ns-legs"><div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div><div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div></div></div>`;
-  cont.innerHTML=`<div class="quiz-celebrate show"><div class="qc-chars">${charHtml}</div><div class="qc-stars">${medal} ${medal}</div><div class="qc-msg">${msg}</div><div class="qc-sub">You scored ${st.score} out of 5!</div><button class="qc-retry" onclick="resetTQ('${id}')">🔄 Try Again</button></div>`;
-  return;
-}
+    const medal=st.score>=5?'🥇':st.score>=4?'🥈':st.score>=3?'🥉':'⭐';
+    const msg=st.score>=5?'Perfect Score!':st.score>=4?'Excellent!':st.score>=3?'Good Job!':'Keep Practising!';
+    const charHtml=st.score>=3?'<div class="char-naru" style="width:72px;height:88px;"><div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div><div class="nn-spike nn-s3"></div><div class="nn-hair-base"></div><div class="nn-band"></div><div class="nn-head"><div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div><div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div><div class="nn-blush l"></div><div class="nn-blush r"></div><div class="nn-mouth"></div></div><div class="nn-body"></div><div class="nn-legs"><div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div><div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div></div></div>':'<div class="char-sasu" style="width:72px;height:88px;"><div class="nn-spike ns-bs1"></div><div class="nn-spike ns-bs2"></div><div class="nn-spike ns-bs3"></div><div class="ns-hair-base"></div><div class="ns-bang"></div><div class="ns-band"></div><div class="ns-head"><div class="ns-mark"></div><div class="ns-eyes"><div class="ns-eye"></div><div class="ns-eye"></div></div><div class="ns-mouth"></div></div><div class="ns-body"><div class="ns-emblem"></div></div><div class="ns-legs"><div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div><div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div></div></div>';
+    cont.innerHTML='<div class="quiz-celebrate show"><div class="qc-chars">'+charHtml+'</div><div class="qc-stars">'+medal+' '+medal+'</div><div class="qc-msg">'+msg+'</div><div class="qc-sub">You scored '+st.score+' out of 5!</div><button class="qc-retry" onclick="resetTQ(this.dataset.id)">🔄 Try Again</button></div>';
+    cont.querySelector('.qc-retry').dataset.id=id;
+    return;
+  }
   const q=qs[st.idx];
-  cont.innerHTML=`<div class="qp-qtxt">Q${st.idx+1}/5: ${q.q}</div><div class="qp-opts">${q.opts.map((o,j)=>`<button class="qp-opt" onclick="ansTQ('${id}',${j},this)">${o}</button>`).join('')}</div><div class="qp-exp" id="te-${id}"></div><button class="qp-nxt" id="tn-${id}" onclick="nextTQ('${id}')">Next →</button>`;
+  const div=document.createElement('div');
+  div.innerHTML='<div class="qp-qtxt">Q'+(st.idx+1)+'/5: '+q.q+'</div><div class="qp-opts" id="opts-'+id+'"></div><div class="qp-exp" id="te-'+id+'"></div><button class="qp-nxt" id="tn-'+id+'" style="display:none">Next &#8594;</button>';
+  cont.innerHTML='';
+  cont.appendChild(div);
+  const optsDiv=document.getElementById('opts-'+id);
+  q.opts.forEach(function(o,j){
+    const btn=document.createElement('button');
+    btn.className='qp-opt';
+    btn.textContent=o;
+    btn.onclick=function(){ansTQ(id,j,this);};
+    optsDiv.appendChild(btn);
+  });
 }
 function ansTQ(id,ai,btn){
   const q=QD[id][qzSt[id].idx];const st=qzSt[id];
@@ -2239,7 +2250,10 @@ const PQ=[
   {q:'Which of the following is the subject matter of Biology?',opts:['Rocks and minerals','Stars and galaxies','Living organisms','Chemical reactions'],ans:2,exp:'Biology studies all living organisms. "Bio" = life, "Logos" = study.'},
 ];
 let pqsc=0;
-(function(){document.getElementById('pq-wrap').innerHTML=PQ.map((q,i)=>`<div class="pq-card" id="ppq${i}"><div class="pq-num">Q${i+1}</div><div class="pq-q">${q.q}</div><div class="pq-opts">${q.opts.map((o,j)=>`<button class="pq-opt" onclick="chkPQ(${i},${j},this)"><span class="opt-l">${'ABCD'[j]}</span>${o}</button>`).join('')}</div><div class="pq-exp" id="pe${i}">${q.exp}</div></div>`).join('');})();
+(function(){document.getElementById('pq-wrap').innerHTML=PQ.map((q,i)=>{
+  const optBtns=q.opts.map((o,j)=>'<button class="pq-opt" onclick="chkPQ('+i+','+j+',this)"><span class="opt-l">'+'ABCD'[j]+'</span>'+o+'</button>').join('');
+  return '<div class="pq-card" id="ppq'+i+'"><div class="pq-num">Q'+(i+1)+'</div><div class="pq-q">'+q.q+'</div><div class="pq-opts">'+optBtns+'</div><div class="pq-exp" id="pe'+i+'">'+q.exp+'</div></div>';
+}).join('');})();
 function chkPQ(qi,ai,btn){const q=PQ[qi];document.getElementById('ppq'+qi).querySelectorAll('.pq-opt').forEach(b=>b.disabled=true);document.getElementById('ppq'+qi).querySelectorAll('.pq-opt')[q.ans].classList.add('ca');if(ai===q.ans){btn.classList.add('ca');pqsc++;}else btn.classList.add('wa');document.getElementById('pqs').textContent=pqsc;document.getElementById('pe'+qi).classList.add('show');updateProg();}
 
 // PROGRESS
@@ -2601,6 +2615,7 @@ async function acSend(pre){
   const _as2=document.getElementById('anya-status');if(_as2)_as2.textContent='Online • Chapter 1 ke baare mein poochho!';
 }
 document.getElementById('ac-inp').addEventListener('keydown',e=>{if(e.key==='Enter')acSend();});
+
 </script>
 </body>
 </html>
