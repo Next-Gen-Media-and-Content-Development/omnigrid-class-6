@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ch 1 — The Wonderful World of Science | Class 6</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sci:#00c9a7; --sci-dk:#00a388; --sci-bg:#e0fff8; --sci-lt:#f0fffb;
+      --accent:#e94560; --bg:#f0f9f7; --white:#fff;
+      --text:#1e293b; --muted:#64748b; --border:#d1fae5;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+    /* NAV */
+    .topnav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:8px;
+      padding:10px 4%;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);
+      border-bottom:2px solid var(--border);}
+    .nav-logo{font-family:'Fredoka One',cursive;font-size:1.2rem;color:#4f8ef7;text-decoration:none;}
+    .nav-logo span{color:#f43f5e;}
+    .nav-sep{color:#cbd5e1;}
+    .nav-sub{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--sci);}
+    .nav-back{margin-left:auto;background:var(--sci-bg);color:var(--sci-dk);
+      padding:6px 14px;border-radius:20px;text-decoration:none;font-size:12px;font-weight:800;transition:all 0.2s;}
+    .nav-back:hover{background:var(--sci);color:white;}
+
+    /* CHAPTER HERO */
+    .chap-hero{
+      background:linear-gradient(135deg,#00c9a7 0%,#0891b2 100%);
+      padding:30px 5% 0; color:white; position:relative; overflow:hidden;
+    }
+    .chap-hero::before{
+      content:'🔬';font-size:120px;position:absolute;right:4%;top:-10px;
+      opacity:0.15;line-height:1;
+    }
+    .chap-tag{background:rgba(255,255,255,0.2);display:inline-block;
+      padding:4px 14px;border-radius:20px;font-size:11px;font-weight:800;
+      letter-spacing:1px;margin-bottom:10px;}
+    .chap-hero h1{font-family:'Fredoka One',cursive;font-size:1.8rem;
+      margin-bottom:6px;line-height:1.2;}
+    .chap-hero p{font-size:13px;opacity:0.85;max-width:500px;margin-bottom:20px;}
+
+    /* PROGRESS ROW */
+    .hero-progress{display:flex;align-items:center;gap:12px;
+      background:rgba(255,255,255,0.15);border-radius:12px;
+      padding:10px 16px;margin-bottom:0;width:fit-content;}
+    .hp-bar{width:140px;height:8px;background:rgba(255,255,255,0.3);
+      border-radius:10px;overflow:hidden;}
+    .hp-fill{height:100%;background:white;border-radius:10px;width:0%;transition:width 1s;}
+    .hp-txt{font-size:12px;font-weight:800;opacity:0.9;}
+
+    /* TABS */
+    .tabs-bar{
+      background:white;
+      border-bottom:2px solid #f1f5f9;
+      display:flex;overflow-x:auto;gap:0;
+      padding:0 4%;
+      scrollbar-width:none;
+    }
+    .tabs-bar::-webkit-scrollbar{display:none;}
+    .tab-btn{
+      padding:14px 18px;border:none;background:transparent;
+      color:var(--muted);font-size:13px;font-weight:800;
+      cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;
+      transition:all 0.2s;font-family:'Nunito',sans-serif;
+      display:flex;align-items:center;gap:6px;
+    }
+    .tab-btn:hover{color:var(--text);}
+    .tab-btn.active{color:var(--sci);border-bottom-color:var(--sci);}
+
+    /* TAB PANELS */
+    .tab-panel{display:none;padding:24px 5%;max-width:900px;margin:0 auto;animation:fadeUp 0.3s ease;}
+    .tab-panel.active{display:block;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── NOTES TAB ── */
+    .notes-section{margin-bottom:24px;}
+    .notes-section h3{font-family:'Fredoka One',cursive;font-size:1.1rem;
+      color:var(--sci-dk);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+    .note-card{background:white;border-radius:16px;padding:16px 20px;
+      margin-bottom:10px;border-left:4px solid var(--sci);
+      box-shadow:0 3px 10px rgba(0,0,0,0.05);}
+    .note-card h4{font-size:14px;font-weight:800;margin-bottom:8px;color:var(--text);}
+    .note-list{list-style:none;}
+    .note-list li{display:flex;gap:10px;padding:6px 0;font-size:13px;
+      border-bottom:1px dashed #e2e8f0;align-items:flex-start;}
+    .note-list li:last-child{border-bottom:none;}
+    .note-list li::before{content:'•';color:var(--sci);font-size:18px;line-height:1;flex-shrink:0;}
+    .highlight-box{background:linear-gradient(135deg,var(--sci-bg),#fff);
+      border-radius:14px;padding:14px 18px;border:1.5px solid var(--border);margin-top:10px;}
+    .highlight-box h4{font-size:13px;font-weight:800;color:var(--sci-dk);margin-bottom:8px;}
+    .formula-box{background:#1e293b;color:#00c9a7;border-radius:12px;
+      padding:12px 18px;font-family:monospace;font-size:14px;margin:8px 0;
+      border-left:4px solid var(--sci);}
+
+    /* ── FLASHCARDS TAB ── */
+    .flashcard-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;padding:10px 0;}
+    .fc-counter{font-size:13px;color:var(--muted);font-weight:800;}
+    .flashcard{
+      width:100%;max-width:480px;height:220px;
+      perspective:1000px;cursor:pointer;
+    }
+    .fc-inner{
+      width:100%;height:100%;position:relative;
+      transform-style:preserve-3d;transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+    .flashcard.flipped .fc-inner{transform:rotateY(180deg);}
+    .fc-front,.fc-back{
+      position:absolute;inset:0;border-radius:24px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:24px;text-align:center;backface-visibility:hidden;
+      box-shadow:0 8px 28px rgba(0,0,0,0.1);
+    }
+    .fc-front{background:linear-gradient(135deg,var(--sci),var(--sci-dk));color:white;}
+    .fc-back{background:white;border:2.5px solid var(--sci);transform:rotateY(180deg);}
+    .fc-front .fc-label{font-size:11px;font-weight:800;opacity:0.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+    .fc-front .fc-question{font-family:'Fredoka One',cursive;font-size:1.3rem;line-height:1.3;}
+    .fc-back .fc-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+    .fc-back .fc-answer{font-size:15px;font-weight:700;color:var(--text);line-height:1.5;}
+    .fc-tap{font-size:11px;margin-top:12px;opacity:0.6;}
+    .fc-nav{display:flex;align-items:center;gap:16px;}
+    .fc-btn{background:white;border:2px solid var(--sci);color:var(--sci);
+      border-radius:12px;padding:10px 22px;font-size:13px;font-weight:800;
+      cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+    .fc-btn:hover{background:var(--sci);color:white;}
+    .fc-progress-dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+    .fc-dot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;transition:background 0.3s;}
+    .fc-dot.seen{background:var(--sci);}
+
+    /* ── MIND MAP TAB ── */
+    .mindmap-wrap{display:flex;justify-content:center;padding:10px 0;}
+    .mindmap-svg{max-width:100%;height:auto;}
+
+    /* ── VIDEOS TAB ── */
+    .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+    .video-card{background:white;border-radius:16px;overflow:hidden;
+      box-shadow:0 4px 14px rgba(0,0,0,0.07);transition:all 0.25s;cursor:pointer;
+      text-decoration:none;border:2px solid transparent;}
+    .video-card:hover{transform:translateY(-4px);border-color:var(--sci);}
+    .video-thumb{
+      height:140px;background:linear-gradient(135deg,#1e293b,#0f172a);
+      display:flex;align-items:center;justify-content:center;
+      position:relative;overflow:hidden;
+    }
+    .video-thumb .play-btn{
+      width:52px;height:52px;background:rgba(0,201,167,0.9);
+      border-radius:50%;display:flex;align-items:center;justify-content:center;
+      font-size:20px;transition:transform 0.2s;
+    }
+    .video-card:hover .play-btn{transform:scale(1.15);}
+    .video-topic{position:absolute;bottom:8px;left:10px;right:10px;
+      font-size:10px;color:rgba(255,255,255,0.7);font-weight:700;}
+    .video-info{padding:12px 14px;}
+    .video-title{font-size:13px;font-weight:800;margin-bottom:4px;color:var(--text);}
+    .video-meta{font-size:11px;color:var(--muted);display:flex;gap:10px;}
+    .yt-badge{background:#ff0000;color:white;font-size:9px;font-weight:800;
+      padding:2px 6px;border-radius:4px;}
+
+    /* ── PRACTICE TAB ── */
+    .practice-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+    .practice-header h3{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--text);}
+    .score-badge{background:var(--sci-bg);color:var(--sci-dk);
+      padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;}
+    .pq-card{background:white;border-radius:18px;padding:20px;
+      margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,0.06);
+      border:2px solid transparent;transition:border 0.3s;}
+    .pq-card.correct{border-color:#22c55e;background:#f0fdf4;}
+    .pq-card.wrong{border-color:#ef4444;background:#fef2f2;}
+    .pq-num{font-size:11px;color:var(--muted);font-weight:800;
+      text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+    .pq-question{font-size:14px;font-weight:800;margin-bottom:14px;line-height:1.4;}
+    .pq-options{display:flex;flex-direction:column;gap:8px;}
+    .pq-opt{
+      background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;
+      padding:10px 14px;font-size:13px;font-weight:600;cursor:pointer;
+      transition:all 0.2s;text-align:left;font-family:'Nunito',sans-serif;
+      display:flex;align-items:center;gap:10px;
+    }
+    .pq-opt:hover:not(:disabled){border-color:var(--sci);background:var(--sci-bg);}
+    .pq-opt.correct-ans{background:#f0fdf4;border-color:#22c55e;color:#16a34a;}
+    .pq-opt.wrong-ans{background:#fef2f2;border-color:#ef4444;color:#dc2626;}
+    .pq-opt:disabled{cursor:default;}
+    .pq-explain{margin-top:10px;padding:10px 14px;background:var(--sci-bg);
+      border-radius:10px;font-size:12px;color:var(--sci-dk);font-weight:700;display:none;}
+    .pq-explain.show{display:block;}
+    .opt-letter{width:24px;height:24px;border-radius:50%;background:#e2e8f0;
+      display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:800;flex-shrink:0;}
+
+    /* ── FUN FACTS TAB ── */
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+    .fact-card{border-radius:20px;padding:20px;transition:transform 0.2s;cursor:default;}
+    .fact-card:hover{transform:translateY(-4px);}
+    .fact-emoji{font-size:36px;margin-bottom:10px;display:block;}
+    .fact-title{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px;}
+    .fact-text{font-size:13px;line-height:1.6;opacity:0.85;}
+
+    /* ── ANYA CHAT TAB ── */
+    .anya-chat-wrap{max-width:600px;margin:0 auto;}
+    .anya-chat-header{
+      background:linear-gradient(135deg,#e94560,#f97316);
+      border-radius:20px 20px 0 0;padding:16px 20px;
+      display:flex;align-items:center;gap:12px;color:white;
+    }
+    .ac-face{width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);
+      background:linear-gradient(160deg,#1a1a2e,#0f3460);
+      position:relative;overflow:hidden;flex-shrink:0;}
+    .ac-face::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      width:30px;height:34px;background:#f4c89a;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+    .acf-h{position:absolute;top:2px;left:50%;transform:translateX(-50%);width:36px;height:20px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+    .acf-b{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:36px;height:5px;background:#e94560;border-radius:3px;z-index:3;}
+    .acf-e{position:absolute;top:19px;left:50%;transform:translateX(-50%);width:22px;display:flex;justify-content:space-between;z-index:3;}
+    .acf-ey{width:6px;height:6px;background:#3a6186;border-radius:50%;}
+    .ac-info h4{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:2px;}
+    .ac-info p{font-size:11px;opacity:0.8;}
+    .ac-body{background:white;min-height:280px;max-height:320px;overflow-y:auto;
+      padding:14px;display:flex;flex-direction:column;gap:10px;
+      border-left:2px solid #f1f5f9;border-right:2px solid #f1f5f9;}
+    .ac-body::-webkit-scrollbar{width:4px;}
+    .ac-body::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:2px;}
+    .ac-msg{display:flex;gap:8px;align-items:flex-end;}
+    .ac-msg.user{flex-direction:row-reverse;}
+    .ac-bubble{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+    .ac-bubble.anya{background:#f1f5f9;color:var(--text);border-radius:4px 14px 14px 14px;}
+    .ac-bubble.user{background:linear-gradient(135deg,#e94560,#f97316);color:white;border-radius:14px 4px 14px 14px;}
+    .ac-typing{display:flex;gap:4px;padding:10px 14px;background:#f1f5f9;
+      border-radius:4px 14px 14px 14px;width:fit-content;}
+    .ac-dot{width:6px;height:6px;background:#94a3b8;border-radius:50%;animation:blink 1.2s infinite;}
+    .ac-dot:nth-child(2){animation-delay:0.2s;}.ac-dot:nth-child(3){animation-delay:0.4s;}
+    @keyframes blink{0%,80%,100%{opacity:0.2}40%{opacity:1}}
+    .ac-quick{padding:10px 14px;display:flex;gap:6px;flex-wrap:wrap;
+      background:#fafafa;border-left:2px solid #f1f5f9;border-right:2px solid #f1f5f9;}
+    .ac-q{background:var(--sci-bg);color:var(--sci-dk);border:1.5px solid var(--border);
+      border-radius:16px;padding:5px 12px;font-size:11px;font-weight:800;
+      cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+    .ac-q:hover{background:var(--sci);color:white;}
+    .ac-input-row{background:white;border-radius:0 0 20px 20px;padding:12px 14px;
+      display:flex;gap:8px;border:2px solid #f1f5f9;border-top:none;}
+    .ac-inp{flex:1;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;
+      padding:9px 12px;color:var(--text);font-size:13px;outline:none;
+      font-family:'Nunito',sans-serif;}
+    .ac-inp:focus{border-color:var(--sci);}
+    .ac-send{background:linear-gradient(135deg,var(--sci),var(--sci-dk));border:none;
+      border-radius:10px;padding:9px 16px;color:white;font-size:13px;
+      font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+
+    /* ANYA FLOAT */
+    #chat-trigger{position:fixed;bottom:24px;right:24px;width:56px;height:56px;
+      cursor:pointer;z-index:1000;transition:transform 0.3s;}
+    #chat-trigger:hover{transform:scale(1.12);}
+    .mini-anya{width:56px;height:56px;border-radius:50%;border:3px solid var(--accent);
+      background:linear-gradient(160deg,#1a1a2e,#0f3460);position:relative;overflow:hidden;
+      box-shadow:0 6px 20px rgba(233,69,96,0.4);}
+    .mini-anya::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      width:36px;height:42px;background:#f4c89a;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+    .mh{position:absolute;top:3px;left:50%;transform:translateX(-50%);width:42px;height:24px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+    .mb{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:42px;height:5px;background:var(--accent);border-radius:3px;z-index:3;}
+    .me{position:absolute;top:23px;left:50%;transform:translateX(-50%);width:24px;display:flex;justify-content:space-between;z-index:3;}
+    .mey{width:6px;height:6px;background:#3a6186;border-radius:50%;}
+
+    @media(max-width:600px){
+      .chap-hero h1{font-size:1.4rem;}
+      .tab-btn{padding:12px 12px;font-size:12px;}
+      .flashcard{height:200px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a class="nav-logo" href="../index.html">OMNI<span>GRID</span></a>
+  <span class="nav-sep">›</span>
+  <span class="nav-sub">🔬 Science</span>
+  <span class="nav-sep">›</span>
+  <span style="font-size:13px;font-weight:800;color:var(--muted);">Ch 1</span>
+  <a class="nav-back" href="../science_chapters.html">← Chapters</a>
+</nav>
+
+<!-- HERO -->
+<div class="chap-hero">
+  <div class="chap-tag">CHAPTER 1 • SCIENCE</div>
+  <h1>The Wonderful World of Science</h1>
+  <p>Science kya hai? Scientific method aur curiosity ka safar shuru karte hain! 🌟</p>
+  <div class="hero-progress" style="margin-bottom:24px;">
+    <span style="font-size:12px;font-weight:800;opacity:0.8;">Chapter Progress</span>
+    <div class="hp-bar"><div class="hp-fill" id="hero-fill"></div></div>
+    <span class="hp-txt" id="hero-pct">0%</span>
+  </div>
+</div>
+
+<!-- TABS BAR -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('notes',this)">📝 Notes</button>
+  <button class="tab-btn" onclick="switchTab('flashcards',this)">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="switchTab('mindmap',this)">🧠 Mind Map</button>
+  <button class="tab-btn" onclick="switchTab('videos',this)">▶️ Videos</button>
+  <button class="tab-btn" onclick="switchTab('practice',this)">✏️ Practice</button>
+  <button class="tab-btn" onclick="switchTab('funfacts',this)">🎲 Fun Facts</button>
+  <button class="tab-btn" onclick="switchTab('anya',this)">🌸 Ask Anya</button>
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 1: NOTES
+═══════════════════════════════════ -->
+<div class="tab-panel active" id="tab-notes">
+
+  <div class="notes-section">
+    <h3>🔬 Science kya hai?</h3>
+    <div class="note-card">
+      <h4>Definition</h4>
+      <ul class="note-list">
+        <li>Science ek systematic knowledge hai jo observation aur experiments pe based hai</li>
+        <li>Science natural world ko samajhne ki koshish karta hai</li>
+        <li>"Science" word Latin "Scientia" se aaya hai — jiska matlab hai "knowledge"</li>
+        <li>Science ke 3 main branches hain: Physics, Chemistry, Biology</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="notes-section">
+    <h3>🧪 Scientific Method</h3>
+    <div class="note-card">
+      <h4>Steps of Scientific Method</h4>
+      <ul class="note-list">
+        <li><strong>Observation:</strong> Kuch interesting dekho ya question aaye</li>
+        <li><strong>Question:</strong> "Kyun?" ya "Kaise?" poochho</li>
+        <li><strong>Hypothesis:</strong> Ek possible answer predict karo</li>
+        <li><strong>Experiment:</strong> Test karo apni hypothesis ko</li>
+        <li><strong>Data Collection:</strong> Results record karo</li>
+        <li><strong>Conclusion:</strong> Hypothesis sahi thi ya galat?</li>
+      </ul>
+      <div class="formula-box">
+        Observation → Question → Hypothesis → Experiment → Conclusion
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-section">
+    <h3>⚗️ Laboratory Safety Rules</h3>
+    <div class="note-card">
+      <h4>Important Safety Rules</h4>
+      <ul class="note-list">
+        <li>Lab mein hamesha apron aur safety glasses pehno</li>
+        <li>Chemicals ko kabhi bhi taste mat karo</li>
+        <li>Experiments sirf teacher ki supervision mein karo</li>
+        <li>Chemicals ko skin pe lagane se bachao</li>
+        <li>Lab mein khaana mat khao</li>
+        <li>Koi bhi accident hone pe turant teacher ko batao</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="notes-section">
+    <h3>🌟 Famous Scientists</h3>
+    <div class="note-card">
+      <h4>Indian Scientists</h4>
+      <ul class="note-list">
+        <li><strong>C.V. Raman:</strong> Raman Effect — light scattering ka discovery</li>
+        <li><strong>APJ Abdul Kalam:</strong> Missile technology aur space science</li>
+        <li><strong>Homi Bhabha:</strong> India ka nuclear programme</li>
+        <li><strong>Aryabhata:</strong> Zero ka concept aur astronomy</li>
+      </ul>
+    </div>
+    <div class="highlight-box">
+      <h4>💡 Remember!</h4>
+      Science mein curiosity sabse zaroori hai — questions poochho, experiments karo, seekhte raho!
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 2: FLASHCARDS
+═══════════════════════════════════ -->
+<div class="tab-panel" id="tab-flashcards">
+  <div class="flashcard-wrap">
+    <div class="fc-counter">Card <span id="fc-cur">1</span> of <span id="fc-total">8</span></div>
+
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <div class="fc-label">Question</div>
+          <div class="fc-question" id="fc-q">Science word kahan se aaya hai?</div>
+          <div class="fc-tap">👆 Tap to flip</div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-label">Answer</div>
+          <div class="fc-answer" id="fc-a">Latin word "Scientia" se, jiska matlab hai "Knowledge" 📚</div>
+          <div class="fc-tap">👆 Tap to flip back</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-nav">
+      <button class="fc-btn" onclick="prevCard()">← Prev</button>
+      <button class="fc-btn" onclick="nextCard()">Next →</button>
+    </div>
+
+    <div class="fc-progress-dots" id="fc-dots"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 3: MIND MAP
+═══════════════════════════════════ -->
+<div class="tab-panel" id="tab-mindmap">
+  <div class="mindmap-wrap">
+    <svg class="mindmap-svg" viewBox="0 0 700 520" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;">
+      <!-- Center -->
+      <ellipse cx="350" cy="260" rx="90" ry="44" fill="#00c9a7" opacity="0.95"/>
+      <text x="350" y="254" text-anchor="middle" font-family="Fredoka One,cursive" font-size="14" fill="white">The Wonderful</text>
+      <text x="350" y="272" text-anchor="middle" font-family="Fredoka One,cursive" font-size="14" fill="white">World of Science</text>
+
+      <!-- Branch 1: What is Science -->
+      <line x1="264" y1="240" x2="160" y2="160" stroke="#00c9a7" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.6"/>
+      <ellipse cx="120" cy="145" rx="72" ry="30" fill="#e0fff8" stroke="#00c9a7" stroke-width="2"/>
+      <text x="120" y="140" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#00a388">What is</text>
+      <text x="120" y="155" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#00a388">Science?</text>
+      <!-- Sub nodes -->
+      <line x1="80" y1="122" x2="50" y2="80" stroke="#00c9a7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="10" y="60" width="82" height="26" rx="13" fill="#f0fffb" stroke="#00c9a7" stroke-width="1.5"/>
+      <text x="51" y="78" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="700" fill="#00a388">Systematic</text>
+      <line x1="158" y1="122" x2="185" y2="80" stroke="#00c9a7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="148" y="60" width="78" height="26" rx="13" fill="#f0fffb" stroke="#00c9a7" stroke-width="1.5"/>
+      <text x="187" y="78" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="700" fill="#00a388">Knowledge</text>
+
+      <!-- Branch 2: Scientific Method -->
+      <line x1="262" y1="278" x2="130" y2="340" stroke="#4f8ef7" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.6"/>
+      <ellipse cx="90" cy="358" rx="72" ry="30" fill="#e8f0ff" stroke="#4f8ef7" stroke-width="2"/>
+      <text x="90" y="353" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#2563eb">Scientific</text>
+      <text x="90" y="368" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#2563eb">Method</text>
+      <!-- Sub nodes -->
+      <line x1="40" y1="372" x2="20" y2="420" stroke="#4f8ef7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="-15" y="408" width="74" height="26" rx="13" fill="#e8f0ff" stroke="#4f8ef7" stroke-width="1.5"/>
+      <text x="22" y="426" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#2563eb">Hypothesis</text>
+      <line x1="90" y1="388" x2="90" y2="430" stroke="#4f8ef7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="48" y="430" width="84" height="26" rx="13" fill="#e8f0ff" stroke="#4f8ef7" stroke-width="1.5"/>
+      <text x="90" y="448" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#2563eb">Experiment</text>
+      <line x1="140" y1="372" x2="175" y2="420" stroke="#4f8ef7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="145" y="408" width="80" height="26" rx="13" fill="#e8f0ff" stroke="#4f8ef7" stroke-width="1.5"/>
+      <text x="185" y="426" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#2563eb">Conclusion</text>
+
+      <!-- Branch 3: Lab Safety -->
+      <line x1="440" y1="240" x2="560" y2="155" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.6"/>
+      <ellipse cx="600" cy="140" rx="72" ry="30" fill="#ffe4e8" stroke="#f43f5e" stroke-width="2"/>
+      <text x="600" y="135" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#e11d48">Lab</text>
+      <text x="600" y="150" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#e11d48">Safety</text>
+      <!-- Sub nodes -->
+      <line x1="556" y1="120" x2="530" y2="76" stroke="#f43f5e" stroke-width="1.5" opacity="0.5"/>
+      <rect x="488" y="58" width="86" height="26" rx="13" fill="#ffe4e8" stroke="#f43f5e" stroke-width="1.5"/>
+      <text x="531" y="76" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#e11d48">Wear Apron</text>
+      <line x1="644" y1="120" x2="660" y2="76" stroke="#f43f5e" stroke-width="1.5" opacity="0.5"/>
+      <rect x="614" y="58" width="90" height="26" rx="13" fill="#ffe4e8" stroke="#f43f5e" stroke-width="1.5"/>
+      <text x="659" y="76" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#e11d48">No Tasting!</text>
+
+      <!-- Branch 4: Famous Scientists -->
+      <line x1="440" y1="278" x2="570" y2="345" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.6"/>
+      <ellipse cx="612" cy="362" rx="72" ry="30" fill="#f3e8ff" stroke="#a855f7" stroke-width="2"/>
+      <text x="612" y="357" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#7c3aed">Famous</text>
+      <text x="612" y="372" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#7c3aed">Scientists</text>
+      <line x1="566" y1="378" x2="540" y2="420" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="490" y="408" width="100" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="540" y="426" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">C.V. Raman</text>
+      <line x1="655" y1="378" x2="668" y2="420" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+      <rect x="610" y="408" width="110" height="26" rx="13" fill="#f3e8ff" stroke="#a855f7" stroke-width="1.5"/>
+      <text x="665" y="426" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#7c3aed">APJ Abdul Kalam</text>
+
+      <!-- Branch 5: Branches -->
+      <line x1="350" y1="216" x2="350" y2="120" stroke="#f7a800" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.6"/>
+      <ellipse cx="350" cy="100" rx="72" ry="30" fill="#fff8e0" stroke="#f7a800" stroke-width="2"/>
+      <text x="350" y="95" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#d97706">Branches of</text>
+      <text x="350" y="110" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="800" fill="#d97706">Science</text>
+      <line x1="296" y1="80" x2="265" y2="46" stroke="#f7a800" stroke-width="1.5" opacity="0.5"/>
+      <rect x="222" y="28" width="80" height="26" rx="13" fill="#fff8e0" stroke="#f7a800" stroke-width="1.5"/>
+      <text x="262" y="46" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#d97706">Physics</text>
+      <line x1="350" y1="70" x2="350" y2="36" stroke="#f7a800" stroke-width="1.5" opacity="0.5"/>
+      <rect x="308" y="18" width="84" height="26" rx="13" fill="#fff8e0" stroke="#f7a800" stroke-width="1.5"/>
+      <text x="350" y="36" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#d97706">Chemistry</text>
+      <line x1="404" y1="80" x2="435" y2="46" stroke="#f7a800" stroke-width="1.5" opacity="0.5"/>
+      <rect x="398" y="28" width="80" height="26" rx="13" fill="#fff8e0" stroke="#f7a800" stroke-width="1.5"/>
+      <text x="438" y="46" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="700" fill="#d97706">Biology</text>
+    </svg>
+  </div>
+  <p style="text-align:center;color:var(--muted);font-size:12px;font-weight:700;margin-top:8px;">
+    💡 Mind map zoom karne ke liye pinch karo (mobile) ya Ctrl+scroll (desktop)
+  </p>
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 4: VIDEOS
+═══════════════════════════════════ -->
+<div class="tab-panel" id="tab-videos">
+  <div class="video-grid">
+    <a href="https://www.youtube.com/results?search_query=what+is+science+class+6+NCERT" target="_blank" class="video-card">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#0891b2,#0e7490);">
+        <div class="play-btn">▶</div>
+        <div class="video-topic">Science kya hai?</div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">What is Science? — Class 6 Introduction</div>
+        <div class="video-meta"><span class="yt-badge">YouTube</span><span>~8 min</span></div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/results?search_query=scientific+method+for+kids+hindi" target="_blank" class="video-card">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#7c3aed,#4f46e5);">
+        <div class="play-btn">▶</div>
+        <div class="video-topic">Scientific Method</div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Scientific Method — Step by Step in Hindi</div>
+        <div class="video-meta"><span class="yt-badge">YouTube</span><span>~10 min</span></div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/results?search_query=famous+indian+scientists+for+kids" target="_blank" class="video-card">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#d97706,#b45309);">
+        <div class="play-btn">▶</div>
+        <div class="video-topic">Indian Scientists</div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Famous Indian Scientists — CV Raman, APJ Kalam</div>
+        <div class="video-meta"><span class="yt-badge">YouTube</span><span>~12 min</span></div>
+      </div>
+    </a>
+    <a href="https://www.youtube.com/results?search_query=lab+safety+rules+for+students" target="_blank" class="video-card">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#dc2626,#b91c1c);">
+        <div class="play-btn">▶</div>
+        <div class="video-topic">Lab Safety</div>
+      </div>
+      <div class="video-info">
+        <div class="video-title">Laboratory Safety Rules — Fun Animated</div>
+        <div class="video-meta"><span class="yt-badge">YouTube</span><span>~6 min</span></div>
+      </div>
+    </a>
+  </div>
+  <p style="margin-top:16px;text-align:center;font-size:12px;color:var(--muted);font-weight:700;">
+    ⚠️ Yeh YouTube search links hain — best results ke liye apne teacher se bhi poochho!
+  </p>
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 5: PRACTICE
+═══════════════════════════════════ -->
+<div class="tab-panel" id="tab-practice">
+  <div class="practice-header">
+    <h3>✏️ Practice Questions</h3>
+    <div class="score-badge">Score: <span id="pq-score">0</span>/<span id="pq-total">5</span></div>
+  </div>
+
+  <div class="pq-card" id="pq1">
+    <div class="pq-num">Q1 — Multiple Choice</div>
+    <div class="pq-question">Scientific method ka pehla step kya hota hai?</div>
+    <div class="pq-options">
+      <button class="pq-opt" onclick="checkAns(this,'pq1',false,'A')"><span class="opt-letter">A</span> Experiment karna</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq1',false,'B')"><span class="opt-letter">B</span> Conclusion likhna</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq1',true,'C')"><span class="opt-letter">C</span> Observation karna</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq1',false,'D')"><span class="opt-letter">D</span> Hypothesis banana</button>
+    </div>
+    <div class="pq-explain" id="exp-pq1">✅ Sahi! Scientific method mein pehle observation hoti hai — phir question, hypothesis, experiment aur conclusion!</div>
+  </div>
+
+  <div class="pq-card" id="pq2">
+    <div class="pq-num">Q2 — Multiple Choice</div>
+    <div class="pq-question">CV Raman kaunsi discovery ke liye famous hain?</div>
+    <div class="pq-options">
+      <button class="pq-opt" onclick="checkAns(this,'pq2',true,'A')"><span class="opt-letter">A</span> Raman Effect</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq2',false,'B')"><span class="opt-letter">B</span> Gravity</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq2',false,'C')"><span class="opt-letter">C</span> Zero ka concept</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq2',false,'D')"><span class="opt-letter">D</span> Periodic Table</button>
+    </div>
+    <div class="pq-explain" id="exp-pq2">✅ Sahi! CV Raman ne Raman Effect discover kiya — light scattering ka phenomenon. Iske liye unhe Nobel Prize mila!</div>
+  </div>
+
+  <div class="pq-card" id="pq3">
+    <div class="pq-num">Q3 — Multiple Choice</div>
+    <div class="pq-question">Science ka word kahan se aaya hai?</div>
+    <div class="pq-options">
+      <button class="pq-opt" onclick="checkAns(this,'pq3',false,'A')"><span class="opt-letter">A</span> Greek "Logos"</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq3',true,'B')"><span class="opt-letter">B</span> Latin "Scientia"</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq3',false,'C')"><span class="opt-letter">C</span> French "Science"</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq3',false,'D')"><span class="opt-letter">D</span> Sanskrit "Vigyan"</button>
+    </div>
+    <div class="pq-explain" id="exp-pq3">✅ Sahi! "Science" Latin word "Scientia" se aaya hai, jiska matlab hota hai "knowledge" yaani "gyaan"!</div>
+  </div>
+
+  <div class="pq-card" id="pq4">
+    <div class="pq-num">Q4 — Multiple Choice</div>
+    <div class="pq-question">Lab mein kaunsa safety rule follow karna chahiye?</div>
+    <div class="pq-options">
+      <button class="pq-opt" onclick="checkAns(this,'pq4',false,'A')"><span class="opt-letter">A</span> Chemicals taste karke dekho</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq4',false,'B')"><span class="opt-letter">B</span> Lab mein khaana khao</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq4',true,'C')"><span class="opt-letter">C</span> Apron aur safety glasses pehno</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq4',false,'D')"><span class="opt-letter">D</span> Akele experiments karo</button>
+    </div>
+    <div class="pq-explain" id="exp-pq4">✅ Bilkul sahi! Lab mein hamesha apron aur safety glasses pehna chahiye — safety first!</div>
+  </div>
+
+  <div class="pq-card" id="pq5">
+    <div class="pq-num">Q5 — Multiple Choice</div>
+    <div class="pq-question">Biology kiska study hai?</div>
+    <div class="pq-options">
+      <button class="pq-opt" onclick="checkAns(this,'pq5',false,'A')"><span class="opt-letter">A</span> Chemicals aur reactions</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq5',false,'B')"><span class="opt-letter">B</span> Force aur motion</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq5',true,'C')"><span class="opt-letter">C</span> Living organisms</button>
+      <button class="pq-opt" onclick="checkAns(this,'pq5',false,'D')"><span class="opt-letter">D</span> Stars aur planets</button>
+    </div>
+    <div class="pq-explain" id="exp-pq5">✅ Correct! Biology = study of living organisms. Bio = life, Logos = study!</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 6: FUN FACTS
+═══════════════════════════════════ -->
+<div class="tab-panel" id="tab-funfacts">
+  <div class="facts-grid">
+    <div class="fact-card" style="background:linear-gradient(135deg,#e0fff8,#f0fffb);border:2px solid #b2f5ea;">
+      <span class="fact-emoji">🔭</span>
+      <div class="fact-title" style="color:#00a388;">Sabse Purana Scientist!</div>
+      <div class="fact-text" style="color:#00796b;">Archimedes ne 2000 saal pehle bathtub mein baith ke "Eureka!" chillaya — aur buoyancy ka principle discover kiya! 🛁</div>
+    </div>
+    <div class="fact-card" style="background:linear-gradient(135deg,#e8f0ff,#f0f4ff);border:2px solid #bfdbfe;">
+      <span class="fact-emoji">🍎</span>
+      <div class="fact-title" style="color:#2563eb;">Newton aur Seb!</div>
+      <div class="fact-text" style="color:#1d4ed8;">Newton ke upar apple gira — aur unhone gravity discover ki! Lekin yeh actually ek legend hai, sach mein unhone sirf ek apple girti dekha tha! 😄</div>
+    </div>
+    <div class="fact-card" style="background:linear-gradient(135deg,#fff8e0,#fffbf0);border:2px solid #fde68a;">
+      <span class="fact-emoji">🏆</span>
+      <div class="fact-title" style="color:#d97706;">CV Raman ka Nobel!</div>
+      <div class="fact-text" style="color:#b45309;">CV Raman 1930 mein Physics mein Nobel Prize jeetnewale pehle Asian the! Unhone prove kiya ki light travel karte time change hoti hai!</div>
+    </div>
+    <div class="fact-card" style="background:linear-gradient(135deg,#f3e8ff,#faf5ff);border:2px solid #ddd6fe;">
+      <span class="fact-emoji">🚀</span>
+      <div class="fact-title" style="color:#7c3aed;">Aryabhata ka Zero!</div>
+      <div class="fact-text" style="color:#6d28d9;">Indian mathematician Aryabhata ne 5th century mein zero (0) ka concept diya! Bina zero ke modern science impossible hoti! 🤯</div>
+    </div>
+    <div class="fact-card" style="background:linear-gradient(135deg,#ffe4e8,#fff5f5);border:2px solid #fecdd3;">
+      <span class="fact-emoji">🧪</span>
+      <div class="fact-title" style="color:#e11d48;">Periodic Table!</div>
+      <div class="fact-text" style="color:#be123c;">Mendeleev ne 1869 mein Periodic Table banaya — aur unhone kuch elements predict kiye jo tab tak discover nahi hue the! Sach mein amazing! ⚡</div>
+    </div>
+    <div class="fact-card" style="background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:2px solid #a7f3d0;">
+      <span class="fact-emoji">🧬</span>
+      <div class="fact-title" style="color:#059669;">DNA ki Discovery!</div>
+      <div class="fact-text" style="color:#047857;">Watson aur Crick ne 1953 mein DNA ki double helix structure discover ki — jisse pata chala ki life kaise kaam karti hai! 🌀</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     TAB 7: ASK ANYA
+═══════════════════════════════════ -->
+<div class="tab-panel" id="tab-anya">
+  <div class="anya-chat-wrap">
+    <div class="anya-chat-header">
+      <div class="ac-face">
+        <div class="acf-h"></div><div class="acf-b"></div>
+        <div class="acf-e"><div class="acf-ey"></div><div class="acf-ey"></div></div>
+      </div>
+      <div class="ac-info">
+        <h4>Anya — Science Guide</h4>
+        <p id="anya-status-ch">Online • Chapter 1 ke baare mein poochho!</p>
+      </div>
+    </div>
+
+    <div class="ac-body" id="ac-body">
+      <div class="ac-msg">
+        <div class="ac-bubble anya">Hehe~ Namaste! Main Anya hoon 🌸 Chapter 1 — The Wonderful World of Science ke baare mein kuch bhi poochho! Scientific method, famous scientists, lab safety — sab bataungi!</div>
+      </div>
+    </div>
+
+    <div class="ac-quick">
+      <button class="ac-q" onclick="acSend('Scientific method kya hota hai?')">Scientific Method?</button>
+      <button class="ac-q" onclick="acSend('CV Raman kaun the?')">CV Raman?</button>
+      <button class="ac-q" onclick="acSend('Lab mein safety rules kya hain?')">Lab Safety?</button>
+      <button class="ac-q" onclick="acSend('Science ke branches kaunse hain?')">Branches?</button>
+    </div>
+
+    <div class="ac-input-row">
+      <input class="ac-inp" id="ac-inp" placeholder="Chapter 1 ke baare mein poochho..." />
+      <button class="ac-send" onclick="acSend()">Send 🌸</button>
+    </div>
+  </div>
+</div>
+
+<!-- ANYA FLOAT -->
+<div id="chat-trigger" onclick="switchTab('anya',document.querySelectorAll('.tab-btn')[6])" title="Ask Anya!">
+  <div class="mini-anya"><div class="mh"></div><div class="mb"></div><div class="me"><div class="mey"></div><div class="mey"></div></div></div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  updateProgress();
+}
+
+// ── FLASHCARDS DATA ──
+const flashcards = [
+  {q:'Science word kahan se aaya hai?', a:'Latin "Scientia" se — jiska matlab hai "Knowledge" 📚'},
+  {q:'Scientific Method ka pehla step?', a:'Observation — kuch interesting dekho ya notice karo! 👀'},
+  {q:'Hypothesis kya hota hai?', a:'Ek possible answer ya prediction — jo experiment se prove ya disprove hoti hai 🔮'},
+  {q:'CV Raman kis cheez ke liye famous hain?', a:'Raman Effect — light scattering ka discovery! Nobel Prize 1930 mein mila 🏆'},
+  {q:'Biology kiska study hai?', a:'Living organisms ka — plants, animals, microbes sab! 🌿🦋'},
+  {q:'Lab mein sabse important safety rule?', a:'Hamesha apron aur safety glasses pehno! Chemicals taste mat karo ⚗️'},
+  {q:'Science ki 3 main branches?', a:'Physics (force/energy), Chemistry (matter/reactions), Biology (living things) 🔬'},
+  {q:'Aryabhata ne kya discover kiya?', a:'Zero (0) ka concept — bina iske modern maths aur science impossible thi! 🤯'},
+];
+let fcIdx = 0;
+
+function renderFlashcard() {
+  document.getElementById('fc-q').textContent = flashcards[fcIdx].q;
+  document.getElementById('fc-a').textContent = flashcards[fcIdx].a;
+  document.getElementById('fc-cur').textContent = fcIdx + 1;
+  document.getElementById('flashcard').classList.remove('flipped');
+  renderDots();
+}
+function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
+function nextCard() { fcIdx = (fcIdx+1) % flashcards.length; renderFlashcard(); }
+function prevCard() { fcIdx = (fcIdx-1+flashcards.length) % flashcards.length; renderFlashcard(); }
+function renderDots() {
+  const wrap = document.getElementById('fc-dots');
+  wrap.innerHTML = '';
+  flashcards.forEach((_,i) => {
+    const d = document.createElement('div');
+    d.className = 'fc-dot' + (i <= fcIdx ? ' seen' : '');
+    wrap.appendChild(d);
+  });
+}
+document.getElementById('fc-total').textContent = flashcards.length;
+renderDots();
+
+// ── PRACTICE QUESTIONS ──
+let pqScore = 0, pqAnswered = 0;
+function checkAns(btn, qId, isCorrect, letter) {
+  const card = document.getElementById(qId);
+  const allBtns = card.querySelectorAll('.pq-opt');
+  allBtns.forEach(b => b.disabled = true);
+  const explain = document.getElementById('exp-' + qId);
+  if (isCorrect) {
+    btn.classList.add('correct-ans');
+    btn.querySelector('.opt-letter').style.background = '#86efac';
+    pqScore++;
+    explain.style.background = '#f0fdf4';
+  } else {
+    btn.classList.add('wrong-ans');
+    btn.querySelector('.opt-letter').style.background = '#fca5a5';
+    explain.textContent = '❌ ' + explain.textContent.replace('✅ ','') + ' Sahi option ' + letter + ' nahi tha!';
+    explain.style.background = '#fef2f2';
+    // Highlight correct
+    allBtns.forEach(b => {
+      if (b.onclick.toString().includes('true')) b.classList.add('correct-ans');
+    });
+  }
+  explain.classList.add('show');
+  pqAnswered++;
+  document.getElementById('pq-score').textContent = pqScore;
+  updateProgress();
+}
+
+// ── PROGRESS ──
+function updateProgress() {
+  const pct = Math.round((pqAnswered / 5) * 100);
+  const fill = Math.min(pct, 100);
+  document.getElementById('hero-fill').style.width = fill + '%';
+  document.getElementById('hero-pct').textContent = fill + '%';
+}
+
+// ── ANYA CHAT ──
+const PROXY = 'https://wispy-sound-1236.shikhakaushik641.workers.dev';
+const SYSTEM = `Tu Anya hai — Class 6 Science Chapter 1 "The Wonderful World of Science" ki expert guide. Hinglish mein baat kar (Hindi+English mix). Short answers de (3-4 lines max). Friendly aur encouraging reh. Sirf Chapter 1 ke topics cover kar: Science kya hai, Scientific Method, Lab Safety, Famous Scientists (CV Raman, APJ Kalam, Aryabhata), Branches of Science. "Heh~" use kar jab student kuch achha kahe.`;
+
+function acAddMsg(txt, cls) {
+  const body = document.getElementById('ac-body');
+  const m = document.createElement('div');
+  m.className = 'ac-msg' + (cls==='user'?' user':'');
+  m.innerHTML = `<div class="ac-bubble ${cls}">${txt}</div>`;
+  body.appendChild(m);
+  body.scrollTop = body.scrollHeight;
+}
+
+function acShowTyping() {
+  const body = document.getElementById('ac-body');
+  const t = document.createElement('div');
+  t.className = 'ac-msg'; t.id = 'ac-typing';
+  t.innerHTML = '<div class="ac-typing"><div class="ac-dot"></div><div class="ac-dot"></div><div class="ac-dot"></div></div>';
+  body.appendChild(t);
+  body.scrollTop = body.scrollHeight;
+}
+
+function acRemoveTyping() {
+  const t = document.getElementById('ac-typing');
+  if (t) t.remove();
+}
+
+async function acSend(prefill) {
+  const inp = document.getElementById('ac-inp');
+  const msg = prefill || inp.value.trim();
+  if (!msg) return;
+  inp.value = '';
+  acAddMsg(msg, 'user');
+  acShowTyping();
+  document.getElementById('anya-status-ch').textContent = 'Soch rahi hoon...';
+
+  try {
+    const res = await fetch(PROXY, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        system: SYSTEM,
+        messages:[{role:'user',content:msg}]
+      })
+    });
+    const data = await res.json();
+    acRemoveTyping();
+    const reply = data.content?.[0]?.text || 'Heh~ Kuch problem aayi! Internet check karo aur dobara poochho 🌸';
+    acAddMsg(reply, 'anya');
+  } catch(e) {
+    acRemoveTyping();
+    acAddMsg('Heh~ Abhi internet nahi chal raha! Thodi der mein dobara try karo 🌸', 'anya');
+  }
+  document.getElementById('anya-status-ch').textContent = 'Online • Chapter 1 ke baare mein poochho!';
+}
+
+document.getElementById('ac-inp').addEventListener('keydown', e => { if(e.key==='Enter') acSend(); });
+updateProgress();
+</script>
+</body>
+</html>
