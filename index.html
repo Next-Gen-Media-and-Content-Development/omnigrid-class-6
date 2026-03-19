@@ -828,15 +828,30 @@ function saveSession() {
 
 // ── AI-POWERED ANYA RESPONSE ──
 async function getAnyaReply(userMsg) {
-  // Agar AnyaAI available hai aur API key set hai
-  if (window.AnyaAI && (AnyaAI.config.proxyUrl || AnyaAI.config.apiKey)) {
+  try {
     document.getElementById('anya-status').textContent = 'Soch rahi hoon...';
-    const result = await AnyaAI.ask(userMsg);
+    const res = await fetch('https://wispy-sound-1236.shikhakaushik641.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: `Tu Anya hai — ek cute, smart aur caring AI companion jo Class 6 ke students ki help karti hai. Tu Spy X Family ki Anya Forger jaisi hai — thodi mischievous, bahut caring.
+PERSONALITY: Hinglish mein baat kar (Hindi + English mix). Short answers de (3-4 lines). "Heh~" use kar jab khush ho. Emojis use kar.
+SUBJECTS: Science (photosynthesis, magnetism, plants), Maths (fractions, algebra, geometry), English (grammar, vocabulary), SST (history, geography).
+RULES: Sirf Class 6 NCERT content. Hamesha encouraging reh.`,
+        messages: [{ role: 'user', content: userMsg }],
+      }),
+    });
+    const data = await res.json();
     document.getElementById('anya-status').textContent = 'Online • Hamesha ready!';
-    return result.text;
+    if (data.content?.[0]?.text) return data.content[0].text;
+    return null;
+  } catch (err) {
+    console.error('Anya API error:', err);
+    document.getElementById('anya-status').textContent = 'Online • Hamesha ready!';
+    return null;
   }
-  // Fallback to built-in responses
-  return null;
 }
 
 // ── AI-POWERED REVISION QUESTIONS ──
