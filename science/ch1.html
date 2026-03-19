@@ -182,6 +182,440 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
 .me2{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:22px;display:flex;justify-content:space-between;z-index:3;}
 .mey{width:6px;height:6px;background:#3a6186;border-radius:50%;}
 @media(max-width:600px){.chap-hero h1{font-size:1.3rem;}.tab-btn{padding:11px 10px;font-size:11px;}}
+
+/* ══════════════════════════════════════════
+   ANIME CHARACTER SYSTEM — Pure CSS
+══════════════════════════════════════════ */
+
+/* ── Floating side character (scroll trigger) ── */
+#float-char{
+  position:fixed;bottom:90px;left:-120px;z-index:300;
+  display:flex;align-items:flex-end;gap:0;
+  transition:left 0.6s cubic-bezier(0.34,1.56,0.64,1);
+  pointer-events:none;
+}
+#float-char.show{left:0;pointer-events:auto;}
+#float-char.dismiss{left:-130px;}
+.float-bubble{
+  background:white;border-radius:16px 16px 16px 4px;
+  padding:10px 13px;font-size:11px;font-weight:700;
+  color:#1e293b;max-width:160px;line-height:1.5;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  border:2px solid #e0e7ff;position:relative;
+  margin-bottom:14px;margin-left:4px;
+  cursor:pointer;
+}
+.float-bubble::before{
+  content:'';position:absolute;left:-8px;bottom:12px;
+  border:8px solid transparent;border-right-color:white;
+  border-left:none;
+}
+.float-dismiss{
+  position:absolute;top:-6px;right:-6px;
+  width:18px;height:18px;border-radius:50%;
+  background:#f43f5e;color:white;font-size:9px;
+  font-weight:800;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:auto;
+}
+
+/* ══════════════════════════════════════════════════════
+   NARUTO-INSPIRED CHIBI CHARACTERS — Pure CSS
+   Naru  : Naruto-inspired  (orange+black, spiky blonde, whiskers, leaf band)
+   Sasu  : Sasuke-inspired  (dark navy, dark hair, serious face, curse mark)
+   ══════════════════════════════════════════════════════ */
+
+@keyframes charBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes charBobFast{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes blink2{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(0.1)}}
+@keyframes sharingan{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes chakraGlow{0%,100%{box-shadow:0 0 8px rgba(251,191,36,0.8)}50%{box-shadow:0 0 20px rgba(251,191,36,1),0 0 40px rgba(251,191,36,0.4)}}
+@keyframes kunaiSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* ─── NARU (Naruto-inspired) ─── */
+.char-naru{
+  width:80px;height:100px;position:relative;flex-shrink:0;
+  animation:charBobFast 2.5s ease-in-out infinite;
+  cursor:pointer;
+}
+/* Body — orange jumpsuit */
+.nn-body{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  width:46px;height:48px;
+  background:linear-gradient(160deg,#f97316,#ea580c);
+  border-radius:10px 10px 14px 14px;
+  z-index:2;
+}
+/* Jumpsuit black collar */
+.nn-body::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:16px;height:10px;
+  background:#1a1a2e;border-radius:0 0 6px 6px;
+}
+/* Jumpsuit black stripe down center */
+.nn-body::after{
+  content:'';position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:4px;height:32px;background:#1a1a2e;border-radius:2px;
+}
+/* Spiral on chest (Uzumaki-inspired) */
+.nn-spiral{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-47%);
+  width:14px;height:14px;
+  border:2.5px solid #fbbf24;border-radius:50%;
+  z-index:3;
+}
+.nn-spiral::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:7px;height:7px;
+  border:2px solid #fbbf24;border-radius:50%;
+}
+.nn-spiral::after{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);
+  width:3px;height:3px;background:#fbbf24;border-radius:50%;
+}
+/* Arms */
+.nn-arm-l,.nn-arm-r{
+  position:absolute;bottom:28px;
+  width:11px;height:30px;
+  background:linear-gradient(180deg,#f97316,#ea580c);
+  border-radius:8px;z-index:1;
+}
+.nn-arm-l{left:-7px;transform:rotate(14deg);}
+.nn-arm-r{right:-7px;transform:rotate(-14deg);}
+/* Gloves */
+.nn-glove-l,.nn-glove-r{
+  position:absolute;bottom:-2px;
+  width:12px;height:9px;
+  background:#1a1a2e;border-radius:4px;
+}
+.nn-glove-l{left:-1px;}.nn-glove-r{right:-1px;}
+/* Legs */
+.nn-legs{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  display:flex;gap:5px;z-index:2;
+}
+.nn-leg{
+  display:flex;flex-direction:column;align-items:center;
+}
+.nn-thigh{width:14px;height:20px;background:linear-gradient(180deg,#f97316,#ea580c);border-radius:4px 4px 0 0;}
+.nn-boot{width:15px;height:14px;background:linear-gradient(180deg,#1a1a2e,#0f0f23);border-radius:2px 2px 5px 5px;}
+.nn-boot::after{content:'';display:block;width:18px;height:5px;background:#0f0f23;border-radius:3px;margin-top:-1px;margin-left:-2px;}
+/* HEAD */
+.nn-head{
+  position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+  width:44px;height:42px;
+  background:linear-gradient(160deg,#fde8c8,#f5c89a);
+  border-radius:50% 50% 44% 44%/55% 55% 45% 45%;
+  z-index:4;
+}
+/* Whisker marks — 3 on each cheek */
+.nn-whisker{
+  position:absolute;
+  width:10px;height:1.5px;
+  background:#c2856e;border-radius:2px;
+}
+.nn-w1{top:22px;left:3px;transform:rotate(-8deg);}
+.nn-w2{top:26px;left:2px;}
+.nn-w3{top:30px;left:3px;transform:rotate(8deg);}
+.nn-w4{top:22px;right:3px;transform:rotate(8deg);}
+.nn-w5{top:26px;right:2px;}
+.nn-w6{top:30px;right:3px;transform:rotate(-8deg);}
+/* Eyes */
+.nn-eyes{
+  position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;
+}
+.nn-eye{
+  width:9px;height:9px;
+  background:#1a6b8a;border-radius:50%;
+  position:relative;animation:blink2 4s infinite;
+  border:1.5px solid #0e4d66;
+}
+.nn-eye::before{
+  content:'';position:absolute;top:1px;left:2px;
+  width:4px;height:4px;background:#0f2027;border-radius:50%;
+}
+.nn-eye::after{
+  content:'';position:absolute;top:1px;left:1px;
+  width:2.5px;height:2.5px;background:white;border-radius:50%;
+}
+/* Smile */
+.nn-mouth{
+  position:absolute;top:27px;left:50%;transform:translateX(-50%);
+  width:16px;height:8px;
+  border-bottom:2.5px solid #c2856e;
+  border-radius:0 0 10px 10px;
+}
+/* Blush */
+.nn-blush{
+  position:absolute;top:22px;
+  width:9px;height:6px;
+  background:rgba(252,165,165,0.6);border-radius:50%;
+}
+.nn-blush.l{left:3px;}.nn-blush.r{right:3px;}
+/* HAIR — spiky blonde */
+.nn-hair-base{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  width:48px;height:30px;
+  background:linear-gradient(160deg,#fcd34d,#f59e0b);
+  border-radius:50% 50% 20% 20%;
+  z-index:5;
+}
+/* Spikes */
+.nn-spike{
+  position:absolute;
+  background:linear-gradient(160deg,#fcd34d,#f59e0b);
+  border-radius:2px 2px 0 0;
+  transform-origin:bottom center;
+  z-index:5;
+}
+.nn-s1{width:8px;height:16px;bottom:26px;left:2px;transform:rotate(-40deg);}
+.nn-s2{width:9px;height:18px;bottom:30px;left:10px;transform:rotate(-20deg);}
+.nn-s3{width:10px;height:20px;bottom:34px;left:50%;transform:translateX(-50%) rotate(0deg);}
+.nn-s4{width:9px;height:18px;bottom:30px;right:10px;transform:rotate(20deg);}
+.nn-s5{width:8px;height:16px;bottom:26px;right:2px;transform:rotate(40deg);}
+/* HEADBAND */
+.nn-band{
+  position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+  width:50px;height:10px;
+  background:linear-gradient(90deg,#94a3b8,#cbd5e1,#94a3b8);
+  border-radius:3px;z-index:6;
+}
+/* Leaf symbol on headband */
+.nn-band::before{
+  content:'🍃';
+  position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+  font-size:10px;line-height:1;
+}
+/* Chakra glow effect */
+.nn-chakra{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  width:60px;height:60px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(251,191,36,0.15),transparent 70%);
+  animation:chakraGlow 2s ease-in-out infinite;
+  z-index:1;pointer-events:none;
+}
+
+/* ─── SASU (Sasuke-inspired) ─── */
+.char-sasu{
+  width:80px;height:100px;position:relative;flex-shrink:0;
+  animation:charBob 3s ease-in-out infinite;
+  cursor:pointer;
+}
+/* Body — dark blue outfit */
+.ns-body{
+  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
+  width:46px;height:48px;
+  background:linear-gradient(160deg,#1e3a5f,#0f2040);
+  border-radius:10px 10px 14px 14px;z-index:2;
+}
+/* High collar */
+.ns-collar{
+  position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+  width:22px;height:14px;
+  background:linear-gradient(160deg,#1e3a5f,#0f2040);
+  border-radius:6px 6px 0 0;z-index:3;
+}
+.ns-collar::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:14px;height:14px;border-radius:6px 6px 0 0;
+  background:linear-gradient(160deg,#2d4a70,#1e3a5f);
+}
+/* Uchiha fan on back (simplified as chest emblem) */
+.ns-emblem{
+  position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  width:12px;height:12px;
+  background:white;border-radius:50%;z-index:3;
+}
+.ns-emblem::before{
+  content:'';position:absolute;top:50%;left:0;transform:translateY(-50%);
+  width:12px;height:6px;background:#dc2626;
+  border-radius:0 0 8px 8px;
+}
+/* Arms */
+.ns-arm-l,.ns-arm-r{
+  position:absolute;bottom:28px;
+  width:11px;height:32px;
+  background:linear-gradient(180deg,#1e3a5f,#0f2040);
+  border-radius:8px;z-index:1;
+}
+.ns-arm-l{left:-7px;transform:rotate(10deg);}
+.ns-arm-r{right:-7px;transform:rotate(-10deg);}
+/* Fingerless gloves */
+.ns-glove-l,.ns-glove-r{
+  position:absolute;bottom:-2px;
+  width:12px;height:9px;
+  background:#374151;border-radius:3px;
+}
+.ns-glove-l{left:-1px;}.ns-glove-r{right:-1px;}
+/* Legs */
+.ns-legs{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  display:flex;gap:5px;z-index:2;
+}
+.ns-leg{display:flex;flex-direction:column;align-items:center;}
+.ns-thigh{width:14px;height:20px;background:linear-gradient(180deg,#1e3a5f,#0f2040);border-radius:4px 4px 0 0;}
+.ns-boot{width:15px;height:14px;background:linear-gradient(180deg,#374151,#1f2937);border-radius:2px 2px 5px 5px;}
+.ns-boot::after{content:'';display:block;width:18px;height:5px;background:#1f2937;border-radius:3px;margin-top:-1px;margin-left:-2px;}
+/* HEAD */
+.ns-head{
+  position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+  width:44px;height:42px;
+  background:linear-gradient(160deg,#fde8c8,#f5c89a);
+  border-radius:50% 50% 44% 44%/55% 55% 45% 45%;
+  z-index:4;
+}
+/* Eyes — sharingan inspired (intense dark eyes) */
+.ns-eyes{
+  position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;
+}
+.ns-eye{
+  width:9px;height:9px;
+  background:#1a0505;border-radius:50%;
+  position:relative;animation:blink2 6s infinite;
+  border:1.5px solid #3b0a0a;
+}
+.ns-eye::before{
+  content:'';position:absolute;top:1px;left:1px;
+  width:5px;height:5px;
+  background:radial-gradient(circle,#7f1d1d 40%,#1a0505 100%);
+  border-radius:50%;
+}
+/* Sharingan tomoe dots */
+.ns-eye::after{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:2px;height:2px;background:#ef4444;border-radius:50%;
+}
+/* Serious mouth — thin line */
+.ns-mouth{
+  position:absolute;top:28px;left:50%;transform:translateX(-50%);
+  width:12px;height:1.5px;background:#a0614a;border-radius:2px;
+}
+/* curse mark on neck */
+.ns-mark{
+  position:absolute;top:36px;right:6px;
+  width:7px;height:7px;
+  background:transparent;
+  border:1.5px solid #92400e;
+  border-radius:50%;z-index:5;
+}
+.ns-mark::before{
+  content:'';position:absolute;top:1px;left:1px;
+  width:3px;height:3px;background:#92400e;border-radius:50%;
+}
+/* HAIR — dark, swept back with front bang */
+.ns-hair-base{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  width:46px;height:26px;
+  background:linear-gradient(160deg,#1a1a2e,#0f0f1a);
+  border-radius:50% 50% 20% 20%;z-index:5;
+}
+/* Signature back spikes pointing up-back */
+.ns-spike{
+  position:absolute;
+  background:linear-gradient(160deg,#1a1a2e,#0f0f1a);
+  border-radius:2px;z-index:5;
+}
+.ns-bs1{width:8px;height:22px;bottom:26px;right:3px;transform:rotate(30deg);border-radius:2px 2px 0 0;}
+.ns-bs2{width:8px;height:26px;bottom:28px;right:11px;transform:rotate(15deg);border-radius:2px 2px 0 0;}
+.ns-bs3{width:8px;height:24px;bottom:28px;right:20px;transform:rotate(0deg);border-radius:2px 2px 0 0;}
+/* Front bang covering one eye */
+.ns-bang{
+  position:absolute;bottom:50px;left:8px;
+  width:14px;height:20px;
+  background:linear-gradient(160deg,#1a1a2e,#0f0f1a);
+  border-radius:0 0 8px 2px;
+  transform:rotate(6deg);z-index:7;
+}
+/* Headband — slanted cool style */
+.ns-band{
+  position:absolute;bottom:63px;left:50%;transform:translateX(-52%) rotate(-3deg);
+  width:50px;height:9px;
+  background:linear-gradient(90deg,#94a3b8,#e2e8f0,#94a3b8);
+  border-radius:3px;z-index:6;
+}
+.ns-band::before{
+  content:'🍃';
+  position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+  font-size:10px;line-height:1;
+}
+
+/* ─── SHARED SMALL SIZE VARIANTS ─── */
+.char-sm{transform:scale(0.75);transform-origin:bottom center;}
+.char-xs{transform:scale(0.6);transform-origin:bottom center;}
+
+/* ══ TOPIC INTRO POPUP (appears at topic start) ══ */
+.topic-intro{
+  display:flex;align-items:flex-end;gap:10px;
+  margin-bottom:16px;
+  animation:slideInChar 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes slideInChar{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+.topic-intro-bubble{
+  background:white;
+  border-radius:16px 16px 16px 4px;
+  padding:12px 14px;
+  font-size:12.5px;font-weight:700;
+  color:#1e293b;line-height:1.6;
+  box-shadow:0 4px 20px rgba(0,0,0,0.1);
+  border:2px solid #e0e7ff;
+  position:relative;flex:1;
+}
+.topic-intro-bubble::before{
+  content:'';position:absolute;left:-9px;bottom:14px;
+  border:9px solid transparent;
+  border-right-color:white;border-left:none;
+}
+.topic-intro-bubble strong{color:var(--sci);}
+.topic-intro-bubble .char-name{
+  font-size:10px;font-weight:800;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.5px;
+  margin-bottom:4px;display:block;
+}
+
+/* ══ FACT BUBBLE (inline mid-content) ══ */
+.fact-popup{
+  display:flex;align-items:flex-end;gap:10px;
+  margin:16px 0;
+  background:linear-gradient(135deg,#fef9c3,#fff8e0);
+  border-radius:18px;padding:14px 14px 14px 10px;
+  border:2px solid #f59e0b;
+  animation:slideInChar 0.4s ease both;
+}
+.fact-popup-text{flex:1;font-size:13px;font-weight:700;color:#92400e;line-height:1.6;}
+.fact-popup-text .fp-label{
+  display:inline-block;background:#f59e0b;color:white;
+  font-size:9px;font-weight:800;padding:2px 8px;
+  border-radius:10px;margin-bottom:5px;letter-spacing:0.5px;
+}
+.fact-popup .char-mini{width:52px;height:66px;position:relative;flex-shrink:0;}
+
+/* ══ QUIZ CELEBRATION OVERLAY ══ */
+.quiz-celebrate{
+  display:none;flex-direction:column;align-items:center;
+  padding:20px 16px;text-align:center;
+  animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.quiz-celebrate.show{display:flex;}
+@keyframes popIn{from{opacity:0;transform:scale(0.7)}to{opacity:1;transform:scale(1)}}
+.qc-chars{display:flex;justify-content:center;gap:-10px;margin-bottom:10px;}
+.qc-stars{font-size:28px;animation:starSpin 0.8s ease both;letter-spacing:4px;}
+@keyframes starSpin{from{opacity:0;transform:rotate(-20deg) scale(0.5)}to{opacity:1;transform:rotate(0) scale(1)}}
+.qc-msg{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--sci);margin:6px 0;}
+.qc-sub{font-size:12px;color:var(--muted);font-weight:700;}
+.qc-retry{background:linear-gradient(135deg,var(--sci),var(--sci-dk));color:white;border:none;border-radius:12px;padding:10px 22px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;margin-top:12px;}
+
+/* ══ CHAR SIZE VARIANTS ══ */
+.char-sm{transform:scale(0.75);transform-origin:bottom center;}
+.char-xs{transform:scale(0.6);transform-origin:bottom center;}
+
+/* ══ SCROLL REVEAL ══ */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
 </style>
 </head>
 <body>
@@ -226,6 +660,36 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
         <button class="anim-badge" onclick="showAnim('branches')">✨ Animation</button>
       </div>
     </div>
+
+    <!-- ANIME: Topic 1 intro — Naru -->
+    <div class="topic-intro">
+      <div class="char-naru" style="">
+        <div class="nn-chakra"></div>
+        <div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div>
+        <div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div>
+        <div class="nn-hair-base"></div>
+        <div class="nn-band"></div>
+        <div class="nn-head">
+          <div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div>
+          <div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div>
+          <div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div>
+          <div class="nn-blush l"></div><div class="nn-blush r"></div>
+          <div class="nn-mouth"></div>
+        </div>
+        <div class="nn-spiral"></div>
+        <div class="nn-arm-l"><div class="nn-glove-l"></div></div>
+        <div class="nn-arm-r"><div class="nn-glove-r"></div></div>
+        <div class="nn-body"></div>
+        <div class="nn-legs">
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+        </div>
+      </div>
+      <div class="topic-intro-bubble" style="border-color:#fde68a;background:linear-gradient(135deg,#fffbeb,#fff);">
+        <span class="char-name" style="color:#d97706;">🍃 Naru says — Believe it!</span>
+        Did you know the word <strong>"Science"</strong> is over 600 years old? It comes from the Latin word <strong>"Scientia"</strong> — meaning pure knowledge. Every question you ask is the very beginning of science! 🔬
+      </div>
+    </div>
     <div class="note-text">
       <p><span class="kw" onclick="showKW('science',event)">Science</span> is a systematic and organised body of <span class="kw" onclick="showKW('knowledge',event)">knowledge</span> gained through <span class="kw" onclick="showKW('observation',event)">observation</span> and experiments. It helps us understand the <strong>natural world</strong> around us.</p>
       <p>The word <strong>"Science"</strong> comes from the Latin word <span class="kw" onclick="showKW('scientia',event)">"Scientia"</span> — which means <strong>"Knowledge"</strong>.</p>
@@ -236,6 +700,36 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
         <li>🟡 <span class="kw" onclick="showKW('biology',event)">Biology</span> — Study of living organisms</li>
       </ul>
       <div class="hbox"><h4>💡 Key Insight</h4>The most important quality in science is <strong>curiosity</strong>! Every great discovery began with a simple question — "Why?" or "How?"</div>
+    </div>
+
+    <!-- ANIME: Fact bubble 1 -->
+    <div class="fact-popup reveal">
+<div class="char-naru" style="transform:scale(0.62);transform-origin:bottom center;width:80px;height:100px;flex-shrink:0;">
+        <div class="nn-chakra"></div>
+        <div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div>
+        <div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div>
+        <div class="nn-hair-base"></div>
+        <div class="nn-band"></div>
+        <div class="nn-head">
+          <div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div>
+          <div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div>
+          <div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div>
+          <div class="nn-blush l"></div><div class="nn-blush r"></div>
+          <div class="nn-mouth"></div>
+        </div>
+        <div class="nn-spiral"></div>
+        <div class="nn-arm-l"><div class="nn-glove-l"></div></div>
+        <div class="nn-arm-r"><div class="nn-glove-r"></div></div>
+        <div class="nn-body"></div>
+        <div class="nn-legs">
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+        </div>
+      </div>
+      <div class="fact-popup-text">
+        <span class="fp-label" style="background:#f59e0b;">🍃 NARU'S FUN FACT</span><br>
+        The word <strong>"Hypothesis"</strong> comes from Greek — <em>hypo</em> (under) + <em>thesis</em> (placing). It literally means "putting something forward to be tested"! Scientists have been doing this for over 2,000 years. 🌟
+      </div>
     </div>
     <div class="diagram-wrap">
       <div class="diagram-title">Branches of Science</div>
@@ -286,6 +780,33 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
         <button class="anim-badge" onclick="showAnim('method')">✨ Animation</button>
       </div>
     </div>
+
+    <!-- ANIME: Topic 2 intro — Sasu -->
+    <div class="topic-intro">
+      <div class="char-sasu" style="">
+        <div class="nn-spike ns-bs1"></div><div class="nn-spike ns-bs2"></div><div class="nn-spike ns-bs3"></div>
+        <div class="ns-hair-base"></div>
+        <div class="ns-bang"></div>
+        <div class="ns-band"></div>
+        <div class="ns-head">
+          <div class="ns-mark"></div>
+          <div class="ns-eyes"><div class="ns-eye"></div><div class="ns-eye"></div></div>
+          <div class="ns-mouth"></div>
+        </div>
+        <div class="ns-collar"></div>
+        <div class="ns-arm-l"><div class="ns-glove-l"></div></div>
+        <div class="ns-arm-r"><div class="ns-glove-r"></div></div>
+        <div class="ns-body"><div class="ns-emblem"></div></div>
+        <div class="ns-legs">
+          <div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div>
+          <div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div>
+        </div>
+      </div>
+      <div class="topic-intro-bubble" style="border-color:#c7d2fe;background:linear-gradient(135deg,#eef2ff,#fff);">
+        <span class="char-name" style="color:#4338ca;">⚡ Sasu says — with precision</span>
+        Every scientist in the world follows these <strong>exact same steps</strong> — from NASA engineers to your school lab. The Scientific Method is the <strong>universal code of science</strong>. Master it. 🎯
+      </div>
+    </div>
     <div class="note-text">
       <p>The <span class="kw" onclick="showKW('scientific_method',event)">Scientific Method</span> is a systematic step-by-step process used by scientists to solve problems and make new <span class="kw" onclick="showKW('discoveries',event)">discoveries</span>.</p>
       <div class="formula">🔄 Observation → Question → Hypothesis → Experiment → Data → Conclusion</div>
@@ -299,6 +820,33 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
         <li>✅ <strong><span class="kw" onclick="showKW('conclusion',event)">Conclusion</span>:</strong> Analyse data — was your hypothesis correct?</li>
       </ul>
       <div class="hbox"><h4>⚠️ Important!</h4>Even if a hypothesis is proved wrong — that is still a valuable result! In science, there is no failure, only learning 🌱</div>
+    </div>
+
+    <!-- ANIME: Fact bubble 2 -->
+    <div class="fact-popup reveal" style="background:linear-gradient(135deg,#dbeafe,#eff6ff);border-color:#93c5fd;">
+      <div class="fact-popup-text">
+        <span class="fp-label" style="background:#4338ca;">⚡ SASU'S FACT</span><br>
+        Galileo Galilei (1564–1642) was one of the first scientists to use the <strong>Scientific Method</strong> systematically. He proved that objects of different weights fall at the <strong>same speed</strong> — by dropping balls from the Leaning Tower of Pisa! 🗼
+      </div>
+<div class="char-sasu" style="transform:scale(0.62);transform-origin:bottom center;width:80px;height:100px;flex-shrink:0;">
+        <div class="nn-spike ns-bs1"></div><div class="nn-spike ns-bs2"></div><div class="nn-spike ns-bs3"></div>
+        <div class="ns-hair-base"></div>
+        <div class="ns-bang"></div>
+        <div class="ns-band"></div>
+        <div class="ns-head">
+          <div class="ns-mark"></div>
+          <div class="ns-eyes"><div class="ns-eye"></div><div class="ns-eye"></div></div>
+          <div class="ns-mouth"></div>
+        </div>
+        <div class="ns-collar"></div>
+        <div class="ns-arm-l"><div class="ns-glove-l"></div></div>
+        <div class="ns-arm-r"><div class="ns-glove-r"></div></div>
+        <div class="ns-body"><div class="ns-emblem"></div></div>
+        <div class="ns-legs">
+          <div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div>
+          <div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div>
+        </div>
+      </div>
     </div>
     <div class="diagram-wrap">
       <div class="diagram-title">Scientific Method — Flow Diagram</div>
@@ -350,6 +898,36 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
         <button class="model3d-badge" onclick="toggle3D('lab')">🔴 3D Lab Equipment</button>
       </div>
     </div>
+
+    <!-- ANIME: Topic 3 intro — Naru warns -->
+    <div class="topic-intro">
+      <div class="char-naru" style="">
+        <div class="nn-chakra"></div>
+        <div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div>
+        <div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div>
+        <div class="nn-hair-base"></div>
+        <div class="nn-band"></div>
+        <div class="nn-head">
+          <div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div>
+          <div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div>
+          <div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div>
+          <div class="nn-blush l"></div><div class="nn-blush r"></div>
+          <div class="nn-mouth"></div>
+        </div>
+        <div class="nn-spiral"></div>
+        <div class="nn-arm-l"><div class="nn-glove-l"></div></div>
+        <div class="nn-arm-r"><div class="nn-glove-r"></div></div>
+        <div class="nn-body"></div>
+        <div class="nn-legs">
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+        </div>
+      </div>
+      <div class="topic-intro-bubble" style="border-color:#fca5a5;background:linear-gradient(135deg,#fff5f5,#fff);">
+        <span class="char-name" style="color:#dc2626;">🛡️ Naru says — Don't be reckless!</span>
+        A true ninja <em>never</em> charges in without preparation! Same in the lab — always wear your <strong>safety glasses and apron</strong> before anything else. Recklessness is a ninja's worst enemy! ⚗️
+      </div>
+    </div>
     <div class="note-text">
       <p><span class="kw" onclick="showKW('safety',event)">Safety</span> is the most important priority when working in a laboratory. Chemicals and equipment can be dangerous if not handled carefully.</p>
       <p><strong>🛡️ Laboratory Safety Rules:</strong></p>
@@ -395,6 +973,56 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
       <div class="topic-title">Famous Scientists</div>
       <div class="topic-badges">
         <button class="model3d-badge" onclick="toggle3D('atom')">🔴 3D Atom Model</button>
+      </div>
+    </div>
+
+    <!-- ANIME: Topic 4 intro — both chars -->
+    <div class="topic-intro" style="gap:4px;">
+      <div class="char-naru" style="transform:scale(0.88);transform-origin:bottom left;">
+        <div class="nn-chakra"></div>
+        <div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div>
+        <div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div>
+        <div class="nn-hair-base"></div>
+        <div class="nn-band"></div>
+        <div class="nn-head">
+          <div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div>
+          <div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div>
+          <div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div>
+          <div class="nn-blush l"></div><div class="nn-blush r"></div>
+          <div class="nn-mouth"></div>
+        </div>
+        <div class="nn-spiral"></div>
+        <div class="nn-arm-l"><div class="nn-glove-l"></div></div>
+        <div class="nn-arm-r"><div class="nn-glove-r"></div></div>
+        <div class="nn-body"></div>
+        <div class="nn-legs">
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+        </div>
+      </div>
+      <div class="char-sasu" style="transform:scale(0.88);transform-origin:bottom left;">
+        <div class="nn-spike ns-bs1"></div><div class="nn-spike ns-bs2"></div><div class="nn-spike ns-bs3"></div>
+        <div class="ns-hair-base"></div>
+        <div class="ns-bang"></div>
+        <div class="ns-band"></div>
+        <div class="ns-head">
+          <div class="ns-mark"></div>
+          <div class="ns-eyes"><div class="ns-eye"></div><div class="ns-eye"></div></div>
+          <div class="ns-mouth"></div>
+        </div>
+        <div class="ns-collar"></div>
+        <div class="ns-arm-l"><div class="ns-glove-l"></div></div>
+        <div class="ns-arm-r"><div class="ns-glove-r"></div></div>
+        <div class="ns-body"><div class="ns-emblem"></div></div>
+        <div class="ns-legs">
+          <div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div>
+          <div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div>
+        </div>
+      </div>
+      <div class="topic-intro-bubble" style="border-color:#ddd6fe;background:linear-gradient(135deg,#faf5ff,#fff);">
+        <span class="char-name" style="color:#7c3aed;">🏆 Naru &amp; Sasu say</span>
+        <strong>Naru:</strong> India gave the world <strong>Zero</strong> and calculated <strong>Pi</strong> — that's like unlocking an ultimate jutsu! 🍃<br>
+        <strong>Sasu:</strong> And C.V. Raman won the <strong>Nobel Prize in Physics</strong>. Indian science has a legacy worthy of respect. ⚡
       </div>
     </div>
     <div class="note-text">
@@ -591,12 +1219,86 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
   </div>
 </div>
 
+
+<!-- FLOATING SIDE CHARACTER -->
+<div id="float-char">
+  <div style="position:relative;">
+    <button class="float-dismiss" onclick="dismissFloat()">×</button>
+    <div class="float-bubble" id="float-bubble" onclick="nextFloatTip()">
+      <span id="float-tip-text">💡 Click keywords in yellow to see their meaning!</span>
+      <div style="font-size:9px;color:#94a3b8;margin-top:4px;font-weight:600;">tap for next tip →</div>
+    </div>
+  </div>
+<div class="char-naru" style="width:74px;height:96px;">
+        <div class="nn-chakra"></div>
+        <div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div>
+        <div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div>
+        <div class="nn-hair-base"></div>
+        <div class="nn-band"></div>
+        <div class="nn-head">
+          <div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div>
+          <div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div>
+          <div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div>
+          <div class="nn-blush l"></div><div class="nn-blush r"></div>
+          <div class="nn-mouth"></div>
+        </div>
+        <div class="nn-spiral"></div>
+        <div class="nn-arm-l"><div class="nn-glove-l"></div></div>
+        <div class="nn-arm-r"><div class="nn-glove-r"></div></div>
+        <div class="nn-body"></div>
+        <div class="nn-legs">
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+          <div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div>
+        </div>
+      </div>
+</div>
 <!-- FLOAT ANYA -->
 <div id="chat-trigger" onclick="switchTab('anya',document.querySelectorAll('.tab-btn')[6])">
   <div class="mnya"><div class="mh"></div><div class="mb2"></div><div class="me2"><div class="mey"></div><div class="mey"></div></div></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
+// ══ FLOATING CHARACTER ══
+const floatTips=[
+  '🍃 Naru says: Click yellow keywords to see their meaning!',
+  '⚡ Sasu says: Test yourself with the 🧩 quiz at each topic end!',
+  '🍃 Naru says: Red badges = 3D models! Rotate and zoom them!',
+  '⚡ Sasu says: Purple badges play animations. Click them.',
+  '🍃 Naru says: Flashcards tab is great for quick revision!',
+  '⚡ Sasu says: Study the Mind Map — see how all topics connect.',
+  '🍃 Naru says: Ask the AI chatbot anything about Chapter 1!'
+];
+let floatIdx=0,floatDismissed=false,floatShown=false;
+function showFloat(){
+  if(floatDismissed)return;
+  document.getElementById('float-char').classList.add('show');
+  floatShown=true;
+}
+function dismissFloat(){
+  floatDismissed=true;
+  document.getElementById('float-char').classList.remove('show');
+  document.getElementById('float-char').classList.add('dismiss');
+}
+function nextFloatTip(){
+  floatIdx=(floatIdx+1)%floatTips.length;
+  document.getElementById('float-tip-text').textContent=floatTips[floatIdx];
+}
+// Show float after 3s, then every 30s new tip
+setTimeout(()=>showFloat(),3000);
+setInterval(()=>{
+  if(!floatDismissed&&floatShown){
+    floatIdx=(floatIdx+1)%floatTips.length;
+    document.getElementById('float-tip-text').textContent=floatTips[floatIdx];
+  }
+},30000);
+
+// ══ SCROLL REVEAL ══
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+</script>
 <script>
 // TAB
 function switchTab(n,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('tab-'+n).classList.add('active');}
@@ -783,7 +1485,13 @@ function renderTQ(id){
   const de=document.getElementById(id+'-dots');
   if(de)de.innerHTML=qs.map((_,i)=>`<div class="qpdot${i<st.idx?' done':''}"></div>`).join('');
   const cont=document.getElementById(id+'-q');
-  if(st.idx>=qs.length){cont.innerHTML=`<div style="text-align:center;padding:16px;"><div style="font-size:2.5rem;">🎉</div><div style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--sci);">${st.score}/5 — ${st.score>=4?'Excellent!':st.score>=3?'Good Job!':'Keep Practising!'}</div><button class="qp-nxt" style="display:inline-block;margin-top:10px;" onclick="resetTQ('${id}')">🔄 Try Again</button></div>`;return;}
+  if(st.idx>=qs.length){
+  const medal=st.score>=5?'🥇':st.score>=4?'🥈':st.score>=3?'🥉':'⭐';
+  const msg=st.score>=5?'Perfect Score!':st.score>=4?'Excellent!':st.score>=3?'Good Job!':'Keep Practising!';
+  const charHtml=st.score>=3?`<div class="char-naru" style="width:80px;height:100px;"><div class="nn-chakra"></div><div class="nn-spike nn-s1"></div><div class="nn-spike nn-s2"></div><div class="nn-spike nn-s3"></div><div class="nn-spike nn-s4"></div><div class="nn-spike nn-s5"></div><div class="nn-hair-base"></div><div class="nn-band"></div><div class="nn-head"><div class="nn-whisker nn-w1"></div><div class="nn-whisker nn-w2"></div><div class="nn-whisker nn-w3"></div><div class="nn-whisker nn-w4"></div><div class="nn-whisker nn-w5"></div><div class="nn-whisker nn-w6"></div><div class="nn-eyes"><div class="nn-eye"></div><div class="nn-eye"></div></div><div class="nn-blush l"></div><div class="nn-blush r"></div><div class="nn-mouth"></div></div><div class="nn-spiral"></div><div class="nn-arm-l"><div class="nn-glove-l"></div></div><div class="nn-arm-r"><div class="nn-glove-r"></div></div><div class="nn-body"></div><div class="nn-legs"><div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div><div class="nn-leg"><div class="nn-thigh"></div><div class="nn-boot"></div></div></div></div>`:`<div class="char-sasu" style="width:80px;height:100px;"><div class="nn-spike ns-bs1"></div><div class="nn-spike ns-bs2"></div><div class="nn-spike ns-bs3"></div><div class="ns-hair-base"></div><div class="ns-bang"></div><div class="ns-band"></div><div class="ns-head"><div class="ns-mark"></div><div class="ns-eyes"><div class="ns-eye"></div><div class="ns-eye"></div></div><div class="ns-mouth"></div></div><div class="ns-collar"></div><div class="ns-arm-l"><div class="ns-glove-l"></div></div><div class="ns-arm-r"><div class="ns-glove-r"></div></div><div class="ns-body"><div class="ns-emblem"></div></div><div class="ns-legs"><div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div><div class="ns-leg"><div class="ns-thigh"></div><div class="ns-boot"></div></div></div></div>`;
+  cont.innerHTML=`<div class="quiz-celebrate show"><div class="qc-chars">${charHtml}</div><div class="qc-stars">${medal} ${medal}</div><div class="qc-msg">${msg}</div><div class="qc-sub">You scored ${st.score} out of 5!</div><button class="qc-retry" onclick="resetTQ('${id}')">🔄 Try Again</button></div>`;
+  return;
+}
   const q=qs[st.idx];
   cont.innerHTML=`<div class="qp-qtxt">Q${st.idx+1}/5: ${q.q}</div><div class="qp-opts">${q.opts.map((o,j)=>`<button class="qp-opt" onclick="ansTQ('${id}',${j},this)">${o}</button>`).join('')}</div><div class="qp-exp" id="te-${id}"></div><button class="qp-nxt" id="tn-${id}" onclick="nextTQ('${id}')">Next →</button>`;
 }
