@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class 6 | New NCERT 2024-25</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --science:  #00c9a7;
+      --sci-bg:   #e0fff8;
+      --maths:    #4f8ef7;
+      --mat-bg:   #e8f0ff;
+      --english:  #f7a800;
+      --eng-bg:   #fff8e0;
+      --sst:      #a855f7;
+      --sst-bg:   #f3e8ff;
+      --hindi:    #f43f5e;
+      --hin-bg:   #ffe4e8;
+      --white:    #ffffff;
+      --bg:       #f0f4ff;
+      --text:     #1e293b;
+      --muted:    #64748b;
+      --card-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(0,201,167,0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 20%, rgba(79,142,247,0.12) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(168,85,247,0.10) 0%, transparent 40%);
+    }
+
+    /* ── FLOATING BUBBLES BG ── */
+    .bubbles {
+      position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0;
+    }
+    .bubble {
+      position: absolute; border-radius: 50%;
+      opacity: 0.12; animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0.8); opacity: 0; }
+      10%  { opacity: 0.12; }
+      90%  { opacity: 0.12; }
+      100% { transform: translateY(-120px) scale(1.1); opacity: 0; }
+    }
+
+    /* ── NAV ── */
+    .topnav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 5%;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(0,0,0,0.06);
+    }
+    .nav-logo {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem; color: #4f8ef7;
+      text-decoration: none; letter-spacing: 1px;
+    }
+    .nav-logo span { color: #f43f5e; }
+    .nav-back {
+      display: flex; align-items: center; gap: 6px;
+      background: #f1f5f9; color: var(--muted);
+      padding: 6px 14px; border-radius: 20px;
+      text-decoration: none; font-size: 13px; font-weight: 700;
+      transition: all 0.2s;
+    }
+    .nav-back:hover { background: #e2e8f0; color: var(--text); }
+    .nav-tag {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white; font-size: 11px; font-weight: 800;
+      padding: 4px 12px; border-radius: 20px; letter-spacing: 0.5px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+      position: relative; z-index: 1;
+    }
+    .hero-emoji {
+      font-size: 3.5rem; margin-bottom: 10px;
+      animation: bounce 2s ease infinite;
+      display: block;
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+    .hero h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.8rem; color: var(--text);
+      margin-bottom: 8px; line-height: 1.1;
+    }
+    .hero h1 .pop {
+      background: linear-gradient(135deg, #4f8ef7, #a855f7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { color: var(--muted); font-size: 15px; font-weight: 600; }
+
+    /* ── SUBJECT TABS ── */
+    .tabs-wrap {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      justify-content: center; padding: 20px 5% 10px;
+      position: relative; z-index: 1;
+    }
+    .stab {
+      padding: 10px 22px; border-radius: 30px;
+      border: 2.5px solid transparent;
+      background: white; color: var(--muted);
+      font-size: 14px; font-weight: 800;
+      cursor: pointer; transition: all 0.25s;
+      font-family: 'Nunito', sans-serif;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+    .stab:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .stab.active { color: white; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.18); }
+    .stab[data-sub="all"].active     { background: linear-gradient(135deg,#667eea,#764ba2); }
+    .stab[data-sub="science"].active { background: linear-gradient(135deg,#00c9a7,#00a388); }
+    .stab[data-sub="maths"].active   { background: linear-gradient(135deg,#4f8ef7,#2563eb); }
+    .stab[data-sub="english"].active { background: linear-gradient(135deg,#f7a800,#d97706); color:#fff; }
+    .stab[data-sub="sst"].active     { background: linear-gradient(135deg,#a855f7,#7c3aed); }
+    .stab[data-sub="hindi"].active   { background: linear-gradient(135deg,#f43f5e,#e11d48); }
+
+    /* ── MAIN ── */
+    .main { padding: 20px 5% 100px; max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; }
+
+    .subject-section { display: none; animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    .subject-section.visible { display: block; }
+    @keyframes popIn {
+      from { opacity:0; transform:scale(0.95) translateY(10px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 20px;
+      background: white; border-radius: 20px;
+      padding: 16px 24px;
+      box-shadow: var(--card-shadow);
+    }
+    .sec-icon {
+      width: 52px; height: 52px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+    }
+    .section-header .book-name { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    .chap-count {
+      margin-left: auto; font-size: 13px; font-weight: 800;
+      padding: 5px 14px; border-radius: 20px; white-space: nowrap;
+    }
+
+    /* ── PROGRESS ── */
+    .progress-wrap {
+      background: white; border-radius: 16px;
+      padding: 12px 20px; margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .prog-label { font-size: 13px; font-weight: 800; color: var(--muted); white-space: nowrap; }
+    .prog { flex:1; height: 10px; background: #f1f5f9; border-radius: 10px; overflow: hidden; }
+    .prog-fill { height: 100%; border-radius: 10px; transition: width 1.2s cubic-bezier(0.34,1.2,0.64,1); }
+    .prog-txt { font-size: 13px; font-weight: 800; white-space: nowrap; }
+
+    /* ── CHAPTER CARDS ── */
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .chap-card {
+      background: white; border-radius: 20px;
+      padding: 18px 20px;
+      cursor: pointer; transition: all 0.25s;
+      text-decoration: none; color: var(--text);
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+      border: 2.5px solid transparent;
+      position: relative; overflow: hidden;
+    }
+    .chap-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+      transform: scaleX(0); transition: transform 0.25s;
+      transform-origin: left;
+    }
+    .chap-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.13);
+    }
+    .chap-card:hover::after { transform: scaleX(1); }
+
+    /* Science */
+    .sci .chap-card:hover { border-color: var(--science); }
+    .sci .chap-card::after { background: var(--science); }
+    .sci .chap-num { color: var(--science); }
+    /* Maths */
+    .mat .chap-card:hover { border-color: var(--maths); }
+    .mat .chap-card::after { background: var(--maths); }
+    .mat .chap-num { color: var(--maths); }
+    /* English */
+    .eng .chap-card:hover { border-color: var(--english); }
+    .eng .chap-card::after { background: var(--english); }
+    .eng .chap-num { color: var(--english); }
+    /* SST */
+    .sst .chap-card:hover { border-color: var(--sst); }
+    .sst .chap-card::after { background: var(--sst); }
+    .sst .chap-num { color: var(--sst); }
+    /* Hindi */
+    .hin .chap-card:hover { border-color: var(--hindi); }
+    .hin .chap-card::after { background: var(--hindi); }
+    .hin .chap-num { color: var(--hindi); }
+
+    .chap-num-box {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-family: 'Fredoka One', cursive;
+    }
+    .chap-num { font-size: 1.1rem; font-weight: 900; }
+    .chap-info { flex: 1; }
+    .chap-title {
+      font-size: 0.92rem; font-weight: 800;
+      color: var(--text); margin-bottom: 3px; line-height: 1.3;
+    }
+    .chap-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+    .chap-go {
+      font-size: 18px; flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .chap-card:hover .chap-go { transform: translateX(4px); }
+
+    .coming-soon { opacity: 0.5; cursor: not-allowed; }
+    .coming-soon:hover { transform: none !important; box-shadow: 0 4px 14px rgba(0,0,0,0.07) !important; }
+    .soon-pill {
+      font-size: 10px; font-weight: 800;
+      background: #f1f5f9; color: var(--muted);
+      padding: 2px 8px; border-radius: 10px;
+      display: inline-block; margin-top: 4px;
+    }
+
+    /* ── ANYA BUTTON ── */
+    #chat-trigger {
+      position: fixed; bottom: 24px; right: 24px;
+      width: 62px; height: 62px; cursor: pointer;
+      z-index: 1000; transition: transform 0.3s;
+    }
+    #chat-trigger:hover { transform: scale(1.12) rotate(-5deg); }
+    .mini-anya {
+      width: 62px; height: 62px; border-radius: 50%;
+      border: 3px solid #f43f5e;
+      background: linear-gradient(160deg,#1a1a2e,#0f3460);
+      position: relative; overflow: hidden;
+      box-shadow: 0 6px 24px rgba(244,63,94,0.4);
+    }
+    .mini-anya::before {
+      content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:40px; height:46px; background:#f4c89a;
+      border-radius:42% 42% 48% 48%/40% 40% 60% 60%;
+    }
+    .mh{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:46px;height:28px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+    .mb{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:46px;height:6px;background:#f43f5e;border-radius:3px;z-index:3;}
+    .me{position:absolute;top:27px;left:50%;transform:translateX(-50%);width:28px;display:flex;justify-content:space-between;z-index:3;}
+    .mey{width:7px;height:7px;background:#3a6186;border-radius:50%;}
+
+    @media(max-width:600px){
+      .hero h1{font-size:2rem;}
+      .chapters-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- FLOATING BUBBLES -->
+<div class="bubbles" id="bubbles"></div>
+
+<!-- NAV -->
+<nav class="topnav">
+  <a class="nav-logo" href="index.html">OMNI<span>GRID</span></a>
+  <span class="nav-tag">New NCERT 2024-25</span>
+  <a class="nav-back" href="index.html">← Home</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-emoji">📚</span>
+  <h1>Class 6 <span class="pop">Complete Syllabus</span></h1>
+  <p>Saare subjects ke chapters — ek jagah! Anya ke saath seekho! 🌸</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrap">
+  <button class="stab active" data-sub="all"     onclick="filterSubject('all',this)">🌈 All</button>
+  <button class="stab"        data-sub="science"  onclick="filterSubject('science',this)">🔬 Science</button>
+  <button class="stab"        data-sub="maths"    onclick="filterSubject('maths',this)">📐 Maths</button>
+  <button class="stab"        data-sub="english"  onclick="filterSubject('english',this)">📖 English</button>
+  <button class="stab"        data-sub="sst"      onclick="filterSubject('sst',this)">🌍 SST</button>
+  <button class="stab"        data-sub="hindi"    onclick="filterSubject('hindi',this)">🇮🇳 Hindi</button>
+</div>
+
+<main class="main">
+
+  <!-- SCIENCE -->
+  <div class="subject-section sci visible" id="sec-science">
+    <div class="section-header">
+      <div class="sec-icon" style="background:#e0fff8;">🔬</div>
+      <div>
+        <h2 style="color:var(--science);">Science — Curiosity</h2>
+        <div class="book-name">New NCERT 2024-25</div>
+      </div>
+      <span class="chap-count" style="background:var(--sci-bg);color:var(--science);">12 Chapters</span>
+    </div>
+    <div class="progress-wrap">
+      <span class="prog-label">📊 Progress</span>
+      <div class="prog"><div class="prog-fill" id="sci-prog" style="background:linear-gradient(90deg,#00c9a7,#00a388);"></div></div>
+      <span class="prog-txt" style="color:var(--science);" id="sci-prog-txt">0/12</span>
+    </div>
+    <div class="chapters-grid">
+      <a href="science/ch1.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">01</span></div><div class="chap-info"><div class="chap-title">The Wonderful World of Science</div><div class="chap-desc">Science kya hai? Scientific method aur curiosity! 🧪</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch2.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">02</span></div><div class="chap-info"><div class="chap-title">Diversity in the Living World</div><div class="chap-desc">Jeev jagat ki anokhi duniya — plants, animals 🌿</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch3.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">03</span></div><div class="chap-info"><div class="chap-title">Mindful Eating</div><div class="chap-desc">Nutrients, balanced diet aur healthy eating 🥗</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch4.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">04</span></div><div class="chap-info"><div class="chap-title">Exploring Magnets</div><div class="chap-desc">Magnets ke poles, properties aur uses 🧲</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch5.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">05</span></div><div class="chap-info"><div class="chap-title">Measurement of Length and Motion</div><div class="chap-desc">SI units, measurement tools aur motion 📏</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch6.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">06</span></div><div class="chap-info"><div class="chap-title">Materials Around Us</div><div class="chap-desc">Solids, liquids, gases aur their properties ⚗️</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch7.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">07</span></div><div class="chap-info"><div class="chap-title">Temperature and its Measurement</div><div class="chap-desc">Thermometer, heat transfer aur temperature 🌡️</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch8.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">08</span></div><div class="chap-info"><div class="chap-title">A Journey through States of Water</div><div class="chap-desc">Water cycle, evaporation aur condensation 💧</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch9.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">09</span></div><div class="chap-info"><div class="chap-title">Methods of Separation</div><div class="chap-desc">Filtration, sieving aur separation techniques 🔍</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch10.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">10</span></div><div class="chap-info"><div class="chap-title">Living Creatures: Their Characteristics</div><div class="chap-desc">Growth, reproduction aur life characteristics 🦋</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch11.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">11</span></div><div class="chap-info"><div class="chap-title">Nature's Treasures</div><div class="chap-desc">Natural resources aur conservation 🌳</div></div><span class="chap-go">→</span></a>
+      <a href="science/ch12.html" class="chap-card"><div class="chap-num-box" style="background:var(--sci-bg);"><span class="chap-num">12</span></div><div class="chap-info"><div class="chap-title">Beyond Earth</div><div class="chap-desc">Solar system, stars aur space exploration 🚀</div></div><span class="chap-go">→</span></a>
+    </div>
+  </div>
+
+  <!-- MATHS -->
+  <div class="subject-section mat visible" id="sec-maths">
+    <div class="section-header">
+      <div class="sec-icon" style="background:#e8f0ff;">📐</div>
+      <div>
+        <h2 style="color:var(--maths);">Mathematics — Ganita Prakash</h2>
+        <div class="book-name">New NCERT 2024-25</div>
+      </div>
+      <span class="chap-count" style="background:var(--mat-bg);color:var(--maths);">10 Chapters</span>
+    </div>
+    <div class="progress-wrap">
+      <span class="prog-label">📊 Progress</span>
+      <div class="prog"><div class="prog-fill" id="mat-prog" style="background:linear-gradient(90deg,#4f8ef7,#2563eb);"></div></div>
+      <span class="prog-txt" style="color:var(--maths);" id="mat-prog-txt">0/10</span>
+    </div>
+    <div class="chapters-grid">
+      <a href="maths/ch1.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">01</span></div><div class="chap-info"><div class="chap-title">Patterns in Mathematics</div><div class="chap-desc">Number patterns aur sequences 🔢</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch2.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">02</span></div><div class="chap-info"><div class="chap-title">Lines and Angles</div><div class="chap-desc">Types of lines aur angle properties 📐</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch3.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">03</span></div><div class="chap-info"><div class="chap-title">Number Play</div><div class="chap-desc">Fun with numbers aur divisibility 🎲</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch4.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">04</span></div><div class="chap-info"><div class="chap-title">Data Handling and Presentation</div><div class="chap-desc">Bar graphs aur pictographs 📊</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch5.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">05</span></div><div class="chap-info"><div class="chap-title">Prime Time</div><div class="chap-desc">Prime numbers, factors aur multiples ⭐</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch6.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">06</span></div><div class="chap-info"><div class="chap-title">Perimeter and Area</div><div class="chap-desc">Shapes ki boundary aur area 📏</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch7.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">07</span></div><div class="chap-info"><div class="chap-title">Fractions</div><div class="chap-desc">Fractions — operations aur applications 🍕</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch8.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">08</span></div><div class="chap-info"><div class="chap-title">Playing with Constructions</div><div class="chap-desc">Compass aur ruler se shapes banana ✏️</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch9.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">09</span></div><div class="chap-info"><div class="chap-title">Symmetry</div><div class="chap-desc">Line of symmetry aur patterns 🦋</div></div><span class="chap-go">→</span></a>
+      <a href="maths/ch10.html" class="chap-card"><div class="chap-num-box" style="background:var(--mat-bg);"><span class="chap-num">10</span></div><div class="chap-info"><div class="chap-title">The Other Side of Zero</div><div class="chap-desc">Negative numbers aur number line ➖</div></div><span class="chap-go">→</span></a>
+    </div>
+  </div>
+
+  <!-- ENGLISH -->
+  <div class="subject-section eng visible" id="sec-english">
+    <div class="section-header">
+      <div class="sec-icon" style="background:#fff8e0;">📖</div>
+      <div>
+        <h2 style="color:var(--english);">English — Poorvi</h2>
+        <div class="book-name">New NCERT 2024-25</div>
+      </div>
+      <span class="chap-count" style="background:var(--eng-bg);color:var(--english);">9 Units</span>
+    </div>
+    <div class="progress-wrap">
+      <span class="prog-label">📊 Progress</span>
+      <div class="prog"><div class="prog-fill" id="eng-prog" style="background:linear-gradient(90deg,#f7a800,#d97706);"></div></div>
+      <span class="prog-txt" style="color:var(--english);" id="eng-prog-txt">0/9</span>
+    </div>
+    <div class="chapters-grid">
+      <a href="english/ch1.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">01</span></div><div class="chap-info"><div class="chap-title">A Bottle of Dew</div><div class="chap-desc">Reading comprehension + grammar basics 💧</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch2.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">02</span></div><div class="chap-info"><div class="chap-title">The Kite</div><div class="chap-desc">Poetry — rhyme, rhythm aur imagery 🪁</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch3.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">03</span></div><div class="chap-info"><div class="chap-title">Rama to the Rescue</div><div class="chap-desc">Story + nouns, pronouns aur verbs 🦸</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch4.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">04</span></div><div class="chap-info"><div class="chap-title">Hamid Khan</div><div class="chap-desc">Prose + adjectives aur description ✍️</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch5.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">05</span></div><div class="chap-info"><div class="chap-title">A Strange Dream</div><div class="chap-desc">Narrative writing + tenses 💭</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch6.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">06</span></div><div class="chap-info"><div class="chap-title">The Monkey and the Crocodile</div><div class="chap-desc">Fable + prepositions aur conjunctions 🐊</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch7.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">07</span></div><div class="chap-info"><div class="chap-title">The Tea Picker's Song</div><div class="chap-desc">Poetry + adverbs aur sentence structure 🍵</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch8.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">08</span></div><div class="chap-info"><div class="chap-title">Rani Lakshmibai</div><div class="chap-desc">Biography + past tense aur writing skills ⚔️</div></div><span class="chap-go">→</span></a>
+      <a href="english/ch9.html" class="chap-card"><div class="chap-num-box" style="background:var(--eng-bg);"><span class="chap-num">09</span></div><div class="chap-info"><div class="chap-title">A Bicycle in Good Repair</div><div class="chap-desc">Humorous prose + vocabulary 🚲</div></div><span class="chap-go">→</span></a>
+    </div>
+  </div>
+
+  <!-- SST -->
+  <div class="subject-section sst visible" id="sec-sst">
+    <div class="section-header">
+      <div class="sec-icon" style="background:#f3e8ff;">🌍</div>
+      <div>
+        <h2 style="color:var(--sst);">Social Science — Exploring Society</h2>
+        <div class="book-name">New NCERT 2024-25</div>
+      </div>
+      <span class="chap-count" style="background:var(--sst-bg);color:var(--sst);">12 Chapters</span>
+    </div>
+    <div class="progress-wrap">
+      <span class="prog-label">📊 Progress</span>
+      <div class="prog"><div class="prog-fill" id="sst-prog" style="background:linear-gradient(90deg,#a855f7,#7c3aed);"></div></div>
+      <span class="prog-txt" style="color:var(--sst);" id="sst-prog-txt">0/12</span>
+    </div>
+    <div class="chapters-grid">
+      <a href="sst/ch1.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">01</span></div><div class="chap-info"><div class="chap-title">Locating Places on the Earth</div><div class="chap-desc">Latitude, longitude aur maps 🗺️</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch2.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">02</span></div><div class="chap-info"><div class="chap-title">Oceans and Continents</div><div class="chap-desc">7 continents, 5 oceans aur world geography 🌊</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch3.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">03</span></div><div class="chap-info"><div class="chap-title">Landforms and Life</div><div class="chap-desc">Mountains, plains aur plateaus ⛰️</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch4.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">04</span></div><div class="chap-info"><div class="chap-title">India: Climate and Natural Vegetation</div><div class="chap-desc">Monsoon, seasons aur biodiversity ☀️</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch5.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">05</span></div><div class="chap-info"><div class="chap-title">India: People and Economy</div><div class="chap-desc">Population, agriculture aur industries 🏭</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch6.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">06</span></div><div class="chap-info"><div class="chap-title">The Beginnings of Indian Civilisation</div><div class="chap-desc">Indus Valley aur ancient India 🏛️</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch7.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">07</span></div><div class="chap-info"><div class="chap-title">India: Political Life</div><div class="chap-desc">Democracy, government aur Constitution 🏛️</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch8.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">08</span></div><div class="chap-info"><div class="chap-title">Rural Life and Society</div><div class="chap-desc">Village life aur farming 🌾</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch9.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">09</span></div><div class="chap-info"><div class="chap-title">Urban Life and Society</div><div class="chap-desc">Cities aur urbanisation 🏙️</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch10.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">10</span></div><div class="chap-info"><div class="chap-title">Markets and Economics</div><div class="chap-desc">Markets, trade aur economic activities 🛒</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch11.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">11</span></div><div class="chap-info"><div class="chap-title">Unity in Diversity</div><div class="chap-desc">India ki diversity — languages aur cultures 🎨</div></div><span class="chap-go">→</span></a>
+      <a href="sst/ch12.html" class="chap-card"><div class="chap-num-box" style="background:var(--sst-bg);"><span class="chap-num">12</span></div><div class="chap-info"><div class="chap-title">India's Cultural Heritage</div><div class="chap-desc">Art, architecture aur cultural traditions 🎭</div></div><span class="chap-go">→</span></a>
+    </div>
+  </div>
+
+  <!-- HINDI -->
+  <div class="subject-section hin visible" id="sec-hindi">
+    <div class="section-header">
+      <div class="sec-icon" style="background:#ffe4e8;">🇮🇳</div>
+      <div>
+        <h2 style="color:var(--hindi);">Hindi — Vasant</h2>
+        <div class="book-name">New NCERT 2024-25</div>
+      </div>
+      <span class="chap-count" style="background:var(--hin-bg);color:var(--hindi);">17 Chapters</span>
+    </div>
+    <div class="progress-wrap">
+      <span class="prog-label">📊 Progress</span>
+      <div class="prog"><div class="prog-fill" id="hin-prog" style="background:linear-gradient(90deg,#f43f5e,#e11d48);"></div></div>
+      <span class="prog-txt" style="color:var(--hindi);" id="hin-prog-txt">0/17</span>
+    </div>
+    <div class="chapters-grid">
+      <a href="hindi/ch1.html" class="chap-card"><div class="chap-num-box" style="background:var(--hin-bg);"><span class="chap-num">01</span></div><div class="chap-info"><div class="chap-title">वह चिड़िया जो</div><div class="chap-desc">Kavita — pakshiyon ka sundar varnan 🐦</div></div><span class="chap-go">→</span></a>
+      <a href="hindi/ch2.html" class="chap-card"><div class="chap-num-box" style="background:var(--hin-bg);"><span class="chap-num">02</span></div><div class="chap-info"><div class="chap-title">बचपन</div><div class="chap-desc">Bachpan ki pyaari yaadein 🌟</div></div><span class="chap-go">→</span></a>
+      <a href="hindi/ch3.html" class="chap-card"><div class="chap-num-box" style="background:var(--hin-bg);"><span class="chap-num">03</span></div><div class="chap-info"><div class="chap-title">नादान दोस्त</div><div class="chap-desc">Dosti aur bachpan ki curiosity 🐣</div></div><span class="chap-go">→</span></a>
+      <a href="hindi/ch4.html" class="chap-card"><div class="chap-num-box" style="background:var(--hin-bg);"><span class="chap-num">04</span></div><div class="chap-info"><div class="chap-title">चाँद से थोड़ी सी गप्पें</div><div class="chap-desc">Chand se baat — imagination ki udaan 🌙</div></div><span class="chap-go">→</span></a>
+      <a href="hindi/ch5.html" class="chap-card"><div class="chap-num-box" style="background:var(--hin-bg);"><span class="chap-num">05</span></div><div class="chap-info"><div class="chap-title">अक्षरों का महत्व</div><div class="chap-desc">Lipi ka itihas — writing ka safar ✍️</div></div><span class="chap-go">→</span></a>
+      <div class="chap-card coming-soon"><div class="chap-num-box" style="background:var(--hin-bg);opacity:0.5;"><span class="chap-num">6+</span></div><div class="chap-info"><div class="chap-title">Aur 12 Chapters</div><div class="chap-desc">Jaldi aa rahe hain!</div><span class="soon-pill">🚧 Coming Soon</span></div></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ANYA -->
+<div id="chat-trigger" onclick="window.location.href='index.html'" title="Anya se poochho!">
+  <div class="mini-anya"><div class="mh"></div><div class="mb"></div><div class="me"><div class="mey"></div><div class="mey"></div></div></div>
+</div>
+
+<script>
+// Floating bubbles
+const colors = ['#00c9a7','#4f8ef7','#f7a800','#a855f7','#f43f5e','#00b4d8'];
+const wrap = document.getElementById('bubbles');
+for (let i = 0; i < 18; i++) {
+  const b = document.createElement('div');
+  b.className = 'bubble';
+  const size = Math.random() * 60 + 20;
+  b.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;`;
+  wrap.appendChild(b);
+}
+
+// Filter
+function filterSubject(sub, btn) {
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.subject-section').forEach(s => {
+    s.classList.toggle('visible', sub === 'all' || s.id === 'sec-' + sub);
+  });
+}
+
+// Progress
+const done = JSON.parse(localStorage.getItem('chapDone') || '[]');
+[['sci',12],['mat',10],['eng',9],['sst',12],['hin',17]].forEach(([k,total]) => {
+  const n = done.filter(c => c.startsWith(k)).length;
+  const pct = Math.round(n/total*100);
+  document.getElementById(k+'-prog').style.width = pct + '%';
+  document.getElementById(k+'-prog-txt').textContent = n + '/' + total;
+});
+</script>
+</body>
+</html>
