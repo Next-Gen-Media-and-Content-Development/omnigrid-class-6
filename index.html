@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNIGRID 6 | Curiosity Science</title>
+    <title>OMNIGRID 6 | Curiosity Quest</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 1. Reset & Global Fixes */
+        /* 1. Reset & Global */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
@@ -15,30 +15,65 @@
             background-color: #0f172a;
             color: white;
             min-height: 100vh;
-            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('anime-background.jpg');
+            background-image: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.88)), url('anime-background.jpg');
             background-size: cover;
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
 
         /* 2. Hero Section */
-        .hero { text-align: center; padding: 40px 20px; }
-        .hero img { 
-            width: 120px; height: 120px; border-radius: 50%; 
-            border: 3px solid #e94560; object-fit: cover; margin-bottom: 10px;
+        .hero {
+            text-align: center;
+            padding: 40px 20px 20px;
         }
 
-        /* 3. GRID SYSTEM - Icons Alignment Fix */
+        /* ✅ ANYA AVATAR FIX - CSS fallback avatar that never breaks */
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 14px;
+        }
+
+        .hero-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #e94560;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            background: linear-gradient(135deg, #1e293b, #334155);
+        }
+
+        /* CSS fallback avatar shown when image fails */
+        .avatar-fallback {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #e94560;
+            background: linear-gradient(135deg, #e94560, #f97316);
+            display: none; /* hidden by default, shown via JS if img fails */
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
+        .hero p { color: #94a3b8; font-size: 1rem; }
+
+        /* 3. Grid */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
-            padding: 20px 8% 60px 8%;
+            padding: 30px 8% 60px 8%;
             max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* 4. CARD DESIGN - Image Cutting Fix */
+        /* 4. Cards */
         .card {
             background: #1e293b;
             border-radius: 15px;
@@ -46,30 +81,33 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            height: 450px; /* Fixed Height */
-            transition: 0.3s;
+            height: 420px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
         }
 
         .card-image-box {
-            height: 180px;
+            height: 200px;
             width: 100%;
-            background: #0a0f1e; /* Dark background behind image */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: #0a0f1e;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .card-image-box img {
             height: 100%;
             width: 100%;
-            /* FIX: Image top se cut nahi hogi aur poori dikhegi */
-            object-fit: contain; 
-            object-position: top;
+            object-fit: cover;
+            object-position: top center;
+            transition: transform 0.4s;
         }
+        .card:hover .card-image-box img { transform: scale(1.05); }
 
         .card-content {
-            padding: 20px;
+            padding: 18px 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -78,14 +116,20 @@
 
         .tag {
             background: #e94560;
-            padding: 4px 10px;
+            padding: 3px 10px;
             border-radius: 5px;
             font-size: 11px;
+            font-weight: 600;
             width: fit-content;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
 
+        .card-content h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .card-content p { color: #94a3b8; font-size: 0.88rem; }
+
         .btn {
+            display: block;
             background: transparent;
             border: 2px solid #e94560;
             color: white;
@@ -94,30 +138,77 @@
             text-decoration: none;
             border-radius: 8px;
             font-weight: bold;
-            transition: 0.3s;
+            font-size: 0.9rem;
+            transition: background 0.3s, color 0.3s;
+            margin-top: 14px;
         }
         .btn:hover { background: #e94560; }
+
+        /* 5. Chat Trigger Button (bottom-right Anya) */
+        #chat-trigger {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 3px solid #e94560;
+            overflow: hidden;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.5);
+            transition: transform 0.3s;
+            background: linear-gradient(135deg, #e94560, #f97316);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #chat-trigger:hover { transform: scale(1.12); }
+
+        #chat-trigger img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: 50%;
+        }
+
+        /* Anya emoji fallback for chat trigger */
+        #chat-trigger .trigger-emoji {
+            font-size: 28px;
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-   <header class="hero">
-    <img src="https://i.ibb.co/v4m8vY0/anya-avatar.png" alt="Anya" onerror="this.src='https://i.pinimg.com/originals/91/9a/5d/919a5d09f7a73f889f8149f16d55268c.jpg'">
-    <h1>Welcome, Adventurer!</h1>
-    <p>Class 6 Curiosity Quest starts here.</p>
-</header>
-<div id="chat-trigger" onclick="toggleChat()">
-    <img src="https://i.ibb.co/v4m8vY0/anya-avatar.png" alt="Anya" onerror="this.src='https://i.pinimg.com/originals/91/9a/5d/919a5d09f7a73f889f8149f16d55268c.jpg'">
-</div>
-</div>
+    <!-- ✅ HERO SECTION - Clean, no duplicates -->
+    <header class="hero">
+        <div class="avatar-wrapper">
+            <!-- 
+                HOW TO FIX ANYA IMAGE PERMANENTLY:
+                Option 1 (Best): Put anya.png in your GitHub repo folder and use src="anya.png"
+                Option 2: Use GitHub Issues URL (drag image into any issue comment, copy the link)
+                Option 3 (Current): Using a reliable CDN with emoji fallback
+            -->
+            <img 
+                class="hero-avatar"
+                src="anya.png"
+                alt="Anya"
+                onerror="this.style.display='none'; document.getElementById('hero-fallback').style.display='flex';"
+            >
+            <div id="hero-fallback" class="avatar-fallback">🌸</div>
+        </div>
         <h1>Welcome, Adventurer!</h1>
         <p>Class 6 Curiosity Quest starts here.</p>
     </header>
 
+    <!-- Quest Cards -->
     <main class="grid-container">
+
         <div class="card">
             <div class="card-image-box">
-                <img src="science-anime.jpg" alt="Science">
+                <img src="science-anime.jpg" alt="Science" onerror="this.style.background='linear-gradient(135deg,#1e3a5f,#0f172a)'; this.style.opacity='0.5';">
             </div>
             <div class="card-content">
                 <div>
@@ -131,7 +222,7 @@
 
         <div class="card">
             <div class="card-image-box">
-                <img src="maths-anime.jpg" alt="Maths">
+                <img src="maths-anime.jpg" alt="Maths" onerror="this.style.opacity='0';">
             </div>
             <div class="card-content">
                 <div>
@@ -145,7 +236,7 @@
 
         <div class="card">
             <div class="card-image-box">
-                <img src="english-anime.jpg" alt="English">
+                <img src="english-anime.jpg" alt="English" onerror="this.style.opacity='0';">
             </div>
             <div class="card-content">
                 <div>
@@ -159,7 +250,7 @@
 
         <div class="card">
             <div class="card-image-box">
-                <img src="sst-anime.jpg" alt="SST">
+                <img src="sst-anime.jpg" alt="SST" onerror="this.style.opacity='0';">
             </div>
             <div class="card-content">
                 <div>
@@ -170,7 +261,25 @@
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
+
     </main>
+
+    <!-- ✅ CHAT TRIGGER - Fixed Anya floating button -->
+    <div id="chat-trigger" onclick="toggleChat()" title="Chat with Anya!">
+        <img 
+            src="anya.png" 
+            alt="Anya"
+            onerror="this.style.display='none'; document.querySelector('#chat-trigger .trigger-emoji').style.display='block';"
+        >
+        <span class="trigger-emoji">🌸</span>
+    </div>
+
+    <script>
+        function toggleChat() {
+            // Your existing chat toggle logic here
+            alert("Anya says: Heh~ Let's learn something today! 🌸");
+        }
+    </script>
 
 </body>
 </html>
