@@ -7,6 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+    <script>
+  window.addEventListener('load', function() {
+    if (window.AnyaAI) {
+      AnyaAI.setProxy('https://wispy-sound-1236.shikhakaushik641.workers.dev');
+    }
+  });
+</script>
 body{font-family:'Jost',sans-serif;background-color:#0f172a;color:white;min-height:100vh;
 background-image:linear-gradient(rgba(15,23,42,0.88),rgba(15,23,42,0.88)),url('anime-background.jpg');
 background-size:cover;background-attachment:fixed;}
