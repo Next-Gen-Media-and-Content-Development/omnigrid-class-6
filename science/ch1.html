@@ -78,7 +78,47 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
 .model-ctrls{display:flex;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap;}
 .mcb{background:var(--sci-bg);color:var(--sci-dk);border:1.5px solid var(--border);border-radius:10px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
 .mcb:hover{background:var(--sci);color:white;}
-.kw-popup{position:fixed;z-index:1000;background:white;border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.2);max-width:300px;border-top:4px solid var(--sci);display:none;}
+.kw-popup{
+  position:fixed;z-index:1000;
+  background:white;border-radius:16px;
+  padding:16px 20px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.22);
+  max-width:290px;width:290px;
+  border-top:4px solid var(--sci);
+  display:none;
+  animation:kwPop 0.18s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes kwPop{from{opacity:0;transform:scale(0.88)}to{opacity:1;transform:scale(1)}}
+/* left-pointing arrow (popup is to the RIGHT of word) */
+.kw-popup.arrow-left::before{
+  content:'';position:absolute;
+  left:-9px;top:18px;
+  border:9px solid transparent;
+  border-right-color:var(--sci);
+  border-left:none;
+}
+.kw-popup.arrow-left::after{
+  content:'';position:absolute;
+  left:-6px;top:20px;
+  border:7px solid transparent;
+  border-right-color:white;
+  border-left:none;
+}
+/* right-pointing arrow (popup is to the LEFT of word) */
+.kw-popup.arrow-right::before{
+  content:'';position:absolute;
+  right:-9px;top:18px;
+  border:9px solid transparent;
+  border-left-color:var(--sci);
+  border-right:none;
+}
+.kw-popup.arrow-right::after{
+  content:'';position:absolute;
+  right:-6px;top:20px;
+  border:7px solid transparent;
+  border-left-color:white;
+  border-right:none;
+}
 .kw-popup h4{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--sci-dk);margin-bottom:6px;}
 .kw-popup p{font-size:13px;line-height:1.6;}
 .kw-close{position:absolute;top:8px;right:12px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--muted);}
@@ -2048,16 +2088,40 @@ const KWD={
   ramanujan:{t:'Srinivasa Ramanujan (1887–1920)',b:'Srinivasa Ramanujan was an extraordinary self-taught Indian mathematician who made groundbreaking contributions to number theory and mathematical analysis, despite having no formal training in pure mathematics.'},
 };
 function showKW(key,e){
-  e.stopPropagation();const d=KWD[key];if(!d)return;
+  e.stopPropagation();
+  const d=KWD[key];if(!d)return;
   const pop=document.getElementById('kw-popup');
   document.getElementById('kw-title').textContent=d.t;
   document.getElementById('kw-body').textContent=d.b;
   document.getElementById('kw-wiki').href='https://en.wikipedia.org/wiki/'+encodeURIComponent(d.t.split('(')[0].trim());
   document.getElementById('kw-google').href='https://www.google.com/search?q='+encodeURIComponent(d.t+' class 6 NCERT');
+  // Show temporarily to measure height
+  pop.style.visibility='hidden';
   pop.style.display='block';
-  const x=Math.min(e.clientX,window.innerWidth-310);
-  const y=Math.min(e.pageY+10,document.documentElement.scrollHeight-260);
-  pop.style.left=x+'px';pop.style.top=y+'px';
+  pop.classList.remove('arrow-left','arrow-right');
+  const PW=292, PH=pop.offsetHeight||200;
+  const vw=window.innerWidth, vh=window.innerHeight;
+  // Word position from click event
+  const rect=e.target.getBoundingClientRect();
+  const wordRight=rect.right, wordLeft=rect.left, wordMidY=rect.top+rect.height/2;
+  // Try RIGHT of word first
+  let left, top, arrow;
+  if(wordRight+14+PW <= vw-8){
+    left=wordRight+14;
+    arrow='arrow-left';
+  } else {
+    left=wordLeft-14-PW;
+    arrow='arrow-right';
+  }
+  // Clamp left
+  left=Math.max(8, left);
+  // Vertical: align arrow to word midY, keep popup in viewport
+  top=window.scrollY + wordMidY - 26;
+  top=Math.max(window.scrollY+8, Math.min(top, window.scrollY+vh-PH-8));
+  pop.classList.add(arrow);
+  pop.style.left=left+'px';
+  pop.style.top=top+'px';
+  pop.style.visibility='visible';
 }
 function closeKW(){document.getElementById('kw-popup').style.display='none';}
 document.addEventListener('click',e=>{if(!e.target.classList.contains('kw'))closeKW();});
