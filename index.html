@@ -14,279 +14,328 @@
             background-color: #0f172a;
             color: white;
             min-height: 100vh;
-            background-image:
-                linear-gradient(rgba(15,23,42,0.88), rgba(15,23,42,0.88)),
-                url('anime-background.jpg');
+            background-image: linear-gradient(rgba(15,23,42,0.88), rgba(15,23,42,0.88)), url('anime-background.jpg');
             background-size: cover;
             background-attachment: fixed;
         }
 
-        /* =====================
-           ANYA AVATAR - Pure CSS (no image needed - never breaks!)
-        ===================== */
+        /* ── ANYA CSS AVATAR ── */
         .anya-avatar {
-            width: 120px;
-            height: 120px;
+            width: 120px; height: 120px;
             border-radius: 50%;
             border: 3px solid #e94560;
             margin: 0 auto 14px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative; overflow: hidden;
+            background: linear-gradient(160deg,#1a1a2e,#16213e,#0f3460);
             box-shadow: 0 0 20px rgba(233,69,96,0.4);
         }
-
-        /* Face */
         .anya-avatar::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 78px; height: 90px;
-            background: #f4c89a;
-            border-radius: 42% 42% 48% 48% / 40% 40% 60% 60%;
+            content:''; position:absolute;
+            bottom:0; left:50%; transform:translateX(-50%);
+            width:78px; height:90px; background:#f4c89a;
+            border-radius:42% 42% 48% 48% / 40% 40% 60% 60%;
         }
-
-        /* Hair top */
         .anya-hair-top {
-            position: absolute;
-            top: 8px; left: 50%;
-            transform: translateX(-50%);
-            width: 88px; height: 56px;
-            background: #c8a2c8;
-            border-radius: 50% 50% 20% 20%;
-            z-index: 2;
+            position:absolute; top:8px; left:50%; transform:translateX(-50%);
+            width:88px; height:56px; background:#c8a2c8;
+            border-radius:50% 50% 20% 20%; z-index:2;
         }
-
-        /* Hair sides */
         .anya-hair-left, .anya-hair-right {
-            position: absolute;
-            top: 30px;
-            width: 22px; height: 50px;
-            background: #c8a2c8;
-            z-index: 1;
+            position:absolute; top:30px; width:22px; height:50px; background:#c8a2c8; z-index:1;
         }
-        .anya-hair-left  { left: 10px;  border-radius: 15px 5px 5px 15px; }
-        .anya-hair-right { right: 10px; border-radius: 5px 15px 15px 5px; }
-
-        /* Headband */
+        .anya-hair-left  { left:10px;  border-radius:15px 5px 5px 15px; }
+        .anya-hair-right { right:10px; border-radius:5px 15px 15px 5px; }
         .anya-headband {
-            position: absolute;
-            top: 28px; left: 50%;
-            transform: translateX(-50%);
-            width: 88px; height: 10px;
-            background: #e94560;
-            border-radius: 5px;
-            z-index: 3;
+            position:absolute; top:28px; left:50%; transform:translateX(-50%);
+            width:88px; height:10px; background:#e94560; border-radius:5px; z-index:3;
         }
-
-        /* Eyes */
         .anya-eyes {
-            position: absolute;
-            top: 52px; left: 50%;
-            transform: translateX(-50%);
-            width: 56px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 3;
+            position:absolute; top:52px; left:50%; transform:translateX(-50%);
+            width:56px; display:flex; justify-content:space-between; z-index:3;
         }
         .anya-eye {
-            width: 14px; height: 14px;
-            background: #3a6186;
-            border-radius: 50%;
-            border: 2px solid #1a1a2e;
-            position: relative;
+            width:14px; height:14px; background:#3a6186;
+            border-radius:50%; border:2px solid #1a1a2e; position:relative;
         }
         .anya-eye::after {
-            content: '';
-            position: absolute;
-            top: 2px; left: 2px;
-            width: 4px; height: 4px;
-            background: white;
-            border-radius: 50%;
+            content:''; position:absolute; top:2px; left:2px;
+            width:4px; height:4px; background:white; border-radius:50%;
         }
-
-        /* Blush */
         .anya-blush-left, .anya-blush-right {
-            position: absolute;
-            top: 64px;
-            width: 14px; height: 7px;
-            background: rgba(255,150,150,0.5);
-            border-radius: 50%;
-            z-index: 3;
+            position:absolute; top:64px;
+            width:14px; height:7px; background:rgba(255,150,150,0.5);
+            border-radius:50%; z-index:3;
         }
-        .anya-blush-left  { left: 20px; }
-        .anya-blush-right { right: 20px; }
-
-        /* Smile */
+        .anya-blush-left  { left:20px; }
+        .anya-blush-right { right:20px; }
         .anya-smile {
-            position: absolute;
-            top: 74px; left: 50%;
-            transform: translateX(-50%);
-            width: 22px; height: 10px;
-            border-bottom: 3px solid #c97b7b;
-            border-radius: 0 0 50% 50%;
-            z-index: 3;
+            position:absolute; top:74px; left:50%; transform:translateX(-50%);
+            width:22px; height:10px;
+            border-bottom:3px solid #c97b7b; border-radius:0 0 50% 50%; z-index:3;
         }
 
-        /* =====================
-           HERO
-        ===================== */
-        .hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
-        .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
-        .hero p  { color: #94a3b8; }
+        /* ── HERO ── */
+        .hero { text-align:center; padding:40px 20px 20px; }
+        .hero h1 { font-size:2rem; font-weight:700; margin-bottom:6px; }
+        .hero p  { color:#94a3b8; }
 
-        /* =====================
-           GRID & CARDS
-        ===================== */
+        /* ── GRID & CARDS ── */
         .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            padding: 30px 8% 60px;
-            max-width: 1300px;
-            margin: 0 auto;
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+            gap:25px; padding:30px 8% 120px;
+            max-width:1300px; margin:0 auto;
         }
-
         .card {
-            background: #1e293b;
-            border-radius: 15px;
-            border: 1px solid #334155;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            height: 420px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background:#1e293b; border-radius:15px;
+            border:1px solid #334155;
+            display:flex; flex-direction:column;
+            overflow:hidden; height:420px;
+            transition:transform 0.3s, box-shadow 0.3s;
         }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(233,69,96,0.25);
-        }
-
+        .card:hover { transform:translateY(-5px); box-shadow:0 10px 30px rgba(233,69,96,0.25); }
         .card-image-box {
-            height: 200px;
-            width: 100%;
-            background: #0a0f1e;
-            overflow: hidden;
-            flex-shrink: 0;
+            height:200px; width:100%; background:#0a0f1e;
+            overflow:hidden; flex-shrink:0;
         }
         .card-image-box img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            object-position: top center;
-            transition: transform 0.4s;
+            height:100%; width:100%;
+            object-fit:cover; object-position:top center;
+            transition:transform 0.4s;
         }
-        .card:hover .card-image-box img { transform: scale(1.05); }
-
+        .card:hover .card-image-box img { transform:scale(1.05); }
         .card-content {
-            padding: 18px 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding:18px 20px; flex-grow:1;
+            display:flex; flex-direction:column; justify-content:space-between;
         }
-
         .tag {
-            background: #e94560;
-            padding: 3px 10px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: 600;
-            width: fit-content;
-            margin-bottom: 8px;
+            background:#e94560; padding:3px 10px; border-radius:5px;
+            font-size:11px; font-weight:600; width:fit-content; margin-bottom:8px;
         }
-        .card-content h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .card-content p  { color: #94a3b8; font-size: 0.88rem; }
-
+        .card-content h3 { font-size:1.1rem; margin-bottom:5px; }
+        .card-content p  { color:#94a3b8; font-size:0.88rem; }
         .btn {
-            display: block;
-            background: transparent;
-            border: 2px solid #e94560;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-top: 14px;
-            transition: background 0.3s;
+            display:block; background:transparent;
+            border:2px solid #e94560; color:white;
+            padding:10px; text-align:center; text-decoration:none;
+            border-radius:8px; font-weight:bold; font-size:0.9rem;
+            margin-top:14px; transition:background 0.3s;
         }
-        .btn:hover { background: #e94560; }
+        .btn:hover { background:#e94560; }
 
-        /* =====================
-           FLOATING CHAT BUTTON
-        ===================== */
+        /* ── FLOATING CHAT TRIGGER ── */
         #chat-trigger {
-            position: fixed;
-            bottom: 28px; right: 28px;
-            width: 64px; height: 64px;
-            cursor: pointer;
-            z-index: 999;
-            transition: transform 0.3s;
+            position:fixed; bottom:28px; right:28px;
+            width:64px; height:64px; cursor:pointer; z-index:1000;
+            transition:transform 0.3s;
         }
-        #chat-trigger:hover { transform: scale(1.12); }
-
+        #chat-trigger:hover { transform:scale(1.12); }
         .mini-anya {
-            width: 64px; height: 64px;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            background: linear-gradient(160deg, #1a1a2e, #0f3460);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(233,69,96,0.5);
+            width:64px; height:64px; border-radius:50%;
+            border:3px solid #e94560;
+            background:linear-gradient(160deg,#1a1a2e,#0f3460);
+            position:relative; overflow:hidden;
+            box-shadow:0 4px 20px rgba(233,69,96,0.5);
         }
         .mini-anya::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 42px; height: 48px;
-            background: #f4c89a;
-            border-radius: 42% 42% 48% 48% / 40% 40% 60% 60%;
+            content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+            width:42px; height:48px; background:#f4c89a;
+            border-radius:42% 42% 48% 48% / 40% 40% 60% 60%;
         }
         .mini-hair {
-            position: absolute;
-            top: 4px; left: 50%;
-            transform: translateX(-50%);
-            width: 48px; height: 30px;
-            background: #c8a2c8;
-            border-radius: 50% 50% 20% 20%;
-            z-index: 2;
+            position:absolute; top:4px; left:50%; transform:translateX(-50%);
+            width:48px; height:30px; background:#c8a2c8;
+            border-radius:50% 50% 20% 20%; z-index:2;
         }
         .mini-band {
-            position: absolute;
-            top: 15px; left: 50%;
-            transform: translateX(-50%);
-            width: 48px; height: 6px;
-            background: #e94560;
-            border-radius: 3px;
-            z-index: 3;
+            position:absolute; top:15px; left:50%; transform:translateX(-50%);
+            width:48px; height:6px; background:#e94560; border-radius:3px; z-index:3;
         }
         .mini-eyes {
-            position: absolute;
-            top: 28px; left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 3;
+            position:absolute; top:28px; left:50%; transform:translateX(-50%);
+            width:30px; display:flex; justify-content:space-between; z-index:3;
         }
         .mini-eye {
-            width: 7px; height: 7px;
-            background: #3a6186;
-            border-radius: 50%;
-            border: 1.5px solid #1a1a2e;
+            width:7px; height:7px; background:#3a6186;
+            border-radius:50%; border:1.5px solid #1a1a2e;
+        }
+        .chat-badge {
+            position:absolute; top:-4px; right:-4px;
+            width:18px; height:18px; background:#e94560;
+            border-radius:50%; font-size:11px; font-weight:700;
+            display:flex; align-items:center; justify-content:center;
+            color:white; border:2px solid #0f172a;
+            animation:pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+
+        /* ── CHAT WINDOW ── */
+        #chat-window {
+            position:fixed; bottom:104px; right:28px;
+            width:360px; max-height:580px;
+            border-radius:16px; overflow:hidden;
+            box-shadow:0 8px 40px rgba(0,0,0,0.5);
+            z-index:999;
+            display:none; flex-direction:column;
+            border:1px solid #334155;
+            animation:slideUp 0.25s ease;
+        }
+        #chat-window.open { display:flex; }
+        @keyframes slideUp {
+            from { opacity:0; transform:translateY(20px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+
+        /* Chat header */
+        .cw-header {
+            background:#1e293b; padding:12px 16px;
+            display:flex; align-items:center; justify-content:space-between;
+            border-bottom:1px solid #334155; flex-shrink:0;
+        }
+        .cw-header-left { display:flex; align-items:center; gap:10px; }
+        .cw-mini-face {
+            width:36px; height:36px; border-radius:50%;
+            border:2px solid #e94560;
+            background:linear-gradient(160deg,#1a1a2e,#0f3460);
+            position:relative; overflow:hidden; flex-shrink:0;
+        }
+        .cw-mini-face::before {
+            content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+            width:24px; height:28px; background:#f4c89a;
+            border-radius:42% 42% 48% 48% / 40% 40% 60% 60%;
+        }
+        .cmf-hair {
+            position:absolute; top:2px; left:50%; transform:translateX(-50%);
+            width:30px; height:18px; background:#c8a2c8;
+            border-radius:50% 50% 20% 20%; z-index:2;
+        }
+        .cmf-band {
+            position:absolute; top:9px; left:50%; transform:translateX(-50%);
+            width:30px; height:4px; background:#e94560; border-radius:2px; z-index:3;
+        }
+        .cmf-eyes {
+            position:absolute; top:17px; left:50%; transform:translateX(-50%);
+            width:18px; display:flex; justify-content:space-between; z-index:3;
+        }
+        .cmf-eye { width:5px; height:5px; background:#3a6186; border-radius:50%; }
+        .cw-title h4 { color:white; font-size:14px; font-weight:600; margin:0; }
+        .cw-title p  { color:#22c55e; font-size:11px; margin:0; }
+        .cw-close {
+            background:none; border:none; color:#94a3b8;
+            font-size:20px; cursor:pointer; line-height:1;
+            padding:2px 6px; border-radius:4px;
+        }
+        .cw-close:hover { color:white; background:#334155; }
+
+        /* Score bar */
+        .cw-score {
+            background:#0f172a; padding:6px 14px;
+            display:flex; align-items:center; gap:8px;
+            border-bottom:1px solid #1e293b; flex-shrink:0;
+        }
+        .cw-score span { font-size:12px; color:#94a3b8; }
+        .cw-score strong { font-size:13px; color:#e94560; }
+        .cw-streak { color:#f59e0b !important; margin-left:auto; }
+
+        /* Topic pills */
+        .cw-topics {
+            background:#0f172a; padding:8px 12px;
+            display:flex; gap:6px; flex-wrap:wrap;
+            border-bottom:1px solid #1e293b; flex-shrink:0;
+        }
+        .tp-btn {
+            background:#1e293b; color:#94a3b8;
+            border:1px solid #334155; border-radius:20px;
+            padding:4px 10px; font-size:11px; cursor:pointer;
+            font-family:'Jost',sans-serif; transition:all 0.2s;
+        }
+        .tp-btn:hover, .tp-btn.active { background:#e94560; color:white; border-color:#e94560; }
+
+        /* Chat body */
+        .cw-body {
+            background:#0f172a; padding:12px;
+            display:flex; flex-direction:column; gap:10px;
+            flex:1; overflow-y:auto; min-height:160px; max-height:240px;
+        }
+        .cw-body::-webkit-scrollbar { width:4px; }
+        .cw-body::-webkit-scrollbar-track { background:#0f172a; }
+        .cw-body::-webkit-scrollbar-thumb { background:#334155; border-radius:2px; }
+
+        .cm { display:flex; gap:6px; align-items:flex-end; }
+        .cm.user { flex-direction:row-reverse; }
+        .cb {
+            max-width:82%; padding:8px 12px; border-radius:12px;
+            font-size:13px; line-height:1.45;
+        }
+        .cb.anya { background:#1e293b; color:#e2e8f0; border-radius:4px 12px 12px 12px; }
+        .cb.user { background:#e94560; color:white; border-radius:12px 4px 12px 12px; }
+        .cb.ok   { background:#14532d; color:#bbf7d0; }
+        .cb.err  { background:#7f1d1d; color:#fecaca; }
+
+        .typing-dots {
+            display:flex; gap:4px; align-items:center;
+            padding:8px 12px; background:#1e293b;
+            border-radius:4px 12px 12px 12px; width:fit-content;
+        }
+        .td { width:6px; height:6px; background:#94a3b8; border-radius:50%; animation:blink 1.2s infinite; }
+        .td:nth-child(2) { animation-delay:0.2s; }
+        .td:nth-child(3) { animation-delay:0.4s; }
+        @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+
+        /* Options */
+        .cw-options {
+            background:#0f172a; padding:0 12px 8px;
+            display:flex; flex-direction:column; gap:6px; flex-shrink:0;
+        }
+        .op-btn {
+            background:#1e293b; color:#e2e8f0;
+            border:1px solid #334155; border-radius:8px;
+            padding:8px 12px; font-size:12px; cursor:pointer;
+            text-align:left; font-family:'Jost',sans-serif;
+            transition:all 0.2s;
+        }
+        .op-btn:hover:not(:disabled) { border-color:#e94560; }
+        .op-btn:disabled { opacity:0.6; cursor:default; }
+        .op-btn.correct-ans { background:#14532d; border-color:#22c55e; color:#bbf7d0; }
+        .op-btn.wrong-ans   { background:#7f1d1d; border-color:#ef4444; color:#fecaca; }
+
+        /* Input row */
+        .cw-input-row {
+            background:#1e293b; padding:10px 12px;
+            display:flex; gap:8px; align-items:center;
+            border-top:1px solid #334155; flex-shrink:0;
+        }
+        .cw-inp {
+            flex:1; background:#0f172a; border:1px solid #334155;
+            border-radius:8px; padding:8px 10px;
+            color:white; font-size:13px; outline:none;
+            font-family:'Jost',sans-serif;
+        }
+        .cw-inp:focus { border-color:#e94560; }
+        .cw-inp::placeholder { color:#475569; }
+        .cw-send {
+            background:#e94560; border:none; border-radius:8px;
+            padding:8px 12px; color:white; font-size:12px;
+            font-weight:600; cursor:pointer; font-family:'Jost',sans-serif;
+            transition:opacity 0.2s;
+        }
+        .cw-send:hover { opacity:0.85; }
+        .cw-next {
+            background:#334155; border:none; border-radius:8px;
+            padding:8px 10px; color:#e2e8f0; font-size:12px;
+            cursor:pointer; font-family:'Jost',sans-serif;
+        }
+        .cw-next:hover { background:#475569; }
+
+        /* mobile */
+        @media(max-width:420px) {
+            #chat-window { width:calc(100vw - 20px); right:10px; bottom:90px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HERO - Clean, single, no duplicates -->
+    <!-- HERO -->
     <header class="hero">
         <div class="anya-avatar">
             <div class="anya-hair-left"></div>
@@ -307,67 +356,38 @@
 
     <!-- QUEST CARDS -->
     <main class="grid-container">
-
         <div class="card">
-            <div class="card-image-box">
-                <img src="science-anime.jpg" alt="Science">
-            </div>
+            <div class="card-image-box"><img src="science-anime.jpg" alt="Science"></div>
             <div class="card-content">
-                <div>
-                    <span class="tag">Science</span>
-                    <h3>Curiosity: Science</h3>
-                    <p>Wonderful World of Plants and Magnetism.</p>
-                </div>
+                <div><span class="tag">Science</span><h3>Curiosity: Science</h3><p>Wonderful World of Plants and Magnetism.</p></div>
                 <a href="science_chapters.html" class="btn">Start Quest</a>
             </div>
         </div>
-
         <div class="card">
-            <div class="card-image-box">
-                <img src="maths-anime.jpg" alt="Maths">
-            </div>
+            <div class="card-image-box"><img src="maths-anime.jpg" alt="Maths"></div>
             <div class="card-content">
-                <div>
-                    <span class="tag">Maths</span>
-                    <h3>Number Ninja</h3>
-                    <p>Master the ancient arts of Algebra.</p>
-                </div>
+                <div><span class="tag">Maths</span><h3>Number Ninja</h3><p>Master the ancient arts of Algebra.</p></div>
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
-
         <div class="card">
-            <div class="card-image-box">
-                <img src="english-anime.jpg" alt="English">
-            </div>
+            <div class="card-image-box"><img src="english-anime.jpg" alt="English"></div>
             <div class="card-content">
-                <div>
-                    <span class="tag">English</span>
-                    <h3>Word Master</h3>
-                    <p>Unleash the magic of stories.</p>
-                </div>
+                <div><span class="tag">English</span><h3>Word Master</h3><p>Unleash the magic of stories.</p></div>
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
-
         <div class="card">
-            <div class="card-image-box">
-                <img src="sst-anime.jpg" alt="SST">
-            </div>
+            <div class="card-image-box"><img src="sst-anime.jpg" alt="SST"></div>
             <div class="card-content">
-                <div>
-                    <span class="tag">SST</span>
-                    <h3>World Traveler</h3>
-                    <p>History and Geography adventures.</p>
-                </div>
+                <div><span class="tag">SST</span><h3>World Traveler</h3><p>History and Geography adventures.</p></div>
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
-
     </main>
 
-    <!-- FLOATING ANYA CHAT BUTTON -->
-    <div id="chat-trigger" onclick="toggleChat()" title="Chat with Anya!">
+    <!-- FLOATING TRIGGER BUTTON -->
+    <div id="chat-trigger" onclick="toggleChat()" title="Anya se poochho!">
         <div class="mini-anya">
             <div class="mini-hair"></div>
             <div class="mini-band"></div>
@@ -376,12 +396,233 @@
                 <div class="mini-eye"></div>
             </div>
         </div>
+        <div class="chat-badge" id="notif-badge">Q</div>
+    </div>
+
+    <!-- ANYA CHAT WINDOW -->
+    <div id="chat-window">
+
+        <div class="cw-header">
+            <div class="cw-header-left">
+                <div class="cw-mini-face">
+                    <div class="cmf-hair"></div>
+                    <div class="cmf-band"></div>
+                    <div class="cmf-eyes"><div class="cmf-eye"></div><div class="cmf-eye"></div></div>
+                </div>
+                <div class="cw-title">
+                    <h4>Anya — Class 6 Helper</h4>
+                    <p>Online hai, ready to help!</p>
+                </div>
+            </div>
+            <button class="cw-close" onclick="toggleChat()">&#x2715;</button>
+        </div>
+
+        <div class="cw-score">
+            <span>Score:</span>
+            <strong id="score-disp">0 / 0</strong>
+            <span class="cw-streak" id="streak-disp"></span>
+        </div>
+
+        <div class="cw-topics" id="topics-row">
+            <button class="tp-btn active" onclick="setTopic('science',this)">Science</button>
+            <button class="tp-btn" onclick="setTopic('maths',this)">Maths</button>
+            <button class="tp-btn" onclick="setTopic('english',this)">English</button>
+            <button class="tp-btn" onclick="setTopic('sst',this)">SST</button>
+        </div>
+
+        <div class="cw-body" id="cw-body"></div>
+
+        <div class="cw-options" id="cw-options"></div>
+
+        <div class="cw-input-row">
+            <input class="cw-inp" id="cw-inp" placeholder="Kuch bhi poochho Anya se..." />
+            <button class="cw-next" onclick="nextQuestion()">Next Q</button>
+            <button class="cw-send" onclick="sendFree()">Send</button>
+        </div>
+
     </div>
 
     <script>
-        function toggleChat() {
-            alert("Anya says: Heh~ Let's learn something today!");
+    const qbank = {
+        science: [
+            { q:"Plants apna khana kaise banate hain?", opts:["Respiration","Photosynthesis","Digestion","Transpiration"], ans:1, exp:"Bilkul sahi! Photosynthesis mein plants sunlight, CO2 aur paani se khana banate hain!" },
+            { q:"Magnet ke do poles kaunse hote hain?", opts:["East aur West","North aur South","Plus aur Minus","Up aur Down"], ans:1, exp:"Correct! North aur South poles. Like poles repel, unlike poles attract!" },
+            { q:"Kaunsa planet Solar System mein sabse bada hai?", opts:["Saturn","Mars","Jupiter","Neptune"], ans:2, exp:"Wah! Jupiter — itna bada ki 1300 Earths fit ho sakti hain!" },
+            { q:"Paani ka chemical formula kya hai?", opts:["CO2","H2O","O2","NaCl"], ans:1, exp:"Ekdum sahi! H2O — 2 Hydrogen + 1 Oxygen." },
+            { q:"Blood pump kaun karta hai hamare body mein?", opts:["Lungs","Liver","Kidney","Heart"], ans:3, exp:"Bilkul! Heart ek pump ki tarah — din mein 1 lakh baar beat karta hai!" }
+        ],
+        maths: [
+            { q:"24 aur 36 ka LCM kya hoga?", opts:["48","72","108","36"], ans:1, exp:"Sahi! LCM(24,36) = 72. Prime factorization: 2³×3²=72!" },
+            { q:"Triangle ke teeno angles ka sum?", opts:["90°","270°","360°","180°"], ans:3, exp:"Wah! Kisi bhi triangle mein angles ka sum = 180° hota hai!" },
+            { q:"(-5) + (-3) = ?", opts:["-8","8","-2","2"], ans:0, exp:"Correct! Dono negative to add hoge — (-5)+(-3) = -8" },
+            { q:"Rectangle ki length 8cm, width 5cm — Area?", opts:["26 cm","40 cm²","13 cm²","80 cm"], ans:1, exp:"Sahi! Area = l × w = 8 × 5 = 40 cm²" },
+            { q:"2/3 + 1/6 = ?", opts:["3/9","5/6","1/2","3/6"], ans:1, exp:"Sahi! Common denominator 6 — 4/6 + 1/6 = 5/6. Easy!" }
+        ],
+        english: [
+            { q:"'Beautiful' ka synonym kya hai?", opts:["Ugly","Lovely","Dark","Slow"], ans:1, exp:"Correct! Lovely aur Beautiful — same matlab, yahi synonyms hote hain!" },
+            { q:"'The cat sat on the mat.' — Noun kaun hai?", opts:["sat","on","cat","The"], ans:2, exp:"Wah! 'Cat' noun hai — koi bhi person, place ya thing noun hoti hai!" },
+            { q:"Plural of 'child' kya hoga?", opts:["Childs","Childes","Children","Child's"], ans:2, exp:"Sahi! 'Child' irregular noun hai — plural 'children' hoga!" },
+            { q:"'He __ cricket every Sunday.' — sahi form?", opts:["play","playing","plays","played"], ans:2, exp:"Correct! He/She/It ke saath verb mein 's' lagta hai — 'plays'!" },
+            { q:"Antonym of 'ancient' kya hai?", opts:["Old","Modern","Historic","Vintage"], ans:1, exp:"Bilkul! Ancient = purana, Modern = naya — yeh antonyms hain!" }
+        ],
+        sst: [
+            { q:"India ki capital kya hai?", opts:["Mumbai","Kolkata","New Delhi","Chennai"], ans:2, exp:"Correct! New Delhi — Parliament aur Rashtrapati Bhavan wahan hai!" },
+            { q:"India ki sabse lambi river kaun si hai?", opts:["Yamuna","Ganga","Brahmaputra","Godavari"], ans:1, exp:"Wah! Ganga — 2525 km lambi! Gangotri glacier se nikalti hai." },
+            { q:"Mughal Empire ka pehla badshah?", opts:["Akbar","Aurangzeb","Babur","Humayun"], ans:2, exp:"Sahi! Babur ne 1526 mein Panipat ki pehli ladai jeeti aur empire shuru ki!" },
+            { q:"Bharat mein kitne States hain?", opts:["25","28","30","32"], ans:1, exp:"Correct! 28 States aur 8 Union Territories!" },
+            { q:"Equator kya hai?", opts:["North-South Pole line","Earth ke beech horizontal line","Prime Meridian","Tropic of Cancer"], ans:1, exp:"Bilkul sahi! Equator 0° latitude pe hoti hai — yahan din-raat barabar hote hain!" }
+        ]
+    };
+
+    const intros = {
+        science:"Heeh~ Science mein aaye ho? Chalte hain curiosity quest pe!",
+        maths:"Maths se darna nahi! Anya hai na milke solve karte hain!",
+        english:"English is fun yaar! Words ke saath khelo mere saath!",
+        sst:"History aur Geography mein hidden treasure hai — dhundho mere saath!"
+    };
+
+    let topic = 'science', curQ = null, answered = false;
+    let score = 0, total = 0, streak = 0, usedQs = [];
+
+    function toggleChat() {
+        const w = document.getElementById('chat-window');
+        const badge = document.getElementById('notif-badge');
+        if (w.classList.contains('open')) {
+            w.classList.remove('open');
+        } else {
+            w.classList.add('open');
+            badge.style.display = 'none';
+            if (document.getElementById('cw-body').children.length === 0) {
+                addAnyaMsg("Hehe~ Namaste! Main hoon Anya — tumhari Class 6 ki padhai ki dost! Topic chuno aur shuru ho jao!");
+                setTimeout(() => askQuestion(), 1000);
+            }
         }
+    }
+
+    function setTopic(t, btn) {
+        topic = t; usedQs = [];
+        document.querySelectorAll('.tp-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('cw-body').innerHTML = '';
+        document.getElementById('cw-options').innerHTML = '';
+        answered = false;
+        addAnyaMsg(intros[t]);
+        setTimeout(() => askQuestion(), 900);
+    }
+
+    function addAnyaMsg(txt, cls='') {
+        const body = document.getElementById('cw-body');
+        const tdiv = document.createElement('div');
+        tdiv.className = 'cm';
+        tdiv.innerHTML = '<div class="typing-dots"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+        body.appendChild(tdiv);
+        body.scrollTop = body.scrollHeight;
+        setTimeout(() => {
+            body.removeChild(tdiv);
+            const m = document.createElement('div');
+            m.className = 'cm';
+            m.innerHTML = `<div class="cb anya ${cls}">${txt}</div>`;
+            body.appendChild(m);
+            body.scrollTop = body.scrollHeight;
+        }, 650);
+    }
+
+    function addUserMsg(txt) {
+        const body = document.getElementById('cw-body');
+        const m = document.createElement('div');
+        m.className = 'cm user';
+        m.innerHTML = `<div class="cb user">${txt}</div>`;
+        body.appendChild(m);
+        body.scrollTop = body.scrollHeight;
+    }
+
+    function askQuestion() {
+        const pool = qbank[topic];
+        const avail = pool.filter((_,i) => !usedQs.includes(i));
+        if (!avail.length) usedQs = [];
+        const rem = pool.filter((_,i) => !usedQs.includes(i));
+        const pick = rem[Math.floor(Math.random() * rem.length)];
+        const idx = pool.indexOf(pick);
+        usedQs.push(idx);
+        curQ = pool[idx];
+        answered = false;
+        setTimeout(() => {
+            addAnyaMsg("Theek hai, yeh question batao:");
+            setTimeout(() => {
+                addAnyaMsg(`<b>${curQ.q}</b>`);
+                setTimeout(showOptions, 600);
+            }, 800);
+        }, 300);
+    }
+
+    function showOptions() {
+        const area = document.getElementById('cw-options');
+        area.innerHTML = '';
+        curQ.opts.forEach((opt, i) => {
+            const b = document.createElement('button');
+            b.className = 'op-btn';
+            b.textContent = `${['A','B','C','D'][i]}. ${opt}`;
+            b.onclick = () => selectAns(i, b);
+            area.appendChild(b);
+        });
+    }
+
+    function selectAns(i, btn) {
+        if (answered) return;
+        answered = true; total++;
+        addUserMsg(curQ.opts[i]);
+        document.querySelectorAll('.op-btn').forEach(b => b.disabled = true);
+        document.querySelectorAll('.op-btn')[curQ.ans].classList.add('correct-ans');
+        if (i === curQ.ans) {
+            score++; streak++;
+            btn.classList.add('correct-ans');
+            setTimeout(() => addAnyaMsg("Wah! Ekdum sahi! " + curQ.exp, 'ok'), 400);
+        } else {
+            streak = 0;
+            btn.classList.add('wrong-ans');
+            setTimeout(() => addAnyaMsg("Koi baat nahi! Sahi answer tha: <b>" + curQ.opts[curQ.ans] + "</b>. " + curQ.exp, 'err'), 400);
+        }
+        updateScore();
+    }
+
+    function updateScore() {
+        document.getElementById('score-disp').textContent = score + ' / ' + total;
+        document.getElementById('streak-disp').textContent = streak >= 2 ? streak + ' streak!' : '';
+    }
+
+    function nextQuestion() {
+        document.getElementById('cw-options').innerHTML = '';
+        askQuestion();
+    }
+
+    function sendFree() {
+        const inp = document.getElementById('cw-inp');
+        const txt = inp.value.trim();
+        if (!txt) return;
+        addUserMsg(txt);
+        inp.value = '';
+        const low = txt.toLowerCase();
+        let reply;
+        if (low.includes('hint'))
+            reply = answered ? "Already answer aa gaya!" : "Hint: Options mein se sochte huo pehla letter dekho!";
+        else if (low.includes('score') || low.includes('kitna'))
+            reply = total === 0 ? "Abhi koi question attempt nahi kiya!" :
+                `Tumhara score: ${score}/${total} — ${Math.round(score/total*100)}%! ${score/total>=0.7?'Bahut badhiya!':'Aur practice karo!'}`;
+        else if (low.match(/h[ae]llo|hi+|namaste/))
+            reply = "Hehe~ Hello! Main Anya hoon! Topic chuno aur questions shuru karo!";
+        else if (low.includes('help') || low.includes('kaise'))
+            reply = "Easy hai! Topic select karo — Science, Maths, English ya SST. Phir MCQ mein sahi option chuno!";
+        else {
+            const r = ["Interesting! Lekin pehle yeh question solve karo — Next Q dabao!",
+                       "Hehe, yeh toh teacher se poochho! Chalo question karte hain!",
+                       "Curiosity achhi baat hai! Par abhi Next Q dabao!",
+                       "Hmm... main sirf Class 6 ke sawal jaanta hoon. Chalo MCQ karte hain!"];
+            reply = r[Math.floor(Math.random()*r.length)];
+        }
+        setTimeout(() => addAnyaMsg(reply), 500);
+    }
+
+    document.getElementById('cw-inp').addEventListener('keydown', e => { if(e.key==='Enter') sendFree(); });
     </script>
 
 </body>
