@@ -19,10 +19,10 @@
 const ANYA_CONFIG = {
   // Apni Anthropic API key yahan daalo (development only)
   // Production ke liye proxy URL use karo
-  apiKey: 'YOUR_ANTHROPIC_API_KEY_HERE',
+  apiKey: '', // Proxy use ho raha hai — key yahan nahi chahiye
 
   // Agar Cloudflare Worker proxy banaya hai toh uska URL:
-  proxyUrl: '', // e.g. 'https://anya-proxy.yourname.workers.dev'
+  proxyUrl: 'https://wispy-sound-1236.shikhakaushik641.workers.dev',
 
   model: 'claude-sonnet-4-20250514',
   maxTokens: 400,
