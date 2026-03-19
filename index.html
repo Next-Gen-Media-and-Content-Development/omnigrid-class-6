@@ -596,13 +596,24 @@ function sendFree() {
 }
 
 // ── MESSAGE PROCESSOR ──
-function processMessage(txt) {
+async function processMessage(txt) {
   if (state.inRevision) { handleRevisionAnswer(txt); return; }
   const low = txt.toLowerCase();
 
   if (low.includes('chapter padh liya') || low.includes('padh liya') || low.includes('complete') || low.includes('finish')) {
     startRevisionFlow();
-  } else if (low.includes('motivat') || low.includes('thak') || low.includes('help')) {
+    return;
+  }
+
+  // Try AI first
+  const aiReply = await getAnyaReply(txt);
+  if (aiReply) {
+    setTimeout(() => addAnya(aiReply), 300);
+    return;
+  }
+
+  // Fallback built-in responses
+  if (low.includes('motivat') || low.includes('thak') || low.includes('help')) {
     const m = motivations[Math.floor(Math.random()*motivations.length)];
     setTimeout(() => addAnya(m), 500);
   } else if (low.includes('next topic') || low.includes('aage kya')) {
@@ -710,8 +721,7 @@ function endRevision() {
   const pct = Math.round(state.revScore/5*100);
   state.quizScore += state.revScore;
   state.quizTotal += 5;
-  localStorage.setItem('quizScore', state.quizScore);
-  localStorage.setItem('quizTotal', state.quizTotal);
+  saveSession();
   updateDashboard();
 
   let msg = '';
@@ -784,9 +794,85 @@ setInterval(() => {
   }
 }, 180000);
 
+// ── SESSION LOAD (Firebase login ke baad) ──
+function loadSession() {
+  const raw = localStorage.getItem('omni_session');
+  if (!raw) return;
+  const session = JSON.parse(raw);
+  state.chapDone = session.chapDone || [];
+  state.quizScore = session.quizScore || 0;
+  state.quizTotal = session.quizTotal || 0;
+  state.streak = session.streak || 1;
+  // Anya ko student ka naam pata ho
+  if (window.AnyaAI && session.name) {
+    AnyaAI.setStudent(session.name);
+  }
+  // Hero mein naam dikhao
+  const nameEl = document.querySelector('.hero p');
+  if (nameEl && session.name) nameEl.textContent = `Welcome, ${session.name}! Class ${session.class} ka quest shuru karo.`;
+}
+
+// ── SAVE SESSION (progress update ke baad) ──
+function saveSession() {
+  const raw = localStorage.getItem('omni_session');
+  if (!raw) return;
+  const session = JSON.parse(raw);
+  session.chapDone = state.chapDone;
+  session.quizScore = state.quizScore;
+  session.quizTotal = state.quizTotal;
+  session.streak = state.streak;
+  session.lastLogin = Date.now();
+  localStorage.setItem('omni_session', JSON.stringify(session));
+  // TODO: Firebase mein bhi sync karo (firebase-sync.js mein)
+}
+
+// ── AI-POWERED ANYA RESPONSE ──
+async function getAnyaReply(userMsg) {
+  // Agar AnyaAI available hai aur API key set hai
+  if (window.AnyaAI && AnyaAI.config.apiKey !== 'YOUR_ANTHROPIC_API_KEY_HERE') {
+    document.getElementById('anya-status').textContent = 'Soch rahi hoon...';
+    const result = await AnyaAI.ask(userMsg);
+    document.getElementById('anya-status').textContent = 'Online • Hamesha ready!';
+    return result.text;
+  }
+  // Fallback to built-in responses
+  return null;
+}
+
+// ── AI-POWERED REVISION QUESTIONS ──
+async function getAIQuestions(topic) {
+  if (window.AnyaAI && AnyaAI.config.apiKey !== 'YOUR_ANTHROPIC_API_KEY_HERE') {
+    const chapterMap = {
+      science: 'Plants and Magnetism',
+      maths: 'Knowing Numbers and Basic Geometry',
+      english: 'Grammar and Reading',
+      sst: 'History and Geography'
+    };
+    const result = await AnyaAI.generateQuestions('Class 6 ' + topic, chapterMap[topic] || topic);
+    if (result.success && result.questions?.length) return result.questions;
+  }
+  return null; // fallback to hardcoded qbank
+}
+
 // ── INIT DASHBOARD ──
-document.addEventListener('DOMContentLoaded', () => { updateDashboard(); });
+document.addEventListener('DOMContentLoaded', () => {
+  loadSession();
+  updateDashboard();
+});
 document.getElementById('cw-inp').addEventListener('keydown', e => { if(e.key==='Enter') sendFree(); });
 </script>
+<!-- Anya AI Brain -->
+<script src="anya-ai.js"></script>
+
+<script>
+// Login check — agar session nahi hai toh login page pe bhejo
+(function() {
+  const session = localStorage.getItem('omni_session');
+  // Agar session nahi aur login.html exist karta hai toh redirect karo
+  // Comment out karo agar login bypass karna ho development mein
+  // if (!session) window.location.href = 'login.html';
+})();
+</script>
+
 </body>
 </html>
