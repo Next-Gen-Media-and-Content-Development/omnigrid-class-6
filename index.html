@@ -5,384 +5,874 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMNIGRID 6 | Curiosity Quest</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;background-color:#0f172a;color:white;min-height:100vh;
+background-image:linear-gradient(rgba(15,23,42,0.88),rgba(15,23,42,0.88)),url('anime-background.jpg');
+background-size:cover;background-attachment:fixed;}
 
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ── ANYA FACE PARTS (reusable) ── */
+.af{width:120px;height:120px;border-radius:50%;border:3px solid #e94560;
+margin:0 auto 14px;position:relative;overflow:hidden;
+background:linear-gradient(160deg,#1a1a2e,#16213e,#0f3460);
+box-shadow:0 0 20px rgba(233,69,96,0.4);}
+.af::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+width:78px;height:90px;background:#f4c89a;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+.ah{position:absolute;top:8px;left:50%;transform:translateX(-50%);
+width:88px;height:56px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+.al{position:absolute;top:30px;left:10px;width:22px;height:50px;
+background:#c8a2c8;border-radius:15px 5px 5px 15px;z-index:1;}
+.ar{position:absolute;top:30px;right:10px;width:22px;height:50px;
+background:#c8a2c8;border-radius:5px 15px 15px 5px;z-index:1;}
+.ab{position:absolute;top:28px;left:50%;transform:translateX(-50%);
+width:88px;height:10px;background:#e94560;border-radius:5px;z-index:3;}
+.ae{position:absolute;top:52px;left:50%;transform:translateX(-50%);
+width:56px;display:flex;justify-content:space-between;z-index:3;}
+.aey{width:14px;height:14px;background:#3a6186;border-radius:50%;
+border:2px solid #1a1a2e;position:relative;}
+.aey::after{content:'';position:absolute;top:2px;left:2px;
+width:4px;height:4px;background:white;border-radius:50%;}
+.abll{position:absolute;top:64px;left:20px;width:14px;height:7px;
+background:rgba(255,150,150,0.5);border-radius:50%;z-index:3;}
+.ablr{position:absolute;top:64px;right:20px;width:14px;height:7px;
+background:rgba(255,150,150,0.5);border-radius:50%;z-index:3;}
+.asm{position:absolute;top:74px;left:50%;transform:translateX(-50%);
+width:22px;height:10px;border-bottom:3px solid #c97b7b;border-radius:0 0 50% 50%;z-index:3;}
 
-        body {
-            font-family: 'Jost', sans-serif;
-            background-color: #0f172a;
-            color: white;
-            min-height: 100vh;
-            background-image:
-                linear-gradient(rgba(15,23,42,0.88), rgba(15,23,42,0.88)),
-                url('anime-background.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-        }
+/* ── HERO ── */
+.hero{text-align:center;padding:40px 20px 20px;}
+.hero h1{font-size:2rem;font-weight:700;margin-bottom:6px;}
+.hero p{color:#94a3b8;}
 
-        /* =====================
-           ANYA AVATAR - Pure CSS (no image needed - never breaks!)
-        ===================== */
-        .anya-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            margin: 0 auto 14px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            box-shadow: 0 0 20px rgba(233,69,96,0.4);
-        }
+/* ── GRID & CARDS ── */
+.grid-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;padding:30px 8% 120px;max-width:1300px;margin:0 auto;}
+.card{background:#1e293b;border-radius:15px;border:1px solid #334155;
+display:flex;flex-direction:column;overflow:hidden;height:420px;
+transition:transform 0.3s,box-shadow 0.3s;}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(233,69,96,0.25);}
+.card-image-box{height:200px;width:100%;background:#0a0f1e;overflow:hidden;flex-shrink:0;}
+.card-image-box img{height:100%;width:100%;object-fit:cover;object-position:top center;transition:transform 0.4s;}
+.card:hover .card-image-box img{transform:scale(1.05);}
+.card-content{padding:18px 20px;flex-grow:1;display:flex;flex-direction:column;justify-content:space-between;}
+.tag{background:#e94560;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:600;width:fit-content;margin-bottom:8px;}
+.card-content h3{font-size:1.1rem;margin-bottom:5px;}
+.card-content p{color:#94a3b8;font-size:0.88rem;}
+.btn{display:block;background:transparent;border:2px solid #e94560;color:white;
+padding:10px;text-align:center;text-decoration:none;border-radius:8px;
+font-weight:bold;font-size:0.9rem;margin-top:14px;transition:background 0.3s;}
+.btn:hover{background:#e94560;}
 
-        /* Face */
-        .anya-avatar::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 78px; height: 90px;
-            background: #f4c89a;
-            border-radius: 42% 42% 48% 48% / 40% 40% 60% 60%;
-        }
+/* ── CHAT TRIGGER ── */
+#chat-trigger{position:fixed;bottom:28px;right:28px;width:64px;height:64px;
+cursor:pointer;z-index:1000;transition:transform 0.3s;}
+#chat-trigger:hover{transform:scale(1.12);}
+.mini-anya{width:64px;height:64px;border-radius:50%;border:3px solid #e94560;
+background:linear-gradient(160deg,#1a1a2e,#0f3460);position:relative;overflow:hidden;
+box-shadow:0 4px 20px rgba(233,69,96,0.5);}
+.mini-anya::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+width:42px;height:48px;background:#f4c89a;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+.mh{position:absolute;top:4px;left:50%;transform:translateX(-50%);
+width:48px;height:30px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+.mb{position:absolute;top:15px;left:50%;transform:translateX(-50%);
+width:48px;height:6px;background:#e94560;border-radius:3px;z-index:3;}
+.me{position:absolute;top:28px;left:50%;transform:translateX(-50%);
+width:30px;display:flex;justify-content:space-between;z-index:3;}
+.mey{width:7px;height:7px;background:#3a6186;border-radius:50%;border:1.5px solid #1a1a2e;}
+.notif{position:absolute;top:-4px;right:-4px;width:18px;height:18px;
+background:#e94560;border-radius:50%;font-size:10px;font-weight:700;
+display:flex;align-items:center;justify-content:center;color:white;
+border:2px solid #0f172a;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 
-        /* Hair top */
-        .anya-hair-top {
-            position: absolute;
-            top: 8px; left: 50%;
-            transform: translateX(-50%);
-            width: 88px; height: 56px;
-            background: #c8a2c8;
-            border-radius: 50% 50% 20% 20%;
-            z-index: 2;
-        }
+/* ── CHAT WINDOW ── */
+#chat-window{position:fixed;bottom:104px;right:28px;width:380px;
+border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.6);
+z-index:999;display:none;flex-direction:column;border:1px solid #334155;
+max-height:620px;animation:slideUp 0.25s ease;}
+#chat-window.open{display:flex;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-        /* Hair sides */
-        .anya-hair-left, .anya-hair-right {
-            position: absolute;
-            top: 30px;
-            width: 22px; height: 50px;
-            background: #c8a2c8;
-            z-index: 1;
-        }
-        .anya-hair-left  { left: 10px;  border-radius: 15px 5px 5px 15px; }
-        .anya-hair-right { right: 10px; border-radius: 5px 15px 15px 5px; }
+.cw-header{background:#1e293b;padding:12px 16px;display:flex;align-items:center;
+justify-content:space-between;border-bottom:1px solid #334155;flex-shrink:0;}
+.cw-hl{display:flex;align-items:center;gap:10px;}
+.cw-face{width:36px;height:36px;border-radius:50%;border:2px solid #e94560;
+background:linear-gradient(160deg,#1a1a2e,#0f3460);position:relative;overflow:hidden;flex-shrink:0;}
+.cw-face::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+width:24px;height:28px;background:#f4c89a;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+.cfh{position:absolute;top:2px;left:50%;transform:translateX(-50%);
+width:30px;height:18px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+.cfb{position:absolute;top:9px;left:50%;transform:translateX(-50%);
+width:30px;height:4px;background:#e94560;border-radius:2px;z-index:3;}
+.cfe{position:absolute;top:17px;left:50%;transform:translateX(-50%);
+width:18px;display:flex;justify-content:space-between;z-index:3;}
+.cfey{width:5px;height:5px;background:#3a6186;border-radius:50%;}
+.cw-info h4{color:white;font-size:14px;font-weight:600;margin:0;}
+.cw-info p{color:#22c55e;font-size:11px;margin:0;}
+.cw-close{background:none;border:none;color:#94a3b8;font-size:20px;
+cursor:pointer;padding:2px 6px;border-radius:4px;}
+.cw-close:hover{color:white;background:#334155;}
 
-        /* Headband */
-        .anya-headband {
-            position: absolute;
-            top: 28px; left: 50%;
-            transform: translateX(-50%);
-            width: 88px; height: 10px;
-            background: #e94560;
-            border-radius: 5px;
-            z-index: 3;
-        }
+/* ── TABS ── */
+.cw-tabs{background:#0f172a;display:flex;border-bottom:1px solid #1e293b;flex-shrink:0;}
+.tab-btn{flex:1;padding:8px 4px;background:none;border:none;color:#94a3b8;
+font-size:11px;cursor:pointer;font-family:'Jost',sans-serif;border-bottom:2px solid transparent;
+transition:all 0.2s;}
+.tab-btn.active{color:#e94560;border-bottom:2px solid #e94560;}
+.tab-btn:hover:not(.active){color:#cbd5e1;}
 
-        /* Eyes */
-        .anya-eyes {
-            position: absolute;
-            top: 52px; left: 50%;
-            transform: translateX(-50%);
-            width: 56px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 3;
-        }
-        .anya-eye {
-            width: 14px; height: 14px;
-            background: #3a6186;
-            border-radius: 50%;
-            border: 2px solid #1a1a2e;
-            position: relative;
-        }
-        .anya-eye::after {
-            content: '';
-            position: absolute;
-            top: 2px; left: 2px;
-            width: 4px; height: 4px;
-            background: white;
-            border-radius: 50%;
-        }
+/* ── TAB PANELS ── */
+.tab-panel{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.tab-panel.active{display:flex;}
 
-        /* Blush */
-        .anya-blush-left, .anya-blush-right {
-            position: absolute;
-            top: 64px;
-            width: 14px; height: 7px;
-            background: rgba(255,150,150,0.5);
-            border-radius: 50%;
-            z-index: 3;
-        }
-        .anya-blush-left  { left: 20px; }
-        .anya-blush-right { right: 20px; }
+/* CHAT PANEL */
+.cw-body{background:#0f172a;padding:12px;display:flex;flex-direction:column;
+gap:10px;flex:1;overflow-y:auto;min-height:200px;max-height:280px;}
+.cw-body::-webkit-scrollbar{width:4px;}
+.cw-body::-webkit-scrollbar-thumb{background:#334155;border-radius:2px;}
+.cm{display:flex;gap:6px;align-items:flex-end;}
+.cm.user{flex-direction:row-reverse;}
+.cb{max-width:84%;padding:8px 12px;border-radius:12px;font-size:13px;line-height:1.5;}
+.cb.anya{background:#1e293b;color:#e2e8f0;border-radius:4px 12px 12px 12px;}
+.cb.user{background:#e94560;color:white;border-radius:12px 4px 12px 12px;}
+.cb.ok{background:#14532d;color:#bbf7d0;}
+.cb.err{background:#7f1d1d;color:#fecaca;}
+.cb.info{background:#1e3a5f;color:#93c5fd;}
+.tdots{display:flex;gap:4px;align-items:center;padding:8px 12px;
+background:#1e293b;border-radius:4px 12px 12px 12px;width:fit-content;}
+.td{width:6px;height:6px;background:#94a3b8;border-radius:50%;animation:blink 1.2s infinite;}
+.td:nth-child(2){animation-delay:0.2s;}.td:nth-child(3){animation-delay:0.4s;}
+@keyframes blink{0%,80%,100%{opacity:0.2}40%{opacity:1}}
+.quick-actions{padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;background:#0f172a;flex-shrink:0;}
+.qa-btn{background:#1e293b;border:1px solid #334155;color:#94a3b8;
+border-radius:16px;padding:4px 10px;font-size:11px;cursor:pointer;
+font-family:'Jost',sans-serif;transition:all 0.2s;}
+.qa-btn:hover{border-color:#e94560;color:white;}
+.cw-options{background:#0f172a;padding:0 12px 8px;display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+.op-btn{background:#1e293b;color:#e2e8f0;border:1px solid #334155;
+border-radius:8px;padding:8px 12px;font-size:12px;cursor:pointer;
+text-align:left;font-family:'Jost',sans-serif;transition:all 0.2s;}
+.op-btn:hover:not(:disabled){border-color:#e94560;}
+.op-btn:disabled{opacity:0.6;cursor:default;}
+.op-btn.correct-ans{background:#14532d;border-color:#22c55e;color:#bbf7d0;}
+.op-btn.wrong-ans{background:#7f1d1d;border-color:#ef4444;color:#fecaca;}
+.cw-input-row{background:#1e293b;padding:10px 12px;display:flex;gap:8px;
+align-items:center;border-top:1px solid #334155;flex-shrink:0;}
+.cw-inp{flex:1;background:#0f172a;border:1px solid #334155;border-radius:8px;
+padding:8px 10px;color:white;font-size:13px;outline:none;font-family:'Jost',sans-serif;}
+.cw-inp:focus{border-color:#e94560;}
+.cw-inp::placeholder{color:#475569;}
+.cw-send{background:#e94560;border:none;border-radius:8px;padding:8px 12px;
+color:white;font-size:12px;font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;}
+.cw-send:hover{opacity:0.85;}
 
-        /* Smile */
-        .anya-smile {
-            position: absolute;
-            top: 74px; left: 50%;
-            transform: translateX(-50%);
-            width: 22px; height: 10px;
-            border-bottom: 3px solid #c97b7b;
-            border-radius: 0 0 50% 50%;
-            z-index: 3;
-        }
+/* DASHBOARD PANEL */
+.dash-panel{background:#0f172a;padding:14px;overflow-y:auto;flex:1;}
+.dash-title{font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.5px;}
+.dash-class-stat{background:#1e293b;border-radius:10px;padding:12px 14px;margin-bottom:10px;}
+.dash-class-stat h4{font-size:12px;color:#94a3b8;margin-bottom:8px;}
+.progress-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.progress-row span{font-size:11px;color:#cbd5e1;min-width:90px;}
+.prog-bar{flex:1;height:8px;background:#334155;border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.prog-pct{font-size:11px;color:#94a3b8;min-width:28px;text-align:right;}
+.you-marker{font-size:10px;color:#f59e0b;margin-left:4px;}
+.dash-your-rank{background:#1e293b;border-radius:10px;padding:12px 14px;margin-bottom:10px;}
+.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.rank-card{background:#0f172a;border-radius:8px;padding:10px;text-align:center;}
+.rank-card .num{font-size:22px;font-weight:700;color:#e94560;}
+.rank-card .lbl{font-size:10px;color:#94a3b8;margin-top:2px;}
+.dash-motivate{background:linear-gradient(135deg,#1e293b,#0f172a);
+border:1px solid #334155;border-radius:10px;padding:12px 14px;
+border-left:3px solid #e94560;}
+.dash-motivate p{font-size:12px;color:#cbd5e1;line-height:1.6;}
+.dash-motivate .speaker{color:#e94560;font-weight:600;}
 
-        /* =====================
-           HERO
-        ===================== */
-        .hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
-        .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
-        .hero p  { color: #94a3b8; }
+/* GUIDE PANEL */
+.guide-panel{background:#0f172a;padding:14px;overflow-y:auto;flex:1;}
+.guide-section{margin-bottom:14px;}
+.guide-section h4{font-size:12px;color:#94a3b8;font-weight:600;
+text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+.guide-link{display:flex;align-items:center;gap:10px;padding:10px 12px;
+background:#1e293b;border-radius:10px;margin-bottom:6px;cursor:pointer;
+border:1px solid #334155;transition:all 0.2s;text-decoration:none;}
+.guide-link:hover{border-color:#e94560;background:#1a2440;}
+.guide-link .icon{width:32px;height:32px;border-radius:8px;display:flex;
+align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.guide-link .gl-info{flex:1;}
+.guide-link .gl-title{font-size:13px;color:white;font-weight:600;}
+.guide-link .gl-sub{font-size:11px;color:#94a3b8;}
+.guide-link .gl-status{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;}
+.status-done{background:#14532d;color:#bbf7d0;}
+.status-now{background:#7c3aed;color:#ddd6fe;}
+.status-lock{background:#334155;color:#64748b;}
+.tip-box{background:#1e3a5f;border-radius:10px;padding:10px 12px;
+border-left:3px solid #3b82f6;}
+.tip-box p{font-size:12px;color:#93c5fd;line-height:1.6;}
 
-        /* =====================
-           GRID & CARDS
-        ===================== */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            padding: 30px 8% 60px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
+/* REVISION PANEL (shown in chat flow) */
+.rev-header{background:#7c3aed;padding:8px 14px;font-size:12px;
+color:#ddd6fe;font-weight:600;flex-shrink:0;}
 
-        .card {
-            background: #1e293b;
-            border-radius: 15px;
-            border: 1px solid #334155;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            height: 420px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(233,69,96,0.25);
-        }
-
-        .card-image-box {
-            height: 200px;
-            width: 100%;
-            background: #0a0f1e;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .card-image-box img {
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            object-position: top center;
-            transition: transform 0.4s;
-        }
-        .card:hover .card-image-box img { transform: scale(1.05); }
-
-        .card-content {
-            padding: 18px 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .tag {
-            background: #e94560;
-            padding: 3px 10px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: 600;
-            width: fit-content;
-            margin-bottom: 8px;
-        }
-        .card-content h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .card-content p  { color: #94a3b8; font-size: 0.88rem; }
-
-        .btn {
-            display: block;
-            background: transparent;
-            border: 2px solid #e94560;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-top: 14px;
-            transition: background 0.3s;
-        }
-        .btn:hover { background: #e94560; }
-
-        /* =====================
-           FLOATING CHAT BUTTON
-        ===================== */
-        #chat-trigger {
-            position: fixed;
-            bottom: 28px; right: 28px;
-            width: 64px; height: 64px;
-            cursor: pointer;
-            z-index: 999;
-            transition: transform 0.3s;
-        }
-        #chat-trigger:hover { transform: scale(1.12); }
-
-        .mini-anya {
-            width: 64px; height: 64px;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            background: linear-gradient(160deg, #1a1a2e, #0f3460);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(233,69,96,0.5);
-        }
-        .mini-anya::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 42px; height: 48px;
-            background: #f4c89a;
-            border-radius: 42% 42% 48% 48% / 40% 40% 60% 60%;
-        }
-        .mini-hair {
-            position: absolute;
-            top: 4px; left: 50%;
-            transform: translateX(-50%);
-            width: 48px; height: 30px;
-            background: #c8a2c8;
-            border-radius: 50% 50% 20% 20%;
-            z-index: 2;
-        }
-        .mini-band {
-            position: absolute;
-            top: 15px; left: 50%;
-            transform: translateX(-50%);
-            width: 48px; height: 6px;
-            background: #e94560;
-            border-radius: 3px;
-            z-index: 3;
-        }
-        .mini-eyes {
-            position: absolute;
-            top: 28px; left: 50%;
-            transform: translateX(-50%);
-            width: 30px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 3;
-        }
-        .mini-eye {
-            width: 7px; height: 7px;
-            background: #3a6186;
-            border-radius: 50%;
-            border: 1.5px solid #1a1a2e;
-        }
-    </style>
+@media(max-width:420px){
+  #chat-window{width:calc(100vw - 16px);right:8px;bottom:90px;}
+}
+</style>
 </head>
 <body>
 
-    <!-- HERO - Clean, single, no duplicates -->
-    <header class="hero">
-        <div class="anya-avatar">
-            <div class="anya-hair-left"></div>
-            <div class="anya-hair-right"></div>
-            <div class="anya-hair-top"></div>
-            <div class="anya-headband"></div>
-            <div class="anya-eyes">
-                <div class="anya-eye"></div>
-                <div class="anya-eye"></div>
-            </div>
-            <div class="anya-blush-left"></div>
-            <div class="anya-blush-right"></div>
-            <div class="anya-smile"></div>
-        </div>
-        <h1>Welcome, Adventurer!</h1>
-        <p>Class 6 Curiosity Quest starts here.</p>
-    </header>
+<!-- HERO -->
+<header class="hero">
+  <div class="af">
+    <div class="al"></div><div class="ar"></div><div class="ah"></div>
+    <div class="ab"></div>
+    <div class="ae"><div class="aey"></div><div class="aey"></div></div>
+    <div class="abll"></div><div class="ablr"></div><div class="asm"></div>
+  </div>
+  <h1>Welcome, Adventurer!</h1>
+  <p>Class 6 Curiosity Quest starts here.</p>
+</header>
 
-    <!-- QUEST CARDS -->
-    <main class="grid-container">
-
-        <div class="card">
-            <div class="card-image-box">
-                <img src="science-anime.jpg" alt="Science">
-            </div>
-            <div class="card-content">
-                <div>
-                    <span class="tag">Science</span>
-                    <h3>Curiosity: Science</h3>
-                    <p>Wonderful World of Plants and Magnetism.</p>
-                </div>
-                <a href="science_chapters.html" class="btn">Start Quest</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-image-box">
-                <img src="maths-anime.jpg" alt="Maths">
-            </div>
-            <div class="card-content">
-                <div>
-                    <span class="tag">Maths</span>
-                    <h3>Number Ninja</h3>
-                    <p>Master the ancient arts of Algebra.</p>
-                </div>
-                <a href="#" class="btn">Start Quest</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-image-box">
-                <img src="english-anime.jpg" alt="English">
-            </div>
-            <div class="card-content">
-                <div>
-                    <span class="tag">English</span>
-                    <h3>Word Master</h3>
-                    <p>Unleash the magic of stories.</p>
-                </div>
-                <a href="#" class="btn">Start Quest</a>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-image-box">
-                <img src="sst-anime.jpg" alt="SST">
-            </div>
-            <div class="card-content">
-                <div>
-                    <span class="tag">SST</span>
-                    <h3>World Traveler</h3>
-                    <p>History and Geography adventures.</p>
-                </div>
-                <a href="#" class="btn">Start Quest</a>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FLOATING ANYA CHAT BUTTON -->
-    <div id="chat-trigger" onclick="toggleChat()" title="Chat with Anya!">
-        <div class="mini-anya">
-            <div class="mini-hair"></div>
-            <div class="mini-band"></div>
-            <div class="mini-eyes">
-                <div class="mini-eye"></div>
-                <div class="mini-eye"></div>
-            </div>
-        </div>
+<!-- CARDS -->
+<main class="grid-container">
+  <div class="card">
+    <div class="card-image-box"><img src="science-anime.jpg" alt="Science"></div>
+    <div class="card-content">
+      <div><span class="tag">Science</span><h3>Curiosity: Science</h3><p>Wonderful World of Plants and Magnetism.</p></div>
+      <a href="science_chapters.html" class="btn" onclick="markVisit('science')">Start Quest</a>
     </div>
+  </div>
+  <div class="card">
+    <div class="card-image-box"><img src="maths-anime.jpg" alt="Maths"></div>
+    <div class="card-content">
+      <div><span class="tag">Maths</span><h3>Number Ninja</h3><p>Master the ancient arts of Algebra.</p></div>
+      <a href="#" class="btn" onclick="markVisit('maths')">Start Quest</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-image-box"><img src="english-anime.jpg" alt="English"></div>
+    <div class="card-content">
+      <div><span class="tag">English</span><h3>Word Master</h3><p>Unleash the magic of stories.</p></div>
+      <a href="#" class="btn" onclick="markVisit('english')">Start Quest</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-image-box"><img src="sst-anime.jpg" alt="SST"></div>
+    <div class="card-content">
+      <div><span class="tag">SST</span><h3>World Traveler</h3><p>History and Geography adventures.</p></div>
+      <a href="#" class="btn" onclick="markVisit('sst')">Start Quest</a>
+    </div>
+  </div>
+</main>
 
-    <script>
-        function toggleChat() {
-            alert("Anya says: Heh~ Let's learn something today!");
-        }
-    </script>
+<!-- TRIGGER -->
+<div id="chat-trigger" onclick="toggleChat()" title="Anya se poochho!">
+  <div class="mini-anya">
+    <div class="mh"></div><div class="mb"></div>
+    <div class="me"><div class="mey"></div><div class="mey"></div></div>
+  </div>
+  <div class="notif" id="notif">!</div>
+</div>
+
+<!-- CHAT WINDOW -->
+<div id="chat-window">
+
+  <!-- Header -->
+  <div class="cw-header">
+    <div class="cw-hl">
+      <div class="cw-face">
+        <div class="cfh"></div><div class="cfb"></div>
+        <div class="cfe"><div class="cfey"></div><div class="cfey"></div></div>
+      </div>
+      <div class="cw-info">
+        <h4>Anya — Tumhari Guide</h4>
+        <p id="anya-status">Online • Hamesha ready!</p>
+      </div>
+    </div>
+    <button class="cw-close" onclick="toggleChat()">&#x2715;</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="cw-tabs">
+    <button class="tab-btn active" onclick="switchTab('chat',this)">Chat</button>
+    <button class="tab-btn" onclick="switchTab('dashboard',this)">Dashboard</button>
+    <button class="tab-btn" onclick="switchTab('guide',this)">Guide</button>
+  </div>
+
+  <!-- CHAT TAB -->
+  <div class="tab-panel active" id="tab-chat">
+    <div class="cw-body" id="cw-body"></div>
+    <div class="quick-actions" id="quick-actions">
+      <button class="qa-btn" onclick="qaClick('maine chapter padh liya')">Maine chapter padh liya!</button>
+      <button class="qa-btn" onclick="qaClick('mujhe hint chahiye')">Hint chahiye</button>
+      <button class="qa-btn" onclick="qaClick('motivate karo mujhe')">Motivate karo!</button>
+      <button class="qa-btn" onclick="qaClick('next topic kya hai')">Next topic?</button>
+    </div>
+    <div class="cw-options" id="cw-options"></div>
+    <div class="cw-input-row">
+      <input class="cw-inp" id="cw-inp" placeholder="Kuch bhi poochho Anya se..."/>
+      <button class="cw-send" onclick="sendFree()">Send</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD TAB -->
+  <div class="tab-panel" id="tab-dashboard">
+    <div class="dash-panel">
+      <div class="dash-title">Class 6A — Live Progress</div>
+
+      <div class="dash-class-stat">
+        <h4>Chapter Progress — Kitne students ne padha?</h4>
+        <div class="progress-row">
+          <span>Science Ch.1</span>
+          <div class="prog-bar"><div class="prog-fill" style="width:72%;background:#22c55e;"></div></div>
+          <span class="prog-pct">72%</span>
+          <span class="you-marker" id="sci1-you"></span>
+        </div>
+        <div class="progress-row">
+          <span>Science Ch.2</span>
+          <div class="prog-bar"><div class="prog-fill" style="width:48%;background:#f59e0b;"></div></div>
+          <span class="prog-pct">48%</span>
+          <span class="you-marker" id="sci2-you"></span>
+        </div>
+        <div class="progress-row">
+          <span>Maths Ch.1</span>
+          <div class="prog-bar"><div class="prog-fill" style="width:85%;background:#22c55e;"></div></div>
+          <span class="prog-pct">85%</span>
+          <span class="you-marker" id="mat1-you"></span>
+        </div>
+        <div class="progress-row">
+          <span>Maths Ch.2</span>
+          <div class="prog-bar"><div class="prog-fill" style="width:31%;background:#ef4444;"></div></div>
+          <span class="prog-pct">31%</span>
+          <span class="you-marker" id="mat2-you"></span>
+        </div>
+        <div class="progress-row">
+          <span>English Ch.1</span>
+          <div class="prog-bar"><div class="prog-fill" style="width:60%;background:#f59e0b;"></div></div>
+          <span class="prog-pct">60%</span>
+          <span class="you-marker" id="eng1-you"></span>
+        </div>
+        <div class="progress-row">
+          <span>SST Ch.1</span>
+          <div class="prog-bar"><div class="prog-fill" style="width:55%;background:#f59e0b;"></div></div>
+          <span class="prog-pct">55%</span>
+          <span class="you-marker" id="sst1-you"></span>
+        </div>
+      </div>
+
+      <div class="dash-your-rank">
+        <h4 style="font-size:12px;color:#94a3b8;margin-bottom:0;">Tumhari Stats</h4>
+        <div class="rank-grid">
+          <div class="rank-card">
+            <div class="num" id="stat-chapters">0</div>
+            <div class="lbl">Chapters Done</div>
+          </div>
+          <div class="rank-card">
+            <div class="num" id="stat-score">0%</div>
+            <div class="lbl">Quiz Score</div>
+          </div>
+          <div class="rank-card">
+            <div class="num" id="stat-streak">0</div>
+            <div class="lbl">Day Streak</div>
+          </div>
+          <div class="rank-card">
+            <div class="num" id="stat-rank">#--</div>
+            <div class="lbl">Class Rank</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-motivate">
+        <p><span class="speaker">Anya:</span> <span id="dash-msg">Hehe~ Abhi data load ho raha hai. Ek chapter padho aur dekho tumhara rank badalta hai!</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUIDE TAB -->
+  <div class="tab-panel" id="tab-guide">
+    <div class="guide-panel">
+      <div class="guide-section">
+        <h4>Tumhara Roadmap</h4>
+        <div class="guide-link" onclick="goTo('science_chapters.html','Science')">
+          <div class="icon" style="background:#1e3a5f;">🔬</div>
+          <div class="gl-info">
+            <div class="gl-title">Science — Plants & Magnetism</div>
+            <div class="gl-sub">Chapter 1 & 2</div>
+          </div>
+          <span class="gl-status status-now">Active</span>
+        </div>
+        <div class="guide-link" onclick="goTo('#','Maths')">
+          <div class="icon" style="background:#1a2e1a;">📐</div>
+          <div class="gl-info">
+            <div class="gl-title">Maths — Algebra Basics</div>
+            <div class="gl-sub">Chapter 1 & 2</div>
+          </div>
+          <span class="gl-status status-lock">Locked</span>
+        </div>
+        <div class="guide-link" onclick="goTo('#','English')">
+          <div class="icon" style="background:#2d1a3a;">📖</div>
+          <div class="gl-info">
+            <div class="gl-title">English — Word Magic</div>
+            <div class="gl-sub">Chapter 1</div>
+          </div>
+          <span class="gl-status status-lock">Locked</span>
+        </div>
+        <div class="guide-link" onclick="goTo('#','SST')">
+          <div class="icon" style="background:#1a2a1a;">🌍</div>
+          <div class="gl-info">
+            <div class="gl-title">SST — History & Geography</div>
+            <div class="gl-sub">Chapter 1</div>
+          </div>
+          <span class="gl-status status-lock">Locked</span>
+        </div>
+      </div>
+      <div class="guide-section">
+        <h4>Anya ki Tip</h4>
+        <div class="tip-box" id="guide-tip">
+          <p>Ek din mein ek chapter — yahi formula hai topper banne ka! Pehle Science padho, phir quiz dena mat bhoolo!</p>
+        </div>
+      </div>
+      <div class="guide-section">
+        <h4>Kya karna hai abhi?</h4>
+        <div class="guide-link" onclick="qaClick('maine chapter padh liya');switchTab('chat',document.querySelector(\'.tab-btn\'))">
+          <div class="icon" style="background:#3a1a1a;">✅</div>
+          <div class="gl-info">
+            <div class="gl-title">Chapter complete kiya?</div>
+            <div class="gl-sub">Revision test do Anya ke saath</div>
+          </div>
+        </div>
+        <div class="guide-link" onclick="switchTab('dashboard',document.querySelectorAll(\'.tab-btn\')[1])">
+          <div class="icon" style="background:#1a1a3a;">📊</div>
+          <div class="gl-info">
+            <div class="gl-title">Apna rank dekho</div>
+            <div class="gl-sub">Class ke baaki students se compare karo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end chat-window -->
+
+<script>
+// ── STATE ──
+const state = {
+  open: false,
+  tab: 'chat',
+  chapDone: JSON.parse(localStorage.getItem('chapDone')||'[]'),
+  quizScore: parseInt(localStorage.getItem('quizScore')||'0'),
+  quizTotal: parseInt(localStorage.getItem('quizTotal')||'0'),
+  streak: parseInt(localStorage.getItem('streak')||'1'),
+  inRevision: false,
+  revTopic: null,
+  revQ: null,
+  revAnswered: false,
+  revScore: 0,
+  revTotal: 0
+};
+
+// ── QUESTION BANK ──
+const qbank = {
+  science:[
+    {q:"Photosynthesis mein kaunsi gas release hoti hai?",opts:["CO2","O2","N2","H2"],ans:1,exp:"Bilkul! Plants CO2 lete hain aur O2 release karte hain — isliye plants lagao ghar mein!"},
+    {q:"Magnet ke kaunse poles ek dusre ko attract karte hain?",opts:["North-North","South-South","North-South","Koi nahi"],ans:2,exp:"Sahi! Unlike poles attract karte hain — North + South milte hain!"},
+    {q:"Chlorophyll kahan hoti hai plant mein?",opts:["Roots mein","Stem mein","Leaves mein","Flowers mein"],ans:2,exp:"Correct! Chlorophyll leaves mein hoti hai — isliye leaves green dikhti hain!"},
+    {q:"Kaunsa mineral iron ko attract karta hai?",opts:["Copper","Magnet","Gold","Silver"],ans:1,exp:"Sahi! Magnet iron ko attract karta hai — yahi magnetic force hai!"},
+    {q:"Plants ko photosynthesis ke liye kya chahiye?",opts:["Sirf paani","Sirf sunlight","Sunlight + CO2 + Paani","Sirf CO2"],ans:2,exp:"Wah! Teeno cheezein chahiye — Sunlight, CO2 aur Paani. Perfect answer!"}
+  ],
+  maths:[
+    {q:"24 aur 36 ka LCM kya hai?",opts:["48","72","108","36"],ans:1,exp:"Sahi! LCM(24,36)=72. 2³×3²=72!"},
+    {q:"(-7) × (-3) = ?",opts:["-21","21","-10","10"],ans:1,exp:"Correct! Negative × Negative = Positive. (-7)×(-3)=+21!"},
+    {q:"Rectangle ka area formula?",opts:["2(l+b)","l×b","l+b","l²"],ans:1,exp:"Bilkul! Area = length × breadth. Simple!"},
+    {q:"2/3 + 1/6 = ?",opts:["3/9","5/6","1/2","4/6"],ans:1,exp:"Sahi! Common denominator 6 — 4/6+1/6=5/6!"},
+    {q:"Prime number kaun sa hai?",opts:["9","15","17","21"],ans:2,exp:"Correct! 17 sirf 1 aur 17 se divide hota hai — prime number hai!"}
+  ],
+  english:[
+    {q:"'Beautiful' ka synonym kya hai?",opts:["Ugly","Lovely","Dark","Small"],ans:1,exp:"Sahi! Lovely = Beautiful — synonyms hote hain!"},
+    {q:"Plural of 'child'?",opts:["Childs","Childes","Children","Childer"],ans:2,exp:"Correct! 'Children' irregular plural hai!"},
+    {q:"'He __ cricket daily.' — sahi option?",opts:["play","playing","plays","played"],ans:2,exp:"Sahi! He/She/It ke saath 's' lagta hai — plays!"},
+    {q:"Antonym of 'ancient'?",opts:["Old","Modern","Historic","Aged"],ans:1,exp:"Bilkul! Ancient = purana, Modern = naya!"},
+    {q:"Noun kaun sa hai? 'The bird flew high.'",opts:["flew","The","high","bird"],ans:3,exp:"Sahi! 'Bird' — koi bhi person, place ya thing noun hoti hai!"}
+  ],
+  sst:[
+    {q:"India ka sabse bada state area mein?",opts:["UP","MP","Rajasthan","Maharashtra"],ans:2,exp:"Correct! Rajasthan area mein sabse bada state hai!"},
+    {q:"Ganga river kahan se nikalti hai?",opts:["Manasarovar","Yamunotri","Gangotri","Kedarnath"],ans:2,exp:"Bilkul! Gangotri glacier — Uttarakhand mein hai!"},
+    {q:"Mughal Empire kab shuru hui?",opts:["1526","1556","1600","1498"],ans:0,exp:"Sahi! 1526 — Panipat ki pehli ladai ke baad Babur ne Mughal Empire shuru ki!"},
+    {q:"Equator kis hemisphere ko divide karta hai?",opts:["East-West","North-South","Top-Bottom","None"],ans:1,exp:"Correct! Equator Earth ko North aur South hemisphere mein divide karta hai!"},
+    {q:"India mein kitne Union Territories hain?",opts:["6","7","8","9"],ans:2,exp:"Sahi! 8 Union Territories hain India mein — 2019 ke baad se!"}
+  ]
+};
+
+const motivations = [
+  "Hehe~ Tum bahut achha kar rahe ho! Bas aise hi chalo!",
+  "Ek step ek time — mushkil lagta hai par tum kar sakte ho!",
+  "Main jaanti hoon tum thak gaye ho, par yeh chapter bahut important hai!",
+  "Topper bante hain practice se, talent se nahi — aur tum practice kar rahe ho!",
+  "Wah! Tumhari mehnat dekh ke mujhe bhi khushi hoti hai!",
+  "Ruko mat — success woh log paate hain jo rukते nahi!",
+  "Heh~ Galti ho gayi? Koi baat nahi, galti se hi seekhte hain!"
+];
+
+const dashMsgs = [
+  "Hehe~ Tum class ke 40% students se aage ho! Thoda aur push karo!",
+  "Ek aur chapter aur tumhara rank top 10 mein aa jayega!",
+  "Dekho — teri class ke 72% bachcho ne Science padh liya. Tumhara kya plan hai?",
+  "Maths mein sirf 31% done hai — yahan aage niklo aur rank badao!",
+  "Wah! Tumne jo chapters kiye hain unse tumhara rank improve hua hai!"
+];
+
+// ── TOGGLE ──
+function toggleChat() {
+  state.open = !state.open;
+  const w = document.getElementById('chat-window');
+  if (state.open) {
+    w.classList.add('open');
+    document.getElementById('notif').style.display = 'none';
+    if (!document.getElementById('cw-body').children.length) initChat();
+  } else {
+    w.classList.remove('open');
+  }
+}
+
+// ── TABS ──
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  state.tab = name;
+  if (name === 'dashboard') updateDashboard();
+  if (name === 'guide') updateGuide();
+}
+
+// ── INIT CHAT ──
+function initChat() {
+  addAnya("Hehe~ Namaste! Main hoon Anya — tumhari Class 6 ki personal guide! Kya help chahiye?");
+  setTimeout(() => addAnya("Agar chapter padh liya hai toh bolo — main tumhara quick revision test lunga! Ya dashboard mein dekho class ka progress!"), 1500);
+}
+
+// ── MESSAGES ──
+function addAnya(txt, cls='') {
+  const body = document.getElementById('cw-body');
+  const td = document.createElement('div');
+  td.className = 'cm';
+  td.innerHTML = '<div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  body.appendChild(td);
+  body.scrollTop = body.scrollHeight;
+  setTimeout(() => {
+    body.removeChild(td);
+    const m = document.createElement('div');
+    m.className = 'cm';
+    m.innerHTML = `<div class="cb anya ${cls}">${txt}</div>`;
+    body.appendChild(m);
+    body.scrollTop = body.scrollHeight;
+  }, 650);
+}
+
+function addUser(txt) {
+  const body = document.getElementById('cw-body');
+  const m = document.createElement('div');
+  m.className = 'cm user';
+  m.innerHTML = `<div class="cb user">${txt}</div>`;
+  body.appendChild(m);
+  body.scrollTop = body.scrollHeight;
+}
+
+// ── QUICK ACTIONS ──
+function qaClick(txt) {
+  switchTab('chat', document.querySelector('.tab-btn'));
+  addUser(txt);
+  processMessage(txt);
+}
+
+// ── FREE TEXT ──
+function sendFree() {
+  const inp = document.getElementById('cw-inp');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  addUser(txt);
+  inp.value = '';
+  processMessage(txt);
+}
+
+// ── MESSAGE PROCESSOR ──
+async function processMessage(txt) {
+  if (state.inRevision) { handleRevisionAnswer(txt); return; }
+  const low = txt.toLowerCase();
+
+  if (low.includes('chapter padh liya') || low.includes('padh liya') || low.includes('complete') || low.includes('finish')) {
+    startRevisionFlow();
+    return;
+  }
+
+  // Try AI first
+  const aiReply = await getAnyaReply(txt);
+  if (aiReply) {
+    setTimeout(() => addAnya(aiReply), 300);
+    return;
+  }
+
+  // Fallback built-in responses
+  if (low.includes('motivat') || low.includes('thak') || low.includes('help')) {
+    const m = motivations[Math.floor(Math.random()*motivations.length)];
+    setTimeout(() => addAnya(m), 500);
+  } else if (low.includes('next topic') || low.includes('aage kya')) {
+    setTimeout(() => addAnya("Guide tab mein dekho — wahan tumhara poora roadmap hai! Abhi Science Chapter 1 karo pehle."), 500);
+  } else if (low.includes('hint')) {
+    setTimeout(() => addAnya(state.revQ ? "Hint: Pehla option sochte huo topic yaad karo!" : "Pehle koi chapter complete karo, phir revision test main dunga!"), 500);
+  } else if (low.includes('score') || low.includes('kitna')) {
+    const pct = state.quizTotal > 0 ? Math.round(state.quizScore/state.quizTotal*100) : 0;
+    setTimeout(() => addAnya(`Tumhara overall quiz score: <b>${state.quizScore}/${state.quizTotal}</b> = ${pct}%! ${pct>=70?'Bahut badhiya!':'Aur practice karo!'}`), 500);
+  } else if (low.match(/h[ae]llo|hi+|namaste|hey/)) {
+    setTimeout(() => addAnya("Hehe~ Hello! Kaise ho? Chapter padha kya aaj? Bolo padh liya toh revision test lete hain!"), 500);
+  } else if (low.includes('dashboard') || low.includes('rank')) {
+    switchTab('dashboard', document.querySelectorAll('.tab-btn')[1]);
+    setTimeout(() => addAnya("Dashboard mein dekho — main wahan tumhara rank aur class progress dikha raha hoon!"), 500);
+  } else {
+    const def = [
+      "Interesting! Agar chapter complete ho gaya toh bolo — revision test dete hain!",
+      "Hehe~ Mujhe zyada pata nahi yeh, par chapter ke baare mein poochho — main help karunga!",
+      "Yeh question teacher se poochho! Abhi mujhe batao — kaunsa chapter padha tumne?",
+    ];
+    setTimeout(() => addAnya(def[Math.floor(Math.random()*def.length)]), 500);
+  }
+}
+
+// ── REVISION FLOW ──
+function startRevisionFlow() {
+  setTimeout(() => addAnya("Wah! Bahut achha! Kaunsa subject ka chapter complete kiya?"), 600);
+  setTimeout(() => {
+    const area = document.getElementById('cw-options');
+    area.innerHTML = '';
+    ['Science','Maths','English','SST'].forEach(sub => {
+      const b = document.createElement('button');
+      b.className = 'op-btn';
+      b.textContent = sub;
+      b.onclick = () => { area.innerHTML=''; addUser(sub); startRevision(sub.toLowerCase()); };
+      area.appendChild(b);
+    });
+  }, 1200);
+}
+
+function startRevision(topic) {
+  state.inRevision = true;
+  state.revTopic = topic;
+  state.revScore = 0;
+  state.revTotal = 0;
+  state.revAnswered = false;
+
+  // Mark chapter done
+  if (!state.chapDone.includes(topic)) {
+    state.chapDone.push(topic);
+    localStorage.setItem('chapDone', JSON.stringify(state.chapDone));
+  }
+
+  setTimeout(() => {
+    addAnya(`Sahi! ${topic.charAt(0).toUpperCase()+topic.slice(1)} ka quick revision test shuru karte hain! 5 questions aayenge — ready ho?`, 'info');
+    setTimeout(() => askRevQ(), 1000);
+  }, 600);
+}
+
+function askRevQ() {
+  if (state.revTotal >= 5) { endRevision(); return; }
+  const pool = qbank[state.revTopic];
+  state.revQ = pool[Math.floor(Math.random()*pool.length)];
+  state.revAnswered = false;
+
+  const num = state.revTotal + 1;
+  setTimeout(() => {
+    addAnya(`<b>Q${num}/5:</b> ${state.revQ.q}`);
+    setTimeout(() => showRevOptions(), 600);
+  }, 400);
+}
+
+function showRevOptions() {
+  const area = document.getElementById('cw-options');
+  area.innerHTML = '';
+  state.revQ.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'op-btn';
+    b.textContent = `${['A','B','C','D'][i]}. ${opt}`;
+    b.onclick = () => pickRevAns(i, b);
+    area.appendChild(b);
+  });
+}
+
+function pickRevAns(i, btn) {
+  if (state.revAnswered) return;
+  state.revAnswered = true;
+  state.revTotal++;
+  addUser(state.revQ.opts[i]);
+  document.querySelectorAll('.op-btn').forEach(b => b.disabled = true);
+  document.querySelectorAll('.op-btn')[state.revQ.ans].classList.add('correct-ans');
+  if (i === state.revQ.ans) {
+    state.revScore++;
+    btn.classList.add('correct-ans');
+    setTimeout(() => { addAnya("Sahi! " + state.revQ.exp, 'ok'); setTimeout(askRevQ, 1200); }, 400);
+  } else {
+    btn.classList.add('wrong-ans');
+    setTimeout(() => { addAnya(`Galat! Sahi tha: <b>${state.revQ.opts[state.revQ.ans]}</b>. ${state.revQ.exp}`, 'err'); setTimeout(askRevQ, 1400); }, 400);
+  }
+}
+
+function endRevision() {
+  state.inRevision = false;
+  document.getElementById('cw-options').innerHTML = '';
+  const pct = Math.round(state.revScore/5*100);
+  state.quizScore += state.revScore;
+  state.quizTotal += 5;
+  saveSession();
+  updateDashboard();
+
+  let msg = '';
+  if (pct >= 80) msg = `Wah! ${state.revScore}/5 — ${pct}%! Ekdum topper! Tumne yeh chapter bahut achhe se samjha!`;
+  else if (pct >= 60) msg = `${state.revScore}/5 — ${pct}%! Theek hai! Thoda aur revise karo aur perfect ho jaoge!`;
+  else msg = `${state.revScore}/5 — ${pct}%. Koi baat nahi! Chapter dobara padho, phir test dena — tum kar sakte ho!`;
+
+  setTimeout(() => addAnya(msg), 600);
+  setTimeout(() => addAnya("Revision complete! Dashboard tab mein apna updated rank dekho!"), 1600);
+}
+
+// ── DASHBOARD ──
+function updateDashboard() {
+  const chapters = state.chapDone.length;
+  const pct = state.quizTotal > 0 ? Math.round(state.quizScore/state.quizTotal*100) : 0;
+  document.getElementById('stat-chapters').textContent = chapters;
+  document.getElementById('stat-score').textContent = pct + '%';
+  document.getElementById('stat-streak').textContent = state.streak;
+
+  // Simulated rank based on chapters + score
+  const rankNum = Math.max(1, 35 - chapters*4 - Math.floor(pct/20));
+  document.getElementById('stat-rank').textContent = '#' + rankNum;
+
+  // Mark "You" on progress bars
+  const youMap = {science:'sci1-you', maths:'mat1-you', english:'eng1-you', sst:'sst1-you'};
+  Object.entries(youMap).forEach(([sub, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = state.chapDone.includes(sub) ? '← You' : '';
+  });
+
+  // Dashboard message
+  const behind = 4 - chapters;
+  let dmsg = dashMsgs[Math.floor(Math.random()*dashMsgs.length)];
+  if (behind > 0) dmsg += ` Abhi ${behind} aur chapter baaki hain!`;
+  document.getElementById('dash-msg').textContent = dmsg;
+}
+
+// ── GUIDE ──
+function updateGuide() {
+  const tips = [
+    "Ek din mein ek chapter — yahi formula hai topper banne ka!",
+    "Science padh liya? Maths ki taraf badho — wahan aur students peeche hain!",
+    "Quiz score improve karo — revision se marks badhte hain!",
+    "Consistency key hai — roz thoda thoda padho!"
+  ];
+  document.getElementById('guide-tip').querySelector('p').textContent = tips[state.chapDone.length % tips.length];
+}
+
+// ── NAVIGATE ──
+function goTo(url, subject) {
+  addUser(`${subject} page pe ja raha hoon`);
+  switchTab('chat', document.querySelector('.tab-btn'));
+  setTimeout(() => addAnya(`Achha! ${subject} mein bahut interesting cheezein hain. Padh lene ke baad wapas aana aur mujhe batana — revision test lunga!`), 400);
+  if (url !== '#') setTimeout(() => window.location.href = url, 1800);
+}
+
+// ── MARK VISIT ──
+function markVisit(topic) {
+  setTimeout(() => {
+    if (state.open) {
+      addAnya(`Wah! ${topic.charAt(0).toUpperCase()+topic.slice(1)} padh rahe ho! Achha hai. Chapter complete hone pe mujhe batana — revision test denge!`);
+    }
+  }, 500);
+}
+
+// ── AUTO MOTIVATE every 3 min ──
+setInterval(() => {
+  if (!state.open) {
+    document.getElementById('notif').style.display = 'flex';
+  }
+}, 180000);
+
+// ── SESSION LOAD (Firebase login ke baad) ──
+function loadSession() {
+  const raw = localStorage.getItem('omni_session');
+  if (!raw) return;
+  const session = JSON.parse(raw);
+  state.chapDone = session.chapDone || [];
+  state.quizScore = session.quizScore || 0;
+  state.quizTotal = session.quizTotal || 0;
+  state.streak = session.streak || 1;
+  // Anya ko student ka naam pata ho
+  if (window.AnyaAI && session.name) {
+    AnyaAI.setStudent(session.name);
+  }
+  // Hero mein naam dikhao
+  const nameEl = document.querySelector('.hero p');
+  if (nameEl && session.name) nameEl.textContent = `Welcome, ${session.name}! Class ${session.class} ka quest shuru karo.`;
+}
+
+// ── SAVE SESSION (progress update ke baad) ──
+function saveSession() {
+  const raw = localStorage.getItem('omni_session');
+  if (!raw) return;
+  const session = JSON.parse(raw);
+  session.chapDone = state.chapDone;
+  session.quizScore = state.quizScore;
+  session.quizTotal = state.quizTotal;
+  session.streak = state.streak;
+  session.lastLogin = Date.now();
+  localStorage.setItem('omni_session', JSON.stringify(session));
+  // TODO: Firebase mein bhi sync karo (firebase-sync.js mein)
+}
+
+// ── AI-POWERED ANYA RESPONSE ──
+async function getAnyaReply(userMsg) {
+  // Agar AnyaAI available hai aur API key set hai
+  if (window.AnyaAI && AnyaAI.config.apiKey !== 'YOUR_ANTHROPIC_API_KEY_HERE') {
+    document.getElementById('anya-status').textContent = 'Soch rahi hoon...';
+    const result = await AnyaAI.ask(userMsg);
+    document.getElementById('anya-status').textContent = 'Online • Hamesha ready!';
+    return result.text;
+  }
+  // Fallback to built-in responses
+  return null;
+}
+
+// ── AI-POWERED REVISION QUESTIONS ──
+async function getAIQuestions(topic) {
+  if (window.AnyaAI && AnyaAI.config.apiKey !== 'YOUR_ANTHROPIC_API_KEY_HERE') {
+    const chapterMap = {
+      science: 'Plants and Magnetism',
+      maths: 'Knowing Numbers and Basic Geometry',
+      english: 'Grammar and Reading',
+      sst: 'History and Geography'
+    };
+    const result = await AnyaAI.generateQuestions('Class 6 ' + topic, chapterMap[topic] || topic);
+    if (result.success && result.questions?.length) return result.questions;
+  }
+  return null; // fallback to hardcoded qbank
+}
+
+// ── INIT DASHBOARD ──
+document.addEventListener('DOMContentLoaded', () => {
+  loadSession();
+  updateDashboard();
+});
+document.getElementById('cw-inp').addEventListener('keydown', e => { if(e.key==='Enter') sendFree(); });
+</script>
+<!-- Anya AI Brain -->
+<script src="anya-ai.js"></script>
+
+<script>
+// Login check — agar session nahi hai toh login page pe bhejo
+(function() {
+  const session = localStorage.getItem('omni_session');
+  // Agar session nahi aur login.html exist karta hai toh redirect karo
+  // Comment out karo agar login bypass karna ho development mein
+  // if (!session) window.location.href = 'login.html';
+})();
+</script>
 
 </body>
 </html>

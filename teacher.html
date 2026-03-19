@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMNIGRID 6 | Teacher Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Jost',sans-serif;background:#0a0f1e;color:white;min-height:100vh;}
+
+    /* ── SIDEBAR ── */
+    .layout{display:flex;min-height:100vh;}
+    .sidebar{
+      width:220px;background:#0f172a;border-right:1px solid #1e293b;
+      display:flex;flex-direction:column;padding:20px 0;flex-shrink:0;
+      position:sticky;top:0;height:100vh;overflow-y:auto;
+    }
+    .sb-logo{padding:0 20px 24px;border-bottom:1px solid #1e293b;margin-bottom:16px;}
+    .sb-logo h2{font-size:16px;font-weight:700;color:#e94560;}
+    .sb-logo p{font-size:11px;color:#475569;margin-top:2px;}
+    .sb-link{
+      display:flex;align-items:center;gap:10px;padding:10px 20px;
+      color:#94a3b8;font-size:13px;cursor:pointer;transition:all 0.2s;
+      border-left:3px solid transparent;
+    }
+    .sb-link:hover{color:white;background:#1e293b;}
+    .sb-link.active{color:#e94560;border-left-color:#e94560;background:#1a1f35;}
+    .sb-icon{font-size:16px;width:20px;text-align:center;}
+    .sb-bottom{margin-top:auto;padding:16px 20px;border-top:1px solid #1e293b;}
+    .teacher-info{display:flex;align-items:center;gap:10px;}
+    .teacher-avatar{
+      width:36px;height:36px;border-radius:50%;
+      background:#e94560;display:flex;align-items:center;
+      justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;
+    }
+    .teacher-name{font-size:13px;font-weight:600;}
+    .teacher-role{font-size:11px;color:#475569;}
+    .logout-btn{
+      margin-top:10px;width:100%;background:transparent;
+      border:1px solid #334155;color:#94a3b8;border-radius:8px;
+      padding:8px;font-size:12px;cursor:pointer;font-family:'Jost',sans-serif;
+    }
+    .logout-btn:hover{border-color:#e94560;color:#e94560;}
+
+    /* ── MAIN ── */
+    .main{flex:1;padding:24px;overflow-y:auto;}
+    .page-header{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:24px;flex-wrap:wrap;gap:12px;
+    }
+    .page-header h1{font-size:1.4rem;font-weight:700;}
+    .page-header p{color:#94a3b8;font-size:13px;margin-top:2px;}
+    .header-actions{display:flex;gap:10px;align-items:center;}
+    .class-select{
+      background:#1e293b;border:1px solid #334155;color:white;
+      border-radius:8px;padding:8px 12px;font-size:13px;
+      font-family:'Jost',sans-serif;outline:none;cursor:pointer;
+    }
+    .refresh-btn{
+      background:#1e293b;border:1px solid #334155;color:white;
+      border-radius:8px;padding:8px 14px;font-size:13px;
+      cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;
+    }
+    .refresh-btn:hover{border-color:#e94560;color:#e94560;}
+
+    /* ── STAT CARDS ── */
+    .stats-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:14px;margin-bottom:24px;
+    }
+    .stat-card{
+      background:#1e293b;border-radius:12px;padding:16px;
+      border:1px solid #334155;
+    }
+    .stat-card .sc-label{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;}
+    .stat-card .sc-num{font-size:28px;font-weight:700;color:#e94560;}
+    .stat-card .sc-sub{font-size:11px;color:#475569;margin-top:4px;}
+    .stat-card.green .sc-num{color:#22c55e;}
+    .stat-card.amber .sc-num{color:#f59e0b;}
+    .stat-card.blue .sc-num{color:#3b82f6;}
+
+    /* ── SECTION ── */
+    .section{margin-bottom:24px;}
+    .section-title{
+      font-size:13px;font-weight:600;color:#94a3b8;
+      text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .live-dot{
+      width:8px;height:8px;background:#22c55e;border-radius:50%;
+      animation:blink 1.5s infinite;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+    /* ── CHAPTER PROGRESS TABLE ── */
+    .prog-table{background:#1e293b;border-radius:12px;overflow:hidden;border:1px solid #334155;}
+    .prog-table table{width:100%;border-collapse:collapse;}
+    .prog-table th{
+      padding:10px 16px;font-size:11px;color:#94a3b8;text-align:left;
+      background:#162032;border-bottom:1px solid #334155;
+      text-transform:uppercase;letter-spacing:0.5px;
+    }
+    .prog-table td{padding:10px 16px;font-size:13px;border-bottom:1px solid #1a2540;}
+    .prog-table tr:last-child td{border-bottom:none;}
+    .prog-table tr:hover td{background:#1a2540;}
+    .chap-bar{
+      width:100%;height:8px;background:#334155;border-radius:4px;overflow:hidden;
+    }
+    .chap-fill{height:100%;border-radius:4px;transition:width 0.8s ease;}
+    .pct-badge{
+      display:inline-block;padding:2px 8px;border-radius:10px;
+      font-size:11px;font-weight:600;
+    }
+    .pct-high{background:#14532d;color:#bbf7d0;}
+    .pct-mid{background:#78350f;color:#fde68a;}
+    .pct-low{background:#7f1d1d;color:#fecaca;}
+
+    /* ── STUDENT LIST ── */
+    .student-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+      gap:12px;
+    }
+    .student-card{
+      background:#1e293b;border-radius:12px;padding:14px;
+      border:1px solid #334155;transition:all 0.2s;
+    }
+    .student-card:hover{border-color:#334155;box-shadow:0 4px 20px rgba(0,0,0,0.3);}
+    .student-card.behind{border-left:3px solid #ef4444;}
+    .student-card.average{border-left:3px solid #f59e0b;}
+    .student-card.ahead{border-left:3px solid #22c55e;}
+    .sc-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+    .sc-avatar{
+      width:38px;height:38px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;font-size:14px;flex-shrink:0;
+    }
+    .sc-name{font-size:14px;font-weight:600;}
+    .sc-roll{font-size:11px;color:#475569;}
+    .sc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+    .sc-stat{background:#0f172a;border-radius:6px;padding:6px;text-align:center;}
+    .sc-stat .v{font-size:15px;font-weight:700;color:#e94560;}
+    .sc-stat .l{font-size:10px;color:#475569;}
+    .sc-chaps{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px;}
+    .chap-tag{
+      font-size:10px;padding:2px 7px;border-radius:8px;
+      background:#14532d;color:#bbf7d0;
+    }
+    .chap-tag.pending{background:#334155;color:#64748b;}
+    .alert-badge{
+      font-size:10px;padding:2px 8px;border-radius:10px;
+      background:#7f1d1d;color:#fca5a5;margin-left:auto;
+    }
+
+    /* ── ALERT SECTION ── */
+    .alert-list{display:flex;flex-direction:column;gap:8px;}
+    .alert-item{
+      background:#1e293b;border-radius:10px;padding:12px 16px;
+      border-left:3px solid #ef4444;display:flex;align-items:center;
+      gap:12px;
+    }
+    .alert-item.warn{border-left-color:#f59e0b;}
+    .alert-icon{font-size:20px;}
+    .alert-text{flex:1;}
+    .alert-text strong{font-size:13px;display:block;}
+    .alert-text span{font-size:12px;color:#94a3b8;}
+    .alert-action{
+      background:#334155;border:none;color:white;border-radius:8px;
+      padding:6px 12px;font-size:12px;cursor:pointer;font-family:'Jost',sans-serif;
+    }
+    .alert-action:hover{background:#475569;}
+
+    /* ── TABS ── */
+    .view-tabs{display:flex;gap:4px;background:#1e293b;border-radius:10px;
+      padding:4px;width:fit-content;margin-bottom:16px;}
+    .vt-btn{
+      padding:7px 16px;border:none;background:transparent;color:#94a3b8;
+      font-size:13px;border-radius:8px;cursor:pointer;font-family:'Jost',sans-serif;
+    }
+    .vt-btn.active{background:#e94560;color:white;}
+
+    /* ── LOGIN GATE ── */
+    #login-gate{
+      position:fixed;inset:0;background:#0a0f1e;
+      display:flex;align-items:center;justify-content:center;z-index:100;
+    }
+    .gate-box{
+      background:#1e293b;border-radius:16px;padding:32px;
+      width:340px;border:1px solid #334155;
+    }
+    .gate-box h2{font-size:1.2rem;margin-bottom:6px;}
+    .gate-box p{color:#94a3b8;font-size:13px;margin-bottom:20px;}
+    .gate-inp{
+      width:100%;background:#0f172a;border:1px solid #334155;
+      border-radius:8px;padding:10px 12px;color:white;font-size:14px;
+      outline:none;font-family:'Jost',sans-serif;margin-bottom:12px;
+    }
+    .gate-inp:focus{border-color:#e94560;}
+    .gate-btn{
+      width:100%;background:#e94560;border:none;border-radius:10px;
+      padding:12px;color:white;font-size:15px;font-weight:700;
+      cursor:pointer;font-family:'Jost',sans-serif;
+    }
+    .gate-error{color:#fca5a5;font-size:12px;margin-top:8px;text-align:center;}
+
+    @media(max-width:768px){
+      .sidebar{display:none;}
+      .main{padding:16px;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- TEACHER LOGIN GATE -->
+<div id="login-gate">
+  <div class="gate-box">
+    <h2>Teacher Login</h2>
+    <p>Sirf authorized teachers hi yeh dashboard dekh sakte hain.</p>
+    <input class="gate-inp" type="email" id="t-email" placeholder="Teacher email"/>
+    <input class="gate-inp" type="password" id="t-pass" placeholder="Password"/>
+    <button class="gate-btn" onclick="teacherLogin()">Dashboard Kholo</button>
+    <div class="gate-error" id="gate-err"></div>
+  </div>
+</div>
+
+<div class="layout" id="main-layout" style="display:none;">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <h2>OMNIGRID 6</h2>
+      <p>Teacher Dashboard</p>
+    </div>
+    <div class="sb-link active" onclick="showSection('overview')">
+      <span class="sb-icon">📊</span> Overview
+    </div>
+    <div class="sb-link" onclick="showSection('students')">
+      <span class="sb-icon">👥</span> Students
+    </div>
+    <div class="sb-link" onclick="showSection('chapters')">
+      <span class="sb-icon">📚</span> Chapters
+    </div>
+    <div class="sb-link" onclick="showSection('alerts')">
+      <span class="sb-icon">🚨</span> Alerts
+      <span style="margin-left:auto;background:#ef4444;color:white;font-size:10px;
+        padding:2px 7px;border-radius:10px;" id="alert-count">0</span>
+    </div>
+    <div class="sb-bottom">
+      <div class="teacher-info">
+        <div class="teacher-avatar" id="t-avatar">T</div>
+        <div>
+          <div class="teacher-name" id="t-name">Teacher</div>
+          <div class="teacher-role">Class 6 Teacher</div>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="teacherLogout()">Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- OVERVIEW SECTION -->
+    <div id="section-overview">
+      <div class="page-header">
+        <div>
+          <h1>Class Overview</h1>
+          <p id="last-updated">Live data — ab update ho raha hai...</p>
+        </div>
+        <div class="header-actions">
+          <select class="class-select" id="class-filter" onchange="filterClass()">
+            <option value="all">Saari Classes</option>
+            <option value="6A">Class 6A</option>
+            <option value="6B">Class 6B</option>
+            <option value="6C">Class 6C</option>
+          </select>
+          <button class="refresh-btn" onclick="loadAllData()">Refresh</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="sc-label">Total Students</div>
+          <div class="sc-num" id="stat-total">--</div>
+          <div class="sc-sub">Registered students</div>
+        </div>
+        <div class="stat-card green">
+          <div class="sc-label">Active Today</div>
+          <div class="sc-num" id="stat-active">--</div>
+          <div class="sc-sub">Last 24 hours</div>
+        </div>
+        <div class="stat-card amber">
+          <div class="sc-label">Avg Quiz Score</div>
+          <div class="sc-num" id="stat-avg">--%</div>
+          <div class="sc-sub">Across all subjects</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="sc-label">Chapters Done</div>
+          <div class="sc-num" id="stat-chaps">--</div>
+          <div class="sc-sub">Total completions</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-label">Peeche Students</div>
+          <div class="sc-num" style="color:#ef4444;" id="stat-behind">--</div>
+          <div class="sc-sub">Need attention</div>
+        </div>
+      </div>
+
+      <!-- Chapter Progress -->
+      <div class="section">
+        <div class="section-title">
+          <div class="live-dot"></div>
+          Chapter-wise Class Progress
+        </div>
+        <div class="prog-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Chapter</th>
+                <th>Subject</th>
+                <th>Progress</th>
+                <th>Students Done</th>
+                <th>Avg Score</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="chapter-tbody">
+              <tr><td colspan="6" style="color:#475569;text-align:center;padding:20px;">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDENTS SECTION -->
+    <div id="section-students" style="display:none;">
+      <div class="page-header">
+        <div><h1>Students</h1><p>Poori class ka individual progress</p></div>
+        <div class="header-actions">
+          <div class="view-tabs">
+            <button class="vt-btn active" onclick="setStudentView('cards',this)">Cards</button>
+            <button class="vt-btn" onclick="setStudentView('table',this)">Table</button>
+          </div>
+        </div>
+      </div>
+      <div class="student-grid" id="student-grid">
+        <div style="color:#475569;grid-column:1/-1;text-align:center;padding:40px;">
+          Loading students...
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTERS SECTION -->
+    <div id="section-chapters" style="display:none;">
+      <div class="page-header">
+        <div><h1>Chapter Analysis</h1><p>Har chapter ka detailed breakdown</p></div>
+      </div>
+      <div class="prog-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Chapter</th><th>Subject</th><th>Total Students</th>
+              <th>Completed</th><th>In Progress</th><th>Not Started</th><th>Avg Score</th>
+            </tr>
+          </thead>
+          <tbody id="chap-detail-tbody">
+            <tr><td colspan="7" style="color:#475569;text-align:center;padding:20px;">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ALERTS SECTION -->
+    <div id="section-alerts" style="display:none;">
+      <div class="page-header">
+        <div><h1>Alerts</h1><p>Students jo peeche hain ya help chahiye</p></div>
+      </div>
+      <div class="alert-list" id="alert-list">
+        <div style="color:#475569;text-align:center;padding:40px;">Loading alerts...</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import {
+    getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+  import {
+    getFirestore, collection, getDocs, query, where,
+    orderBy, doc, getDoc
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+  // ══ SAME FIREBASE CONFIG ══
+  const firebaseConfig = {
+    apiKey: "AIzaSyDB2OYB3HuVeQ84hQHDCDbO8MQQGjW9v8Q",
+    authDomain: "omnigrid-64638.firebaseapp.com",
+    projectId: "omnigrid-64638",
+    storageBucket: "omnigrid-64638.firebasestorage.app",
+    messagingSenderId: "788627089004",
+    appId: "1:788627089004:web:2eed1ac26791fbda609a49",
+    measurementId: "G-BKQ2B36BG1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Teacher emails whitelist — yahan teacher emails daalo
+  const TEACHER_EMAILS = [
+    'shikhakaushik641@gmail.com',
+    'principal@school.com',
+    // aur emails add karo
+  ];
+
+  let allStudents = [];
+  let currentClass = 'all';
+
+  const chapters = [
+    {id:'sci-1', name:'Plants ka World', subject:'Science', color:'#22c55e'},
+    {id:'sci-2', name:'Magnetism', subject:'Science', color:'#22c55e'},
+    {id:'mat-1', name:'Knowing Numbers', subject:'Maths', color:'#3b82f6'},
+    {id:'mat-2', name:'Playing with Numbers', subject:'Maths', color:'#3b82f6'},
+    {id:'eng-1', name:'Word Magic', subject:'English', color:'#f59e0b'},
+    {id:'sst-1', name:'History & Geography', subject:'SST', color:'#a78bfa'},
+  ];
+
+  // ── AUTH CHECK ──
+  onAuthStateChanged(auth, (user) => {
+    if (user && TEACHER_EMAILS.includes(user.email)) {
+      document.getElementById('login-gate').style.display = 'none';
+      document.getElementById('main-layout').style.display = 'flex';
+      document.getElementById('t-name').textContent = user.displayName || user.email.split('@')[0];
+      document.getElementById('t-avatar').textContent = (user.displayName || user.email)[0].toUpperCase();
+      loadAllData();
+    }
+  });
+
+  // ── TEACHER LOGIN ──
+  window.teacherLogin = async () => {
+    const email = document.getElementById('t-email').value;
+    const pass  = document.getElementById('t-pass').value;
+    const errEl = document.getElementById('gate-err');
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, pass);
+      if (!TEACHER_EMAILS.includes(cred.user.email)) {
+        await signOut(auth);
+        errEl.textContent = 'Access denied! Sirf teachers login kar sakte hain.';
+        return;
+      }
+    } catch (err) {
+      errEl.textContent = 'Login fail: ' + (err.code === 'auth/wrong-password' ? 'Password galat hai!' : err.message);
+    }
+  };
+
+  window.teacherLogout = async () => {
+    await signOut(auth);
+    location.reload();
+  };
+
+  // ── LOAD ALL STUDENT DATA ──
+  window.loadAllData = async () => {
+    try {
+      document.getElementById('last-updated').textContent = 'Loading...';
+      const snap = await getDocs(collection(db, 'students'));
+      allStudents = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+      renderDashboard();
+      document.getElementById('last-updated').textContent =
+        'Last updated: ' + new Date().toLocaleTimeString('en-IN');
+    } catch (err) {
+      console.error('Data load error:', err);
+      document.getElementById('last-updated').textContent = 'Error loading data';
+    }
+  };
+
+  function getFiltered() {
+    return currentClass === 'all'
+      ? allStudents
+      : allStudents.filter(s => s.class === currentClass);
+  }
+
+  window.filterClass = () => {
+    currentClass = document.getElementById('class-filter').value;
+    renderDashboard();
+  };
+
+  function renderDashboard() {
+    const students = getFiltered();
+    renderStats(students);
+    renderChapterTable(students);
+    renderStudentCards(students);
+    renderAlerts(students);
+  }
+
+  // ── STATS ──
+  function renderStats(students) {
+    const now = Date.now();
+    const active = students.filter(s => s.lastLogin && (now - s.lastLogin) < 86400000).length;
+    const totalChaps = students.reduce((a,s) => a + (s.chapDone?.length||0), 0);
+    const scores = students.filter(s => s.quizTotal > 0)
+      .map(s => Math.round(s.quizScore/s.quizTotal*100));
+    const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+    const behind = students.filter(s => (s.chapDone?.length||0) < 2).length;
+
+    document.getElementById('stat-total').textContent = students.length;
+    document.getElementById('stat-active').textContent = active;
+    document.getElementById('stat-avg').textContent = avg + '%';
+    document.getElementById('stat-chaps').textContent = totalChaps;
+    document.getElementById('stat-behind').textContent = behind;
+    document.getElementById('alert-count').textContent = behind;
+  }
+
+  // ── CHAPTER TABLE ──
+  function renderChapterTable(students) {
+    const tbody = document.getElementById('chapter-tbody');
+    tbody.innerHTML = chapters.map(ch => {
+      const done = students.filter(s => s.chapDone?.includes(ch.id.replace('-',''))||
+        s.chapDone?.includes(ch.id));
+      const pct = students.length ? Math.round(done.length/students.length*100) : 0;
+      const scores = done.filter(s=>s.quizTotal>0).map(s=>Math.round(s.quizScore/s.quizTotal*100));
+      const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : '--';
+      const pctClass = pct>=70?'pct-high':pct>=40?'pct-mid':'pct-low';
+      const fillColor = pct>=70?'#22c55e':pct>=40?'#f59e0b':'#ef4444';
+      return `<tr>
+        <td style="font-weight:600;">${ch.name}</td>
+        <td><span style="color:${ch.color};font-size:12px;">${ch.subject}</span></td>
+        <td style="min-width:140px;">
+          <div class="chap-bar"><div class="chap-fill" style="width:${pct}%;background:${fillColor};"></div></div>
+        </td>
+        <td>${done.length} / ${students.length}</td>
+        <td>${avg}${typeof avg==='number'?'%':''}</td>
+        <td><span class="pct-badge ${pctClass}">${pct}%</span></td>
+      </tr>`;
+    }).join('');
+
+    // Same for chapter detail
+    const tbody2 = document.getElementById('chap-detail-tbody');
+    if (tbody2) tbody2.innerHTML = chapters.map(ch => {
+      const done = students.filter(s => s.chapDone?.includes(ch.id));
+      const pct = students.length ? Math.round(done.length/students.length*100) : 0;
+      const inProg = Math.round(students.length * 0.15);
+      const notStart = students.length - done.length - inProg;
+      const scores = done.filter(s=>s.quizTotal>0).map(s=>Math.round(s.quizScore/s.quizTotal*100));
+      const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%' : '--';
+      return `<tr>
+        <td style="font-weight:600;">${ch.name}</td>
+        <td><span style="color:${ch.color};font-size:12px;">${ch.subject}</span></td>
+        <td>${students.length}</td>
+        <td style="color:#22c55e;">${done.length}</td>
+        <td style="color:#f59e0b;">${Math.max(0,inProg)}</td>
+        <td style="color:#ef4444;">${Math.max(0,notStart)}</td>
+        <td>${avg}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── STUDENT CARDS ──
+  function renderStudentCards(students) {
+    const grid = document.getElementById('student-grid');
+    if (!students.length) {
+      grid.innerHTML = '<div style="color:#475569;grid-column:1/-1;text-align:center;padding:40px;">Koi student nahi mila</div>';
+      return;
+    }
+    const colors = ['#e94560','#3b82f6','#22c55e','#f59e0b','#a78bfa','#f97316'];
+    grid.innerHTML = students.map((s,i) => {
+      const chaps = s.chapDone?.length || 0;
+      const score = s.quizTotal > 0 ? Math.round(s.quizScore/s.quizTotal*100) : 0;
+      const status = chaps >= 3 ? 'ahead' : chaps >= 1 ? 'average' : 'behind';
+      const statusLabel = chaps >= 3 ? '✅ On track' : chaps >= 1 ? '⚡ Average' : '⚠️ Peeche';
+      const col = colors[i % colors.length];
+      const allChaps = ['science','maths','english','sst'];
+      const chapTags = allChaps.map(c =>
+        `<span class="chap-tag ${s.chapDone?.includes(c)?'':'pending'}">${c.charAt(0).toUpperCase()+c.slice(1)}</span>`
+      ).join('');
+      return `<div class="student-card ${status}">
+        <div class="sc-top">
+          <div class="sc-avatar" style="background:${col}20;color:${col};">
+            ${(s.name||'S')[0].toUpperCase()}
+          </div>
+          <div style="flex:1">
+            <div class="sc-name">${s.name||'Student'}</div>
+            <div class="sc-roll">${s.class||'6A'} • Roll #${s.roll||'--'}</div>
+          </div>
+          <span style="font-size:11px;color:${status==='ahead'?'#22c55e':status==='average'?'#f59e0b':'#ef4444'};">
+            ${statusLabel}
+          </span>
+        </div>
+        <div class="sc-stats">
+          <div class="sc-stat"><div class="v">${chaps}</div><div class="l">Chapters</div></div>
+          <div class="sc-stat"><div class="v">${score}%</div><div class="l">Score</div></div>
+          <div class="sc-stat"><div class="v">${s.streak||1}</div><div class="l">Streak</div></div>
+        </div>
+        <div class="sc-chaps">${chapTags}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── ALERTS ──
+  function renderAlerts(students) {
+    const list = document.getElementById('alert-list');
+    const behind = students.filter(s => (s.chapDone?.length||0) === 0);
+    const slow   = students.filter(s => (s.chapDone?.length||0) === 1);
+    let html = '';
+    behind.forEach(s => {
+      html += `<div class="alert-item">
+        <div class="alert-icon">🚨</div>
+        <div class="alert-text">
+          <strong>${s.name} (${s.class} • Roll #${s.roll})</strong>
+          <span>Abhi tak koi chapter complete nahi kiya — turant attention chahiye!</span>
+        </div>
+        <button class="alert-action">Notify</button>
+      </div>`;
+    });
+    slow.forEach(s => {
+      html += `<div class="alert-item warn">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-text">
+          <strong>${s.name} (${s.class} • Roll #${s.roll})</strong>
+          <span>Sirf 1 chapter done — class se peeche ja rahe hain</span>
+        </div>
+        <button class="alert-action">Notify</button>
+      </div>`;
+    });
+    list.innerHTML = html || '<div style="color:#22c55e;text-align:center;padding:40px;">Sab students on track hain!</div>';
+  }
+
+  window.showSection = (name) => {
+    ['overview','students','chapters','alerts'].forEach(s => {
+      document.getElementById('section-'+s).style.display = s===name?'block':'none';
+    });
+    document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    if (name==='students') renderStudentCards(getFiltered());
+    if (name==='chapters') renderChapterTable(getFiltered());
+    if (name==='alerts') renderAlerts(getFiltered());
+  };
+
+  window.setStudentView = (view, btn) => {
+    document.querySelectorAll('.vt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+</script>
+
+</body>
+</html>
