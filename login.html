@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMNIGRID 6 | Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:'Jost',sans-serif;
+      background:#0f172a;
+      color:white;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background-image:linear-gradient(rgba(15,23,42,0.92),rgba(15,23,42,0.92)),url('anime-background.jpg');
+      background-size:cover;
+    }
+
+    .login-wrap{
+      width:100%;
+      max-width:400px;
+      padding:20px;
+      animation:fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Anya face */
+    .anya-face{
+      width:90px;height:90px;border-radius:50%;
+      border:3px solid #e94560;
+      background:linear-gradient(160deg,#1a1a2e,#0f3460);
+      position:relative;overflow:hidden;
+      margin:0 auto 16px;
+      box-shadow:0 0 24px rgba(233,69,96,0.4);
+    }
+    .anya-face::before{
+      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+      width:58px;height:68px;background:#f4c89a;
+      border-radius:42% 42% 48% 48%/40% 40% 60% 60%;
+    }
+    .af-hair{position:absolute;top:6px;left:50%;transform:translateX(-50%);
+      width:66px;height:40px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
+    .af-band{position:absolute;top:20px;left:50%;transform:translateX(-50%);
+      width:66px;height:8px;background:#e94560;border-radius:4px;z-index:3;}
+    .af-eyes{position:absolute;top:38px;left:50%;transform:translateX(-50%);
+      width:40px;display:flex;justify-content:space-between;z-index:3;}
+    .af-eye{width:10px;height:10px;background:#3a6186;border-radius:50%;
+      border:1.5px solid #1a1a2e;position:relative;}
+    .af-eye::after{content:'';position:absolute;top:2px;left:2px;
+      width:3px;height:3px;background:white;border-radius:50%;}
+    .af-smile{position:absolute;top:54px;left:50%;transform:translateX(-50%);
+      width:16px;height:8px;border-bottom:2px solid #c97b7b;
+      border-radius:0 0 50% 50%;z-index:3;}
+
+    .login-title{text-align:center;margin-bottom:24px;}
+    .login-title h1{font-size:1.6rem;font-weight:700;margin-bottom:4px;}
+    .login-title p{color:#94a3b8;font-size:13px;}
+
+    /* TABS */
+    .auth-tabs{display:flex;background:#1e293b;border-radius:10px;padding:4px;
+      margin-bottom:20px;gap:4px;}
+    .auth-tab{flex:1;padding:8px;border:none;background:transparent;
+      color:#94a3b8;font-size:13px;font-weight:600;border-radius:8px;
+      cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;}
+    .auth-tab.active{background:#e94560;color:white;}
+
+    /* FORM */
+    .auth-form{display:flex;flex-direction:column;gap:12px;}
+    .auth-form.hidden{display:none;}
+
+    label{font-size:12px;color:#94a3b8;margin-bottom:2px;display:block;}
+    input[type=text],input[type=email],input[type=password],select{
+      width:100%;background:#1e293b;border:1px solid #334155;
+      border-radius:8px;padding:10px 12px;color:white;font-size:14px;
+      outline:none;font-family:'Jost',sans-serif;transition:border 0.2s;
+    }
+    input:focus,select:focus{border-color:#e94560;}
+    input::placeholder{color:#475569;}
+    select option{background:#1e293b;}
+
+    .field{display:flex;flex-direction:column;gap:4px;}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+    .submit-btn{
+      background:#e94560;border:none;border-radius:10px;
+      padding:12px;color:white;font-size:15px;font-weight:700;
+      cursor:pointer;font-family:'Jost',sans-serif;
+      transition:opacity 0.2s;margin-top:4px;
+    }
+    .submit-btn:hover{opacity:0.88;}
+    .submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+
+    .divider{display:flex;align-items:center;gap:10px;margin:4px 0;}
+    .divider::before,.divider::after{content:'';flex:1;height:1px;background:#334155;}
+    .divider span{color:#475569;font-size:12px;}
+
+    .google-btn{
+      width:100%;background:#1e293b;border:1px solid #334155;
+      border-radius:10px;padding:10px;color:white;font-size:13px;
+      font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      transition:border 0.2s;
+    }
+    .google-btn:hover{border-color:#e94560;}
+    .google-icon{width:18px;height:18px;}
+
+    .msg-box{
+      padding:10px 14px;border-radius:8px;font-size:13px;
+      text-align:center;display:none;
+    }
+    .msg-box.error{background:#7f1d1d;color:#fecaca;display:block;}
+    .msg-box.success{background:#14532d;color:#bbf7d0;display:block;}
+    .msg-box.loading{background:#1e3a5f;color:#93c5fd;display:block;}
+
+    .footer-note{text-align:center;font-size:12px;color:#475569;margin-top:16px;}
+    .footer-note a{color:#94a3b8;text-decoration:none;}
+
+    /* Anya welcome bubble */
+    .anya-bubble{
+      background:#1e293b;border:1px solid #334155;border-radius:12px;
+      padding:10px 14px;margin-bottom:20px;font-size:13px;color:#cbd5e1;
+      line-height:1.5;position:relative;text-align:center;
+    }
+    .anya-bubble::before{
+      content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+      border-left:8px solid transparent;border-right:8px solid transparent;
+      border-bottom:8px solid #334155;
+    }
+
+    /* Loading spinner */
+    .spinner{
+      width:20px;height:20px;border:2px solid rgba(255,255,255,0.3);
+      border-top-color:white;border-radius:50%;
+      animation:spin 0.8s linear infinite;display:inline-block;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+
+<div class="login-wrap">
+
+  <!-- Anya Avatar -->
+  <div class="anya-face">
+    <div class="af-hair"></div>
+    <div class="af-band"></div>
+    <div class="af-eyes"><div class="af-eye"></div><div class="af-eye"></div></div>
+    <div class="af-smile"></div>
+  </div>
+
+  <!-- Anya bubble -->
+  <div class="anya-bubble" id="anya-greet">
+    Heh~ Namaste! Main Anya hoon 🌸<br>Login karo aur apna adventure shuru karo!
+  </div>
+
+  <div class="login-title">
+    <h1>OMNIGRID 6</h1>
+    <p>Class 6 Curiosity Quest</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="auth-tabs">
+    <button class="auth-tab active" onclick="showTab('login')">Login</button>
+    <button class="auth-tab" onclick="showTab('register')">Register</button>
+  </div>
+
+  <!-- Message box -->
+  <div class="msg-box" id="msg-box"></div>
+
+  <!-- LOGIN FORM -->
+  <form class="auth-form" id="login-form" onsubmit="handleLogin(event)">
+    <div class="field">
+      <label>Email / Roll Number</label>
+      <input type="email" id="login-email" placeholder="tumhara@email.com" required/>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="••••••••" required/>
+    </div>
+    <button type="submit" class="submit-btn" id="login-btn">Login karo!</button>
+    <div class="divider"><span>ya</span></div>
+    <button type="button" class="google-btn" onclick="handleGoogleLogin()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Google se login karo
+    </button>
+  </form>
+
+  <!-- REGISTER FORM -->
+  <form class="auth-form hidden" id="register-form" onsubmit="handleRegister(event)">
+    <div class="field">
+      <label>Poora Naam</label>
+      <input type="text" id="reg-name" placeholder="Tumhara naam" required/>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Class</label>
+        <select id="reg-class">
+          <option value="6A">Class 6A</option>
+          <option value="6B">Class 6B</option>
+          <option value="6C">Class 6C</option>
+          <option value="6D">Class 6D</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Roll Number</label>
+        <input type="text" id="reg-roll" placeholder="Jaise: 24" required/>
+      </div>
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="reg-email" placeholder="tumhara@email.com" required/>
+    </div>
+    <div class="field">
+      <label>Password (min 6 characters)</label>
+      <input type="password" id="reg-pass" placeholder="••••••••" minlength="6" required/>
+    </div>
+    <button type="submit" class="submit-btn" id="reg-btn">Register karo!</button>
+    <div class="divider"><span>ya</span></div>
+    <button type="button" class="google-btn" onclick="handleGoogleLogin()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Google se register karo
+    </button>
+  </form>
+
+  <div class="footer-note">
+    By continuing, tum agree karte ho <a href="#">Terms of Use</a> se
+  </div>
+
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    serverTimestamp
+  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+  // ════════════════════════════════════════
+  //  FIREBASE CONFIG — Apna config yahan daalo
+  //  Firebase Console > Project Settings > Your Apps
+  // ════════════════════════════════════════
+  const firebaseConfig = {
+    apiKey: "YOUR_FIREBASE_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // ── Already logged in? Seedha index.html ──
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const profile = await loadProfile(user.uid);
+      saveSessionAndRedirect(user, profile);
+    }
+  });
+
+  // ── LOAD PROFILE from Firestore ──
+  async function loadProfile(uid) {
+    try {
+      const snap = await getDoc(doc(db, 'students', uid));
+      return snap.exists() ? snap.data() : null;
+    } catch { return null; }
+  }
+
+  // ── SAVE SESSION & REDIRECT ──
+  function saveSessionAndRedirect(user, profile) {
+    const session = {
+      uid: user.uid,
+      email: user.email,
+      name: profile?.name || user.displayName || 'Student',
+      class: profile?.class || '6A',
+      roll: profile?.roll || '--',
+      chapDone: profile?.chapDone || [],
+      quizScore: profile?.quizScore || 0,
+      quizTotal: profile?.quizTotal || 0,
+      streak: profile?.streak || 1,
+      lastLogin: Date.now(),
+    };
+    localStorage.setItem('omni_session', JSON.stringify(session));
+    window.location.href = 'index.html';
+  }
+
+  // ── SHOW MESSAGE ──
+  function showMsg(text, type='error') {
+    const box = document.getElementById('msg-box');
+    box.textContent = text;
+    box.className = 'msg-box ' + type;
+    setTimeout(() => { box.className='msg-box'; box.textContent=''; }, 4000);
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? '<span class="spinner"></span>'
+      : (btnId === 'login-btn' ? 'Login karo!' : 'Register karo!');
+  }
+
+  // ── LOGIN ──
+  window.handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading('login-btn', true);
+    const email = document.getElementById('login-email').value;
+    const pass  = document.getElementById('login-pass').value;
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, pass);
+      const profile = await loadProfile(cred.user.uid);
+      showMsg('Heh~ Welcome back! Redirect ho rahe ho...', 'success');
+      setTimeout(() => saveSessionAndRedirect(cred.user, profile), 1000);
+    } catch (err) {
+      const msgs = {
+        'auth/user-not-found': 'Yeh email register nahi hai! Pehle register karo.',
+        'auth/wrong-password': 'Password galat hai! Dobara try karo.',
+        'auth/invalid-email': 'Email format sahi nahi hai!',
+        'auth/too-many-requests': 'Bahut zyada tries! Thoda ruko.',
+      };
+      showMsg(msgs[err.code] || 'Login fail hua: ' + err.message);
+      setLoading('login-btn', false);
+    }
+  };
+
+  // ── REGISTER ──
+  window.handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading('reg-btn', true);
+    const name  = document.getElementById('reg-name').value.trim();
+    const cls   = document.getElementById('reg-class').value;
+    const roll  = document.getElementById('reg-roll').value.trim();
+    const email = document.getElementById('reg-email').value;
+    const pass  = document.getElementById('reg-pass').value;
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      const profile = {
+        name, class: cls, roll, email,
+        chapDone: [], quizScore: 0, quizTotal: 0,
+        streak: 1, joinedAt: serverTimestamp(),
+      };
+      await setDoc(doc(db, 'students', cred.user.uid), profile);
+      showMsg('Heh~ Welcome ' + name + '! Account ban gaya!', 'success');
+      setTimeout(() => saveSessionAndRedirect(cred.user, profile), 1000);
+    } catch (err) {
+      const msgs = {
+        'auth/email-already-in-use': 'Yeh email pehle se registered hai! Login karo.',
+        'auth/weak-password': 'Password kam se kam 6 characters ka hona chahiye!',
+        'auth/invalid-email': 'Email format sahi nahi hai!',
+      };
+      showMsg(msgs[err.code] || 'Register fail hua: ' + err.message);
+      setLoading('reg-btn', false);
+    }
+  };
+
+  // ── GOOGLE LOGIN ──
+  window.handleGoogleLogin = async () => {
+    try {
+      showMsg('Google login ho raha hai...', 'loading');
+      const cred = await signInWithPopup(auth, googleProvider);
+      const user = cred.user;
+      let profile = await loadProfile(user.uid);
+      if (!profile) {
+        profile = {
+          name: user.displayName || 'Student',
+          class: '6A', roll: '--', email: user.email,
+          chapDone: [], quizScore: 0, quizTotal: 0,
+          streak: 1, joinedAt: serverTimestamp(),
+        };
+        await setDoc(doc(db, 'students', user.uid), profile);
+      }
+      showMsg('Heh~ Welcome! Redirect ho rahe ho...', 'success');
+      setTimeout(() => saveSessionAndRedirect(user, profile), 1000);
+    } catch (err) {
+      if (err.code !== 'auth/popup-closed-by-user') {
+        showMsg('Google login fail hua. Dobara try karo!');
+      } else {
+        document.getElementById('msg-box').className = 'msg-box';
+      }
+    }
+  };
+</script>
+
+<script>
+  // ── TAB SWITCHER ──
+  function showTab(tab) {
+    document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+    document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
+    document.querySelectorAll('.auth-tab').forEach((b,i) => {
+      b.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='register'));
+    });
+    const greet = document.getElementById('anya-greet');
+    greet.innerHTML = tab === 'login'
+      ? 'Heh~ Namaste! Main Anya hoon 🌸<br>Login karo aur apna adventure shuru karo!'
+      : 'Wah! Naya adventure shuru ho raha hai! 🌸<br>Register karo aur Anya ke saath seekho!';
+  }
+</script>
+
+</body>
+</html>
