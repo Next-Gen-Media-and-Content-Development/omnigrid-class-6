@@ -7,13 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-    <script>
-  window.addEventListener('load', function() {
-    if (window.AnyaAI) {
-      AnyaAI.setProxy('https://wispy-sound-1236.shikhakaushik641.workers.dev');
-    }
-  });
-</script>
 body{font-family:'Jost',sans-serif;background-color:#0f172a;color:white;min-height:100vh;
 background-image:linear-gradient(rgba(15,23,42,0.88),rgba(15,23,42,0.88)),url('anime-background.jpg');
 background-size:cover;background-attachment:fixed;}
@@ -836,7 +829,7 @@ function saveSession() {
 // ── AI-POWERED ANYA RESPONSE ──
 async function getAnyaReply(userMsg) {
   // Agar AnyaAI available hai aur API key set hai
-  if (window.AnyaAI && AnyaAI.config.apiKey !== 'YOUR_ANTHROPIC_API_KEY_HERE') {
+  if (window.AnyaAI && (AnyaAI.config.proxyUrl || AnyaAI.config.apiKey)) {
     document.getElementById('anya-status').textContent = 'Soch rahi hoon...';
     const result = await AnyaAI.ask(userMsg);
     document.getElementById('anya-status').textContent = 'Online • Hamesha ready!';
@@ -848,7 +841,7 @@ async function getAnyaReply(userMsg) {
 
 // ── AI-POWERED REVISION QUESTIONS ──
 async function getAIQuestions(topic) {
-  if (window.AnyaAI && AnyaAI.config.apiKey !== 'YOUR_ANTHROPIC_API_KEY_HERE') {
+  if (window.AnyaAI && (AnyaAI.config.proxyUrl || AnyaAI.config.apiKey)) {
     const chapterMap = {
       science: 'Plants and Magnetism',
       maths: 'Knowing Numbers and Basic Geometry',
