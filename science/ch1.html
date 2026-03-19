@@ -95,24 +95,62 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
 .modal-hdr{background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;}
 .modal-hdr h3{font-family:'Fredoka One',cursive;font-size:1.1rem;}
 .modal-close{background:none;border:none;color:white;font-size:22px;cursor:pointer;}
-.fc-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:10px 0;}
+.fc-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;padding:10px 0;}
 .fc-count{font-size:13px;color:var(--muted);font-weight:800;}
-.flashcard{width:100%;max-width:460px;height:200px;perspective:1000px;cursor:pointer;}
-.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.6s;}
+.fc-subject-tag{font-size:11px;font-weight:800;padding:3px 12px;border-radius:12px;margin-bottom:4px;display:inline-block;}
+.flashcard{width:100%;max-width:500px;height:320px;perspective:1200px;cursor:pointer;}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 0.7s cubic-bezier(0.4,0.2,0.2,1);}
 .flashcard.flipped .fc-inner{transform:rotateY(180deg);}
-.fc-front,.fc-back{position:absolute;inset:0;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;backface-visibility:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.1);}
-.fc-front{background:linear-gradient(135deg,var(--sci),var(--sci-dk));color:white;}
-.fc-back{background:white;border:2.5px solid var(--sci);transform:rotateY(180deg);}
-.fc-lbl{font-size:10px;font-weight:800;opacity:0.7;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
-.fc-q{font-family:'Fredoka One',cursive;font-size:1.1rem;line-height:1.3;}
-.fc-a{font-size:14px;font-weight:700;color:var(--text);line-height:1.5;}
-.fc-tap{font-size:10px;margin-top:10px;opacity:0.6;}
-.fc-nav{display:flex;gap:12px;}
-.fc-btn{background:white;border:2px solid var(--sci);color:var(--sci);border-radius:10px;padding:9px 20px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
-.fc-btn:hover{background:var(--sci);color:white;}
+/* FRONT */
+.fc-front{
+  position:absolute;inset:0;border-radius:22px;
+  display:flex;flex-direction:column;
+  backface-visibility:hidden;
+  box-shadow:0 10px 40px rgba(0,201,167,0.25);
+  overflow:hidden;
+}
+.fc-front-top{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  min-height:170px;
+}
+.fc-img-area{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:relative;}
+.fc-front-bot{
+  background:linear-gradient(135deg,var(--sci),var(--sci-dk));
+  padding:14px 18px;color:white;min-height:100px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.fc-lbl{font-size:9px;font-weight:800;opacity:0.75;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;}
+.fc-q{font-family:'Fredoka One',cursive;font-size:1.05rem;line-height:1.4;color:white;}
+.fc-tap{font-size:9px;margin-top:8px;opacity:0.65;display:flex;align-items:center;gap:4px;}
+/* BACK */
+.fc-back{
+  position:absolute;inset:0;border-radius:22px;
+  display:flex;flex-direction:column;
+  background:white;border:2.5px solid var(--sci);
+  transform:rotateY(180deg);
+  backface-visibility:hidden;
+  box-shadow:0 10px 40px rgba(0,201,167,0.2);
+  overflow:hidden;
+}
+
+.fc-back-bot{
+  background:linear-gradient(135deg,#f0fdf4,#e0fff8);
+  padding:22px 22px;display:flex;flex-direction:column;justify-content:center;
+  flex:1;
+}
+.fc-a-lbl{font-size:9px;font-weight:800;color:var(--sci-dk);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;}
+.fc-a{font-size:14px;font-weight:700;color:var(--text);line-height:1.7;}
+.fc-tap-back{font-size:9px;margin-top:6px;opacity:0.55;color:var(--muted);display:flex;align-items:center;gap:4px;}
+/* NAV */
+.fc-nav{display:flex;gap:12px;align-items:center;}
+.fc-btn{background:white;border:2px solid var(--sci);color:var(--sci);border-radius:12px;padding:10px 22px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+.fc-btn:hover{background:var(--sci);color:white;transform:translateY(-2px);}
+.fc-card-num{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--sci);min-width:60px;text-align:center;}
 .fc-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
-.fcdot{width:8px;height:8px;border-radius:50%;background:#e2e8f0;transition:background 0.3s;}
-.fcdot.seen{background:var(--sci);}
+.fcdot{width:9px;height:9px;border-radius:50%;background:#e2e8f0;transition:all 0.3s;cursor:pointer;}
+.fcdot.seen{background:var(--sci);transform:scale(1.2);}
+.fcdot.current{background:var(--accent);transform:scale(1.4);}
 .video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
 .video-card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.07);transition:all 0.25s;text-decoration:none;border:2px solid transparent;}
 .video-card:hover{transform:translateY(-3px);border-color:var(--sci);}
@@ -616,6 +654,206 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity 0.5s ease,transform 0.5s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
+
+/* ════════════════════════════════════════════════
+   FLIPBOOK NOTES SYSTEM
+════════════════════════════════════════════════ */
+.flipbook-shell{
+  max-width:920px;margin:0 auto;padding:20px 5%;
+}
+/* Page counter bar */
+.fb-nav-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:white;border-radius:16px;padding:10px 18px;
+  margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.07);
+  border:2px solid var(--border);
+}
+.fb-page-label{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--sci);}
+.fb-page-dots{display:flex;gap:7px;}
+.fb-pdot{
+  width:10px;height:10px;border-radius:50%;
+  background:#e2e8f0;cursor:pointer;transition:all 0.25s;border:none;
+}
+.fb-pdot.active{background:var(--sci);transform:scale(1.35);}
+.fb-pdot.done{background:#a7f3d0;}
+.fb-arrows{display:flex;gap:8px;}
+.fb-arr{
+  background:var(--sci-bg);border:2px solid var(--border);
+  color:var(--sci-dk);border-radius:10px;
+  padding:5px 14px;font-size:13px;font-weight:800;
+  cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;
+}
+.fb-arr:hover{background:var(--sci);color:white;}
+.fb-arr:disabled{opacity:0.35;cursor:default;}
+
+/* Page wrapper */
+.fb-pages{position:relative;overflow:hidden;min-height:400px;}
+
+/* Single page */
+.fb-page{
+  display:none;
+}
+.fb-page.active{display:block;animation:fbSlideIn 0.35s cubic-bezier(0.34,1.2,0.64,1) both;}
+.fb-page.exit-left{animation:fbSlideOut 0.25s ease both;}
+@keyframes fbSlideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes fbSlideOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-40px)}}
+
+/* Page header tab */
+.fb-page-tab{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 18px;border-radius:12px 12px 0 0;
+  font-family:'Fredoka One',cursive;font-size:0.9rem;
+  color:white;margin-bottom:-2px;position:relative;z-index:2;
+}
+
+/* Page card */
+.fb-card{
+  background:white;border-radius:0 18px 18px 18px;
+  box-shadow:0 6px 28px rgba(0,0,0,0.09);
+  padding:24px 26px;border-top:4px solid transparent;
+  position:relative;overflow:hidden;
+}
+/* Decorative corner */
+.fb-card::after{
+  content:'';position:absolute;top:0;right:0;
+  width:60px;height:60px;
+  background:linear-gradient(225deg,rgba(0,201,167,0.08) 0%,transparent 60%);
+  border-radius:0 18px 0 60px;
+}
+
+/* Page number stamp */
+.fb-stamp{
+  position:absolute;top:14px;right:20px;
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fredoka One',cursive;font-size:0.9rem;
+  color:white;opacity:0.9;
+}
+
+/* Progress bar at bottom of each page */
+.fb-progress{
+  height:4px;background:#f1f5f9;border-radius:4px;
+  margin-top:18px;overflow:hidden;
+}
+.fb-progress-fill{
+  height:100%;border-radius:4px;
+  background:linear-gradient(90deg,var(--sci),var(--sci-dk));
+  transition:width 0.5s ease;
+}
+
+/* ════ COMIC STRIP ════ */
+.comic-wrap{
+  margin-top:4px;
+}
+.comic-title{
+  font-family:'Fredoka One',cursive;font-size:1.3rem;
+  text-align:center;margin-bottom:14px;
+  background:linear-gradient(90deg,#f43f5e,#f97316,#fbbf24,#22c55e,#4f8ef7,#a855f7);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.comic-subtitle{
+  text-align:center;font-size:12px;font-weight:700;
+  color:var(--muted);margin-bottom:20px;
+  text-transform:uppercase;letter-spacing:1px;
+}
+.comic-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:10px;
+}
+@media(max-width:620px){
+  .comic-grid{grid-template-columns:1fr 1fr;}
+}
+/* Individual comic box */
+.comic-box{
+  border-radius:14px;overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12);
+  border:3px solid #1e293b;
+  position:relative;
+  display:flex;flex-direction:column;
+  min-height:200px;
+}
+.comic-box-hdr{
+  padding:7px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2.5px solid #1e293b;
+}
+.comic-box-num{
+  font-family:'Fredoka One',cursive;font-size:1.1rem;
+  color:white;width:26px;height:26px;border-radius:50%;
+  background:#1e293b;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:0.85rem;
+}
+.comic-box-scene{
+  flex:1;position:relative;overflow:hidden;
+  display:flex;align-items:flex-end;justify-content:center;
+  padding:10px 8px 0;min-height:100px;
+}
+/* Speech bubble */
+.comic-bubble{
+  position:relative;
+  background:white;border-radius:12px;
+  padding:8px 11px;font-size:11px;font-weight:700;
+  color:#1e293b;line-height:1.5;border:2px solid #1e293b;
+  margin:0 4px 8px;text-align:left;flex:1;
+}
+.comic-bubble::after{
+  content:'';position:absolute;bottom:-9px;left:16px;
+  border:8px solid transparent;border-top-color:#1e293b;
+  border-bottom:none;
+}
+.comic-bubble::before{
+  content:'';position:absolute;bottom:-7px;left:17px;
+  border:7px solid transparent;border-top-color:white;
+  border-bottom:none;z-index:1;
+}
+/* Thought bubble variant */
+.comic-bubble.thought{
+  border-radius:16px;border-style:dashed;
+}
+.comic-bubble.thought::after{
+  display:none;
+}
+.comic-bubble.thought::before{
+  display:none;
+}
+/* Shout bubble */
+.comic-bubble.shout{
+  border-radius:4px;
+  clip-path:polygon(0 0,100% 0,100% 75%,80% 75%,75% 100%,70% 75%,0 75%);
+  padding-bottom:20px;
+}
+.comic-caption{
+  padding:6px 10px;
+  font-size:10px;font-weight:800;
+  color:white;text-align:center;
+  border-top:2px solid #1e293b;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+/* Char in comic (mini versions) */
+.comic-char{
+  flex-shrink:0;margin-bottom:-2px;
+}
+/* SFX text */
+.comic-sfx{
+  position:absolute;font-family:'Fredoka One',cursive;
+  font-size:1.1rem;transform:rotate(-12deg);
+  text-shadow:2px 2px 0 rgba(0,0,0,0.15);
+  pointer-events:none;
+}
+/* Panel bg patterns */
+.comic-dots{
+  background-image:radial-gradient(circle,rgba(0,0,0,0.07) 1px,transparent 1px);
+  background-size:12px 12px;
+}
+.comic-lines{
+  background-image:repeating-linear-gradient(
+    45deg,transparent,transparent 8px,rgba(0,0,0,0.04) 8px,rgba(0,0,0,0.04) 9px
+  );
+}
+
 </style>
 </head>
 <body>
@@ -651,7 +889,23 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
 <!-- NOTES TAB -->
 <div class="tab-panel active" id="tab-notes">
 
-  <!-- TOPIC 1 -->
+
+<div class="flipbook-shell">
+  <div class="fb-nav-bar">
+    <span class="fb-page-label" id="fb-page-label">📖 Page 1 of 5</span>
+    <div class="fb-page-dots"><button class="fb-pdot active" id="fb-dot-1" onclick="goFBPage(1)" title="Page 1"></button><button class="fb-pdot" id="fb-dot-2" onclick="goFBPage(2)" title="Page 2"></button><button class="fb-pdot" id="fb-dot-3" onclick="goFBPage(3)" title="Page 3"></button><button class="fb-pdot" id="fb-dot-4" onclick="goFBPage(4)" title="Page 4"></button><button class="fb-pdot" id="fb-dot-5" onclick="goFBPage(5)" title="Page 5"></button></div>
+    <div class="fb-arrows">
+      <button class="fb-arr" id="fb-prev" onclick="fbPrev()" disabled>← Prev</button>
+      <button class="fb-arr" id="fb-next" onclick="fbNext()">Next →</button>
+    </div>
+  </div>
+  <div class="fb-pages">
+
+    <div class="fb-page active" id="fb-page-1">
+      <div class="fb-page-tab" style="background:linear-gradient(135deg,#00c9a7,#00a388);">🔬 Page 1 of 5 &nbsp;·&nbsp; What is Science?</div>
+      <div class="fb-card" style="border-top-color:#00c9a7;">
+        <div class="fb-stamp" style="background:linear-gradient(135deg,#00c9a7,#00a388);">1</div>
+        <!-- TOPIC 1 -->
   <div class="topic-block">
     <div class="topic-header">
       <div class="topic-icon">🔬</div>
@@ -770,8 +1024,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
       <div id="qz1-q"></div>
     </div>
   </div>
+        <div class="fb-progress"><div class="fb-progress-fill" style="width:20%"></div></div>
+      </div>
+    </div>
 
-  <!-- TOPIC 2 -->
+    <div class="fb-page" id="fb-page-2">
+      <div class="fb-page-tab" style="background:linear-gradient(135deg,#4f8ef7,#2563eb);">🧪 Page 2 of 5 &nbsp;·&nbsp; Scientific Method</div>
+      <div class="fb-card" style="border-top-color:#4f8ef7;">
+        <div class="fb-stamp" style="background:linear-gradient(135deg,#4f8ef7,#2563eb);">2</div>
+        <!-- TOPIC 2 -->
   <div class="topic-block" style="border-left-color:#4f8ef7;">
     <div class="topic-header">
       <div class="topic-icon">🧪</div>
@@ -888,8 +1149,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
       <div id="qz2-q"></div>
     </div>
   </div>
+        <div class="fb-progress"><div class="fb-progress-fill" style="width:40%"></div></div>
+      </div>
+    </div>
 
-  <!-- TOPIC 3: Lab Safety + 3D -->
+    <div class="fb-page" id="fb-page-3">
+      <div class="fb-page-tab" style="background:linear-gradient(135deg,#f43f5e,#dc2626);">⚗️ Page 3 of 5 &nbsp;·&nbsp; Lab Safety</div>
+      <div class="fb-card" style="border-top-color:#f43f5e;">
+        <div class="fb-stamp" style="background:linear-gradient(135deg,#f43f5e,#dc2626);">3</div>
+        <!-- TOPIC 3: Lab Safety + 3D -->
   <div class="topic-block" style="border-left-color:#f43f5e;">
     <div class="topic-header">
       <div class="topic-icon">⚗️</div>
@@ -965,8 +1233,15 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
       <div id="qz3-q"></div>
     </div>
   </div>
+        <div class="fb-progress"><div class="fb-progress-fill" style="width:60%"></div></div>
+      </div>
+    </div>
 
-  <!-- TOPIC 4: Scientists + 3D Atom -->
+    <div class="fb-page" id="fb-page-4">
+      <div class="fb-page-tab" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">🏆 Page 4 of 5 &nbsp;·&nbsp; Famous Scientists</div>
+      <div class="fb-card" style="border-top-color:#a855f7;">
+        <div class="fb-stamp" style="background:linear-gradient(135deg,#a855f7,#7c3aed);">4</div>
+        <!-- TOPIC 4: Scientists + 3D Atom -->
   <div class="topic-block" style="border-left-color:#a855f7;">
     <div class="topic-header">
       <div class="topic-icon">🏆</div>
@@ -1060,20 +1335,419 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);}
       <div id="qz4-q"></div>
     </div>
   </div>
+        <div class="fb-progress"><div class="fb-progress-fill" style="width:80%"></div></div>
+      </div>
+    </div>
+
+  <!-- COMIC STRIP PAGE -->
+  <div class="fb-page" id="fb-page-5">
+    <div class="fb-page-tab" style="background:linear-gradient(135deg,#f43f5e,#a855f7);">📖 Page 5 of 5 &nbsp;·&nbsp; Chapter Recap</div>
+    <div class="fb-card" style="border-top-color:#f43f5e;">
+      <div class="fb-stamp" style="background:linear-gradient(135deg,#f43f5e,#a855f7);">5</div>
+      <div class="comic-wrap">
+        <div class="comic-title">⚡ The Science Ninja Chronicles 🍃</div>
+        <div class="comic-subtitle">Chapter 1 — The Wonderful World of Science</div>
+        <div class="comic-grid">
+
+          <!-- BOX 1: What is Science -->
+          <div class="comic-box" style="border-color:#0891b2;">
+            <div class="comic-box-hdr" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);">
+              <div class="comic-box-num" style="background:#0891b2;">1</div>
+              <span style="font-size:10px;font-weight:800;color:#0e7490;">THE BEGINNING</span>
+            </div>
+            <div class="comic-box-scene comic-dots" style="background:linear-gradient(160deg,#f0f9ff,#e0f2fe);flex-direction:column;align-items:center;padding:10px 10px 0;">
+              <div style="display:flex;align-items:flex-end;gap:6px;width:100%;">
+                <div class="char-naru" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-chakra" style="width:46px;height:46px;bottom:8px;"></div>
+  <div class="nn-spike nn-s1" style="height:11px;bottom:18px;"></div>
+  <div class="nn-spike nn-s2" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s3" style="height:15px;bottom:26px;"></div>
+  <div class="nn-spike nn-s4" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s5" style="height:11px;bottom:18px;"></div>
+  <div class="nn-hair-base" style="width:36px;height:22px;bottom:26px;"></div>
+  <div class="nn-band" style="width:38px;height:7px;bottom:46px;"></div>
+  <div class="nn-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="nn-whisker nn-w1" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w2" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w3" style="width:7px;top:22px;"></div>
+    <div class="nn-whisker nn-w4" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w5" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w6" style="width:7px;top:22px;"></div>
+    <div class="nn-eyes" style="top:10px;gap:5px;">
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="nn-blush l" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-blush r" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-mouth" style="top:20px;width:10px;height:5px;"></div>
+  </div>
+  <div class="nn-spiral" style="width:10px;height:10px;bottom:26px;"></div>
+  <div class="nn-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-body" style="width:34px;height:34px;bottom:14px;"></div>
+  <div class="nn-legs" style="bottom:0;">
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+                <div class="comic-bubble" style="font-size:10.5px;">
+                  <strong>Science?</strong> It's from Latin <em>"Scientia"</em> — meaning <strong>KNOWLEDGE</strong>! Everything around us is science! 🔬
+                </div>
+              </div>
+              <div class="comic-sfx" style="color:#0891b2;top:8px;right:8px;font-size:0.9rem;">BELIEVE IT!</div>
+            </div>
+            <div class="comic-caption" style="background:#0891b2;">🌍 The World of Science</div>
+          </div>
+
+          <!-- BOX 2: 3 Branches -->
+          <div class="comic-box" style="border-color:#059669;">
+            <div class="comic-box-hdr" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">
+              <div class="comic-box-num" style="background:#059669;">2</div>
+              <span style="font-size:10px;font-weight:800;color:#065f46;">THREE BRANCHES</span>
+            </div>
+            <div class="comic-box-scene" style="background:linear-gradient(160deg,#f0fdf4,#dcfce7);flex-direction:column;padding:8px 10px 0;">
+              <div style="display:flex;gap:4px;justify-content:center;margin-bottom:6px;">
+                <div style="text-align:center;background:#4f8ef7;border-radius:8px;padding:4px 7px;">
+                  <div style="font-size:14px;">⚡</div>
+                  <div style="font-size:8px;color:white;font-weight:800;">Physics</div>
+                </div>
+                <div style="text-align:center;background:#22c55e;border-radius:8px;padding:4px 7px;">
+                  <div style="font-size:14px;">⚗️</div>
+                  <div style="font-size:8px;color:white;font-weight:800;">Chemistry</div>
+                </div>
+                <div style="text-align:center;background:#f59e0b;border-radius:8px;padding:4px 7px;">
+                  <div style="font-size:14px;">🌿</div>
+                  <div style="font-size:8px;color:white;font-weight:800;">Biology</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:5px;width:100%;">
+                <div class="char-sasu" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-spike ns-bs1" style="height:16px;bottom:20px;"></div>
+  <div class="nn-spike ns-bs2" style="height:20px;bottom:22px;"></div>
+  <div class="nn-spike ns-bs3" style="height:18px;bottom:22px;"></div>
+  <div class="ns-hair-base" style="width:34px;height:20px;bottom:28px;"></div>
+  <div class="ns-bang" style="width:10px;height:14px;bottom:38px;left:6px;"></div>
+  <div class="ns-band" style="width:38px;height:7px;bottom:48px;"></div>
+  <div class="ns-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="ns-mark" style="top:26px;right:4px;width:5px;height:5px;"></div>
+    <div class="ns-eyes" style="top:10px;gap:5px;">
+      <div class="ns-eye" style="width:6px;height:6px;"></div>
+      <div class="ns-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="ns-mouth" style="top:20px;width:8px;"></div>
+  </div>
+  <div class="ns-collar" style="top:-4px;width:16px;height:10px;"></div>
+  <div class="ns-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="ns-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="ns-body" style="width:34px;height:34px;bottom:14px;">
+    <div class="ns-emblem" style="width:8px;height:8px;top:8px;"></div>
+  </div>
+  <div class="ns-legs" style="bottom:0;">
+    <div class="ns-leg"><div class="ns-thigh" style="width:11px;height:15px;"></div><div class="ns-boot" style="width:12px;height:10px;"></div></div>
+    <div class="ns-leg"><div class="ns-thigh" style="width:11px;height:15px;"></div><div class="ns-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+                <div class="comic-bubble thought" style="font-size:10px;border-color:#059669;">
+                  Three branches. Each precise. Each powerful. Master all three. ⚡
+                </div>
+              </div>
+            </div>
+            <div class="comic-caption" style="background:#059669;">🔬 Physics · Chemistry · Biology</div>
+          </div>
+
+          <!-- BOX 3: Scientific Method -->
+          <div class="comic-box" style="border-color:#7c3aed;">
+            <div class="comic-box-hdr" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">
+              <div class="comic-box-num" style="background:#7c3aed;">3</div>
+              <span style="font-size:10px;font-weight:800;color:#5b21b6;">THE METHOD</span>
+            </div>
+            <div class="comic-box-scene comic-lines" style="background:linear-gradient(160deg,#faf5ff,#ede9fe);flex-direction:column;padding:8px 8px 0;">
+              <div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap;justify-content:center;margin-bottom:6px;">
+                <span style="font-size:8px;font-weight:800;background:#00c9a7;color:white;padding:2px 6px;border-radius:6px;">OBSERVE</span>
+                <span style="font-size:10px;color:#94a3b8;">→</span>
+                <span style="font-size:8px;font-weight:800;background:#4f8ef7;color:white;padding:2px 6px;border-radius:6px;">QUESTION</span>
+                <span style="font-size:10px;color:#94a3b8;">→</span>
+                <span style="font-size:8px;font-weight:800;background:#f59e0b;color:white;padding:2px 6px;border-radius:6px;">HYPOTHESIS</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:3px;justify-content:center;margin-bottom:6px;">
+                <span style="font-size:8px;font-weight:800;background:#f43f5e;color:white;padding:2px 6px;border-radius:6px;">EXPERIMENT</span>
+                <span style="font-size:10px;color:#94a3b8;">→</span>
+                <span style="font-size:8px;font-weight:800;background:#a855f7;color:white;padding:2px 6px;border-radius:6px;">CONCLUSION</span>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:5px;width:100%;">
+                <div class="char-naru" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-chakra" style="width:46px;height:46px;bottom:8px;"></div>
+  <div class="nn-spike nn-s1" style="height:11px;bottom:18px;"></div>
+  <div class="nn-spike nn-s2" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s3" style="height:15px;bottom:26px;"></div>
+  <div class="nn-spike nn-s4" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s5" style="height:11px;bottom:18px;"></div>
+  <div class="nn-hair-base" style="width:36px;height:22px;bottom:26px;"></div>
+  <div class="nn-band" style="width:38px;height:7px;bottom:46px;"></div>
+  <div class="nn-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="nn-whisker nn-w1" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w2" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w3" style="width:7px;top:22px;"></div>
+    <div class="nn-whisker nn-w4" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w5" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w6" style="width:7px;top:22px;"></div>
+    <div class="nn-eyes" style="top:10px;gap:5px;">
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="nn-blush l" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-blush r" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-mouth" style="top:20px;width:10px;height:5px;"></div>
+  </div>
+  <div class="nn-spiral" style="width:10px;height:10px;bottom:26px;"></div>
+  <div class="nn-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-body" style="width:34px;height:34px;bottom:14px;"></div>
+  <div class="nn-legs" style="bottom:0;">
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+                <div class="comic-bubble" style="font-size:10px;border-color:#7c3aed;">
+                  This is my <strong>Ninja Way</strong> of solving any science problem! 🍃
+                </div>
+              </div>
+            </div>
+            <div class="comic-caption" style="background:#7c3aed;">🔄 Scientific Method</div>
+          </div>
+
+          <!-- BOX 4: Lab Safety -->
+          <div class="comic-box" style="border-color:#dc2626;">
+            <div class="comic-box-hdr" style="background:linear-gradient(135deg,#fee2e2,#fecaca);">
+              <div class="comic-box-num" style="background:#dc2626;">4</div>
+              <span style="font-size:10px;font-weight:800;color:#991b1b;">LAB SAFETY</span>
+            </div>
+            <div class="comic-box-scene" style="background:linear-gradient(160deg,#fff5f5,#fee2e2);flex-direction:column;padding:8px 10px 0;">
+              <div style="display:flex;justify-content:center;gap:8px;margin-bottom:6px;">
+                <span style="font-size:20px;">🥽</span>
+                <span style="font-size:20px;">🥼</span>
+                <span style="font-size:20px;">🧤</span>
+                <span style="font-size:20px;">⚗️</span>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:5px;width:100%;">
+                <div class="char-naru" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-chakra" style="width:46px;height:46px;bottom:8px;"></div>
+  <div class="nn-spike nn-s1" style="height:11px;bottom:18px;"></div>
+  <div class="nn-spike nn-s2" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s3" style="height:15px;bottom:26px;"></div>
+  <div class="nn-spike nn-s4" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s5" style="height:11px;bottom:18px;"></div>
+  <div class="nn-hair-base" style="width:36px;height:22px;bottom:26px;"></div>
+  <div class="nn-band" style="width:38px;height:7px;bottom:46px;"></div>
+  <div class="nn-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="nn-whisker nn-w1" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w2" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w3" style="width:7px;top:22px;"></div>
+    <div class="nn-whisker nn-w4" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w5" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w6" style="width:7px;top:22px;"></div>
+    <div class="nn-eyes" style="top:10px;gap:5px;">
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="nn-blush l" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-blush r" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-mouth" style="top:20px;width:10px;height:5px;"></div>
+  </div>
+  <div class="nn-spiral" style="width:10px;height:10px;bottom:26px;"></div>
+  <div class="nn-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-body" style="width:34px;height:34px;bottom:14px;"></div>
+  <div class="nn-legs" style="bottom:0;">
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+                <div class="comic-bubble" style="border-color:#dc2626;font-size:10px;">
+                  A careless ninja is a <strong>dangerous ninja!</strong> Wear gear — <em>always.</em> Never taste chemicals! 🛡️
+                </div>
+              </div>
+              <div class="comic-sfx" style="color:#dc2626;top:10px;right:6px;font-size:0.85rem;">DANGER!</div>
+            </div>
+            <div class="comic-caption" style="background:#dc2626;">🛡️ Safety Rules</div>
+          </div>
+
+          <!-- BOX 5: Famous Scientists -->
+          <div class="comic-box" style="border-color:#d97706;">
+            <div class="comic-box-hdr" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">
+              <div class="comic-box-num" style="background:#d97706;">5</div>
+              <span style="font-size:10px;font-weight:800;color:#92400e;">HALL OF LEGENDS</span>
+            </div>
+            <div class="comic-box-scene" style="background:linear-gradient(160deg,#fffbeb,#fef3c7);flex-direction:column;padding:8px 8px 0;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px;width:100%;">
+                <div style="background:#fbbf24;border-radius:6px;padding:4px;text-align:center;">
+                  <div style="font-size:9px;font-weight:800;color:#1e293b;">🏅 C.V. Raman</div>
+                  <div style="font-size:8px;color:#1e293b;opacity:0.8;">Raman Effect · Nobel 1930</div>
+                </div>
+                <div style="background:#f97316;border-radius:6px;padding:4px;text-align:center;">
+                  <div style="font-size:9px;font-weight:800;color:white;">🚀 APJ Kalam</div>
+                  <div style="font-size:8px;color:white;opacity:0.85;">Missile Man of India</div>
+                </div>
+                <div style="background:#a855f7;border-radius:6px;padding:4px;text-align:center;">
+                  <div style="font-size:9px;font-weight:800;color:white;">🔢 Aryabhata</div>
+                  <div style="font-size:8px;color:white;opacity:0.85;">Zero · Pi · Astronomer</div>
+                </div>
+                <div style="background:#0891b2;border-radius:6px;padding:4px;text-align:center;">
+                  <div style="font-size:9px;font-weight:800;color:white;">⚛️ Homi Bhabha</div>
+                  <div style="font-size:8px;color:white;opacity:0.85;">Nuclear Programme</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:flex-end;gap:5px;width:100%;">
+                <div class="char-sasu" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-spike ns-bs1" style="height:16px;bottom:20px;"></div>
+  <div class="nn-spike ns-bs2" style="height:20px;bottom:22px;"></div>
+  <div class="nn-spike ns-bs3" style="height:18px;bottom:22px;"></div>
+  <div class="ns-hair-base" style="width:34px;height:20px;bottom:28px;"></div>
+  <div class="ns-bang" style="width:10px;height:14px;bottom:38px;left:6px;"></div>
+  <div class="ns-band" style="width:38px;height:7px;bottom:48px;"></div>
+  <div class="ns-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="ns-mark" style="top:26px;right:4px;width:5px;height:5px;"></div>
+    <div class="ns-eyes" style="top:10px;gap:5px;">
+      <div class="ns-eye" style="width:6px;height:6px;"></div>
+      <div class="ns-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="ns-mouth" style="top:20px;width:8px;"></div>
+  </div>
+  <div class="ns-collar" style="top:-4px;width:16px;height:10px;"></div>
+  <div class="ns-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="ns-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="ns-body" style="width:34px;height:34px;bottom:14px;">
+    <div class="ns-emblem" style="width:8px;height:8px;top:8px;"></div>
+  </div>
+  <div class="ns-legs" style="bottom:0;">
+    <div class="ns-leg"><div class="ns-thigh" style="width:11px;height:15px;"></div><div class="ns-boot" style="width:12px;height:10px;"></div></div>
+    <div class="ns-leg"><div class="ns-thigh" style="width:11px;height:15px;"></div><div class="ns-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+                <div class="comic-bubble thought" style="border-color:#d97706;font-size:10px;">
+                  These are India's greatest scientific warriors. Study their path. 📜
+                </div>
+              </div>
+            </div>
+            <div class="comic-caption" style="background:#d97706;">🏆 India's Science Legends</div>
+          </div>
+
+          <!-- BOX 6: Chapter ending — both chars -->
+          <div class="comic-box" style="border-color:#059669;grid-column:span 1;">
+            <div class="comic-box-hdr" style="background:linear-gradient(135deg,#00c9a7,#0891b2);">
+              <div class="comic-box-num" style="background:#059669;">6</div>
+              <span style="font-size:10px;font-weight:800;color:white;">MISSION COMPLETE!</span>
+            </div>
+            <div class="comic-box-scene" style="background:linear-gradient(160deg,#e0fff8,#f0f9f7);flex-direction:column;align-items:center;padding:10px 8px 0;">
+              <div style="display:flex;align-items:flex-end;gap:-4px;">
+                <div class="char-naru" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-chakra" style="width:46px;height:46px;bottom:8px;"></div>
+  <div class="nn-spike nn-s1" style="height:11px;bottom:18px;"></div>
+  <div class="nn-spike nn-s2" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s3" style="height:15px;bottom:26px;"></div>
+  <div class="nn-spike nn-s4" style="height:13px;bottom:22px;"></div>
+  <div class="nn-spike nn-s5" style="height:11px;bottom:18px;"></div>
+  <div class="nn-hair-base" style="width:36px;height:22px;bottom:26px;"></div>
+  <div class="nn-band" style="width:38px;height:7px;bottom:46px;"></div>
+  <div class="nn-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="nn-whisker nn-w1" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w2" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w3" style="width:7px;top:22px;"></div>
+    <div class="nn-whisker nn-w4" style="width:7px;top:16px;"></div>
+    <div class="nn-whisker nn-w5" style="width:7px;top:19px;"></div>
+    <div class="nn-whisker nn-w6" style="width:7px;top:22px;"></div>
+    <div class="nn-eyes" style="top:10px;gap:5px;">
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+      <div class="nn-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="nn-blush l" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-blush r" style="top:16px;width:6px;height:4px;"></div>
+    <div class="nn-mouth" style="top:20px;width:10px;height:5px;"></div>
+  </div>
+  <div class="nn-spiral" style="width:10px;height:10px;bottom:26px;"></div>
+  <div class="nn-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="nn-body" style="width:34px;height:34px;bottom:14px;"></div>
+  <div class="nn-legs" style="bottom:0;">
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+    <div class="nn-leg"><div class="nn-thigh" style="width:11px;height:15px;"></div><div class="nn-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+                <div class="char-sasu" style="width:58px;height:74px;flex-shrink:0;">
+  <div class="nn-spike ns-bs1" style="height:16px;bottom:20px;"></div>
+  <div class="nn-spike ns-bs2" style="height:20px;bottom:22px;"></div>
+  <div class="nn-spike ns-bs3" style="height:18px;bottom:22px;"></div>
+  <div class="ns-hair-base" style="width:34px;height:20px;bottom:28px;"></div>
+  <div class="ns-bang" style="width:10px;height:14px;bottom:38px;left:6px;"></div>
+  <div class="ns-band" style="width:38px;height:7px;bottom:48px;"></div>
+  <div class="ns-head" style="width:32px;height:30px;bottom:32px;">
+    <div class="ns-mark" style="top:26px;right:4px;width:5px;height:5px;"></div>
+    <div class="ns-eyes" style="top:10px;gap:5px;">
+      <div class="ns-eye" style="width:6px;height:6px;"></div>
+      <div class="ns-eye" style="width:6px;height:6px;"></div>
+    </div>
+    <div class="ns-mouth" style="top:20px;width:8px;"></div>
+  </div>
+  <div class="ns-collar" style="top:-4px;width:16px;height:10px;"></div>
+  <div class="ns-arm-l" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="ns-arm-r" style="width:8px;height:22px;bottom:20px;"></div>
+  <div class="ns-body" style="width:34px;height:34px;bottom:14px;">
+    <div class="ns-emblem" style="width:8px;height:8px;top:8px;"></div>
+  </div>
+  <div class="ns-legs" style="bottom:0;">
+    <div class="ns-leg"><div class="ns-thigh" style="width:11px;height:15px;"></div><div class="ns-boot" style="width:12px;height:10px;"></div></div>
+    <div class="ns-leg"><div class="ns-thigh" style="width:11px;height:15px;"></div><div class="ns-boot" style="width:12px;height:10px;"></div></div>
+  </div>
+</div>
+              </div>
+              <div class="comic-bubble" style="border-color:#00c9a7;font-size:10.5px;margin-top:8px;text-align:center;">
+                <strong>Chapter 1 — Complete!</strong><br>
+                Science, Method, Safety, Scientists — <em>all mastered!</em> 🎉
+              </div>
+              <div class="comic-sfx" style="color:#00c9a7;top:8px;right:8px;font-size:0.95rem;">JUTSU!</div>
+            </div>
+            <div class="comic-caption" style="background:linear-gradient(135deg,#00c9a7,#059669);">✅ Chapter 1 Complete!</div>
+          </div>
+
+        </div><!-- end comic-grid -->
+      </div><!-- end comic-wrap -->
+      <div class="fb-progress"><div class="fb-progress-fill" style="width:100%"></div></div>
+    </div><!-- end fb-card -->
+  </div><!-- end page 5 -->
+
+  </div><!-- end fb-pages -->
+</div><!-- end flipbook-shell -->
 
 </div><!-- end notes -->
 
 <!-- FLASHCARDS -->
 <div class="tab-panel" id="tab-flashcards">
   <div class="fc-wrap">
-    <div class="fc-count">Card <span id="fc-cur">1</span> / <span id="fc-total">10</span></div>
+    <div class="fc-count">Card <span id="fc-cur">1</span> of <span id="fc-total">10</span> &nbsp;·&nbsp; <span id="fc-cat" style="color:var(--sci);font-weight:900;"></span></div>
     <div class="flashcard" id="flashcard" onclick="flipCard()">
       <div class="fc-inner">
-        <div class="fc-front"><div class="fc-lbl">Question</div><div class="fc-q" id="fc-q"></div><div class="fc-tap">👆 Tap to flip</div></div>
-        <div class="fc-back"><div class="fc-lbl">Answer</div><div class="fc-a" id="fc-a"></div><div class="fc-tap">👆 Tap to flip back</div></div>
+        <div class="fc-front">
+          <div class="fc-front-top" id="fc-img-front"></div>
+          <div class="fc-front-bot">
+            <div class="fc-lbl">❓ Question</div>
+            <div class="fc-q" id="fc-q"></div>
+            <div class="fc-tap">👆 Tap card to reveal answer</div>
+          </div>
+        </div>
+        <div class="fc-back">
+          <div class="fc-back-bot" style="flex:1;justify-content:center;border-top:none;">
+            <div class="fc-a-lbl">✅ Answer</div>
+            <div class="fc-a" id="fc-a"></div>
+            <div class="fc-tap-back">👆 Tap to go back to question</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="fc-nav"><button class="fc-btn" onclick="prevCard()">← Prev</button><button class="fc-btn" onclick="nextCard()">Next →</button></div>
+    <div class="fc-nav">
+      <button class="fc-btn" onclick="prevCard()">← Prev</button>
+      <div class="fc-card-num"><span id="fc-cur2">1</span>/<span id="fc-total2">10</span></div>
+      <button class="fc-btn" onclick="nextCard()">Next →</button>
+    </div>
     <div class="fc-dots" id="fc-dots"></div>
   </div>
 </div>
@@ -1271,32 +1945,81 @@ const floatTips=[
 let floatIdx=0,floatDismissed=false,floatShown=false;
 function showFloat(){
   if(floatDismissed)return;
-  document.getElementById('float-char').classList.add('show');
+  const _fc=document.getElementById('float-char');
+  if(!_fc)return;
+  _fc.classList.add('show');
   floatShown=true;
 }
 function dismissFloat(){
   floatDismissed=true;
-  document.getElementById('float-char').classList.remove('show');
-  document.getElementById('float-char').classList.add('dismiss');
+  const _fc2=document.getElementById('float-char');
+  if(!_fc2)return;
+  _fc2.classList.remove('show');
+  _fc2.classList.add('dismiss');
 }
 function nextFloatTip(){
   floatIdx=(floatIdx+1)%floatTips.length;
-  document.getElementById('float-tip-text').textContent=floatTips[floatIdx];
+  const _ftt=document.getElementById('float-tip-text');
+  if(_ftt)_ftt.textContent=floatTips[floatIdx];
 }
 // Show float after 3s, then every 30s new tip
 setTimeout(()=>showFloat(),3000);
 setInterval(()=>{
   if(!floatDismissed&&floatShown){
     floatIdx=(floatIdx+1)%floatTips.length;
-    document.getElementById('float-tip-text').textContent=floatTips[floatIdx];
+    const _ft=document.getElementById('float-tip-text');
+    if(_ft)_ft.textContent=floatTips[floatIdx];
   }
 },30000);
 
 // ══ SCROLL REVEAL ══
-const revealObs=new IntersectionObserver((entries)=>{
+const revealObs=typeof IntersectionObserver!=="undefined"?new IntersectionObserver((entries)=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
 },{threshold:0.15});
 document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+
+// ══ FLIPBOOK ══
+let fbCurrent = 1;
+const FB_TOTAL = 5;
+function goFBPage(n){
+  // exit current
+  const cur = document.getElementById('fb-page-'+fbCurrent);
+  if(cur){ cur.classList.remove('active'); }
+  fbCurrent = n;
+  // enter new
+  const next = document.getElementById('fb-page-'+fbCurrent);
+  if(next){ next.classList.add('active'); }
+  // update dots
+  for(let i=1;i<=FB_TOTAL;i++){
+    const d=document.getElementById('fb-dot-'+i);
+    if(!d)continue;
+    d.classList.remove('active','done');
+    if(i===fbCurrent) d.classList.add('active');
+    else if(i<fbCurrent) d.classList.add('done');
+  }
+  // update label
+  const labels=['What is Science?','Scientific Method','Lab Safety','Famous Scientists','Chapter Recap'];
+  const lbl=document.getElementById('fb-page-label');
+  if(lbl) lbl.textContent='📖 Page '+fbCurrent+' of '+FB_TOTAL+' — '+labels[fbCurrent-1];
+  // arrows
+  const prev=document.getElementById('fb-prev');
+  const nxt=document.getElementById('fb-next');
+  if(prev) prev.disabled = fbCurrent===1;
+  if(nxt)  nxt.disabled  = fbCurrent===FB_TOTAL;
+  // scroll to top of flipbook
+  const shell=document.querySelector('.flipbook-shell');
+  if(shell) shell.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function fbNext(){ if(fbCurrent<FB_TOTAL) goFBPage(fbCurrent+1); }
+function fbPrev(){ if(fbCurrent>1) goFBPage(fbCurrent-1); }
+// keyboard arrows
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('tab-notes').classList.contains('active')){
+    if(e.key==='ArrowRight') fbNext();
+    if(e.key==='ArrowLeft')  fbPrev();
+  }
+});
 
 </script>
 <script>
@@ -1352,7 +2075,7 @@ document.addEventListener('mouseup',e=>{
   }else closeSelMenu();
 });
 function closeSelMenu(){document.getElementById('sel-menu').classList.remove('show');}
-function doTTS(){if(selText&&'speechSynthesis' in window){const u=new SpeechSynthesisUtterance(selText);u.lang='en-IN';u.rate=0.9;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}closeSelMenu();}
+function doTTS(){if(selText&&'speechSynthesis' in window){try{const u=new SpeechSynthesisUtterance(selText);u.lang='en-IN';u.rate=0.9;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}catch(e){}}closeSelMenu();}
 function doWiki(){window.open('https://en.wikipedia.org/wiki/'+encodeURIComponent(selText),'_blank');closeSelMenu();}
 function doGoogle(){window.open('https://www.google.com/search?q='+encodeURIComponent(selText+' class 6 NCERT'),'_blank');closeSelMenu();}
 function doNCERT(){window.open('https://ncert.nic.in','_blank');closeSelMenu();}
@@ -1370,7 +2093,7 @@ function animBranches(){
   const c=document.getElementById('ac');if(!c)return;
   const ctx=c.getContext('2d');const W=c.width,H=c.height;let fr=0;
   const bs=[{l:'Physics',col:'#4f8ef7',a:-Math.PI/3},{l:'Chemistry',col:'#22c55e',a:0},{l:'Biology',col:'#f59e0b',a:Math.PI/3},{l:'Astronomy',col:'#a855f7',a:-2*Math.PI/3},{l:'Geology',col:'#f43f5e',a:2*Math.PI/3}];
-  function draw(){ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,maxR=96,r=Math.min(fr*2,maxR);ctx.fillStyle='#00c9a7';ctx.beginPath();ctx.arc(cx,cy,36,0,Math.PI*2);ctx.fill();ctx.fillStyle='white';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText('Science',cx,cy+5);bs.forEach(b=>{const bx=cx+Math.cos(b.a)*r,by=cy+Math.sin(b.a)*r;const p=Math.min(1,fr/30);ctx.strokeStyle=b.col;ctx.lineWidth=2.5;ctx.setLineDash([6,3]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(b.a)*r*p,cy+Math.sin(b.a)*r*p);ctx.stroke();ctx.setLineDash([]);if(r>=maxR){ctx.fillStyle=b.col;ctx.beginPath();ctx.arc(bx,by,24,0,Math.PI*2);ctx.fill();ctx.fillStyle='white';ctx.font='bold 9px sans-serif';ctx.fillText(b.l,bx,by+4);}});fr++;if(fr<80)requestAnimationFrame(draw);else{fr=0;setTimeout(()=>{if(document.getElementById('ac'))draw();},2000);}}draw();
+  function draw(){const _c=document.getElementById("ac");if(!_c)return;ctx.clearRect(0,0,W,H);const cx=W/2,cy=H/2,maxR=96,r=Math.min(fr*2,maxR);ctx.fillStyle='#00c9a7';ctx.beginPath();ctx.arc(cx,cy,36,0,Math.PI*2);ctx.fill();ctx.fillStyle='white';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText('Science',cx,cy+5);bs.forEach(b=>{const bx=cx+Math.cos(b.a)*r,by=cy+Math.sin(b.a)*r;const p=Math.min(1,fr/30);ctx.strokeStyle=b.col;ctx.lineWidth=2.5;ctx.setLineDash([6,3]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(b.a)*r*p,cy+Math.sin(b.a)*r*p);ctx.stroke();ctx.setLineDash([]);if(r>=maxR){ctx.fillStyle=b.col;ctx.beginPath();ctx.arc(bx,by,24,0,Math.PI*2);ctx.fill();ctx.fillStyle='white';ctx.font='bold 9px sans-serif';ctx.fillText(b.l,bx,by+4);}});fr++;if(fr<80)requestAnimationFrame(draw);else{fr=0;setTimeout(()=>{if(document.getElementById('ac'))draw();},2000);}}draw();
 }
 function animMethod(){
   const c=document.getElementById('ac');if(!c)return;
@@ -1378,19 +2101,19 @@ function animMethod(){
   const steps=['Observe','Question','Hypothesis','Experiment','Data','Conclude'];
   const cols=['#00c9a7','#4f8ef7','#f59e0b','#f43f5e','#a855f7','#22c55e'];
   let active=0,fr=0;
-  function draw(){ctx.clearRect(0,0,W,H);const sp=W/(steps.length+1);steps.forEach((s,i)=>{const x=sp*(i+1),y=H/2;const on=i<=active;ctx.fillStyle=on?cols[i]:'#334155';ctx.beginPath();ctx.arc(x,y,20,0,Math.PI*2);ctx.fill();ctx.fillStyle='white';ctx.font='bold 8px sans-serif';ctx.textAlign='center';ctx.fillText(s,x,y+4);if(i<steps.length-1){ctx.strokeStyle=on?cols[i]:'#334155';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+22,y);ctx.lineTo(x+sp-22,y);ctx.stroke();}});fr++;if(fr%40===0)active=(active+1)%steps.length;requestAnimationFrame(draw);}draw();
+  function draw(){const _c2=document.getElementById("ac");if(!_c2)return;ctx.clearRect(0,0,W,H);const sp=W/(steps.length+1);steps.forEach((s,i)=>{const x=sp*(i+1),y=H/2;const on=i<=active;ctx.fillStyle=on?cols[i]:'#334155';ctx.beginPath();ctx.arc(x,y,20,0,Math.PI*2);ctx.fill();ctx.fillStyle='white';ctx.font='bold 8px sans-serif';ctx.textAlign='center';ctx.fillText(s,x,y+4);if(i<steps.length-1){ctx.strokeStyle=on?cols[i]:'#334155';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+22,y);ctx.lineTo(x+sp-22,y);ctx.stroke();}});fr++;if(fr%40===0)active=(active+1)%steps.length;requestAnimationFrame(draw);}draw();
 }
-function closeModal(){document.getElementById('modal-anim').classList.remove('show');}
+function closeModal(){const _ma=document.getElementById('modal-anim');if(_ma)_ma.classList.remove('show');}
 
 // 3D MODELS
 const M={};
 function toggle3D(id){const w=document.getElementById('wrap-'+id);w.style.display=w.style.display==='none'?'block':'none';if(w.style.display==='block')setTimeout(()=>{if(id==='lab')initLab();if(id==='atom')initAtom();},100);}
-function mkR(cid){const el=document.getElementById(cid);if(!el||!window.THREE)return null;const r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setSize(el.clientWidth,el.clientHeight||280);r.setPixelRatio(window.devicePixelRatio);el.appendChild(r.domElement);return r;}
+function mkR(cid){const el=document.getElementById(cid);if(!el||!window.THREE)return null;const w=el.clientWidth||400;const h=el.clientHeight||280;const r=new THREE.WebGLRenderer({antialias:true,alpha:true});r.setSize(w,h);r.setPixelRatio(Math.min(window.devicePixelRatio,2));el.appendChild(r.domElement);return r;}
 function initLab(){
   if(M.lab)return;const renderer=mkR('canvas-lab');if(!renderer)return;
   const scene=new THREE.Scene();scene.background=new THREE.Color(0x0f172a);
   const el=document.getElementById('canvas-lab');
-  const camera=new THREE.PerspectiveCamera(60,el.clientWidth/(el.clientHeight||280),0.1,100);camera.position.z=5;
+  const camera=new THREE.PerspectiveCamera(60,(el.clientWidth||400)/(el.clientHeight||280),0.1,100);camera.position.z=5;
   const group=new THREE.Group();
   const mat1=new THREE.MeshPhongMaterial({color:0x00c9a7,transparent:true,opacity:0.8,shininess:100});
   const flask=new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.8,1.2,16),mat1);flask.position.x=-1.8;group.add(flask);
@@ -1523,25 +2246,343 @@ function chkPQ(qi,ai,btn){const q=PQ[qi];document.getElementById('ppq'+qi).query
 function updateProg(){
   let tot=0,dn=0;Object.values(qzSt).forEach(s=>{tot+=5;dn+=s.score;});dn+=pqsc;tot+=5;
   const p=tot>0?Math.round(dn/tot*100):0;
-  document.getElementById('hero-fill').style.width=p+'%';document.getElementById('hero-pct').textContent=p+'%';
+  const _hf=document.getElementById('hero-fill');const _hp=document.getElementById('hero-pct');if(_hf)_hf.style.width=p+'%';if(_hp)_hp.textContent=p+'%';
 }
 
 // FLASHCARDS
 const FC=[
-  {q:'What does the word "Science" mean and where does it come from?',a:'From Latin "Scientia" — meaning Knowledge. Science is a systematic study of the natural world. 📚'},
-  {q:'What is the first step of the Scientific Method?',a:'Observation — carefully noticing things using our five senses. 👀'},
-  {q:'What is a Hypothesis?',a:'An educated, testable prediction or guess formed before conducting an experiment. 💡'},
-  {q:'What did C.V. Raman discover, and when?',a:'The Raman Effect in 1928 — the scattering of light through matter. Won Nobel Prize in Physics in 1930! 🏆'},
-  {q:'What does Biology study?',a:'All living organisms — plants, animals, microorganisms and humans. "Bio" means life. 🌿'},
-  {q:'What is the most essential safety rule in a laboratory?',a:'Always wear safety glasses and a lab apron. Never taste or smell chemicals directly. ⚗️'},
-  {q:'Name the three main branches of Science.',a:'Physics (force & energy), Chemistry (matter & reactions), Biology (living organisms). 🔬'},
-  {q:'What were Aryabhata\'s major contributions to science?',a:'He introduced Zero (0) and calculated the value of Pi as approximately 3.1416! 🔢'},
-  {q:'What is a Conclusion in the Scientific Method?',a:'Analysing the collected data to determine whether the hypothesis was correct or not. ✅'},
-  {q:'Why is APJ Abdul Kalam called the "Missile Man of India"?',a:'Because he led the development of India\'s ballistic missile and space launch vehicle programmes at DRDO and ISRO. 🚀'},
+  {q:'What does the word \"Science\" mean and where does it come from?',a:'From Latin \"Scientia\" — meaning Knowledge. Science is a systematic study of the natural world. 📚',cat:'Science Basics',col:'#00c9a7',bg:'#e0fff8',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <defs><radialGradient id="bg0" cx="50%" cy="50%"><stop offset="0%" stop-color="#e0fff8"/><stop offset="100%" stop-color="#c7f7ee"/></radialGradient></defs>
+  <rect width="300" height="160" fill="url(#bg0)"/>
+  <circle cx="110" cy="82" r="56" fill="#4f8ef7" opacity="0.9"/>
+  <ellipse cx="110" cy="82" rx="56" ry="22" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+  <ellipse cx="110" cy="82" rx="22" ry="56" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+  <line x1="54" y1="82" x2="166" y2="82" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+  <line x1="110" y1="26" x2="110" y2="138" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+  <circle cx="110" cy="82" r="56" fill="none" stroke="white" stroke-width="2"/>
+  <ellipse cx="95" cy="68" rx="15" ry="11" fill="#4ade80" opacity="0.85"/>
+  <ellipse cx="126" cy="94" rx="13" ry="9" fill="#4ade80" opacity="0.85"/>
+  <ellipse cx="100" cy="94" rx="7" ry="5" fill="#4ade80" opacity="0.7"/>
+  <rect x="178" y="50" width="96" height="68" rx="7" fill="#fef9c3" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="172" y="50" width="14" height="68" rx="7" fill="#f59e0b"/>
+  <rect x="250" y="50" width="14" height="68" rx="7" fill="#f59e0b"/>
+  <line x1="192" y1="68" x2="250" y2="68" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="192" y1="78" x2="250" y2="78" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="192" y1="88" x2="250" y2="88" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="192" y1="98" x2="250" y2="98" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="150" y="148" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#00a388">What is Science?</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#f0fdf4"/>
+  <text x="150" y="30" text-anchor="middle" font-family="Fredoka One,cursive" font-size="14" fill="#00a388">Latin → English</text>
+  <rect x="20" y="42" width="120" height="44" rx="12" fill="#e0fff8" stroke="#00c9a7" stroke-width="2"/>
+  <text x="80" y="60" text-anchor="middle" font-family="serif" font-size="13" font-style="italic" fill="#00a388">Scientia</text>
+  <text x="80" y="78" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#00a388">(Latin)</text>
+  <text x="150" y="68" text-anchor="middle" font-size="20">→</text>
+  <rect x="162" y="42" width="118" height="44" rx="12" fill="#00c9a7"/>
+  <text x="221" y="60" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="white">Science</text>
+  <text x="221" y="78" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="rgba(255,255,255,0.85)">Knowledge</text>
+  <text x="150" y="112" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="700" fill="#374151">Systematic study of the</text>
+  <text x="150" y="128" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="700" fill="#374151">natural world 🌍</text>
+</svg>`},
+  {q:'What is the first step of the Scientific Method?',a:'Observation — carefully noticing things using our five senses. 👀',cat:'Scientific Method',col:'#4f8ef7',bg:'#eff6ff',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#eff6ff"/>
+  <circle cx="130" cy="72" r="52" fill="rgba(147,197,253,0.2)" stroke="#4f8ef7" stroke-width="4"/>
+  <circle cx="130" cy="72" r="40" fill="rgba(219,234,254,0.5)"/>
+  <ellipse cx="130" cy="72" rx="18" ry="12" fill="white" stroke="#4f8ef7" stroke-width="2"/>
+  <circle cx="130" cy="72" r="8" fill="#1e40af"/>
+  <circle cx="133" cy="69" r="3" fill="white"/>
+  <circle cx="128" cy="74" r="1.5" fill="rgba(255,255,255,0.7)"/>
+  <line x1="158" y1="100" x2="186" y2="128" stroke="#4f8ef7" stroke-width="7" stroke-linecap="round"/>
+  <line x1="162" y1="96" x2="190" y2="124" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="44" cy="36" r="3" fill="#93c5fd" opacity="0.6"/>
+  <circle cx="220" cy="28" r="2" fill="#93c5fd" opacity="0.5"/>
+  <circle cx="260" cy="90" r="3" fill="#93c5fd" opacity="0.4"/>
+  <text x="150" y="152" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#2563eb">Scientific Method</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#eff6ff"/>
+  <!-- 5 sense icons -->
+  <text x="150" y="22" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#2563eb">5 Senses Used in Observation</text>
+  <g font-size="26" text-anchor="middle">
+    <text x="40" y="68">👁️</text><text x="40" y="82" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#64748b">Sight</text>
+    <text x="90" y="68">👂</text><text x="90" y="82" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#64748b">Hearing</text>
+    <text x="150" y="68">👃</text><text x="150" y="82" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#64748b">Smell</text>
+    <text x="210" y="68">👅</text><text x="210" y="82" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#64748b">Taste</text>
+    <text x="262" y="68">✋</text><text x="262" y="82" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#64748b">Touch</text>
+  </g>
+  <rect x="30" y="96" width="240" height="36" rx="10" fill="#00c9a7"/>
+  <text x="150" y="110" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="white">Observation is ALWAYS Step 1</text>
+  <text x="150" y="124" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">Notice → then ask questions!</text>
+</svg>`},
+  {q:'What is a Hypothesis?',a:'An educated, testable prediction or guess formed before conducting an experiment. 💡',cat:'Scientific Method',col:'#4f8ef7',bg:'#fffbeb',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#fffbeb"/>
+  <ellipse cx="86" cy="90" rx="46" ry="40" fill="#fde8c8" stroke="#f59e0b" stroke-width="2.5"/>
+  <path d="M54 74 Q48 62 58 56 Q68 44 78 54" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M74 52 Q84 42 94 50 Q104 42 114 52" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M58 90 Q52 106 64 112" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <path d="M110 88 Q118 102 112 112" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  <circle cx="140" cy="108" r="6" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="160" cy="90" r="10" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="184" cy="72" r="14" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="198" y="22" width="88" height="82" rx="16" fill="#fef9c3" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="242" y="72" text-anchor="middle" font-size="38">💡</text>
+  <circle cx="242" cy="122" r="5" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="242" cy="136" r="3" fill="#fef9c3" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="150" y="155" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#d97706">Hypothesis</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#fffbeb"/>
+  <text x="150" y="22" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#d97706">Hypothesis Format</text>
+  <rect x="14" y="30" width="272" height="38" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="150" y="47" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#92400e">"If [cause], then [effect]"</text>
+  <text x="150" y="61" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#b45309">because [reason]</text>
+  <!-- 2 outcomes -->
+  <rect x="14" y="78" width="124" height="50" rx="10" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="76" y="97" text-anchor="middle" font-size="16">✅</text>
+  <text x="76" y="112" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#15803d">Proved Correct</text>
+  <rect x="162" y="78" width="124" height="50" rx="10" fill="#fff0f0" stroke="#f43f5e" stroke-width="2"/>
+  <text x="224" y="97" text-anchor="middle" font-size="16">❌</text>
+  <text x="224" y="112" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#dc2626">Still Valuable!</text>
+  <text x="150" y="142" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#64748b" font-weight="700">Both outcomes advance science 🚀</text>
+</svg>`},
+  {q:'What did C.V. Raman discover, and when?',a:'The Raman Effect in 1928 — the scattering of light through matter. Won Nobel Prize in Physics in 1930! 🏆',cat:'Famous Scientists',col:'#a855f7',bg:'#0f172a',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#0f172a"/>
+  <circle cx="20" cy="20" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="60" cy="10" r="1" fill="white" opacity="0.5"/>
+  <circle cx="260" cy="18" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="285" cy="50" r="1" fill="white" opacity="0.4"/>
+  <circle cx="240" cy="8" r="1" fill="white" opacity="0.7"/>
+  <line x1="8" y1="80" x2="88" y2="80" stroke="white" stroke-width="3.5" stroke-linecap="round"/>
+  <polygon points="88,28 88,132 168,80" fill="rgba(147,197,253,0.12)" stroke="#60a5fa" stroke-width="2.5"/>
+  <line x1="168" y1="80" x2="292" y2="32" stroke="#ef4444" stroke-width="2.5" opacity="0.95"/>
+  <line x1="168" y1="80" x2="292" y2="47" stroke="#f97316" stroke-width="2.5" opacity="0.95"/>
+  <line x1="168" y1="80" x2="292" y2="62" stroke="#fbbf24" stroke-width="2.5" opacity="0.95"/>
+  <line x1="168" y1="80" x2="292" y2="77" stroke="#4ade80" stroke-width="2.5" opacity="0.95"/>
+  <line x1="168" y1="80" x2="292" y2="92" stroke="#60a5fa" stroke-width="2.5" opacity="0.95"/>
+  <line x1="168" y1="80" x2="292" y2="108" stroke="#818cf8" stroke-width="2.5" opacity="0.95"/>
+  <line x1="168" y1="80" x2="292" y2="124" stroke="#c084fc" stroke-width="2.5" opacity="0.95"/>
+  <circle cx="42" cy="138" r="18" fill="#fbbf24" stroke="#f59e0b" stroke-width="2.5"/>
+  <text x="42" y="134" text-anchor="middle" font-size="16">🏅</text>
+  <text x="150" y="153" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#fbbf24">C.V. Raman</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#0f172a"/>
+  <text x="150" y="22" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#fbbf24">C.V. Raman — Timeline</text>
+  <line x1="30" y1="80" x2="270" y2="80" stroke="#334155" stroke-width="2"/>
+  <circle cx="70" cy="80" r="8" fill="#4f8ef7"/>
+  <text x="70" y="65" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#93c5fd" font-weight="800">1888</text>
+  <text x="70" y="100" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Born</text>
+  <circle cx="155" cy="80" r="8" fill="#00c9a7"/>
+  <text x="155" y="65" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#00c9a7" font-weight="800">1928</text>
+  <text x="155" y="100" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Raman</text>
+  <text x="155" y="110" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Effect</text>
+  <circle cx="225" cy="80" r="8" fill="#fbbf24"/>
+  <text x="225" y="65" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#fbbf24" font-weight="800">1930</text>
+  <text x="225" y="100" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Nobel</text>
+  <text x="225" y="110" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Prize🏆</text>
+  <rect x="14" y="122" width="272" height="24" rx="8" fill="#1e293b"/>
+  <text x="150" y="138" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="800" fill="#fbbf24">First Asian Nobel Prize in Physics!</text>
+</svg>`},
+  {q:'What does Biology study?',a:'All living organisms — plants, animals, microorganisms and humans. \"Bio\" means life. 🌿',cat:'Science Branches',col:'#f59e0b',bg:'#f0fdf4',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#f0fdf4"/>
+  <path d="M70 148 Q28 82 70 28 Q112 82 70 148" fill="#4ade80" stroke="#16a34a" stroke-width="2"/>
+  <line x1="70" y1="148" x2="70" y2="28" stroke="#16a34a" stroke-width="1.5"/>
+  <line x1="70" y1="95" x2="50" y2="75" stroke="#16a34a" stroke-width="1"/>
+  <line x1="70" y1="95" x2="90" y2="75" stroke="#16a34a" stroke-width="1"/>
+  <line x1="70" y1="115" x2="54" y2="100" stroke="#16a34a" stroke-width="1"/>
+  <line x1="70" y1="115" x2="86" y2="100" stroke="#16a34a" stroke-width="1"/>
+  <ellipse cx="188" cy="72" rx="50" ry="42" fill="rgba(134,239,172,0.25)" stroke="#22c55e" stroke-width="2.5"/>
+  <ellipse cx="188" cy="72" rx="18" ry="14" fill="#4ade80" stroke="#15803d" stroke-width="2"/>
+  <circle cx="162" cy="58" r="5" fill="#86efac"/>
+  <circle cx="212" cy="60" r="6" fill="#86efac"/>
+  <circle cx="166" cy="88" r="5" fill="#86efac"/>
+  <circle cx="208" cy="86" r="4" fill="#86efac"/>
+  <circle cx="174" cy="50" r="3" fill="#86efac"/>
+  <circle cx="200" cy="92" r="3" fill="#86efac"/>
+  <text x="155" y="132" font-size="22" text-anchor="middle">🐝</text>
+  <text x="188" y="132" font-size="22" text-anchor="middle">🌸</text>
+  <text x="221" y="132" font-size="22" text-anchor="middle">🐠</text>
+  <text x="150" y="153" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#15803d">Biology</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#f0fdf4"/>
+  <text x="150" y="20" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#15803d">What Biology Studies</text>
+  <g font-size="22" text-anchor="middle">
+    <text x="38" y="62">🌿</text><text x="38" y="80" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#15803d">Plants</text>
+    <text x="88" y="62">🐘</text><text x="88" y="80" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#15803d">Animals</text>
+    <text x="150" y="62">🦠</text><text x="150" y="80" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#15803d">Microbes</text>
+    <text x="212" y="62">👤</text><text x="212" y="80" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#15803d">Humans</text>
+    <text x="263" y="62">🧬</text><text x="263" y="80" font-size="9" font-family="Nunito,sans-serif" font-weight="700" fill="#15803d">DNA</text>
+  </g>
+  <rect x="20" y="92" width="260" height="36" rx="10" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <text x="150" y="107" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#15803d">Greek: Bio (life) + Logos (study)</text>
+  <text x="150" y="121" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#166534">= Study of ALL living things 🌍</text>
+</svg>`},
+  {q:'What is the most essential safety rule in a laboratory?',a:'Always wear safety glasses and a lab apron. Never taste or smell chemicals directly. ⚗️',cat:'Lab Safety',col:'#f43f5e',bg:'#fff5f5',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#fff5f5"/>
+  <path d="M150 12 L216 38 L216 104 Q216 146 150 158 Q84 146 84 104 L84 38 Z" fill="#fef2f2" stroke="#f43f5e" stroke-width="3"/>
+  <path d="M118 84 L138 108 L182 62" fill="none" stroke="#22c55e" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="32" y="52" font-size="26" text-anchor="middle">🥽</text>
+  <text x="268" y="52" font-size="24" text-anchor="middle">🧤</text>
+  <text x="32" y="118" font-size="24" text-anchor="middle">🥼</text>
+  <text x="268" y="118" font-size="24" text-anchor="middle">⚗️</text>
+  <text x="150" y="152" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#e11d48">Lab Safety</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#fff5f5"/>
+  <text x="150" y="20" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#e11d48">Top Lab Safety Rules</text>
+  <g font-family="Nunito,sans-serif" font-size="10" font-weight="700">
+    <text x="20" y="42">🥽</text><text x="44" y="42" fill="#374151">Always wear safety glasses &amp; apron</text>
+    <text x="20" y="62">🚫</text><text x="44" y="62" fill="#374151">Never taste or smell chemicals</text>
+    <text x="20" y="82">👩‍🏫</text><text x="44" y="82" fill="#374151">Only work under teacher supervision</text>
+    <text x="20" y="102">🧼</text><text x="44" y="102" fill="#374151">Wash hands after every experiment</text>
+    <text x="20" y="122">🚨</text><text x="44" y="122" fill="#374151">Report all accidents immediately</text>
+  </g>
+  <rect x="14" y="132" width="272" height="16" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="150" y="144" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#e11d48" font-weight="800">Safety = Smart Science ✅</text>
+</svg>`},
+  {q:'Name the three main branches of Science.',a:'Physics (force & energy), Chemistry (matter & reactions), Biology (living organisms). 🔬',cat:'Science Branches',col:'#f59e0b',bg:'#f8fafc',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#f8fafc"/>
+  <rect x="142" y="100" width="18" height="52" rx="6" fill="#92400e"/>
+  <ellipse cx="151" cy="156" rx="38" ry="6" fill="#86efac" opacity="0.45"/>
+  <path d="M151 106 Q76 84 44 44" fill="none" stroke="#4f8ef7" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="44" cy="40" r="28" fill="#4f8ef7" opacity="0.9"/>
+  <text x="44" y="47" text-anchor="middle" font-size="24">⚡</text>
+  <path d="M151 94 L151 38" fill="none" stroke="#22c55e" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="151" cy="28" r="28" fill="#22c55e" opacity="0.9"/>
+  <text x="151" y="35" text-anchor="middle" font-size="24">⚗️</text>
+  <path d="M151 106 Q226 84 258 44" fill="none" stroke="#f59e0b" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="258" cy="40" r="28" fill="#f59e0b" opacity="0.9"/>
+  <text x="258" y="47" text-anchor="middle" font-size="24">🌿</text>
+  <text x="151" y="122" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#64748b">Branches of Science</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#f8fafc"/>
+  <text x="150" y="18" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#1e293b">3 Main Branches</text>
+  <rect x="10" y="28" width="86" height="62" rx="12" fill="#e8f0ff" stroke="#4f8ef7" stroke-width="2"/>
+  <text x="53" y="50" text-anchor="middle" font-size="20">⚡</text>
+  <text x="53" y="66" text-anchor="middle" font-family="Fredoka One,cursive" font-size="11" fill="#2563eb">Physics</text>
+  <text x="53" y="82" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#3b82f6">Force, Energy</text>
+  <rect x="107" y="28" width="86" height="62" rx="12" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
+  <text x="150" y="50" text-anchor="middle" font-size="20">⚗️</text>
+  <text x="150" y="66" text-anchor="middle" font-family="Fredoka One,cursive" font-size="11" fill="#15803d">Chemistry</text>
+  <text x="150" y="82" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#16a34a">Matter, Reactions</text>
+  <rect x="204" y="28" width="86" height="62" rx="12" fill="#fff8e0" stroke="#f59e0b" stroke-width="2"/>
+  <text x="247" y="50" text-anchor="middle" font-size="20">🌿</text>
+  <text x="247" y="66" text-anchor="middle" font-family="Fredoka One,cursive" font-size="11" fill="#d97706">Biology</text>
+  <text x="247" y="82" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#d97706">Living Things</text>
+  <rect x="30" y="100" width="240" height="28" rx="10" fill="#1e293b"/>
+  <text x="150" y="118" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="white">All 3 together = Complete Science! 🔬</text>
+</svg>`},
+  {q:'What were Aryabhata\'s major contributions to science?',a:'He introduced Zero (0) and calculated the value of Pi as approximately 3.1416! 🔢',cat:'Famous Scientists',col:'#a855f7',bg:'#faf5ff',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#faf5ff"/>
+  <circle cx="105" cy="80" r="62" fill="none" stroke="#a855f7" stroke-width="10" opacity="0.1"/>
+  <circle cx="105" cy="80" r="48" fill="none" stroke="#a855f7" stroke-width="8" opacity="0.2"/>
+  <circle cx="105" cy="80" r="34" fill="none" stroke="#a855f7" stroke-width="6" opacity="0.4"/>
+  <circle cx="105" cy="80" r="22" fill="none" stroke="#a855f7" stroke-width="5"/>
+  <text x="105" y="95" text-anchor="middle" font-family="Fredoka One,cursive" font-size="44" fill="#7c3aed">0</text>
+  <rect x="188" y="22" width="96" height="72" rx="14" fill="#ede9fe" stroke="#a855f7" stroke-width="2.5"/>
+  <text x="236" y="68" text-anchor="middle" font-family="serif" font-size="46" fill="#7c3aed">π</text>
+  <circle cx="24" cy="28" r="4" fill="#c084fc" opacity="0.5"/>
+  <circle cx="276" cy="128" r="5" fill="#c084fc" opacity="0.4"/>
+  <circle cx="258" cy="20" r="3" fill="#c084fc" opacity="0.6"/>
+  <text x="150" y="152" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#7c3aed">Aryabhata</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#faf5ff"/>
+  <text x="150" y="18" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#7c3aed">Aryabhata's Contributions</text>
+  <g font-family="Nunito,sans-serif" font-size="10" font-weight="700">
+    <rect x="10" y="28" width="280" height="22" rx="8" fill="#ede9fe"/>
+    <text x="20" y="43" fill="#7c3aed">🔢  Introduced the concept of Zero (0)</text>
+    <rect x="10" y="56" width="280" height="22" rx="8" fill="#ede9fe"/>
+    <text x="20" y="71" fill="#7c3aed">📐  Calculated Pi (π) ≈ 3.1416</text>
+    <rect x="10" y="84" width="280" height="22" rx="8" fill="#ede9fe"/>
+    <text x="20" y="99" fill="#7c3aed">🌍  Proved Earth rotates on its axis</text>
+    <rect x="10" y="112" width="280" height="22" rx="8" fill="#ede9fe"/>
+    <text x="20" y="127" fill="#7c3aed">⭐  Predicted solar &amp; lunar eclipses</text>
+  </g>
+  <text x="150" y="148" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#8b5cf6">All this in the 5th century CE! 🤯</text>
+</svg>`},
+  {q:'What is a Conclusion in the Scientific Method?',a:'Analysing the collected data to determine whether the hypothesis was correct or not. ✅',cat:'Scientific Method',col:'#4f8ef7',bg:'#f0fdf4',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#f0fdf4"/>
+  <rect x="28" y="46" width="24" height="88" rx="5" fill="#4f8ef7" opacity="0.85"/>
+  <rect x="62" y="66" width="24" height="68" rx="5" fill="#22c55e" opacity="0.85"/>
+  <rect x="96" y="32" width="24" height="102" rx="5" fill="#f59e0b" opacity="0.85"/>
+  <rect x="130" y="54" width="24" height="80" rx="5" fill="#f43f5e" opacity="0.85"/>
+  <rect x="164" y="24" width="24" height="110" rx="5" fill="#a855f7" opacity="0.85"/>
+  <line x1="20" y1="136" x2="200" y2="136" stroke="#94a3b8" stroke-width="2"/>
+  <line x1="20" y1="18" x2="20" y2="136" stroke="#94a3b8" stroke-width="2"/>
+  <circle cx="248" cy="76" r="46" fill="none" stroke="#22c55e" stroke-width="4"/>
+  <path d="M222 76 L240 98 L278 54" fill="none" stroke="#22c55e" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="150" y="154" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#15803d">Conclusion</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#f0fdf4"/>
+  <text x="150" y="18" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#15803d">How to Write a Conclusion</text>
+  <g font-family="Nunito,sans-serif" font-size="10" font-weight="700">
+    <rect x="10" y="28" width="280" height="22" rx="7" fill="#dcfce7"/>
+    <text x="20" y="43" fill="#15803d">1️⃣  Review your collected data carefully</text>
+    <rect x="10" y="56" width="280" height="22" rx="7" fill="#dcfce7"/>
+    <text x="20" y="71" fill="#15803d">2️⃣  Compare results with your hypothesis</text>
+    <rect x="10" y="84" width="280" height="22" rx="7" fill="#dcfce7"/>
+    <text x="20" y="99" fill="#15803d">3️⃣  State whether hypothesis was correct</text>
+    <rect x="10" y="112" width="280" height="22" rx="7" fill="#dcfce7"/>
+    <text x="20" y="127" fill="#15803d">4️⃣  Suggest next steps or improvements</text>
+  </g>
+  <text x="150" y="148" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#16a34a">Last step of the Scientific Method ✅</text>
+</svg>`},
+  {q:'Why is APJ Abdul Kalam called the \"Missile Man of India\"?',a:'Because he led the development of India\'s ballistic missile and space launch vehicle programmes at DRDO and ISRO. 🚀',cat:'Famous Scientists',col:'#a855f7',bg:'#0f172a',frontSVG:`<svg viewBox="0 0 300 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;max-height:160px;">
+  <rect width="300" height="160" fill="#0f172a"/>
+  <circle cx="18" cy="18" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="58" cy="9"  r="1"   fill="white" opacity="0.6"/>
+  <circle cx="108" cy="22" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="252" cy="14" r="1"   fill="white" opacity="0.8"/>
+  <circle cx="280" cy="42" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="178" cy="7"  r="1"   fill="white" opacity="0.9"/>
+  <circle cx="240" cy="36" r="1"   fill="white" opacity="0.5"/>
+  <path d="M150 8 Q170 30 170 76 L150 88 L130 76 Q130 30 150 8" fill="#e2e8f0"/>
+  <circle cx="150" cy="52" r="11" fill="#60a5fa" stroke="#3b82f6" stroke-width="2"/>
+  <circle cx="150" cy="52" r="5"  fill="#1e3a5f"/>
+  <path d="M130 76 L112 104 L130 96" fill="#94a3b8"/>
+  <path d="M170 76 L188 104 L170 96" fill="#94a3b8"/>
+  <ellipse cx="150" cy="98"  rx="11" ry="20" fill="#f97316" opacity="0.9"/>
+  <ellipse cx="150" cy="102" rx="7"  ry="14" fill="#fbbf24"/>
+  <ellipse cx="150" cy="107" rx="3.5" ry="8" fill="white" opacity="0.8"/>
+  <rect x="150" y="12" width="20" height="12" rx="1" fill="#f97316"/>
+  <text x="160" y="22" text-anchor="middle" font-size="9">🇮🇳</text>
+  <text x="150" y="148" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#fbbf24">APJ Abdul Kalam</text>
+</svg>`,backSVG:`<svg viewBox="0 0 300 155" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:155px;">
+  <rect width="300" height="155" fill="#0f172a"/>
+  <text x="150" y="20" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="#fbbf24">APJ Abdul Kalam (1931–2015)</text>
+  <g font-family="Nunito,sans-serif" font-size="10" font-weight="700">
+    <rect x="10" y="28" width="280" height="22" rx="7" fill="#1e293b"/>
+    <text x="20" y="43" fill="#60a5fa">🚀  Led India's ballistic missile programme</text>
+    <rect x="10" y="56" width="280" height="22" rx="7" fill="#1e293b"/>
+    <text x="20" y="71" fill="#60a5fa">🛸  Key role in ISRO space missions</text>
+    <rect x="10" y="84" width="280" height="22" rx="7" fill="#1e293b"/>
+    <text x="20" y="99" fill="#fbbf24">🏛️  11th President of India (2002–2007)</text>
+    <rect x="10" y="112" width="280" height="22" rx="7" fill="#1e293b"/>
+    <text x="20" y="127" fill="#60a5fa">📚  Known as "People's President"</text>
+  </g>
+  <text x="150" y="148" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#fbbf24">"Missile Man of India" 🇮🇳</text>
+</svg>`}
 ];
 let fcIdx=0;
-document.getElementById('fc-total').textContent=FC.length;
-function renderFC(){document.getElementById('fc-q').textContent=FC[fcIdx].q;document.getElementById('fc-a').textContent=FC[fcIdx].a;document.getElementById('fc-cur').textContent=fcIdx+1;document.getElementById('flashcard').classList.remove('flipped');document.getElementById('fc-dots').innerHTML=FC.map((_,i)=>`<div class="fcdot${i<=fcIdx?' seen':''}"></div>`).join('');}
+
+const _fct=document.getElementById('fc-total');const _fct2=document.getElementById('fc-total2');if(_fct)_fct.textContent=FC.length;if(_fct2)_fct2.textContent=FC.length;
+function renderFC(){
+  const c=FC[fcIdx];
+  // text
+  document.getElementById('fc-q').textContent=c.q;
+  document.getElementById('fc-a').textContent=c.a;
+  document.getElementById('fc-cur').textContent=fcIdx+1;
+  document.getElementById('fc-cur2').textContent=fcIdx+1;
+  // category tag
+  const catEl=document.getElementById('fc-cat');
+  if(catEl){catEl.textContent=c.cat;catEl.style.color=c.col;}
+  // SVG images
+  const fi=document.getElementById('fc-img-front');
+  if(fi)fi.innerHTML=c.frontSVG;
+  // bg color of front-top
+  if(fi)fi.style.background=c.bg;
+  // flip reset
+  document.getElementById('flashcard').classList.remove('flipped');
+  // dots
+  document.getElementById('fc-dots').innerHTML=FC.map((_,i)=>`<div class="fcdot${i===fcIdx?' current':i<fcIdx?' seen':''}" onclick="goToCard(${i})"></div>`).join('');
+}
+function goToCard(i){fcIdx=i;renderFC();}
 function flipCard(){document.getElementById('flashcard').classList.toggle('flipped');}
 function nextCard(){fcIdx=(fcIdx+1)%FC.length;renderFC();}
 function prevCard(){fcIdx=(fcIdx-1+FC.length)%FC.length;renderFC();}
@@ -1554,10 +2595,10 @@ function acAdd(txt,cls){const b=document.getElementById('ac-body');const m=docum
 async function acSend(pre){
   const inp=document.getElementById('ac-inp');const msg=pre||inp.value.trim();if(!msg)return;inp.value='';acAdd(msg,'user');
   const b=document.getElementById('ac-body');const td=document.createElement('div');td.className='ac-msg';td.id='actd';td.innerHTML='<div class="ac-typing"><div class="acdot"></div><div class="acdot"></div><div class="acdot"></div></div>';b.appendChild(td);b.scrollTop=b.scrollHeight;
-  document.getElementById('anya-status').textContent='Soch rahi hoon...';
+  const _as=document.getElementById('anya-status');if(_as)_as.textContent='Soch rahi hoon...';
   try{const res=await fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:SYS,messages:[{role:'user',content:msg}]})});const data=await res.json();document.getElementById('actd')?.remove();acAdd(data.content?.[0]?.text||'Heh~ Kuch problem aayi! 🌸','anya');}
   catch(e){document.getElementById('actd')?.remove();acAdd('Heh~ Internet check karo! 🌸','anya');}
-  document.getElementById('anya-status').textContent='Online • Chapter 1 ke baare mein poochho!';
+  const _as2=document.getElementById('anya-status');if(_as2)_as2.textContent='Online • Chapter 1 ke baare mein poochho!';
 }
 document.getElementById('ac-inp').addEventListener('keydown',e=>{if(e.key==='Enter')acSend();});
 </script>
