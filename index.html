@@ -3,68 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNIGRID 6 | Class 6 Curiosity</title>
+    <title>OMNIGRID 6 | Curiosity Science</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
-   .card-image {
-    height: 160px !important; /* Fixed height for consistency */
-    width: 100% !important;
     
-    /* FIX: Image top se cut na ho aur puri dikhe */
-    background-size: contain !important; /* Image scale down ho kar puri dikhegi */
-    background-position: top center !important; /* Portrait context mein sir hamesha puri dikhega */
-    background-repeat: no-repeat !important; /* Ek hi image rahegi tiles nahi banengi */
-    background-color: #1a1a2e !important; /* Taki contain karne par sides blank na lagein */
-    
-    flex-shrink: 0 !important;
-}
+    <style>
+        /* 1. Reset & Global Fixes */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Jost', sans-serif;
             background-color: #0f172a;
-            /* Background image fix to stop repeating tiles like in image_6d39e1 */
-            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('anime-background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
             color: white;
             min-height: 100vh;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('anime-background.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
         }
 
-        /* 2. Header / Navbar */
-        nav {
-            padding: 20px 8%;
-            border-bottom: 1px solid rgba(233, 69, 96, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo { font-size: 1.5rem; font-weight: 700; color: #e94560; letter-spacing: 1px; }
-
-        /* 3. Hero Section (Anya Avatar) */
+        /* 2. Hero Section */
         .hero { text-align: center; padding: 40px 20px; }
         .hero img { 
-            width: 120px; height: 120px; 
-            border-radius: 50%; 
-            border: 4px solid #e94560; 
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.4);
-            margin-bottom: 15px;
+            width: 120px; height: 120px; border-radius: 50%; 
+            border: 3px solid #e94560; object-fit: cover; margin-bottom: 10px;
         }
-        .hero h1 { font-size: 2.2rem; margin-bottom: 5px; }
-        .hero p { color: #cbd5e1; font-size: 1.1rem; }
 
-        /* 4. GRID SYSTEM (Fixes image_7bd15e alignment) */
+        /* 3. GRID SYSTEM - Icons Alignment Fix */
         .grid-container {
             display: grid;
-            /* Force 4 columns on desktop, auto-adjust on mobile */
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
-            padding: 20px 8% 80px 8%;
+            padding: 20px 8% 60px 8%;
             max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* 5. CARD DESIGN */
+        /* 4. CARD DESIGN - Image Cutting Fix */
         .card {
             background: #1e293b;
             border-radius: 15px;
@@ -72,21 +46,26 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            height: 420px; /* Uniform height for all cards */
-            transition: all 0.3s ease;
-        }
-        .card:hover { 
-            transform: translateY(-10px); 
-            border-color: #e94560; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            height: 450px; /* Fixed Height */
+            transition: 0.3s;
         }
 
-        .card-image {
-            height: 160px;
+        .card-image-box {
+            height: 180px;
             width: 100%;
-            background-size: cover;
-            background-position: center;
-            flex-shrink: 0;
+            background: #0a0f1e; /* Dark background behind image */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .card-image-box img {
+            height: 100%;
+            width: 100%;
+            /* FIX: Image top se cut nahi hogi aur poori dikhegi */
+            object-fit: contain; 
+            object-position: top;
         }
 
         .card-content {
@@ -99,117 +78,92 @@
 
         .tag {
             background: #e94560;
-            color: white;
-            padding: 4px 12px;
+            padding: 4px 10px;
             border-radius: 5px;
-            font-size: 0.75rem;
-            font-weight: 700;
+            font-size: 11px;
             width: fit-content;
             margin-bottom: 10px;
         }
 
-        .card h3 { font-size: 1.25rem; margin-bottom: 8px; }
-        .card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.4; }
-
         .btn {
-            display: block;
-            text-align: center;
-            padding: 12px;
             background: transparent;
             border: 2px solid #e94560;
             color: white;
+            padding: 10px;
+            text-align: center;
             text-decoration: none;
             border-radius: 8px;
-            font-weight: 700;
+            font-weight: bold;
             transition: 0.3s;
-            margin-top: 15px;
         }
         .btn:hover { background: #e94560; }
-
-        /* 6. CHATBOT BUTTON (Floating) */
-        #chat-trigger {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 65px;
-            height: 65px;
-            cursor: pointer;
-            z-index: 1000;
-        }
-        #chat-trigger img {
-            width: 100%;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.5);
-        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">OMNIGRID 6</div>
-        <div style="font-size: 0.9rem; color: #94a3b8;">Class 6 Digital Library</div>
-    </nav>
-
     <header class="hero">
         <img src="companion-avatar.png" alt="Anya">
         <h1>Welcome, Adventurer!</h1>
-        <p>I'm Anya, your AI Companion. Ready to level up?</p>
+        <p>Class 6 Curiosity Quest starts here.</p>
     </header>
 
     <main class="grid-container">
         <div class="card">
-            <div class="card-image" style="background-image: url('science-anime.jpg');"></div>
+            <div class="card-image-box">
+                <img src="science-anime.jpg" alt="Science">
+            </div>
             <div class="card-content">
                 <div>
                     <span class="tag">Science</span>
                     <h3>Curiosity: Science</h3>
-                    <p>Explore the Wonderful World of Plants and Magnetism.</p>
+                    <p>Wonderful World of Plants and Magnetism.</p>
                 </div>
                 <a href="science_chapters.html" class="btn">Start Quest</a>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-image" style="background-image: url('maths-anime.jpg');"></div>
+            <div class="card-image-box">
+                <img src="maths-anime.jpg" alt="Maths">
+            </div>
             <div class="card-content">
                 <div>
                     <span class="tag">Maths</span>
                     <h3>Number Ninja</h3>
-                    <p>Master the ancient arts of Algebra and Fractions.</p>
+                    <p>Master the ancient arts of Algebra.</p>
                 </div>
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-image" style="background-image: url('english-anime.jpg');"></div>
+            <div class="card-image-box">
+                <img src="english-anime.jpg" alt="English">
+            </div>
             <div class="card-content">
                 <div>
                     <span class="tag">English</span>
-                    <h3>Story Master</h3>
-                    <p>Unleash the magic of words and grammar.</p>
+                    <h3>Word Master</h3>
+                    <p>Unleash the magic of stories.</p>
                 </div>
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-image" style="background-image: url('sst-anime.jpg');"></div>
+            <div class="card-image-box">
+                <img src="sst-anime.jpg" alt="SST">
+            </div>
             <div class="card-content">
                 <div>
                     <span class="tag">SST</span>
                     <h3>World Traveler</h3>
-                    <p>History and Geography quests through time.</p>
+                    <p>History and Geography adventures.</p>
                 </div>
                 <a href="#" class="btn">Start Quest</a>
             </div>
         </div>
     </main>
-
-    <div id="chat-trigger">
-        <img src="companion-avatar.png" alt="Chat with Anya">
-    </div>
 
 </body>
 </html>
