@@ -5,75 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OMNIGRID 6 | Curiosity Quest</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
-        /* 1. Reset & Global */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             font-family: 'Jost', sans-serif;
             background-color: #0f172a;
             color: white;
             min-height: 100vh;
-            background-image: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.88)), url('anime-background.jpg');
+            background-image:
+                linear-gradient(rgba(15,23,42,0.88), rgba(15,23,42,0.88)),
+                url('anime-background.jpg');
             background-size: cover;
             background-attachment: fixed;
-            background-repeat: no-repeat;
         }
 
-        /* 2. Hero Section */
+        /* =====================
+           ANYA AVATAR - Pure CSS (no image needed - never breaks!)
+        ===================== */
+        .anya-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #e94560;
+            margin: 0 auto 14px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(160deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            box-shadow: 0 0 20px rgba(233,69,96,0.4);
+        }
+
+        /* Face */
+        .anya-avatar::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 78px; height: 90px;
+            background: #f4c89a;
+            border-radius: 42% 42% 48% 48% / 40% 40% 60% 60%;
+        }
+
+        /* Hair top */
+        .anya-hair-top {
+            position: absolute;
+            top: 8px; left: 50%;
+            transform: translateX(-50%);
+            width: 88px; height: 56px;
+            background: #c8a2c8;
+            border-radius: 50% 50% 20% 20%;
+            z-index: 2;
+        }
+
+        /* Hair sides */
+        .anya-hair-left, .anya-hair-right {
+            position: absolute;
+            top: 30px;
+            width: 22px; height: 50px;
+            background: #c8a2c8;
+            z-index: 1;
+        }
+        .anya-hair-left  { left: 10px;  border-radius: 15px 5px 5px 15px; }
+        .anya-hair-right { right: 10px; border-radius: 5px 15px 15px 5px; }
+
+        /* Headband */
+        .anya-headband {
+            position: absolute;
+            top: 28px; left: 50%;
+            transform: translateX(-50%);
+            width: 88px; height: 10px;
+            background: #e94560;
+            border-radius: 5px;
+            z-index: 3;
+        }
+
+        /* Eyes */
+        .anya-eyes {
+            position: absolute;
+            top: 52px; left: 50%;
+            transform: translateX(-50%);
+            width: 56px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 3;
+        }
+        .anya-eye {
+            width: 14px; height: 14px;
+            background: #3a6186;
+            border-radius: 50%;
+            border: 2px solid #1a1a2e;
+            position: relative;
+        }
+        .anya-eye::after {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px;
+            width: 4px; height: 4px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Blush */
+        .anya-blush-left, .anya-blush-right {
+            position: absolute;
+            top: 64px;
+            width: 14px; height: 7px;
+            background: rgba(255,150,150,0.5);
+            border-radius: 50%;
+            z-index: 3;
+        }
+        .anya-blush-left  { left: 20px; }
+        .anya-blush-right { right: 20px; }
+
+        /* Smile */
+        .anya-smile {
+            position: absolute;
+            top: 74px; left: 50%;
+            transform: translateX(-50%);
+            width: 22px; height: 10px;
+            border-bottom: 3px solid #c97b7b;
+            border-radius: 0 0 50% 50%;
+            z-index: 3;
+        }
+
+        /* =====================
+           HERO
+        ===================== */
         .hero {
             text-align: center;
             padding: 40px 20px 20px;
         }
-
-        /* ✅ ANYA AVATAR FIX - CSS fallback avatar that never breaks */
-        .avatar-wrapper {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 14px;
-        }
-
-        .hero-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            object-fit: cover;
-            object-position: top center;
-            display: block;
-            background: linear-gradient(135deg, #1e293b, #334155);
-        }
-
-        /* CSS fallback avatar shown when image fails */
-        .avatar-fallback {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            background: linear-gradient(135deg, #e94560, #f97316);
-            display: none; /* hidden by default, shown via JS if img fails */
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-            line-height: 1;
-            cursor: pointer;
-        }
-
         .hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
-        .hero p { color: #94a3b8; font-size: 1rem; }
+        .hero p  { color: #94a3b8; }
 
-        /* 3. Grid */
+        /* =====================
+           GRID & CARDS
+        ===================== */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 25px;
-            padding: 30px 8% 60px 8%;
+            padding: 30px 8% 60px;
             max-width: 1300px;
             margin: 0 auto;
         }
 
-        /* 4. Cards */
         .card {
             background: #1e293b;
             border-radius: 15px;
@@ -86,7 +163,7 @@
         }
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.2);
+            box-shadow: 0 10px 30px rgba(233,69,96,0.25);
         }
 
         .card-image-box {
@@ -96,7 +173,6 @@
             overflow: hidden;
             flex-shrink: 0;
         }
-
         .card-image-box img {
             height: 100%;
             width: 100%;
@@ -122,11 +198,9 @@
             font-weight: 600;
             width: fit-content;
             margin-bottom: 8px;
-            letter-spacing: 0.5px;
         }
-
         .card-content h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .card-content p { color: #94a3b8; font-size: 0.88rem; }
+        .card-content p  { color: #94a3b8; font-size: 0.88rem; }
 
         .btn {
             display: block;
@@ -139,76 +213,104 @@
             border-radius: 8px;
             font-weight: bold;
             font-size: 0.9rem;
-            transition: background 0.3s, color 0.3s;
             margin-top: 14px;
+            transition: background 0.3s;
         }
         .btn:hover { background: #e94560; }
 
-        /* 5. Chat Trigger Button (bottom-right Anya) */
+        /* =====================
+           FLOATING CHAT BUTTON
+        ===================== */
         #chat-trigger {
             position: fixed;
-            bottom: 28px;
-            right: 28px;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 3px solid #e94560;
-            overflow: hidden;
+            bottom: 28px; right: 28px;
+            width: 64px; height: 64px;
             cursor: pointer;
             z-index: 999;
-            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.5);
             transition: transform 0.3s;
-            background: linear-gradient(135deg, #e94560, #f97316);
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         #chat-trigger:hover { transform: scale(1.12); }
 
-        #chat-trigger img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: top center;
+        .mini-anya {
+            width: 64px; height: 64px;
             border-radius: 50%;
+            border: 3px solid #e94560;
+            background: linear-gradient(160deg, #1a1a2e, #0f3460);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(233,69,96,0.5);
         }
-
-        /* Anya emoji fallback for chat trigger */
-        #chat-trigger .trigger-emoji {
-            font-size: 28px;
-            display: none;
+        .mini-anya::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 42px; height: 48px;
+            background: #f4c89a;
+            border-radius: 42% 42% 48% 48% / 40% 40% 60% 60%;
+        }
+        .mini-hair {
+            position: absolute;
+            top: 4px; left: 50%;
+            transform: translateX(-50%);
+            width: 48px; height: 30px;
+            background: #c8a2c8;
+            border-radius: 50% 50% 20% 20%;
+            z-index: 2;
+        }
+        .mini-band {
+            position: absolute;
+            top: 15px; left: 50%;
+            transform: translateX(-50%);
+            width: 48px; height: 6px;
+            background: #e94560;
+            border-radius: 3px;
+            z-index: 3;
+        }
+        .mini-eyes {
+            position: absolute;
+            top: 28px; left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 3;
+        }
+        .mini-eye {
+            width: 7px; height: 7px;
+            background: #3a6186;
+            border-radius: 50%;
+            border: 1.5px solid #1a1a2e;
         }
     </style>
 </head>
 <body>
 
-    <!-- ✅ HERO SECTION - Clean, no duplicates -->
+    <!-- HERO - Clean, single, no duplicates -->
     <header class="hero">
-        <div class="avatar-wrapper">
-            <!-- 
-                HOW TO FIX ANYA IMAGE PERMANENTLY:
-                Option 1 (Best): Put anya.png in your GitHub repo folder and use src="anya.png"
-                Option 2: Use GitHub Issues URL (drag image into any issue comment, copy the link)
-                Option 3 (Current): Using a reliable CDN with emoji fallback
-            -->
-            <img 
-                class="hero-avatar"
-                src="anya.png"
-                alt="Anya"
-                onerror="this.style.display='none'; document.getElementById('hero-fallback').style.display='flex';"
-            >
-            <div id="hero-fallback" class="avatar-fallback">🌸</div>
+        <div class="anya-avatar">
+            <div class="anya-hair-left"></div>
+            <div class="anya-hair-right"></div>
+            <div class="anya-hair-top"></div>
+            <div class="anya-headband"></div>
+            <div class="anya-eyes">
+                <div class="anya-eye"></div>
+                <div class="anya-eye"></div>
+            </div>
+            <div class="anya-blush-left"></div>
+            <div class="anya-blush-right"></div>
+            <div class="anya-smile"></div>
         </div>
         <h1>Welcome, Adventurer!</h1>
         <p>Class 6 Curiosity Quest starts here.</p>
     </header>
 
-    <!-- Quest Cards -->
+    <!-- QUEST CARDS -->
     <main class="grid-container">
 
         <div class="card">
             <div class="card-image-box">
-                <img src="science-anime.jpg" alt="Science" onerror="this.style.background='linear-gradient(135deg,#1e3a5f,#0f172a)'; this.style.opacity='0.5';">
+                <img src="science-anime.jpg" alt="Science">
             </div>
             <div class="card-content">
                 <div>
@@ -222,7 +324,7 @@
 
         <div class="card">
             <div class="card-image-box">
-                <img src="maths-anime.jpg" alt="Maths" onerror="this.style.opacity='0';">
+                <img src="maths-anime.jpg" alt="Maths">
             </div>
             <div class="card-content">
                 <div>
@@ -236,7 +338,7 @@
 
         <div class="card">
             <div class="card-image-box">
-                <img src="english-anime.jpg" alt="English" onerror="this.style.opacity='0';">
+                <img src="english-anime.jpg" alt="English">
             </div>
             <div class="card-content">
                 <div>
@@ -250,7 +352,7 @@
 
         <div class="card">
             <div class="card-image-box">
-                <img src="sst-anime.jpg" alt="SST" onerror="this.style.opacity='0';">
+                <img src="sst-anime.jpg" alt="SST">
             </div>
             <div class="card-content">
                 <div>
@@ -264,20 +366,21 @@
 
     </main>
 
-    <!-- ✅ CHAT TRIGGER - Fixed Anya floating button -->
+    <!-- FLOATING ANYA CHAT BUTTON -->
     <div id="chat-trigger" onclick="toggleChat()" title="Chat with Anya!">
-        <img 
-            src="anya.png" 
-            alt="Anya"
-            onerror="this.style.display='none'; document.querySelector('#chat-trigger .trigger-emoji').style.display='block';"
-        >
-        <span class="trigger-emoji">🌸</span>
+        <div class="mini-anya">
+            <div class="mini-hair"></div>
+            <div class="mini-band"></div>
+            <div class="mini-eyes">
+                <div class="mini-eye"></div>
+                <div class="mini-eye"></div>
+            </div>
+        </div>
     </div>
 
     <script>
         function toggleChat() {
-            // Your existing chat toggle logic here
-            alert("Anya says: Heh~ Let's learn something today! 🌸");
+            alert("Anya says: Heh~ Let's learn something today!");
         }
     </script>
 
