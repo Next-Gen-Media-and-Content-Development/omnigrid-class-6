@@ -6,9 +6,19 @@
     <title>OMNIGRID 6 | Class 6 Curiosity</title>
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <style>
-        /* 1. Reset & Global Styles */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+   /* Purani .card-image class ko isse replace karein */
+.card-image {
+    height: 160px !important; /* Fixed height for consistency */
+    width: 100% !important;
+    
+    /* FIX: Image top se cut na ho aur puri dikhe */
+    background-size: contain !important; /* Image scale down ho kar puri dikhegi */
+    background-position: top center !important; /* Portrait context mein sir hamesha puri dikhega */
+    background-repeat: no-repeat !important; /* Ek hi image rahegi tiles nahi banengi */
+    background-color: #1a1a2e !important; /* Taki contain karne par sides blank na lagein */
+    
+    flex-shrink: 0 !important;
+}
         
         body {
             font-family: 'Jost', sans-serif;
