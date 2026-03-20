@@ -1,430 +1,1761 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OMNIGRID 6 | Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{
-      font-family:'Jost',sans-serif;
-      background:#0f172a;
-      color:white;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background-image:linear-gradient(rgba(15,23,42,0.92),rgba(15,23,42,0.92)),url('anime-background.jpg');
-      background-size:cover;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OmniGrid 6 — Ocean of Knowledge 🌊</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════
+   OMNIGRID 6 — UNDERWATER WORLD
+   Bright ocean, bubbles, submarine, coral reef zones
+═══════════════════════════════════════════════════ */
+:root{
+  --ocean-deep:#0c3a6b;
+  --ocean-mid:#0e5fa0;
+  --ocean-surf:#1a8fd1;
+  --ocean-light:#38bdf8;
+  --sand:#f5e6a3;
+  --coral:#ff6b6b;
+  --green:#4ade80;
+  --yellow:#fbbf24;
+  --purple:#c084fc;
+  --orange:#fb923c;
+  --teal:#2dd4bf;
+  --white:#f0f9ff;
+  --text:#0c3a6b;
+  --muted:#64748b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--ocean-deep);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-    .login-wrap{
-      width:100%;
-      max-width:400px;
-      padding:20px;
-      animation:fadeIn 0.5s ease;
-    }
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+/* ═══ ANIMATED OCEAN BG ═══ */
+@keyframes waveAnim{0%,100%{transform:translateX(0)}50%{transform:translateX(-40px)}}
+@keyframes bubbleRise{0%{transform:translateY(0) scale(1);opacity:0.7}100%{transform:translateY(-110vh) scale(1.4);opacity:0}}
+@keyframes fishSwim{0%{transform:translateX(-120px)}100%{transform:translateX(calc(100vw + 120px))}}
+@keyframes jellyFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-16px) rotate(3deg)}}
+@keyframes coralSway{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes seaweedSway{0%,100%{transform:skewX(-6deg)}50%{transform:skewX(6deg)}}
+@keyframes sunRays{0%,100%{opacity:0.4;transform:scaleX(1)}50%{opacity:0.7;transform:scaleX(1.05)}}
+@keyframes subBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes subPropeller{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(56,189,248,0.5))}50%{filter:drop-shadow(0 0 14px rgba(56,189,248,0.9))}}
+@keyframes blink{0%,88%,100%{transform:scaleY(1)}94%{transform:scaleY(0.08)}}
+@keyframes waveText{0%,100%{transform:translateY(0)}25%{transform:translateY(-4px)}75%{transform:translateY(4px)}}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes ripple{0%{transform:scale(1);opacity:0.6}100%{transform:scale(2.5);opacity:0}}
 
-    /* Anya face */
-    .anya-face{
-      width:90px;height:90px;border-radius:50%;
-      border:3px solid #e94560;
-      background:linear-gradient(160deg,#1a1a2e,#0f3460);
-      position:relative;overflow:hidden;
-      margin:0 auto 16px;
-      box-shadow:0 0 24px rgba(233,69,96,0.4);
-    }
-    .anya-face::before{
-      content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
-      width:58px;height:68px;background:#f4c89a;
-      border-radius:42% 42% 48% 48%/40% 40% 60% 60%;
-    }
-    .af-hair{position:absolute;top:6px;left:50%;transform:translateX(-50%);
-      width:66px;height:40px;background:#c8a2c8;border-radius:50% 50% 20% 20%;z-index:2;}
-    .af-band{position:absolute;top:20px;left:50%;transform:translateX(-50%);
-      width:66px;height:8px;background:#e94560;border-radius:4px;z-index:3;}
-    .af-eyes{position:absolute;top:38px;left:50%;transform:translateX(-50%);
-      width:40px;display:flex;justify-content:space-between;z-index:3;}
-    .af-eye{width:10px;height:10px;background:#3a6186;border-radius:50%;
-      border:1.5px solid #1a1a2e;position:relative;}
-    .af-eye::after{content:'';position:absolute;top:2px;left:2px;
-      width:3px;height:3px;background:white;border-radius:50%;}
-    .af-smile{position:absolute;top:54px;left:50%;transform:translateX(-50%);
-      width:16px;height:8px;border-bottom:2px solid #c97b7b;
-      border-radius:0 0 50% 50%;z-index:3;}
+/* OCEAN GRADIENT */
+.ocean-bg{
+  position:fixed;inset:0;z-index:0;
+  background:linear-gradient(180deg,
+    #87CEEB 0%,        /* sky */
+    #38bdf8 8%,        /* surface */
+    #0ea5e9 18%,       /* shallow */
+    #0284c7 35%,       /* mid water */
+    #0369a1 55%,       /* deep */
+    #0c3a6b 75%,       /* deeper */
+    #082855 100%       /* abyss */
+  );
+}
+/* Sun rays from top */
+.sun-rays{
+  position:fixed;top:-60px;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;
+  background:conic-gradient(from 160deg at 50% 0%,
+    transparent 0deg, rgba(255,243,150,0.12) 3deg, transparent 6deg,
+    transparent 14deg, rgba(255,243,150,0.1) 17deg, transparent 20deg,
+    transparent 28deg, rgba(255,243,150,0.12) 31deg, transparent 34deg,
+    transparent 42deg, rgba(255,243,150,0.08) 45deg, transparent 48deg,
+    transparent 56deg, rgba(255,243,150,0.12) 59deg, transparent 62deg
+  );
+  z-index:1;pointer-events:none;
+  animation:sunRays 4s ease-in-out infinite;
+}
+/* Surface shimmer */
+.surface-shimmer{
+  position:fixed;top:0;left:0;right:0;height:60px;z-index:2;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(135,206,235,0.8),rgba(56,189,248,0.4),transparent);
+}
+.surface-shimmer::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,
+    transparent 0px,rgba(255,255,255,0.15) 30px,transparent 60px
+  );
+  animation:waveAnim 3s ease-in-out infinite;
+}
 
-    .login-title{text-align:center;margin-bottom:24px;}
-    .login-title h1{font-size:1.6rem;font-weight:700;margin-bottom:4px;}
-    .login-title p{color:#94a3b8;font-size:13px;}
+/* BUBBLES */
+.bubble{
+  position:fixed;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.1);
+  z-index:3;pointer-events:none;
+  animation:bubbleRise var(--dur,8s) var(--delay,0s) linear infinite;
+}
 
-    /* TABS */
-    .auth-tabs{display:flex;background:#1e293b;border-radius:10px;padding:4px;
-      margin-bottom:20px;gap:4px;}
-    .auth-tab{flex:1;padding:8px;border:none;background:transparent;
-      color:#94a3b8;font-size:13px;font-weight:600;border-radius:8px;
-      cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s;}
-    .auth-tab.active{background:#e94560;color:white;}
+/* FISH */
+.fish{
+  position:fixed;z-index:4;pointer-events:none;
+  font-size:var(--fs,20px);
+  animation:fishSwim var(--dur,12s) var(--delay,0s) linear infinite;
+  top:var(--top,30%);
+}
+.fish.flip{transform:scaleX(-1);animation-direction:reverse;}
 
-    /* FORM */
-    .auth-form{display:flex;flex-direction:column;gap:12px;}
-    .auth-form.hidden{display:none;}
+/* ═══ TOP NAV ═══ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 5%;
+  background:linear-gradient(180deg,rgba(14,95,160,0.9),transparent);
+  backdrop-filter:blur(8px);
+}
+.logo{
+  font-family:'Fredoka One',cursive;font-size:1.5rem;
+  color:white;
+  text-shadow:0 2px 10px rgba(0,0,0,0.3);
+  display:flex;align-items:center;gap:8px;
+}
+.logo-wave{
+  display:inline-block;
+  animation:waveText 2s ease-in-out infinite;
+}
+.nav-stats{display:flex;gap:10px;}
+.ns-pill{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:20px;padding:5px 12px;
+  font-size:11px;font-weight:800;color:white;
+  display:flex;align-items:center;gap:5px;
+}
 
-    label{font-size:12px;color:#94a3b8;margin-bottom:2px;display:block;}
-    input[type=text],input[type=email],input[type=password],select{
-      width:100%;background:#1e293b;border:1px solid #334155;
-      border-radius:8px;padding:10px 12px;color:white;font-size:14px;
-      outline:none;font-family:'Jost',sans-serif;transition:border 0.2s;
-    }
-    input:focus,select:focus{border-color:#e94560;}
-    input::placeholder{color:#475569;}
-    select option{background:#1e293b;}
+/* ═══ HERO SECTION ═══ */
+.hero{
+  position:relative;z-index:10;
+  padding:80px 5% 0;
+  display:flex;align-items:flex-end;justify-content:center;
+  gap:30px;flex-wrap:wrap;
+  min-height:380px;
+}
 
-    .field{display:flex;flex-direction:column;gap:4px;}
-    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+/* ─── SUBMARINE ─── */
+.sub-wrap{
+  position:relative;width:280px;height:280px;flex-shrink:0;
+  animation:subBob 3s ease-in-out infinite;
+  cursor:pointer;
+}
+/* Sub body */
+.sub-body{
+  position:absolute;
+  width:240px;height:100px;
+  background:linear-gradient(160deg,#fbbf24,#f59e0b,#d97706);
+  border-radius:50px 50px 44px 44px;
+  top:90px;left:20px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.3),inset 0 2px 0 rgba(255,255,255,0.3);
+  border:3px solid rgba(255,255,255,0.2);
+}
+/* Sub conning tower */
+.sub-tower{
+  position:absolute;
+  width:70px;height:55px;
+  background:linear-gradient(160deg,#fbbf24,#f59e0b);
+  border-radius:14px 14px 0 0;
+  top:42px;left:100px;
+  border:3px solid rgba(255,255,255,0.2);
+  border-bottom:none;
+}
+/* Periscope */
+.sub-scope{
+  position:absolute;width:8px;height:30px;
+  background:linear-gradient(180deg,#374151,#1f2937);
+  border-radius:4px 4px 0 0;
+  top:14px;left:50%;transform:translateX(-50%);
+}
+.sub-scope::before{
+  content:'';position:absolute;top:-4px;left:-4px;
+  width:16px;height:8px;
+  background:#374151;border-radius:4px;
+}
+/* Porthole windows */
+.sub-port{
+  position:absolute;
+  width:36px;height:36px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#7dd3fc,#0284c7,#0c4a6e);
+  border:4px solid rgba(255,255,255,0.4);
+  box-shadow:0 0 10px rgba(56,189,248,0.4),inset 0 2px 4px rgba(0,0,0,0.2);
+  top:50%;transform:translateY(-50%);
+  animation:glowPulse 3s ease-in-out infinite;
+}
+.sub-port.p1{left:40px;}
+.sub-port.p2{left:90px;}
+.sub-port.p3{left:150px;}
+/* Anya visible in center porthole */
+.sub-port.p2::before{
+  content:'🤿';
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:18px;
+}
+/* Propeller */
+.sub-prop-wrap{
+  position:absolute;right:-22px;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;
+}
+.sub-prop{
+  width:44px;height:44px;
+  position:relative;
+  animation:subPropeller 0.4s linear infinite;
+}
+.sub-blade{
+  position:absolute;width:8px;height:20px;
+  background:linear-gradient(180deg,#374151,#1f2937);
+  border-radius:4px;left:50%;transform-origin:50% 100%;
+  margin-left:-4px;
+}
+.sub-blade:nth-child(1){transform:rotate(0deg);}
+.sub-blade:nth-child(2){transform:rotate(72deg);}
+.sub-blade:nth-child(3){transform:rotate(144deg);}
+.sub-blade:nth-child(4){transform:rotate(216deg);}
+.sub-blade:nth-child(5){transform:rotate(288deg);}
+/* Bubble trail from propeller */
+.sub-trail{
+  position:absolute;right:-30px;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:6px;
+}
+.sub-trail-b{
+  width:8px;height:8px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.1);
+  animation:bubbleRise 2s linear infinite;
+}
+.sub-trail-b:nth-child(2){animation-delay:0.5s;width:6px;height:6px;}
+.sub-trail-b:nth-child(3){animation-delay:1s;width:5px;height:5px;}
+/* Depth meter on tower */
+.sub-tower::after{
+  content:'OMNIGRID 6';
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-size:7px;font-weight:900;color:rgba(0,0,0,0.4);
+  font-family:'Fredoka One',cursive;letter-spacing:1px;white-space:nowrap;
+}
+/* Headlight beam */
+.sub-light{
+  position:absolute;
+  left:-60px;top:50%;
+  width:80px;height:50px;
+  background:linear-gradient(90deg,transparent,rgba(255,243,100,0.25));
+  clip-path:polygon(100% 30%,0% 0%,0% 100%,100% 70%);
+  animation:sunRays 2s ease-in-out infinite;
+}
 
-    .submit-btn{
-      background:#e94560;border:none;border-radius:10px;
-      padding:12px;color:white;font-size:15px;font-weight:700;
-      cursor:pointer;font-family:'Jost',sans-serif;
-      transition:opacity 0.2s;margin-top:4px;
-    }
-    .submit-btn:hover{opacity:0.88;}
-    .submit-btn:disabled{opacity:0.5;cursor:not-allowed;}
+/* Hero text beside sub */
+.hero-text{
+  flex:1;min-width:240px;max-width:380px;
+  padding-bottom:20px;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:20px;padding:5px 14px;
+  font-size:11px;font-weight:800;color:white;
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.hero-title{
+  font-family:'Fredoka One',cursive;
+  font-size:2.6rem;line-height:1.1;
+  color:white;
+  text-shadow:0 3px 20px rgba(0,0,0,0.3);
+  margin-bottom:8px;
+}
+.hero-title span{
+  background:linear-gradient(135deg,#fbbf24,#34d399,#38bdf8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  background-size:200% auto;
+  animation:shimmer 3s linear infinite;
+}
+.hero-sub{
+  color:rgba(255,255,255,0.8);font-size:0.95rem;
+  line-height:1.6;margin-bottom:16px;
+  font-weight:600;
+}
+/* Anya speech from sub */
+.sub-speech{
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(10px);
+  border:1.5px solid rgba(255,255,255,0.3);
+  border-radius:4px 16px 16px 16px;
+  padding:10px 14px;
+  font-size:12.5px;font-weight:700;
+  color:white;line-height:1.5;
+  margin-bottom:16px;
+  position:relative;
+}
+.sub-speech::before{
+  content:'';position:absolute;
+  left:-9px;top:12px;
+  border:9px solid transparent;
+  border-right-color:rgba(255,255,255,0.3);
+  border-left:none;
+}
+.sub-speech .sname{
+  font-size:10px;font-weight:800;
+  color:#fbbf24;text-transform:uppercase;
+  letter-spacing:1px;display:block;margin-bottom:3px;
+}
+/* Stats row */
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap;}
+.hstat{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.25);
+  border-radius:16px;padding:7px 14px;
+  font-size:12px;font-weight:800;color:rgba(255,255,255,0.8);
+  display:flex;align-items:center;gap:6px;
+}
+.hstat-val{font-size:1.1rem;font-weight:900;color:white;}
 
-    .divider{display:flex;align-items:center;gap:10px;margin:4px 0;}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:#334155;}
-    .divider span{color:#475569;font-size:12px;}
+/* ═══ OCEAN FLOOR DECO ═══ */
+.ocean-floor{
+  position:relative;z-index:8;
+  margin-top:30px;
+  height:80px;
+  overflow:hidden;
+}
+.floor-sand{
+  position:absolute;bottom:0;left:0;right:0;height:50px;
+  background:linear-gradient(180deg,transparent,rgba(245,230,163,0.3),rgba(245,230,163,0.5));
+  border-radius:60% 60% 0 0/30% 30% 0 0;
+}
+.coral-deco{
+  position:absolute;bottom:8px;
+  font-size:var(--fs,28px);
+  animation:coralSway var(--dur,3s) ease-in-out infinite;
+  transform-origin:bottom center;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+.seaweed-deco{
+  position:absolute;bottom:6px;
+  font-size:var(--fs,32px);
+  animation:seaweedSway var(--dur,4s) ease-in-out infinite;
+  transform-origin:bottom center;
+}
 
-    .google-btn{
-      width:100%;background:#1e293b;border:1px solid #334155;
-      border-radius:10px;padding:10px;color:white;font-size:13px;
-      font-weight:600;cursor:pointer;font-family:'Jost',sans-serif;
-      display:flex;align-items:center;justify-content:center;gap:10px;
-      transition:border 0.2s;
-    }
-    .google-btn:hover{border-color:#e94560;}
-    .google-icon{width:18px;height:18px;}
+/* ═══ SECTION TITLE ═══ */
+.section-title{
+  position:relative;z-index:10;
+  text-align:center;
+  padding:16px 5% 8px;
+  font-family:'Fredoka One',cursive;
+  font-size:1.4rem;color:white;
+  text-shadow:0 2px 10px rgba(0,0,0,0.3);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.section-title::before,.section-title::after{
+  content:'〰️';font-size:1rem;opacity:0.6;
+}
 
-    .msg-box{
-      padding:10px 14px;border-radius:8px;font-size:13px;
-      text-align:center;display:none;
-    }
-    .msg-box.error{background:#7f1d1d;color:#fecaca;display:block;}
-    .msg-box.success{background:#14532d;color:#bbf7d0;display:block;}
-    .msg-box.loading{background:#1e3a5f;color:#93c5fd;display:block;}
+/* ═══ SUBJECT ZONE CARDS ═══ */
+.grid-container{
+  position:relative;z-index:10;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  padding:0 5% 100px;
+  max-width:1300px;margin:0 auto;
+}
 
-    .footer-note{text-align:center;font-size:12px;color:#475569;margin-top:16px;}
-    .footer-note a{color:#94a3b8;text-decoration:none;}
+.zone-card{
+  background:var(--zone-bg,rgba(255,255,255,0.12));
+  backdrop-filter:blur(12px);
+  border:2px solid var(--zone-border,rgba(255,255,255,0.25));
+  border-radius:24px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  cursor:pointer;
+  transition:transform 0.3s,box-shadow 0.3s;
+  animation:cardFloat var(--float-dur,4s) ease-in-out infinite;
+  position:relative;
+}
+.zone-card::before{/* inner shimmer */
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.08),transparent 50%);
+  border-radius:22px;pointer-events:none;
+}
+.zone-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 20px 50px rgba(0,0,0,0.35),0 0 0 2px var(--zone-glow,rgba(255,255,255,0.4));
+}
 
-    /* Anya welcome bubble */
-    .anya-bubble{
-      background:#1e293b;border:1px solid #334155;border-radius:12px;
-      padding:10px 14px;margin-bottom:20px;font-size:13px;color:#cbd5e1;
-      line-height:1.5;position:relative;text-align:center;
-    }
-    .anya-bubble::before{
-      content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
-      border-left:8px solid transparent;border-right:8px solid transparent;
-      border-bottom:8px solid #334155;
-    }
+/* Zone illustration area */
+.zone-scene{
+  height:150px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--scene-bg,rgba(0,0,0,0.1));
+}
+.zone-emoji-big{
+  font-size:70px;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  animation:jellyFloat var(--jf,3s) ease-in-out infinite;
+  position:relative;z-index:2;
+}
+/* Deco elements in scene */
+.scene-deco{
+  position:absolute;font-size:var(--fs,18px);
+  opacity:0.5;animation:jellyFloat var(--dur,4s) ease-in-out infinite;
+}
 
-    /* Loading spinner */
-    .spinner{
-      width:20px;height:20px;border:2px solid rgba(255,255,255,0.3);
-      border-top-color:white;border-radius:50%;
-      animation:spin 0.8s linear infinite;display:inline-block;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
-  </style>
+/* Zone content */
+.zone-body{padding:16px 18px 18px;flex:1;display:flex;flex-direction:column;justify-content:space-between;}
+.zone-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 12px;border-radius:20px;
+  font-size:10px;font-weight:800;letter-spacing:0.5px;
+  color:white;width:fit-content;margin-bottom:7px;
+  background:var(--badge-bg,rgba(255,255,255,0.2));
+  border:1px solid rgba(255,255,255,0.3);
+}
+.zone-name{
+  font-family:'Fredoka One',cursive;
+  font-size:1.2rem;color:white;
+  text-shadow:0 1px 6px rgba(0,0,0,0.2);
+  margin-bottom:4px;
+}
+.zone-desc{
+  color:rgba(255,255,255,0.8);
+  font-size:0.82rem;line-height:1.5;
+  font-weight:600;margin-bottom:10px;
+}
+.zone-meta{
+  display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px;
+}
+.zone-pill{
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:10px;padding:2px 9px;
+  font-size:10px;font-weight:800;color:rgba(255,255,255,0.9);
+  display:flex;align-items:center;gap:4px;
+}
+.dive-btn{
+  display:block;text-align:center;padding:11px;
+  border-radius:14px;font-family:'Nunito',sans-serif;
+  font-weight:900;font-size:0.88rem;color:white;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:all 0.25s;letter-spacing:0.3px;
+  background:var(--btn-bg,rgba(255,255,255,0.25));
+  border:1.5px solid rgba(255,255,255,0.35);
+  box-shadow:0 4px 14px rgba(0,0,0,0.2);
+  backdrop-filter:blur(4px);
+}
+.dive-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  background:var(--btn-hover,rgba(255,255,255,0.35));
+}
+.dive-btn-locked{
+  display:block;text-align:center;padding:11px;
+  border-radius:14px;font-family:'Nunito',sans-serif;
+  font-weight:800;font-size:0.88rem;
+  background:rgba(0,0,0,0.15);
+  color:rgba(255,255,255,0.4);
+  border:1.5px solid rgba(255,255,255,0.1);
+  cursor:not-allowed;
+}
+/* Lock bubble overlay */
+.zone-lock-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.25);
+  backdrop-filter:blur(2px);
+  display:flex;align-items:center;justify-content:center;
+  z-index:3;border-radius:22px;
+}
+.zone-lock-badge{
+  background:rgba(0,0,0,0.5);
+  border:2px solid rgba(255,255,255,0.2);
+  border-radius:14px;padding:8px 16px;
+  font-size:12px;font-weight:800;color:white;
+  display:flex;align-items:center;gap:6px;
+}
+
+/* ═══ SUBMARINE TRAVEL ANIMATION ═══ */
+.sub-travel-wrap{
+  position:fixed;inset:0;z-index:300;
+  pointer-events:none;display:none;
+}
+.sub-travel-wrap.active{display:block;}
+.sub-travel-vehicle{
+  position:absolute;
+  width:180px;height:70px;
+  transition:none;
+}
+.stv-body{
+  width:160px;height:65px;
+  background:linear-gradient(160deg,#fbbf24,#f59e0b);
+  border-radius:35px 35px 30px 30px;
+  position:relative;
+  box-shadow:0 6px 20px rgba(0,0,0,0.4);
+}
+.stv-tower{
+  position:absolute;top:-28px;left:55px;
+  width:45px;height:32px;
+  background:linear-gradient(160deg,#fbbf24,#f59e0b);
+  border-radius:8px 8px 0 0;
+}
+.stv-port{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#7dd3fc,#0284c7);
+  border:3px solid rgba(255,255,255,0.4);
+}
+.stv-port.sp1{left:20px;}
+.stv-port.sp2{left:55px;}
+.stv-port.sp3{left:100px;}
+.stv-port.sp2::before{content:'🤿';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:14px;}
+.stv-bubbles{
+  position:absolute;right:-16px;top:50%;transform:translateY(-50%);
+}
+.stv-bub{
+  width:8px;height:8px;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.7);
+  position:absolute;
+  animation:bubbleRise 1s linear infinite;
+}
+
+/* Travel overlay */
+.travel-overlay{
+  position:fixed;inset:0;z-index:290;
+  background:rgba(14,95,160,0.0);
+  pointer-events:none;
+  transition:background 0.4s;
+}
+.travel-overlay.active{background:rgba(14,95,160,0.5);pointer-events:none;}
+
+/* Travel toast */
+.travel-toast{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(255,255,255,0.95);
+  border-radius:20px;padding:20px 28px;text-align:center;
+  z-index:400;display:none;
+  box-shadow:0 12px 50px rgba(0,0,0,0.3);
+  min-width:240px;
+  animation:toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+.travel-toast.show{display:block;}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,-50%) scale(0.8)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.tt-emoji{font-size:3rem;margin-bottom:6px;}
+.tt-title{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--ocean-deep);}
+.tt-sub{font-size:11px;color:var(--muted);margin-top:3px;}
+.tt-bar{height:5px;background:#e2e8f0;border-radius:3px;margin:10px 0;overflow:hidden;}
+.tt-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#0ea5e9,#22c55e);border-radius:3px;animation:ttLoad 1.5s ease forwards;}
+@keyframes ttLoad{from{width:0}to{width:100%}}
+
+/* ═══ MINI ANYA + CHAT TRIGGER ═══ */
+#chat-trigger{
+  position:fixed;bottom:24px;right:24px;
+  width:68px;height:68px;cursor:pointer;z-index:1000;
+  transition:transform 0.3s;
+}
+#chat-trigger:hover{transform:scale(1.1);}
+@keyframes bubbleBtn{0%,100%{box-shadow:0 0 0 0 rgba(56,189,248,0.4)}50%{box-shadow:0 0 0 12px rgba(56,189,248,0)}}
+.mini-anya{
+  width:68px;height:68px;border-radius:50%;
+  background:linear-gradient(160deg,#0c4a6e,#075985);
+  position:relative;overflow:hidden;
+  border:3px solid #22d3ee;
+  box-shadow:0 0 0 4px rgba(34,211,238,0.15),0 6px 24px rgba(14,95,160,0.7);
+  animation:bubbleBtn 2.5s ease-in-out infinite;
+}
+/* face skin */
+.mini-anya::before{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:44px;height:50px;background:#fcd9a8;
+  border-radius:42% 42% 48% 48%/40% 40% 60% 60%;
+}
+/* teal hair */
+.mh{
+  position:absolute;top:1px;left:50%;transform:translateX(-50%);
+  width:56px;height:30px;
+  background:linear-gradient(160deg,#67e8f9,#22d3ee,#0e7490);
+  border-radius:50% 50% 20% 20%;z-index:2;
+}
+/* hair strand over ear */
+.mh::before{
+  content:'';position:absolute;bottom:-6px;left:4px;
+  width:10px;height:16px;
+  background:linear-gradient(180deg,#22d3ee,#0e7490);
+  border-radius:4px 0 8px 8px;
+}
+/* ahoge */
+.mh::after{
+  content:'';position:absolute;top:-8px;left:50%;transform:translateX(-10%);
+  width:7px;height:12px;
+  background:#67e8f9;border-radius:3px 3px 0 0;
+  animation:hairWave 2s ease-in-out infinite;
+  transform-origin:bottom center;
+}
+/* diver goggles band */
+.mb{
+  position:absolute;top:14px;left:50%;transform:translateX(-50%);
+  width:50px;height:7px;
+  background:linear-gradient(90deg,#fb923c,#ea580c);
+  border-radius:3px;z-index:4;
+}
+/* goggle lenses */
+.me{
+  position:absolute;top:11px;left:50%;transform:translateX(-50%);
+  width:36px;display:flex;gap:3px;z-index:5;
+}
+.mey{
+  flex:1;height:14px;
+  background:radial-gradient(circle at 32% 32%,#a5f3fc,#0891b2,#0c4a6e);
+  border-radius:5px;
+  border:2px solid #7c3aed;
+  position:relative;
+  box-shadow:0 0 6px rgba(14,165,233,0.5),inset 0 1px 2px rgba(255,255,255,0.3);
+}
+.mey::after{
+  content:'';position:absolute;top:2px;left:2px;
+  width:4px;height:4px;background:rgba(255,255,255,0.8);border-radius:50%;
+}
+/* smile */
+.mnotif-smile{
+  position:absolute;top:26px;left:50%;transform:translateX(-50%);
+  width:12px;height:6px;
+  border-bottom:2.5px solid #c27a50;
+  border-radius:0 0 8px 8px;z-index:5;
+}
+/* cheek blush */
+.mblush-l,.mblush-r{
+  position:absolute;top:23px;
+  width:9px;height:6px;
+  background:rgba(252,165,165,0.6);border-radius:50%;z-index:4;
+}
+.mblush-l{left:7px;}.mblush-r{right:7px;}
+.notif{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#f43f5e;border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:white;border:2px solid white;animation:pulse2 2s infinite;}
+@keyframes pulse2{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+
+/* ═══ CHAT WINDOW — OCEAN THEME ═══ */
+#chat-window{
+  position:fixed;bottom:106px;right:24px;width:360px;
+  border-radius:22px;overflow:hidden;
+  box-shadow:0 16px 50px rgba(0,0,0,0.4),0 0 0 2px rgba(56,189,248,0.2);
+  z-index:999;display:none;flex-direction:column;
+  max-height:600px;
+  animation:chatSlide 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+#chat-window.open{display:flex;}
+@keyframes chatSlide{from{opacity:0;transform:translateY(30px) scale(0.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Chat header — ocean surface */
+.cw-header{
+  background:linear-gradient(135deg,#0e5fa0,#0369a1,#0284c7);
+  padding:13px 16px;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;
+  position:relative;overflow:hidden;
+  border-bottom:1px solid rgba(56,189,248,0.3);
+}
+.cw-header::before{/* wave pattern */
+  content:'';position:absolute;bottom:0;left:0;right:0;height:6px;
+  background:repeating-linear-gradient(90deg,
+    rgba(56,189,248,0.3) 0px, rgba(56,189,248,0.3) 8px,
+    transparent 8px, transparent 16px
+  );
+}
+.cw-header::after{
+  content:'🌊 DEEP SEA COMMS';
+  position:absolute;top:5px;right:48px;
+  font-size:8px;font-weight:800;letter-spacing:1.5px;
+  color:rgba(255,255,255,0.4);font-family:'Nunito',sans-serif;
+}
+.cw-hl{display:flex;align-items:center;gap:10px;position:relative;z-index:1;}
+.cw-face{
+  width:42px;height:42px;border-radius:50%;
+  border:2.5px solid #22d3ee;
+  background:linear-gradient(160deg,#0c4a6e,#075985);
+  position:relative;overflow:hidden;flex-shrink:0;
+  box-shadow:0 0 14px rgba(34,211,238,0.4);
+}
+.cw-face::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:28px;height:32px;background:#fcd9a8;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+/* teal hair */
+.cfh{position:absolute;top:1px;left:50%;transform:translateX(-50%);width:36px;height:18px;background:linear-gradient(160deg,#67e8f9,#22d3ee,#0e7490);border-radius:50% 50% 20% 20%;z-index:2;}
+/* goggle band */
+.cfb{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:34px;height:5px;background:linear-gradient(90deg,#fb923c,#ea580c);border-radius:2px;z-index:4;}
+/* goggles */
+.cfe{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:26px;display:flex;gap:2px;z-index:5;}
+.cfey{flex:1;height:11px;background:radial-gradient(circle at 32% 32%,#a5f3fc,#0891b2,#0c4a6e);border-radius:3px;border:1.5px solid #7c3aed;position:relative;box-shadow:0 0 4px rgba(14,165,233,0.4);}
+.cfey::after{content:'';position:absolute;top:2px;left:2px;width:3px;height:3px;background:rgba(255,255,255,0.8);border-radius:50%;}
+.cw-info h4{color:white;font-size:14px;font-weight:800;margin:0;font-family:'Fredoka One',cursive;letter-spacing:0.5px;}
+.cw-info p{color:rgba(255,255,255,0.7);font-size:10px;margin:0;}
+.cw-status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:4px;animation:statusPulse 2s infinite;}
+@keyframes statusPulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.cw-close{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);color:white;font-size:14px;cursor:pointer;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.2s;position:relative;z-index:1;}
+.cw-close:hover{background:rgba(255,255,255,0.28);}
+
+/* Tabs */
+.cw-tabs{background:#0c3a6b;display:flex;padding:8px 10px;gap:5px;border-bottom:1px solid rgba(56,189,248,0.15);flex-shrink:0;}
+.tab-btn{flex:1;padding:7px 4px;background:transparent;border:1px solid transparent;color:rgba(255,255,255,0.45);font-size:10.5px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;border-radius:10px;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:3px;}
+.tab-btn.active{background:linear-gradient(135deg,rgba(56,189,248,0.25),rgba(14,95,160,0.4));color:#7dd3fc;border-color:rgba(56,189,248,0.35);}
+.tab-btn:hover:not(.active){background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.7);}
+
+.tab-panel{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.tab-panel.active{display:flex;}
+
+/* Messages */
+.cw-body{background:#082855;padding:12px;display:flex;flex-direction:column;gap:9px;flex:1;overflow-y:auto;min-height:180px;max-height:260px;}
+.cw-body::-webkit-scrollbar{width:3px;}
+.cw-body::-webkit-scrollbar-thumb{background:#0e5fa0;border-radius:2px;}
+.cm{display:flex;gap:7px;align-items:flex-end;}
+.cm.user{flex-direction:row-reverse;}
+.cm-av{width:26px;height:26px;border-radius:50%;flex-shrink:0;background:linear-gradient(160deg,#0c3a6b,#0e5fa0);border:1.5px solid rgba(56,189,248,0.5);position:relative;overflow:hidden;}
+.cm-av::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:16px;height:18px;background:#f4c89a;border-radius:42% 42% 48% 48%/40% 40% 60% 60%;}
+.cm-av::after{content:'';position:absolute;top:1px;left:50%;transform:translateX(-50%);width:18px;height:10px;background:linear-gradient(160deg,#fda4af,#f43f5e);border-radius:50% 50% 20% 20%;z-index:1;}
+.cb{max-width:82%;padding:9px 13px;border-radius:12px;font-size:12.5px;line-height:1.55;font-weight:600;}
+.cb.anya{background:linear-gradient(135deg,#0e4d8a,#0d5fa0);color:#e0f2fe;border-radius:4px 12px 12px 12px;border:1px solid rgba(56,189,248,0.2);}
+.cb.user{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;border-radius:12px 4px 12px 12px;}
+.cb.ok{background:linear-gradient(135deg,#052e16,#14532d);color:#4ade80;border-radius:12px;}
+.cb.err{background:linear-gradient(135deg,#450a0a,#7f1d1d);color:#fca5a5;border-radius:12px;}
+.tdots{display:flex;gap:5px;align-items:center;padding:9px 13px;background:linear-gradient(135deg,#0e4d8a,#0d5fa0);border-radius:4px 12px 12px 12px;border:1px solid rgba(56,189,248,0.2);width:fit-content;}
+.td{width:8px;height:8px;border-radius:50%;animation:tdot 1.2s infinite;}
+.td:nth-child(1){background:#38bdf8;}
+.td:nth-child(2){background:#4ade80;animation-delay:0.2s;}
+.td:nth-child(3){background:#fbbf24;animation-delay:0.4s;}
+@keyframes tdot{0%,80%,100%{transform:scale(0.5) translateY(0);opacity:0.4}40%{transform:scale(1.1) translateY(-4px);opacity:1}}
+
+.quick-actions{padding:8px 12px;display:flex;gap:5px;flex-wrap:wrap;background:#082855;border-top:1px solid rgba(56,189,248,0.1);flex-shrink:0;}
+.qa-btn{background:rgba(14,95,160,0.5);border:1px solid rgba(56,189,248,0.2);color:rgba(56,189,248,0.9);border-radius:14px;padding:5px 11px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+.qa-btn:hover{border-color:rgba(56,189,248,0.6);color:#7dd3fc;background:rgba(14,95,160,0.8);}
+
+.cw-options{background:#082855;padding:0 12px 8px;display:flex;flex-direction:column;gap:5px;flex-shrink:0;}
+.op-btn{background:linear-gradient(135deg,#0e4d8a,#0d5fa0);color:#e0f2fe;border:1px solid rgba(56,189,248,0.2);border-radius:10px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;text-align:left;font-family:'Nunito',sans-serif;transition:all 0.2s;}
+.op-btn:hover:not(:disabled){border-color:rgba(56,189,248,0.5);}
+.op-btn:disabled{cursor:default;}
+.op-btn.correct-ans{background:linear-gradient(135deg,#052e16,#14532d);border-color:#22c55e;color:#4ade80;}
+.op-btn.wrong-ans{background:linear-gradient(135deg,#450a0a,#7f1d1d);border-color:#ef4444;color:#fca5a5;}
+
+.cw-input-row{background:#0c3a6b;padding:10px 12px;display:flex;gap:8px;align-items:center;border-top:1px solid rgba(56,189,248,0.15);flex-shrink:0;}
+.cw-inp{flex:1;background:#082855;border:1.5px solid rgba(56,189,248,0.25);border-radius:12px;padding:8px 12px;color:#e0f2fe;font-size:12.5px;outline:none;font-family:'Nunito',sans-serif;font-weight:600;}
+.cw-inp:focus{border-color:rgba(56,189,248,0.6);}
+.cw-inp::placeholder{color:rgba(56,189,248,0.3);}
+.cw-send{background:linear-gradient(135deg,#0ea5e9,#0284c7);border:none;border-radius:12px;padding:8px 14px;color:white;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 3px 12px rgba(14,165,233,0.4);transition:all 0.2s;}
+.cw-send:hover{transform:scale(1.06);}
+
+/* Dash & Guide */
+.dash-panel,.guide-panel{background:#082855;padding:14px;overflow-y:auto;flex:1;}
+.dash-title{font-family:'Fredoka One',cursive;font-size:13px;color:#38bdf8;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.dash-card{background:linear-gradient(135deg,#0e4d8a,#0d5fa0);border:1px solid rgba(56,189,248,0.15);border-radius:14px;padding:12px 14px;margin-bottom:10px;}
+.dash-card h4{font-size:10px;font-weight:800;color:rgba(56,189,248,0.55);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;}
+.progress-row{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+.progress-row span{font-size:10.5px;color:rgba(255,255,255,0.5);min-width:90px;}
+.prog-bar{flex:1;height:6px;background:rgba(0,0,0,0.3);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.prog-pct{font-size:10px;color:rgba(255,255,255,0.5);min-width:26px;text-align:right;}
+.you-marker{font-size:9px;color:#fbbf24;}
+.rank-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+.rank-card{background:rgba(0,0,0,0.2);border-radius:10px;padding:10px;text-align:center;border:1px solid rgba(56,189,248,0.1);}
+.rank-card .num{font-family:'Fredoka One',cursive;font-size:1.6rem;color:#38bdf8;}
+.rank-card .lbl{font-size:9px;color:rgba(255,255,255,0.4);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;}
+.motivate-box{background:linear-gradient(135deg,#0e4d8a,#0d5fa0);border-radius:14px;padding:12px 14px;border-left:3px solid #38bdf8;}
+.motivate-box p{font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6;}
+.motivate-box .speaker{color:#38bdf8;font-weight:800;}
+.guide-section{margin-bottom:14px;}
+.guide-section h4{font-family:'Fredoka One',cursive;font-size:12px;color:rgba(56,189,248,0.7);margin-bottom:8px;}
+.guide-link{display:flex;align-items:center;gap:10px;padding:10px 12px;background:linear-gradient(135deg,#0e4d8a,#0d5fa0);border-radius:12px;margin-bottom:6px;cursor:pointer;border:1px solid rgba(56,189,248,0.15);transition:all 0.2s;text-decoration:none;}
+.guide-link:hover{border-color:rgba(56,189,248,0.4);transform:translateX(4px);}
+.guide-link .icon{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.gl-title{font-size:12px;color:white;font-weight:800;}
+.gl-sub{font-size:10px;color:rgba(255,255,255,0.45);}
+.gl-status{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:800;flex-shrink:0;}
+.status-now{background:rgba(56,189,248,0.15);color:#7dd3fc;border:1px solid rgba(56,189,248,0.25);}
+.status-lock{background:rgba(0,0,0,0.2);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.08);}
+.tip-box{background:linear-gradient(135deg,rgba(56,189,248,0.1),rgba(34,197,94,0.08));border-radius:12px;padding:12px 14px;border:1px solid rgba(56,189,248,0.15);}
+.tip-box p{font-size:12px;color:#7dd3fc;line-height:1.6;}
+.rev-header{background:linear-gradient(135deg,#0ea5e9,#0369a1);padding:8px 14px;font-size:12px;color:white;font-weight:800;flex-shrink:0;}
+
+@media(max-width:600px){
+  #chat-window{width:calc(100vw - 16px);right:8px;bottom:90px;}
+  .hero{padding:70px 4% 0;gap:16px;}
+  .sub-wrap{width:220px;height:220px;}
+  .sub-body{width:190px;}
+  .hero-title{font-size:1.9rem;}
+  .grid-container{padding:0 4% 100px;}
+}
+</style>
 </head>
 <body>
 
-<div class="login-wrap">
+<!-- OCEAN BG -->
+<div class="ocean-bg"></div>
+<div class="sun-rays"></div>
+<div class="surface-shimmer"></div>
 
-  <!-- Anya Avatar -->
-  <div class="anya-face">
-    <div class="af-hair"></div>
-    <div class="af-band"></div>
-    <div class="af-eyes"><div class="af-eye"></div><div class="af-eye"></div></div>
-    <div class="af-smile"></div>
+<!-- BUBBLES (JS-generated) -->
+<!-- FISH (JS-generated) -->
+
+<!-- TOP NAV -->
+<div class="topbar">
+  <div class="logo">🌊 <span class="logo-wave">OmniGrid</span> 6</div>
+  <div class="nav-stats">
+    <div class="ns-pill">📖 <span id="stat-chapters">0</span></div>
+    <div class="ns-pill">🔥 <span id="stat-streak">0</span></div>
+    <div class="ns-pill">🏆 <span id="stat-score">0%</span></div>
   </div>
-
-  <!-- Anya bubble -->
-  <div class="anya-bubble" id="anya-greet">
-    Heh~ Namaste! Main Anya hoon 🌸<br>Login karo aur apna adventure shuru karo!
-  </div>
-
-  <div class="login-title">
-    <h1>OMNIGRID 6</h1>
-    <p>Class 6 Curiosity Quest</p>
-  </div>
-
-  <!-- Tabs -->
-  <div class="auth-tabs">
-    <button class="auth-tab active" onclick="showTab('login')">Login</button>
-    <button class="auth-tab" onclick="showTab('register')">Register</button>
-  </div>
-
-  <!-- Message box -->
-  <div class="msg-box" id="msg-box"></div>
-
-  <!-- LOGIN FORM -->
-  <form class="auth-form" id="login-form" onsubmit="handleLogin(event)">
-    <div class="field">
-      <label>Email / Roll Number</label>
-      <input type="email" id="login-email" placeholder="tumhara@email.com" required/>
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <input type="password" id="login-pass" placeholder="••••••••" required/>
-    </div>
-    <button type="submit" class="submit-btn" id="login-btn">Login karo!</button>
-    <div class="divider"><span>ya</span></div>
-    <button type="button" class="google-btn" onclick="handleGoogleLogin()">
-      <svg class="google-icon" viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
-      Google se login karo
-    </button>
-  </form>
-
-  <!-- REGISTER FORM -->
-  <form class="auth-form hidden" id="register-form" onsubmit="handleRegister(event)">
-    <div class="field">
-      <label>Poora Naam</label>
-      <input type="text" id="reg-name" placeholder="Tumhara naam" required/>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Class</label>
-        <select id="reg-class">
-          <option value="6A">Class 6A</option>
-          <option value="6B">Class 6B</option>
-          <option value="6C">Class 6C</option>
-          <option value="6D">Class 6D</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Roll Number</label>
-        <input type="text" id="reg-roll" placeholder="Jaise: 24" required/>
-      </div>
-    </div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="reg-email" placeholder="tumhara@email.com" required/>
-    </div>
-    <div class="field">
-      <label>Password (min 6 characters)</label>
-      <input type="password" id="reg-pass" placeholder="••••••••" minlength="6" required/>
-    </div>
-    <button type="submit" class="submit-btn" id="reg-btn">Register karo!</button>
-    <div class="divider"><span>ya</span></div>
-    <button type="button" class="google-btn" onclick="handleGoogleLogin()">
-      <svg class="google-icon" viewBox="0 0 24 24">
-        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-      </svg>
-      Google se register karo
-    </button>
-  </form>
-
-  <div class="footer-note">
-    By continuing, tum agree karte ho <a href="#">Terms of Use</a> se
-  </div>
-
 </div>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-  import {
-    getAuth,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
-    onAuthStateChanged
-  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    getDoc,
-    serverTimestamp
-  } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+<!-- TRAVEL OVERLAY + TOAST -->
+<div class="travel-overlay" id="travel-overlay"></div>
+<div class="travel-toast" id="travel-toast">
+  <div class="tt-emoji" id="tt-emoji">🔬</div>
+  <div class="tt-title" id="tt-title">Diving to Science Zone!</div>
+  <div class="tt-sub">🤿 Submarine ko buckle up karo!</div>
+  <div class="tt-bar"><div class="tt-fill"></div></div>
+</div>
 
-  // ════════════════════════════════════════
-  //  FIREBASE CONFIG — Apna config yahan daalo
-  //  Firebase Console > Project Settings > Your Apps
-  // ════════════════════════════════════════
-  const firebaseConfig = {
-    apiKey: "AIzaSyDB2OYB3HuVeQ84hQHDCDbO8MQQGjW9v8Q",
-    authDomain: "omnigrid-64638.firebaseapp.com",
-    projectId: "omnigrid-64638",
-    storageBucket: "omnigrid-64638.firebasestorage.app",
-    messagingSenderId: "788627089004",
-    appId: "1:788627089004:web:2eed1ac26791fbda609a49",
-    measurementId: "G-BKQ2B36BG1"
-  };
+<!-- HERO -->
+<div class="hero">
+  <!-- SUBMARINE -->
+  <div class="sub-wrap" onclick="toggleChat()" title="Chat with Anya!">
+    <div class="sub-light"></div>
+    <div class="sub-tower"></div>
+    <div class="sub-scope"></div>
+    <div class="sub-body">
+      <div class="sub-port p1"></div>
+      <div class="sub-port p2"></div>
+      <div class="sub-port p3"></div>
+    </div>
+    <div class="sub-prop-wrap">
+      <div class="sub-prop">
+        <div class="sub-blade"></div>
+        <div class="sub-blade"></div>
+        <div class="sub-blade"></div>
+        <div class="sub-blade"></div>
+        <div class="sub-blade"></div>
+      </div>
+    </div>
+    <div class="sub-trail">
+      <div class="sub-trail-b"></div>
+      <div class="sub-trail-b"></div>
+      <div class="sub-trail-b"></div>
+    </div>
+  </div>
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const googleProvider = new GoogleAuthProvider();
+  <!-- HERO TEXT -->
+  <div class="hero-text">
+    <div class="hero-badge">🌊 Deep Sea Learning Adventure</div>
+    <div class="hero-title">Ocean of<br><span>Knowledge</span></div>
+    <div class="sub-speech">
+      <span class="sname">🤿 Captain Anya says</span>
+      Hi! Main Anya hoon 🌊 Hamare OmniGrid mein 5 subjects hain — Science, Maths, English, SST, Hindi. Kisi mein bhi koi doubt? Click karo kisi bhi zone pe!
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">📖 <span class="hstat-val" id="hstat-chapters">0</span> Chapters</div>
+      <div class="hstat">🔥 <span class="hstat-val" id="hstat-streak">0</span> Streak</div>
+      <div class="hstat">🏆 <span class="hstat-val" id="hstat-score">0%</span> Score</div>
+    </div>
+  </div>
+</div>
 
-  // ── Already logged in? Seedha index.html ──
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      const profile = await loadProfile(user.uid);
-      saveSessionAndRedirect(user, profile);
+<!-- OCEAN FLOOR DECO -->
+<div class="ocean-floor">
+  <div class="floor-sand"></div>
+  <div class="coral-deco" style="left:3%;--fs:32px;--dur:3s;">🪸</div>
+  <div class="seaweed-deco" style="left:8%;--fs:28px;--dur:4s;">🌿</div>
+  <div class="coral-deco" style="left:14%;--fs:24px;--dur:2.5s;">🪸</div>
+  <div class="seaweed-deco" style="left:20%;--fs:30px;--dur:3.5s;">🌿</div>
+  <div class="coral-deco" style="left:28%;--fs:28px;--dur:3.8s;">🐚</div>
+  <div class="coral-deco" style="left:38%;--fs:26px;--dur:2.8s;">🪸</div>
+  <div class="seaweed-deco" style="left:48%;--fs:32px;--dur:4.2s;">🌿</div>
+  <div class="coral-deco" style="left:56%;--fs:24px;--dur:3.1s;">🐚</div>
+  <div class="coral-deco" style="left:64%;--fs:30px;--dur:2.6s;">🪸</div>
+  <div class="seaweed-deco" style="left:72%;--fs:28px;--dur:3.7s;">🌿</div>
+  <div class="coral-deco" style="left:80%;--fs:26px;--dur:3.3s;">🪸</div>
+  <div class="seaweed-deco" style="left:88%;--fs:30px;--dur:4.1s;">🌿</div>
+  <div class="coral-deco" style="left:94%;--fs:24px;--dur:2.9s;">🐚</div>
+</div>
+
+<!-- SECTION TITLE -->
+<div class="section-title">🐠 Choose Your Ocean Zone</div>
+
+<!-- ZONE CARDS -->
+<div class="grid-container">
+
+  <!-- SCIENCE — Coral Reef Zone -->
+  <div class="zone-card"
+       style="--zone-bg:rgba(34,197,94,0.18);--zone-border:rgba(74,222,128,0.4);--zone-glow:rgba(74,222,128,0.6);--float-dur:4s;"
+       onclick="diveInto('science','🪸','Coral Reef Zone','chapters.html?subject=science')">
+    <div class="zone-scene" style="background:linear-gradient(160deg,rgba(34,197,94,0.3),rgba(16,185,129,0.2));">
+      <div class="scene-deco" style="left:8%;top:20%;--fs:22px;--dur:3.5s;">🐠</div>
+      <div class="scene-deco" style="right:10%;top:15%;--fs:18px;--dur:4.5s;animation-delay:1s;">🐟</div>
+      <div class="scene-deco" style="left:15%;bottom:15%;--fs:20px;--dur:5s;">🦀</div>
+      <div class="scene-deco" style="right:8%;bottom:20%;--fs:16px;--dur:3s;animation-delay:0.5s;">🌿</div>
+      <div class="zone-emoji-big" style="--jf:3s;">🪸</div>
+    </div>
+    <div class="zone-body">
+      <div>
+        <div class="zone-badge" style="background:rgba(34,197,94,0.35);border-color:rgba(74,222,128,0.5);">🔬 Science Zone</div>
+        <div class="zone-name">Coral Reef Zone</div>
+        <div class="zone-desc">Plants, magnets, matter, water — life teems in this vibrant zone!</div>
+        <div class="zone-meta">
+          <div class="zone-pill">📚 12 Chapters</div>
+          <div class="zone-pill">🌊 Shallow Waters</div>
+        </div>
+      </div>
+      <a href="chapters.html?subject=science" class="dive-btn"
+         style="--btn-bg:rgba(34,197,94,0.35);--btn-hover:rgba(34,197,94,0.55);"
+         onclick="diveInto('science','🪸','Coral Reef Zone','chapters.html?subject=science');return false;">
+        🤿 Dive In!
+      </a>
+    </div>
+  </div>
+
+  <!-- MATHS — Crystal Caverns -->
+  <div class="zone-card"
+       style="--zone-bg:rgba(56,189,248,0.18);--zone-border:rgba(125,211,252,0.4);--zone-glow:rgba(125,211,252,0.6);--float-dur:5s;"
+       onclick="diveInto('maths','💎','Crystal Caverns','chapters.html?subject=maths')">
+    <div class="zone-scene" style="background:linear-gradient(160deg,rgba(56,189,248,0.3),rgba(14,165,233,0.2));">
+      <div class="scene-deco" style="left:10%;top:18%;--fs:20px;--dur:4s;">💎</div>
+      <div class="scene-deco" style="right:12%;top:22%;--fs:18px;--dur:3s;animation-delay:1.2s;">🔷</div>
+      <div class="scene-deco" style="left:18%;bottom:18%;--fs:16px;--dur:5s;">✨</div>
+      <div class="zone-emoji-big" style="--jf:4s;">🐙</div>
+    </div>
+    <div class="zone-body">
+      <div>
+        <div class="zone-badge" style="background:rgba(56,189,248,0.35);border-color:rgba(125,211,252,0.5);">📐 Maths Zone</div>
+        <div class="zone-name">Crystal Caverns</div>
+        <div class="zone-desc">Numbers, fractions, geometry — hidden treasures in the deep blue!</div>
+        <div class="zone-meta">
+          <div class="zone-pill">📚 10 Chapters</div>
+          <div class="zone-pill">🌊 Ready!</div>
+        </div>
+      </div>
+      <a href="chapters.html?subject=maths" class="dive-btn" style="--btn-bg:rgba(56,189,248,0.35);--btn-hover:rgba(56,189,248,0.55);" onclick="diveInto('maths','💎','Crystal Caverns','chapters.html?subject=maths');return false;">🤿 Dive In!</a>
+    </div>
+    </div></div>
+
+  <!-- ENGLISH — Sunlit Lagoon -->
+  <div class="zone-card"
+       style="--zone-bg:rgba(251,191,36,0.18);--zone-border:rgba(253,224,71,0.4);--zone-glow:rgba(253,224,71,0.6);--float-dur:4.5s;"
+       onclick="diveInto('english','🐬','Sunlit Lagoon','chapters.html?subject=english')">
+    <div class="zone-scene" style="background:linear-gradient(160deg,rgba(251,191,36,0.3),rgba(245,158,11,0.2));">
+      <div class="scene-deco" style="left:8%;top:15%;--fs:22px;--dur:3.8s;">🐬</div>
+      <div class="scene-deco" style="right:10%;top:20%;--fs:18px;--dur:4.2s;animation-delay:0.8s;">☀️</div>
+      <div class="scene-deco" style="left:20%;bottom:16%;--fs:16px;--dur:5s;">🌺</div>
+      <div class="zone-emoji-big" style="--jf:3.5s;">🐠</div>
+    </div>
+    <div class="zone-body">
+      <div>
+        <div class="zone-badge" style="background:rgba(251,191,36,0.35);border-color:rgba(253,224,71,0.5);">📖 English Zone</div>
+        <div class="zone-name">Sunlit Lagoon</div>
+        <div class="zone-desc">Words, grammar, stories — bright and warm like shallow lagoon waters!</div>
+        <div class="zone-meta">
+          <div class="zone-pill">📚 9 Units</div>
+          <div class="zone-pill">🌊 Ready!</div>
+        </div>
+      </div>
+      <a href="chapters.html?subject=english" class="dive-btn" style="--btn-bg:rgba(251,191,36,0.35);--btn-hover:rgba(251,191,36,0.55);" onclick="diveInto('english','🐬','Sunlit Lagoon','chapters.html?subject=english');return false;">🤿 Dive In!</a>
+    </div>
+    </div>
+
+  <!-- SST — Volcanic Trench -->
+  <div class="zone-card"
+       style="--zone-bg:rgba(251,113,133,0.18);--zone-border:rgba(252,165,165,0.4);--zone-glow:rgba(252,165,165,0.6);--float-dur:5.5s;"
+       onclick="diveInto('sst','🌋','Volcanic Trench','chapters.html?subject=sst')">
+    <div class="zone-scene" style="background:linear-gradient(160deg,rgba(239,68,68,0.25),rgba(185,28,28,0.2));">
+      <div class="scene-deco" style="left:8%;top:18%;--fs:20px;--dur:4.5s;">🌋</div>
+      <div class="scene-deco" style="right:12%;top:15%;--fs:18px;--dur:3.5s;animation-delay:1s;">🦈</div>
+      <div class="scene-deco" style="left:15%;bottom:18%;--fs:16px;--dur:5.5s;">⚓</div>
+      <div class="zone-emoji-big" style="--jf:5s;">🦑</div>
+    </div>
+    <div class="zone-body">
+      <div>
+        <div class="zone-badge" style="background:rgba(239,68,68,0.35);border-color:rgba(252,165,165,0.5);">🌍 SST Zone</div>
+        <div class="zone-name">Volcanic Trench</div>
+        <div class="zone-desc">History, geography, civics — deep ancient secrets in the ocean floor!</div>
+        <div class="zone-meta">
+          <div class="zone-pill">📚 12 Chapters</div>
+          <div class="zone-pill">🌊 Ready!</div>
+        </div>
+      </div>
+      <a href="chapters.html?subject=sst" class="dive-btn" style="--btn-bg:rgba(239,68,68,0.35);--btn-hover:rgba(239,68,68,0.55);" onclick="diveInto('sst','🌋','Volcanic Trench','chapters.html?subject=sst');return false;">🤿 Dive In!</a>
+    </div>
+    </div>
+
+  <!-- HINDI — Purple Abyss -->
+  <div class="zone-card"
+       style="--zone-bg:rgba(192,132,252,0.18);--zone-border:rgba(216,180,254,0.4);--zone-glow:rgba(216,180,254,0.6);--float-dur:6s;"
+       onclick="diveInto('hindi','🌸','Purple Abyss','chapters.html?subject=hindi')">
+    <div class="zone-scene" style="background:linear-gradient(160deg,rgba(168,85,247,0.3),rgba(109,40,217,0.2));">
+      <div class="scene-deco" style="left:10%;top:16%;--fs:20px;--dur:4s;">🌸</div>
+      <div class="scene-deco" style="right:8%;top:20%;--fs:18px;--dur:3.5s;animation-delay:0.6s;">🪼</div>
+      <div class="scene-deco" style="left:18%;bottom:16%;--fs:16px;--dur:5s;">✨</div>
+      <div class="zone-emoji-big" style="--jf:4.5s;">🪼</div>
+    </div>
+    <div class="zone-body">
+      <div>
+        <div class="zone-badge" style="background:rgba(168,85,247,0.35);border-color:rgba(216,180,254,0.5);">📝 Hindi Zone</div>
+        <div class="zone-name">Purple Abyss</div>
+        <div class="zone-desc">Kavita, sahitya, vyakaran — mysterious and beautiful like the deep abyss!</div>
+        <div class="zone-meta">
+          <div class="zone-pill">📚 17 Chapters</div>
+          <div class="zone-pill">🌊 Ready!</div>
+        </div>
+      </div>
+      <a href="chapters.html?subject=hindi" class="dive-btn" style="--btn-bg:rgba(168,85,247,0.35);--btn-hover:rgba(168,85,247,0.55);" onclick="diveInto('hindi','🌸','Purple Abyss','chapters.html?subject=hindi');return false;">🤿 Dive In!</a>
+    </div>
+    </div>
+
+<!-- end grid -->
+
+<!-- CHAT TRIGGER -->
+<div id="chat-trigger" onclick="toggleChat()" title="Chat with Captain Anya!">
+  <div class="mini-anya">
+    <div class="mh"></div><div class="mb"></div>
+    <div class="me"><div class="mey"></div><div class="mey"></div></div>
+    <div class="mblush-l"></div><div class="mblush-r"></div>
+    <div class="mnotif-smile"></div>
+  </div>
+  <div class="notif" id="notif">!</div>
+</div>
+
+<!-- CHAT WINDOW -->
+<div id="chat-window">
+  <div class="cw-header">
+    <div class="cw-hl">
+      <div class="cw-face">
+        <div class="cfh"></div><div class="cfb"></div>
+        <div class="cfe"><div class="cfey"></div><div class="cfey"></div></div>
+      </div>
+      <div class="cw-info">
+        <h4>Anya 🌊</h4>
+        <p><span class="cw-status-dot"></span><span id="anya-status">Online • Ready to help!</span></p>
+      </div>
+    </div>
+    <button class="cw-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="cw-tabs">
+    <button class="tab-btn active" onclick="switchTab('chat',this)">💬 Chat</button>
+    <button class="tab-btn" onclick="switchTab('dashboard',this)">📊 Depth</button>
+    <button class="tab-btn" onclick="switchTab('guide',this)">🗺️ Map</button>
+  </div>
+
+  <!-- CHAT -->
+  <div class="tab-panel active" id="tab-chat">
+    <div class="cw-body" id="cw-body"></div>
+    <div class="quick-actions" id="quick-actions">
+      <button class="qa-btn" onclick="qaClick('chapter complete hua, revision karte hain')">📝 Revision test!</button>
+      <button class="qa-btn" onclick="qaClick('yeh topic samajh nahi aaya, explain karo')">💡 Explain karo</button>
+      <button class="qa-btn" onclick="qaClick('padhai boring lag rahi hai, thak gaya hoon')">😓 Thak gaya hoon</button>
+      <button class="qa-btn" onclick="qaClick('aage kya padhna chahiye mujhe')">🗺️ Kya padhun?</button>
+    </div>
+    <div class="cw-options" id="cw-options"></div>
+    <div class="cw-input-row">
+      <input class="cw-inp" id="cw-inp" placeholder="Koi bhi doubt poochho..."/>
+      <button class="cw-send" onclick="sendFree()">Send →</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="tab-panel" id="tab-dashboard">
+    <div class="dash-panel">
+      <div class="dash-title">🌊 Ocean Exploration Progress</div>
+      <div class="dash-card">
+        <h4>Zone Status</h4>
+        <div class="progress-row"><span>🪸 Science Ch.1</span><div class="prog-bar"><div class="prog-fill" style="width:72%;background:linear-gradient(90deg,#4ade80,#22c55e);"></div></div><span class="prog-pct">72%</span><span class="you-marker" id="sci1-you"></span></div>
+        <div class="progress-row"><span>🪸 Science Ch.2</span><div class="prog-bar"><div class="prog-fill" style="width:48%;background:linear-gradient(90deg,#fbbf24,#f59e0b);"></div></div><span class="prog-pct">48%</span></div>
+        <div class="progress-row"><span>💎 Maths Ch.1</span><div class="prog-bar"><div class="prog-fill" style="width:85%;background:linear-gradient(90deg,#7dd3fc,#38bdf8);"></div></div><span class="prog-pct">85%</span></div>
+        <div class="progress-row"><span>🐬 English Ch.1</span><div class="prog-bar"><div class="prog-fill" style="width:60%;background:linear-gradient(90deg,#fde68a,#fbbf24);"></div></div><span class="prog-pct">60%</span></div>
+        <div class="progress-row"><span>🌋 SST Ch.1</span><div class="prog-bar"><div class="prog-fill" style="width:55%;background:linear-gradient(90deg,#fca5a5,#f87171);"></div></div><span class="prog-pct">55%</span></div>
+      </div>
+      <div class="dash-card">
+        <h4>Your Diving Record</h4>
+        <div class="rank-grid">
+          <div class="rank-card"><div class="num" id="d-chapters">0</div><div class="lbl">Chapters</div></div>
+          <div class="rank-card"><div class="num" id="d-score">0%</div><div class="lbl">Score</div></div>
+          <div class="rank-card"><div class="num" id="d-streak">0</div><div class="lbl">Streak 🔥</div></div>
+          <div class="rank-card"><div class="num" id="stat-rank">#--</div><div class="lbl">Rank 🏆</div></div>
+        </div>
+      </div>
+      <div class="motivate-box">
+        <p><span class="speaker">Captain Anya 🤿:</span> <span id="dash-msg">Koi chapter padha? Revision test do aur stats update ho jaayenge! 📊</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GUIDE -->
+  <div class="tab-panel" id="tab-guide">
+    <div class="guide-panel">
+      <div class="guide-section">
+        <h4>🗺️ Ocean Zone Map</h4>
+        <div class="guide-link" onclick="diveInto('science','🪸','Coral Reef Zone','chapters.html?subject=science')">
+          <div class="icon" style="background:rgba(34,197,94,0.2);">🪸</div>
+          <div class="gl-info"><div class="gl-title">Coral Reef Zone — Science</div><div class="gl-sub">Shallow waters • 12 Chapters</div></div>
+          <span class="gl-status status-now">Active 🤿</span>
+        </div>
+        <div class="guide-link">
+          <div class="icon" style="background:rgba(56,189,248,0.15);">💎</div>
+          <div class="gl-info"><div class="gl-title">Crystal Caverns — Maths</div><div class="gl-sub">Mid depth • 10 Chapters</div></div>
+          <span class="gl-status status-now">Ready 🌊</span>
+        </div>
+        <div class="guide-link">
+          <div class="icon" style="background:rgba(251,191,36,0.15);">🐬</div>
+          <div class="gl-info"><div class="gl-title">Sunlit Lagoon — English</div><div class="gl-sub">Surface zone • 9 Units</div></div>
+          <span class="gl-status status-now">Ready 🌊</span>
+        </div>
+        <div class="guide-link">
+          <div class="icon" style="background:rgba(239,68,68,0.15);">🌋</div>
+          <div class="gl-info"><div class="gl-title">Volcanic Trench — SST</div><div class="gl-sub">Deep zone • 12 Chapters</div></div>
+          <span class="gl-status status-now">Ready 🌊</span>
+        </div>
+        <div class="guide-link">
+          <div class="icon" style="background:rgba(168,85,247,0.15);">🪼</div>
+          <div class="gl-info"><div class="gl-title">Purple Abyss — Hindi</div><div class="gl-sub">Deepest zone • 17 Chapters</div></div>
+          <span class="gl-status status-now">Ready 🌊</span>
+        </div>
+      </div>
+      <div class="guide-section">
+        <h4>💡 Captain's Log</h4>
+        <div class="tip-box" id="guide-tip">
+          <p>🤿 Coral Reef Zone sabse colorful hai — Science se dive shuru karo! Chapters complete karo aur deeper zones unlock karo! 🌊</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end chat-window -->
+
+
+
+<script>
+// ── STATE ──
+const state = {
+  open: false,
+  tab: 'chat',
+  chapDone: JSON.parse(localStorage.getItem('chapDone')||'[]'),
+  quizScore: parseInt(localStorage.getItem('quizScore')||'0'),
+  quizTotal: parseInt(localStorage.getItem('quizTotal')||'0'),
+  streak: parseInt(localStorage.getItem('streak')||'1'),
+  inRevision: false,
+  revTopic: null,
+  revQ: null,
+  revAnswered: false,
+  revScore: 0,
+  revTotal: 0
+};
+
+// ── QUESTION BANK ──
+const qbank = {
+  science:[
+    {q:"Photosynthesis mein kaunsi gas release hoti hai?",opts:["CO2","O2","N2","H2"],ans:1,exp:"Bilkul! Plants CO2 lete hain aur O2 release karte hain — isliye plants lagao ghar mein!"},
+    {q:"Magnet ke kaunse poles ek dusre ko attract karte hain?",opts:["North-North","South-South","North-South","Koi nahi"],ans:2,exp:"Sahi! Unlike poles attract karte hain — North + South milte hain!"},
+    {q:"Chlorophyll kahan hoti hai plant mein?",opts:["Roots mein","Stem mein","Leaves mein","Flowers mein"],ans:2,exp:"Correct! Chlorophyll leaves mein hoti hai — isliye leaves green dikhti hain!"},
+    {q:"Kaunsa mineral iron ko attract karta hai?",opts:["Copper","Magnet","Gold","Silver"],ans:1,exp:"Sahi! Magnet iron ko attract karta hai — yahi magnetic force hai!"},
+    {q:"Plants ko photosynthesis ke liye kya chahiye?",opts:["Sirf paani","Sirf sunlight","Sunlight + CO2 + Paani","Sirf CO2"],ans:2,exp:"Wah! Teeno cheezein chahiye — Sunlight, CO2 aur Paani. Perfect answer!"}
+  ],
+  maths:[
+    {q:"24 aur 36 ka LCM kya hai?",opts:["48","72","108","36"],ans:1,exp:"Sahi! LCM(24,36)=72. 2³×3²=72!"},
+    {q:"(-7) × (-3) = ?",opts:["-21","21","-10","10"],ans:1,exp:"Correct! Negative × Negative = Positive. (-7)×(-3)=+21!"},
+    {q:"Rectangle ka area formula?",opts:["2(l+b)","l×b","l+b","l²"],ans:1,exp:"Bilkul! Area = length × breadth. Simple!"},
+    {q:"2/3 + 1/6 = ?",opts:["3/9","5/6","1/2","4/6"],ans:1,exp:"Sahi! Common denominator 6 — 4/6+1/6=5/6!"},
+    {q:"Prime number kaun sa hai?",opts:["9","15","17","21"],ans:2,exp:"Correct! 17 sirf 1 aur 17 se divide hota hai — prime number hai!"}
+  ],
+  english:[
+    {q:"'Beautiful' ka synonym kya hai?",opts:["Ugly","Lovely","Dark","Small"],ans:1,exp:"Sahi! Lovely = Beautiful — synonyms hote hain!"},
+    {q:"Plural of 'child'?",opts:["Childs","Childes","Children","Childer"],ans:2,exp:"Correct! 'Children' irregular plural hai!"},
+    {q:"'He __ cricket daily.' — sahi option?",opts:["play","playing","plays","played"],ans:2,exp:"Sahi! He/She/It ke saath 's' lagta hai — plays!"},
+    {q:"Antonym of 'ancient'?",opts:["Old","Modern","Historic","Aged"],ans:1,exp:"Bilkul! Ancient = purana, Modern = naya!"},
+    {q:"Noun kaun sa hai? 'The bird flew high.'",opts:["flew","The","high","bird"],ans:3,exp:"Sahi! 'Bird' — koi bhi person, place ya thing noun hoti hai!"}
+  ],
+  sst:[
+    {q:"India ka sabse bada state area mein?",opts:["UP","MP","Rajasthan","Maharashtra"],ans:2,exp:"Correct! Rajasthan area mein sabse bada state hai!"},
+    {q:"Ganga river kahan se nikalti hai?",opts:["Manasarovar","Yamunotri","Gangotri","Kedarnath"],ans:2,exp:"Bilkul! Gangotri glacier — Uttarakhand mein hai!"},
+    {q:"Mughal Empire kab shuru hui?",opts:["1526","1556","1600","1498"],ans:0,exp:"Sahi! 1526 — Panipat ki pehli ladai ke baad Babur ne Mughal Empire shuru ki!"},
+    {q:"Equator kis hemisphere ko divide karta hai?",opts:["East-West","North-South","Top-Bottom","None"],ans:1,exp:"Correct! Equator Earth ko North aur South hemisphere mein divide karta hai!"},
+    {q:"India mein kitne Union Territories hain?",opts:["6","7","8","9"],ans:2,exp:"Sahi! 8 Union Territories hain India mein — 2019 ke baad se!"}
+  ]
+};
+
+const motivations = [
+  "Padhai mushkil lagti hai — but honestly, jo tum abhi kar rahe ho woh kaam aayega. Keep going 💪",
+  "Ek question galat hua? That's fine — galti se hi samajh aata hai. Next try karo!",
+  "Consistent rehna zyada important hai than being perfect. Thoda thoda roz karo.",
+  "Tu sochega 'yeh kabhi samajh nahi aayega' — aisa hi lagta hai pehle. Phir ek din click ho jaata hai!",
+  "Chhoti progress bhi progress hai. Aaj jo padha, woh yaad rahega.",
+  "Comparing mat karo khud ko doosron se — apna apna pace hai. Bas ruko mat.",
+  "Honestly? Sirf yahan aake question poochha, that's already more than most do. 🌊"
+];
+
+const dashMsgs = [
+  "Class ke 72% students ne Science Chapter 1 kar liya — tum kahan ho?",
+  "Ek aur chapter aur tumhara rank top 10 mein aa sakta hai!",
+  "Consistent padhai se ranks improve hote hain — ek chapter aaj karo!",
+  "Maths abhi 85% students ne kiya — interesting zone hai woh!",
+  "Jo chapters kiye hain unse score already improve hua hai — keep it up!"
+];
+
+// ── TOGGLE ──
+function toggleChat() {
+  state.open = !state.open;
+  const w = document.getElementById('chat-window');
+  if (state.open) {
+    w.classList.add('open');
+    document.getElementById('notif').style.display = 'none';
+    if (!document.getElementById('cw-body').children.length) initChat();
+  } else {
+    w.classList.remove('open');
+  }
+}
+
+// ── TABS ──
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  state.tab = name;
+  if (name === 'dashboard') updateDashboard();
+  if (name === 'guide') updateGuide();
+}
+
+// ── INIT CHAT ──
+function initChat() {
+  addAnya("Hey! Main Anya hoon — tumhari study buddy 🌊 Koi bhi subject ka doubt ho, revision karni ho, ya bas poochna ho — main yahan hoon. Kya help chahiye?");
+  setTimeout(() => addAnya("Science, Maths, English, SST, Hindi — kisi mein bhi question puchho. Ya neeche quick buttons use karo! 👇"), 1400);
+}
+
+// ── MESSAGES ──
+function addAnya(txt, cls='') {
+  const body = document.getElementById('cw-body');
+  const td = document.createElement('div');
+  td.className = 'cm';
+  td.innerHTML = '<div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  body.appendChild(td);
+  body.scrollTop = body.scrollHeight;
+  setTimeout(() => {
+    body.removeChild(td);
+    const m = document.createElement('div');
+    m.className = 'cm';
+    m.innerHTML = `<div class="cb anya ${cls}">${txt}</div>`;
+    body.appendChild(m);
+    body.scrollTop = body.scrollHeight;
+  }, 650);
+}
+
+function addUser(txt) {
+  const body = document.getElementById('cw-body');
+  const m = document.createElement('div');
+  m.className = 'cm user';
+  m.innerHTML = `<div class="cb user">${txt}</div>`;
+  body.appendChild(m);
+  body.scrollTop = body.scrollHeight;
+}
+
+// ── QUICK ACTIONS ──
+function qaClick(txt) {
+  switchTab('chat', document.querySelector('.tab-btn'));
+  addUser(txt);
+  processMessage(txt);
+}
+
+// ── FREE TEXT ──
+function sendFree() {
+  const inp = document.getElementById('cw-inp');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  addUser(txt);
+  inp.value = '';
+  processMessage(txt);
+}
+
+// ── MESSAGE PROCESSOR ──
+async function processMessage(txt) {
+  if (state.inRevision) {
+    const low = txt.toLowerCase();
+    if (low.includes('hint')) {
+      setTimeout(() => addAnya("Hint: Options mein se jo clearly wrong lagta hai usse hata do pehle — phir remaining mein sochna easy ho jaata hai! 💡"), 300);
+      return;
     }
+    if (low.includes('motivat') || low.includes('help') || low.includes('pata nahi')) {
+      setTimeout(() => addAnya("No worries — just apna best guess do. Right ya wrong, explanation se samajh aa jaayega! 🙌"), 300);
+      return;
+    }
+    handleRevisionAnswer(txt);
+    return;
+  }
+  const low = txt.toLowerCase();
+
+  if (low.includes('chapter padh liya') || low.includes('padh liya') || low.includes('complete') || low.includes('finish')) {
+    startRevisionFlow();
+    return;
+  }
+
+  // Try AI first
+  const aiReply = await getAnyaReply(txt);
+  if (aiReply) {
+    setTimeout(() => addAnya(aiReply), 300);
+    return;
+  }
+
+  // Fallback built-in responses
+  if (low.includes('motivat') || low.includes('thak') || low.includes('help')) {
+    const m = motivations[Math.floor(Math.random()*motivations.length)];
+    setTimeout(() => addAnya(m), 500);
+  } else if (low.includes('next topic') || low.includes('aage kya') || low.includes('kya padhu')) {
+    setTimeout(() => addAnya("Guide tab mein check karo — wahan sab subjects ka roadmap hai. Science se start karo agar abhi tak kuch nahi kiya! 🗺️"), 500);
+  } else if (low.includes('hint')) {
+    setTimeout(() => addAnya(state.revQ ? "Ek hint — question ko carefully padho aur options eliminate karo. Kaunsa clearly wrong lagta hai?" : "Kisi topic ka doubt hai? Directly question poochho — main explain karunga! 💡"), 500);
+  } else if (low.includes('score') || low.includes('kitna') || low.includes('marks')) {
+    const pct = state.quizTotal > 0 ? Math.round(state.quizScore/state.quizTotal*100) : 0;
+    const msg = state.quizTotal === 0
+      ? "Abhi tak koi quiz nahi diya — ek chapter complete karo aur revision test do! 📝"
+      : `Tumhara score: <b>${state.quizScore}/${state.quizTotal}</b> (${pct}%). ${pct>=80?'Bahut achha!':pct>=60?'Theek hai, thoda aur karo!':'Practice se improve hoga — koshish karte raho!'}`;
+    setTimeout(() => addAnya(msg), 500);
+  } else if (low.match(/^(h[ae]llo|hi+|namaste|hey|sup|hii+|heyy+)[\s!?]*$/)) {
+    setTimeout(() => addAnya("Hey! 👋 Kya chal raha hai? Koi subject ka doubt hai ya revision karni hai?"), 500);
+  } else if (low.includes('dashboard') || low.includes('rank') || low.includes('progress')) {
+    switchTab('dashboard', document.querySelectorAll('.tab-btn')[1]);
+    setTimeout(() => addAnya("Dashboard open ho gaya — yahan class ka aur apna progress dono dekh sakte ho! 📊"), 500);
+  } else if (low.includes('kya hai') || low.includes('batao') || low.includes('samjhao') || low.includes('explain')) {
+    // Try to extract the topic and send to AI
+    const aiReply2 = await getAnyaReply(txt);
+    if (aiReply2) { setTimeout(() => addAnya(aiReply2), 300); return; }
+    setTimeout(() => addAnya("Yeh topic thoda specific nahi laga — kaunse subject ki baat kar rahe ho? Subject bolo toh zyada accha explain kar sakti hoon! 😊"), 500);
+  } else if (low.includes('bor') || low.includes('thak') || low.includes('neend')) {
+    setTimeout(() => addAnya("Padhai boring lag rahi hai? Break lo — 10 min walk karo. Wapas aao toh 5 min mein ek topic revise karte hain together! 🌊"), 500);
+  } else if (low.includes('tough') || low.includes('mushkil') || low.includes('samajh nahi') || low.includes('confus')) {
+    setTimeout(() => addAnya("Kaunsa topic mushkil lag raha hai? Bolo — ek simple example se samjha deti hoon! 💪"), 500);
+  } else {
+    // Send everything else to AI — don't block with hardcoded fallbacks
+    const aiReply3 = await getAnyaReply(txt);
+    if (aiReply3) { setTimeout(() => addAnya(aiReply3), 300); return; }
+    setTimeout(() => addAnya("Hmm, yeh samjha nahi main. Thoda aur explain karo ya seedha question poochho — main zaroor help karunga! 😊"), 500);
+  }
+}
+
+// ── REVISION FLOW ──
+function startRevisionFlow() {
+  setTimeout(() => addAnya("Nice! Kaun sa subject ka chapter padha? Choose karo aur quick revision karte hain 📝"), 600);
+  setTimeout(() => {
+    const area = document.getElementById('cw-options');
+    area.innerHTML = '';
+    ['Science','Maths','English','SST'].forEach(sub => {
+      const b = document.createElement('button');
+      b.className = 'op-btn';
+      b.textContent = sub;
+      b.onclick = () => { area.innerHTML=''; addUser(sub); startRevision(sub.toLowerCase()); };
+      area.appendChild(b);
+    });
+  }, 1200);
+}
+
+function startRevision(topic) {
+  state.inRevision = true;
+  state.revTopic = topic;
+  state.revScore = 0;
+  state.revTotal = 0;
+  state.revAnswered = false;
+
+  // Mark chapter done
+  if (!state.chapDone.includes(topic)) {
+    state.chapDone.push(topic);
+    localStorage.setItem('chapDone', JSON.stringify(state.chapDone));
+  }
+
+  setTimeout(() => {
+    addAnya(`Alright, ${topic.charAt(0).toUpperCase()+topic.slice(1)} ka revision karte hain! 5 questions hain — sochke jawab dena, koi rush nahi ✌️`, 'info');
+    setTimeout(() => askRevQ(), 1000);
+  }, 600);
+}
+
+function askRevQ() {
+  if (state.revTotal >= 5) { endRevision(); return; }
+  const pool = qbank[state.revTopic];
+  state.revQ = pool[Math.floor(Math.random()*pool.length)];
+  state.revAnswered = false;
+
+  const num = state.revTotal + 1;
+  setTimeout(() => {
+    addAnya(`<b>Q${num}/5:</b> ${state.revQ.q}`);
+    setTimeout(() => showRevOptions(), 600);
+  }, 400);
+}
+
+function showRevOptions() {
+  const area = document.getElementById('cw-options');
+  area.innerHTML = '';
+  state.revQ.opts.forEach((opt, i) => {
+    const b = document.createElement('button');
+    b.className = 'op-btn';
+    b.textContent = `${['A','B','C','D'][i]}. ${opt}`;
+    b.onclick = () => pickRevAns(i, b);
+    area.appendChild(b);
+  });
+}
+
+function pickRevAns(i, btn) {
+  if (state.revAnswered) return;
+  state.revAnswered = true;
+  state.revTotal++;
+  addUser(state.revQ.opts[i]);
+  document.querySelectorAll('.op-btn').forEach(b => b.disabled = true);
+  document.querySelectorAll('.op-btn')[state.revQ.ans].classList.add('correct-ans');
+  if (i === state.revQ.ans) {
+    state.revScore++;
+    btn.classList.add('correct-ans');
+    setTimeout(() => { addAnya("✅ Correct! " + state.revQ.exp, 'ok'); setTimeout(askRevQ, 1200); }, 400);
+  } else {
+    btn.classList.add('wrong-ans');
+    setTimeout(() => { addAnya(`Not quite — sahi jawab tha: <b>${state.revQ.opts[state.revQ.ans]}</b>. ${state.revQ.exp}`, 'err'); setTimeout(askRevQ, 1400); }, 400);
+  }
+}
+
+function endRevision() {
+  state.inRevision = false;
+  document.getElementById('cw-options').innerHTML = '';
+  const pct = Math.round(state.revScore/5*100);
+  state.quizScore += state.revScore;
+  state.quizTotal += 5;
+  saveSession();
+  updateDashboard();
+
+  const medals = ['','','','🥉','🥉','🥈','🥈','🥈','🥇','🥇','🥇'];
+  const medal  = medals[state.revScore] || '';
+  let msg = '';
+  if (pct >= 80) msg = `${medal} ${state.revScore}/5 — Really good! Chapter clearly samajh aa gaya hai tujhe.`;
+  else if (pct >= 60) msg = `${state.revScore}/5 — Not bad! Kuch concepts thoda aur revise kar lo, almost there.`;
+  else msg = `${state.revScore}/5 — No worries! Chapter ek baar phir padho, phir dobara try karo — sab samajh aayega.`;
+
+  setTimeout(() => addAnya(msg), 600);
+  setTimeout(() => addAnya("Dashboard mein score update ho gaya — dekho! 📊"), 1600);
+}
+
+// ── DASHBOARD ──
+function updateDashboard() {
+  const chapters = state.chapDone.length;
+  const pct = state.quizTotal > 0 ? Math.round(state.quizScore/state.quizTotal*100) : 0;
+  document.getElementById('stat-chapters').textContent = chapters;
+  document.getElementById('stat-score').textContent = pct + '%';
+  document.getElementById('stat-streak').textContent = state.streak;
+
+  // Simulated rank based on chapters + score
+  const rankNum = Math.max(1, 35 - chapters*4 - Math.floor(pct/20));
+  document.getElementById('stat-rank').textContent = '#' + rankNum;
+
+  // Mark "You" on progress bars
+  const youMap = {science:'sci1-you', maths:'mat1-you', english:'eng1-you', sst:'sst1-you'};
+  Object.entries(youMap).forEach(([sub, id]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = state.chapDone.includes(sub) ? '← You' : '';
   });
 
-  // ── LOAD PROFILE from Firestore ──
-  async function loadProfile(uid) {
-    try {
-      const snap = await getDoc(doc(db, 'students', uid));
-      return snap.exists() ? snap.data() : null;
-    } catch { return null; }
-  }
+  // Dashboard message
+  const behind = 4 - chapters;
+  let dmsg = dashMsgs[Math.floor(Math.random()*dashMsgs.length)];
+  if (behind > 0) dmsg += ` Abhi ${behind} aur chapter baaki hain!`;
+  document.getElementById('dash-msg').textContent = dmsg;
+}
 
-  // ── SAVE SESSION & REDIRECT ──
-  function saveSessionAndRedirect(user, profile) {
-    const session = {
-      uid: user.uid,
-      email: user.email,
-      name: profile?.name || user.displayName || 'Student',
-      class: profile?.class || '6A',
-      roll: profile?.roll || '--',
-      chapDone: profile?.chapDone || [],
-      quizScore: profile?.quizScore || 0,
-      quizTotal: profile?.quizTotal || 0,
-      streak: profile?.streak || 1,
-      lastLogin: Date.now(),
+// ── GUIDE ──
+function updateGuide() {
+  const tips = [
+    "Ek din mein ek chapter — yahi formula hai topper banne ka!",
+    "Science padh liya? Maths ki taraf badho — wahan aur students peeche hain!",
+    "Quiz score improve karo — revision se marks badhte hain!",
+    "Consistency key hai — roz thoda thoda padho!"
+  ];
+  document.getElementById('guide-tip').querySelector('p').textContent = tips[state.chapDone.length % tips.length];
+}
+
+// ── NAVIGATE ──
+function goTo(url, subject) {
+  addUser(`${subject} page pe ja raha hoon`);
+  switchTab('chat', document.querySelector('.tab-btn'));
+  setTimeout(() => addAnya(`Achha! ${subject} mein bahut interesting cheezein hain. Padh lene ke baad wapas aana aur mujhe batana — revision test lunga!`), 400);
+  if (url !== '#') setTimeout(() => window.location.href = url, 1800);
+}
+
+// ── MARK VISIT ──
+function markVisit(topic) {
+  setTimeout(() => {
+    if (state.open) {
+      addAnya(`${topic.charAt(0).toUpperCase()+topic.slice(1)} chapter open kiya — good! Padh lo, phir wapas aana aur revision test dena 📝`);
+    }
+  }, 500);
+}
+
+// ── AUTO MOTIVATE every 3 min ──
+setInterval(() => {
+  if (!state.open) {
+    document.getElementById('notif').style.display = 'flex';
+  }
+}, 180000);
+
+// ── SESSION LOAD (Firebase login ke baad) ──
+function loadSession() {
+  const raw = localStorage.getItem('omni_session');
+  if (!raw) return;
+  const session = JSON.parse(raw);
+  state.chapDone = session.chapDone || [];
+  state.quizScore = session.quizScore || 0;
+  state.quizTotal = session.quizTotal || 0;
+  state.streak = session.streak || 1;
+  // Anya ko student ka naam pata ho
+  if (window.AnyaAI && session.name) {
+    AnyaAI.setStudent(session.name);
+  }
+  // Hero mein naam dikhao
+  const nameEl = document.querySelector('.hero p');
+  if (nameEl && session.name) nameEl.textContent = `Welcome, ${session.name}! Class ${session.class} ka quest shuru karo.`;
+}
+
+// ── SAVE SESSION (progress update ke baad) ──
+function saveSession() {
+  const raw = localStorage.getItem('omni_session');
+  if (!raw) return;
+  const session = JSON.parse(raw);
+  session.chapDone = state.chapDone;
+  session.quizScore = state.quizScore;
+  session.quizTotal = state.quizTotal;
+  session.streak = state.streak;
+  session.lastLogin = Date.now();
+  localStorage.setItem('omni_session', JSON.stringify(session));
+  // TODO: Firebase mein bhi sync karo (firebase-sync.js mein)
+}
+
+// ── AI-POWERED ANYA RESPONSE ──
+async function getAnyaReply(userMsg) {
+  try {
+    const _as=document.getElementById('anya-status');if(_as)_as.textContent='Typing...';
+    const res = await fetch('https://wispy-sound-1236.shikhakaushik641.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: `You are Anya — a warm, witty, and genuinely helpful AI study companion for Class 6 students in India. You live inside an underwater learning world called OmniGrid.
+
+PERSONALITY & TONE:
+- Speak naturally in Hinglish (mix of conversational Hindi and English) — the way Class 6 kids actually talk to each other
+- Be warm, encouraging, and slightly playful — like a cool older sibling who's good at studies
+- Keep responses concise: 2-4 sentences usually. Never lecture.
+- Use emojis naturally, not excessively — 1-2 per message max
+- When a student is confused or wrong, be kind and explain simply — never make them feel bad
+- Celebrate small wins genuinely ("Wah, 4/5 — that's great!")
+- Use ocean/diving references occasionally since we're in an underwater world (not every message)
+- DO NOT use "Heh~", "Hehe~", or other anime-style expressions — sound like a real helpful person
+
+WHAT YOU CAN DO:
+1. Answer questions about Class 6 NCERT subjects — Science (Curiosity), Maths (Ganita Prakash), English (Poorvi), SST (Exploring Society), Hindi (Vasant)
+2. Explain concepts simply with examples a 11-12 year old can relate to
+3. Give hints when asked — don't give away the full answer, guide them to think
+4. Motivate students when they're stuck or discouraged
+5. Help with revision by asking them questions back
+6. Tell them which chapter/topic to study next based on what they've done
+
+SUBJECT KNOWLEDGE (Class 6 NCERT 2024-25):
+- Science: Food, Materials, Living World, Moving Things, Earth & Universe, Magnets, Plants (photosynthesis, chlorophyll), Water cycle
+- Maths: Numbers, Fractions, Decimals, Geometry, Algebra, Ratio, Data handling
+- English: Grammar, Reading, Writing, Vocabulary (Poorvi textbook)
+- SST: Indian History, Geography (maps, climate, rivers), Civics (Constitution, government)
+- Hindi: Prose, Poetry, Grammar, Creative writing (Vasant textbook)
+
+RULES:
+- Only answer Class 6 level questions — if something is beyond scope, say so kindly
+- If asked something off-topic or inappropriate, redirect gently
+- Never give full homework answers — guide them to think
+- Keep the conversation focused on learning`,
+        messages: [{ role: 'user', content: userMsg }],
+      }),
+    });
+    const data = await res.json();
+    const _as2=document.getElementById('anya-status');if(_as2)_as2.textContent='Online • Ready to help!';
+    if (data.content?.[0]?.text) return data.content[0].text;
+    return null;
+  } catch (err) {
+    console.error('Anya API error:', err);
+    const _as2=document.getElementById('anya-status');if(_as2)_as2.textContent='Online • Ready to help!';
+    return null;
+  }
+}
+
+// ── AI-POWERED REVISION QUESTIONS ──
+async function getAIQuestions(topic) {
+  if (window.AnyaAI && (AnyaAI.config.proxyUrl || AnyaAI.config.apiKey)) {
+    const chapterMap = {
+      science: 'Plants and Magnetism',
+      maths: 'Knowing Numbers and Basic Geometry',
+      english: 'Grammar and Reading',
+      sst: 'History and Geography'
     };
-    localStorage.setItem('omni_session', JSON.stringify(session));
-    window.location.href = 'index.html';
+    const result = await AnyaAI.generateQuestions('Class 6 ' + topic, chapterMap[topic] || topic);
+    if (result.success && result.questions?.length) return result.questions;
+  }
+  return null; // fallback to hardcoded qbank
+}
+
+// ── INIT DASHBOARD ──
+document.addEventListener('DOMContentLoaded', () => {
+  loadSession();
+  updateDashboard();
+});
+document.getElementById('cw-inp').addEventListener('keydown', e => { if(e.key==='Enter') sendFree(); });
+
+// ── Hero stats from localStorage ──
+function updateHeroStats(){
+  const prog = JSON.parse(localStorage.getItem('omni_progress')||'{}');
+  const chapters = Object.keys(prog).filter(k=>prog[k]).length;
+  const streak = parseInt(localStorage.getItem('omni_streak')||'0');
+  const scores = JSON.parse(localStorage.getItem('omni_scores')||'[]');
+  const avg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  const sc = document.getElementById('stat-chapters');
+  const ss = document.getElementById('stat-streak');
+  const sq = document.getElementById('stat-score');
+  if(sc) sc.textContent = chapters;
+  if(ss) ss.textContent = '🔥 '+streak;
+  if(sq) sq.textContent = avg+'%';
+}
+updateHeroStats();
+
+</script>
+<script>
+// ══ SUBMARINE DIVE ANIMATION ══
+let diving = false;
+
+function diveInto(subject, emoji, zoneName, url) {
+  if (diving) return;
+  diving = true;
+
+  // Update sub speech
+  const speech = document.querySelector('.sub-speech');
+  if (speech) speech.innerHTML = `<span class="sname">🤿 Captain Anya says</span>Submarine ko ${zoneName} ki taraf mod rahi hoon! Seat belt bandho! 🌊`;
+
+  // Show overlay
+  const overlay = document.getElementById('travel-overlay');
+  const toast   = document.getElementById('travel-toast');
+  if (overlay) overlay.classList.add('active');
+  if (toast) {
+    document.getElementById('tt-emoji').textContent = emoji;
+    document.getElementById('tt-title').textContent = 'Diving to ' + zoneName + '!';
+    toast.classList.add('show');
   }
 
-  // ── SHOW MESSAGE ──
-  function showMsg(text, type='error') {
-    const box = document.getElementById('msg-box');
-    box.textContent = text;
-    box.className = 'msg-box ' + type;
-    setTimeout(() => { box.className='msg-box'; box.textContent=''; }, 4000);
+  // Animate submarine tilt + dive
+  const sub = document.querySelector('.sub-wrap');
+  if (sub) {
+    sub.style.transition = 'transform 0.5s ease-in, opacity 0.8s ease';
+    sub.style.transform  = 'rotate(30deg) translateY(0)';
+    setTimeout(() => {
+      sub.style.transform = 'rotate(25deg) translateY(120px)';
+      sub.style.opacity   = '0';
+    }, 200);
   }
 
-  function setLoading(btnId, loading) {
-    const btn = document.getElementById(btnId);
-    btn.disabled = loading;
-    btn.innerHTML = loading
-      ? '<span class="spinner"></span>'
-      : (btnId === 'login-btn' ? 'Login karo!' : 'Register karo!');
+  setTimeout(() => {
+    diving = false;
+    if (overlay) overlay.classList.remove('active');
+    if (toast)   toast.classList.remove('show');
+    if (sub) {
+      sub.style.transition = 'none';
+      sub.style.transform  = '';
+      sub.style.opacity    = '1';
+    }
+    if (url && url !== '#') {
+      window.location.href = url;
+    } else {
+      window.location.href = url;
+    }
+  }, 1800);
+}
+
+// ══ OCEAN PARTICLES + BUBBLES (JS) ══
+(function spawnBubbles() {
+  const count = 18;
+  for (let i = 0; i < count; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const sz = Math.random() * 16 + 4;
+    b.style.cssText = `
+      width:${sz}px;height:${sz}px;
+      left:${Math.random()*100}%;
+      bottom:${Math.random()*30}%;
+      --dur:${Math.random()*8+5}s;
+      --delay:${Math.random()*8}s;
+    `;
+    document.body.appendChild(b);
   }
+})();
 
-  // ── LOGIN ──
-  window.handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading('login-btn', true);
-    const email = document.getElementById('login-email').value;
-    const pass  = document.getElementById('login-pass').value;
-    try {
-      const cred = await signInWithEmailAndPassword(auth, email, pass);
-      const profile = await loadProfile(cred.user.uid);
-      showMsg('Heh~ Welcome back! Redirect ho rahe ho...', 'success');
-      setTimeout(() => saveSessionAndRedirect(cred.user, profile), 1000);
-    } catch (err) {
-      const msgs = {
-        'auth/user-not-found': 'Yeh email register nahi hai! Pehle register karo.',
-        'auth/wrong-password': 'Password galat hai! Dobara try karo.',
-        'auth/invalid-email': 'Email format sahi nahi hai!',
-        'auth/too-many-requests': 'Bahut zyada tries! Thoda ruko.',
-      };
-      showMsg(msgs[err.code] || 'Login fail hua: ' + err.message);
-      setLoading('login-btn', false);
-    }
+// ══ SWIMMING FISH ══
+(function spawnFish() {
+  const fishes = ['🐠','🐟','🐡','🐳','🦈','🐬','🦐','🦞'];
+  const count  = 6;
+  for (let i = 0; i < count; i++) {
+    const f = document.createElement('div');
+    f.className = 'fish' + (Math.random() > 0.5 ? ' flip' : '');
+    const em = fishes[Math.floor(Math.random()*fishes.length)];
+    f.textContent = em;
+    const dur   = Math.random() * 16 + 10;
+    const delay = Math.random() * 12;
+    const top   = Math.random() * 60 + 5;
+    const fs    = Math.random() * 16 + 14;
+    f.style.cssText = `--dur:${dur}s;--delay:${delay}s;--top:${top}%;--fs:${fs}px;`;
+    document.body.appendChild(f);
+  }
+})();
+
+// ══ HERO STATS ══
+function updateHeroStats() {
+  const prog    = JSON.parse(localStorage.getItem('omni_progress')||'{}');
+  const chapters= Object.keys(prog).filter(k=>prog[k]).length;
+  const streak  = parseInt(localStorage.getItem('omni_streak')||'0');
+  const scores  = JSON.parse(localStorage.getItem('omni_scores')||'[]');
+  const avg     = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  const statMap = {
+    'stat-chapters':chapters,'hstat-chapters':chapters,
+    'd-chapters':chapters,
+    'stat-streak':streak,'hstat-streak':streak,'d-streak':streak,
+    'stat-score':avg+'%','hstat-score':avg+'%','d-score':avg+'%'
   };
+  Object.entries(statMap).forEach(([id,val]) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  });
+}
+updateHeroStats();
 
-  // ── REGISTER ──
-  window.handleRegister = async (e) => {
-    e.preventDefault();
-    setLoading('reg-btn', true);
-    const name  = document.getElementById('reg-name').value.trim();
-    const cls   = document.getElementById('reg-class').value;
-    const roll  = document.getElementById('reg-roll').value.trim();
-    const email = document.getElementById('reg-email').value;
-    const pass  = document.getElementById('reg-pass').value;
+// ══ ANYA OCEAN TIPS (rotate every 5s) ══
+const oceanTips = [
+  'Coral Reef Zone mein dive karo — Science adventure awaits! 🪸',
+  'Har zone mein alag adventure hai — explore karo sab! 🌊',
+  'Ocean mein 95% abhi bhi unexplored hai — aur tumhara knowledge bhi! 🌊',
+  'Quiz do aur apna depth meter badhao! 📊',
+  'Real divers ki tarah — ek zone ek time! 🤿',
+  'Crystal Caverns mein Maths ke secrets chhupe hain — dive karo! 💎',
+];
+let tipIdx = 0;
+setInterval(() => {
+  tipIdx = (tipIdx+1) % oceanTips.length;
+  const sp = document.querySelector('.sub-speech');
+  if (sp && !diving) {
+    sp.innerHTML = `<span class="sname">🤿 Captain Anya says</span>${oceanTips[tipIdx]}`;
+  }
+}, 5000);
 
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, email, pass);
-      const profile = {
-        name, class: cls, roll, email,
-        chapDone: [], quizScore: 0, quizTotal: 0,
-        streak: 1, joinedAt: serverTimestamp(),
-      };
-      await setDoc(doc(db, 'students', cred.user.uid), profile);
-      showMsg('Heh~ Welcome ' + name + '! Account ban gaya!', 'success');
-      setTimeout(() => saveSessionAndRedirect(cred.user, profile), 1000);
-    } catch (err) {
-      const msgs = {
-        'auth/email-already-in-use': 'Yeh email pehle se registered hai! Login karo.',
-        'auth/weak-password': 'Password kam se kam 6 characters ka hona chahiye!',
-        'auth/invalid-email': 'Email format sahi nahi hai!',
-      };
-      showMsg(msgs[err.code] || 'Register fail hua: ' + err.message);
-      setLoading('reg-btn', false);
-    }
-  };
-
-  // ── GOOGLE LOGIN ──
-  window.handleGoogleLogin = async () => {
-    try {
-      showMsg('Google login ho raha hai...', 'loading');
-      const cred = await signInWithPopup(auth, googleProvider);
-      const user = cred.user;
-      let profile = await loadProfile(user.uid);
-      if (!profile) {
-        profile = {
-          name: user.displayName || 'Student',
-          class: '6A', roll: '--', email: user.email,
-          chapDone: [], quizScore: 0, quizTotal: 0,
-          streak: 1, joinedAt: serverTimestamp(),
-        };
-        await setDoc(doc(db, 'students', user.uid), profile);
-      }
-      showMsg('Heh~ Welcome! Redirect ho rahe ho...', 'success');
-      setTimeout(() => saveSessionAndRedirect(user, profile), 1000);
-    } catch (err) {
-      if (err.code !== 'auth/popup-closed-by-user') {
-        showMsg('Google login fail hua. Dobara try karo!');
-      } else {
-        document.getElementById('msg-box').className = 'msg-box';
-      }
-    }
-  };
 </script>
 
 <script>
-  // ── TAB SWITCHER ──
-  function showTab(tab) {
-    document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
-    document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
-    document.querySelectorAll('.auth-tab').forEach((b,i) => {
-      b.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='register'));
-    });
-    const greet = document.getElementById('anya-greet');
-    greet.innerHTML = tab === 'login'
-      ? 'Heh~ Namaste! Main Anya hoon 🌸<br>Login karo aur apna adventure shuru karo!'
-      : 'Wah! Naya adventure shuru ho raha hai! 🌸<br>Register karo aur Anya ke saath seekho!';
-  }
+(function(){const s=localStorage.getItem("omni_session");
+// if(!s)window.location.href="login.html";
+})();
 </script>
-
 </body>
 </html>
