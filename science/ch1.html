@@ -1198,33 +1198,292 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 
 <!-- MIND MAP -->
 <div class="tab-panel" id="tab-mindmap">
-  <div style="overflow-x:auto;">
-    <svg viewBox="0 0 700 500" style="max-width:700px;width:100%;height:auto;">
-      <ellipse cx="350" cy="250" rx="85" ry="40" fill="#00c9a7"/>
-      <text x="350" y="245" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="white">Wonderful World</text>
-      <text x="350" y="262" text-anchor="middle" font-family="Fredoka One,cursive" font-size="13" fill="white">of Science</text>
-      <line x1="268" y1="232" x2="148" y2="148" stroke="#4f8ef7" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.7"/>
-      <ellipse cx="105" cy="130" rx="72" ry="28" fill="#e8f0ff" stroke="#4f8ef7" stroke-width="2"/>
-      <text x="105" y="125" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#2563eb">What is Science?</text>
-      <text x="105" y="140" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#4f8ef7">Systematic Knowledge</text>
-      <line x1="268" y1="268" x2="128" y2="355" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.7"/>
-      <ellipse cx="88" cy="373" rx="72" ry="28" fill="#f0fdf4" stroke="#22c55e" stroke-width="2"/>
-      <text x="88" y="368" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#15803d">Scientific Method</text>
-      <text x="88" y="383" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#22c55e">Observe → Conclude</text>
-      <line x1="432" y1="232" x2="555" y2="148" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.7"/>
-      <ellipse cx="598" cy="130" rx="72" ry="28" fill="#ffe4e8" stroke="#f43f5e" stroke-width="2"/>
-      <text x="598" y="125" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#e11d48">Lab Safety</text>
-      <text x="598" y="140" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#f43f5e">Apron + Glasses</text>
-      <line x1="432" y1="268" x2="555" y2="355" stroke="#a855f7" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.7"/>
-      <ellipse cx="598" cy="373" rx="72" ry="28" fill="#f3e8ff" stroke="#a855f7" stroke-width="2"/>
-      <text x="598" y="368" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#7c3aed">Famous Scientists</text>
-      <text x="598" y="383" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#a855f7">Raman • Kalam • Aryabhata</text>
-      <line x1="350" y1="210" x2="350" y2="115" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.7"/>
-      <ellipse cx="350" cy="95" rx="72" ry="28" fill="#fff8e0" stroke="#f59e0b" stroke-width="2"/>
-      <text x="350" y="90" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="800" fill="#d97706">Branches of Science</text>
-      <text x="350" y="105" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="#f59e0b">Physics • Chemistry • Biology</text>
-    </svg>
-  </div>
+<style>
+.mm-wrap{
+  width:100%;overflow-x:auto;overflow-y:auto;
+  padding:20px 5% 40px;
+  background:transparent;
+}
+.mm-svg{
+  display:block;
+  min-width:1000px;
+  width:100%;
+  height:auto;
+  filter:drop-shadow(0 4px 24px rgba(2,132,199,0.08));
+}
+/* Node pulse animation */
+@keyframes nodePulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
+@keyframes mmBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+</style>
+<div class="mm-wrap">
+<svg class="mm-svg" viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients for main node -->
+    <radialGradient id="cg" cx="50%" cy="35%">
+      <stop offset="0%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </radialGradient>
+    <!-- Branch gradients -->
+    <radialGradient id="g1" cx="40%" cy="35%"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#2563eb"/></radialGradient>
+    <radialGradient id="g2" cx="40%" cy="35%"><stop offset="0%" stop-color="#34d399"/><stop offset="100%" stop-color="#059669"/></radialGradient>
+    <radialGradient id="g3" cx="40%" cy="35%"><stop offset="0%" stop-color="#fb923c"/><stop offset="100%" stop-color="#d97706"/></radialGradient>
+    <radialGradient id="g4" cx="40%" cy="35%"><stop offset="0%" stop-color="#f87171"/><stop offset="100%" stop-color="#dc2626"/></radialGradient>
+    <radialGradient id="g5" cx="40%" cy="35%"><stop offset="0%" stop-color="#c084fc"/><stop offset="100%" stop-color="#7c3aed"/></radialGradient>
+    <!-- Drop shadows -->
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.15)"/>
+    </filter>
+    <filter id="sh2" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.12)"/>
+    </filter>
+    <!-- Glow filter -->
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <!-- Arrow markers -->
+    <marker id="arr1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="arr3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#d97706" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="arr4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#dc2626" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+    <marker id="arr5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+    </marker>
+  </defs>
+
+  <!-- ═══ OCEAN BACKGROUND ═══ -->
+  <rect width="1100" height="820" fill="url(#oceanbg)" rx="24"/>
+  <defs>
+    <linearGradient id="oceanbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f7ff"/>
+      <stop offset="50%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+  </defs>
+  <!-- Subtle wave circles -->
+  <circle cx="550" cy="410" r="320" fill="none" stroke="rgba(14,165,233,0.07)" stroke-width="1.5"/>
+  <circle cx="550" cy="410" r="240" fill="none" stroke="rgba(14,165,233,0.06)" stroke-width="1.5"/>
+  <circle cx="550" cy="410" r="160" fill="none" stroke="rgba(14,165,233,0.08)" stroke-width="1.5"/>
+
+  <!-- ═══ CONNECTOR LINES (curved) ═══ -->
+  <!-- Branch 1: What is Science (top-left) -->
+  <path d="M480,360 Q380,280 230,200" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.6" marker-end="url(#arr1)"/>
+  <!-- Branch 2: Scientific Method (bottom-left) -->
+  <path d="M470,450 Q380,530 230,600" fill="none" stroke="#059669" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.6" marker-end="url(#arr2)"/>
+  <!-- Branch 3: Branches (top) -->
+  <path d="M550,350 Q550,260 550,165" fill="none" stroke="#d97706" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.6" marker-end="url(#arr3)"/>
+  <!-- Branch 4: Lab Safety (top-right) -->
+  <path d="M630,365 Q720,280 870,200" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.6" marker-end="url(#arr4)"/>
+  <!-- Branch 5: Famous Scientists (bottom-right) -->
+  <path d="M640,455 Q730,530 870,600" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="8,4" opacity="0.6" marker-end="url(#arr5)"/>
+
+  <!-- ═══ CENTRAL NODE ═══ -->
+  <ellipse cx="550" cy="410" rx="115" ry="68" fill="url(#cg)" filter="url(#sh)"/>
+  <ellipse cx="550" cy="395" rx="100" ry="55" fill="rgba(255,255,255,0.1)"/>
+  <!-- Wave decoration on center node -->
+  <path d="M460,415 Q490,405 520,415 Q550,425 580,415 Q610,405 640,415" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+  <text x="550" y="398" text-anchor="middle" font-family="Fredoka One,cursive" font-size="16" fill="white" filter="url(#glow)">🌊 Wonderful World</text>
+  <text x="550" y="418" text-anchor="middle" font-family="Fredoka One,cursive" font-size="16" fill="white">of Science</text>
+  <text x="550" y="438" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.75)" font-weight="700">NCERT Class 6 • Curiosity Ch.1</text>
+
+  <!-- ═══════════════════════════════════
+       BRANCH 1 — WHAT IS SCIENCE (top-left)
+  ═══════════════════════════════════ -->
+  <!-- Main bubble -->
+  <ellipse cx="195" cy="175" rx="115" ry="65" fill="url(#g1)" filter="url(#sh)"/>
+  <ellipse cx="195" cy="160" rx="100" ry="52" fill="rgba(255,255,255,0.12)"/>
+  <text x="195" y="157" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="900" fill="white">🔬 What is Science?</text>
+  <text x="195" y="173" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">Systematic knowledge of</text>
+  <text x="195" y="186" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">the natural world</text>
+  <!-- Sub-nodes -->
+  <!-- Latin origin -->
+  <path d="M125,145 Q75,130 55,110" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="5" y="82" width="105" height="44" rx="12" fill="white" fill-opacity="0.88" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="57" y="99" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#1d4ed8">📖 Latin Origin</text>
+  <text x="57" y="111" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#2563eb">"Scientia" = Knowledge</text>
+  <text x="57" y="122" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">600+ years old!</text>
+  <!-- Curiosity -->
+  <path d="M150,225 Q100,250 60,260" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="5" y="238" width="110" height="44" rx="12" fill="white" fill-opacity="0.88" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="60" y="255" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#1d4ed8">🌟 Why Science?</text>
+  <text x="60" y="267" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#2563eb">Giant jigsaw puzzle</text>
+  <text x="60" y="278" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Every discovery adds a piece!</text>
+  <!-- Observation + Experiment -->
+  <path d="M195,110 Q195,82 195,68" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="130" y="40" width="130" height="38" rx="12" fill="white" fill-opacity="0.88" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="195" y="55" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#1d4ed8">👁️ How it works</text>
+  <text x="195" y="68" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#2563eb">Observation + Experiments</text>
+
+  <!-- ═══════════════════════════════════
+       BRANCH 2 — SCIENTIFIC METHOD (bottom-left)
+  ═══════════════════════════════════ -->
+  <ellipse cx="195" cy="625" rx="115" ry="65" fill="url(#g2)" filter="url(#sh)"/>
+  <ellipse cx="195" cy="610" rx="100" ry="52" fill="rgba(255,255,255,0.12)"/>
+  <text x="195" y="607" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="900" fill="white">⚗️ Scientific Method</text>
+  <text x="195" y="622" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">6 steps to discover</text>
+  <text x="195" y="636" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">the truth!</text>
+  <!-- Step bubbles arranged around -->
+  <!-- Observation -->
+  <path d="M95,590 Q50,570 30,548" fill="none" stroke="#6ee7b7" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="0" y="510" width="100" height="46" rx="11" fill="white" fill-opacity="0.9" stroke="#6ee7b7" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="50" y="527" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#065f46">①👀 Observe</text>
+  <text x="50" y="539" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#059669">Use your senses to</text>
+  <text x="50" y="550" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">notice something</text>
+  <!-- Question -->
+  <path d="M120,670 Q70,690 40,700" fill="none" stroke="#6ee7b7" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="0" y="678" width="100" height="46" rx="11" fill="white" fill-opacity="0.9" stroke="#6ee7b7" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="50" y="695" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#065f46">②❓ Question</text>
+  <text x="50" y="707" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#059669">Ask "Why?" or</text>
+  <text x="50" y="718" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">"How does this happen?"</text>
+  <!-- Hypothesis -->
+  <path d="M195,692 Q195,740 195,750" fill="none" stroke="#6ee7b7" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="130" y="750" width="130" height="46" rx="11" fill="white" fill-opacity="0.9" stroke="#6ee7b7" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="195" y="767" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#065f46">③💡 Hypothesis</text>
+  <text x="195" y="779" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#059669">Testable prediction</text>
+  <text x="195" y="790" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Educated guess!</text>
+  <!-- Experiment -->
+  <path d="M270,675 Q320,700 350,710" fill="none" stroke="#6ee7b7" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="320" y="700" width="120" height="46" rx="11" fill="white" fill-opacity="0.9" stroke="#6ee7b7" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="380" y="717" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#065f46">④🧪 Experiment</text>
+  <text x="380" y="729" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#059669">Controlled test</text>
+  <text x="380" y="740" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">of your hypothesis</text>
+  <!-- Data + Conclusion (small) -->
+  <path d="M290,595 Q340,580 365,565" fill="none" stroke="#6ee7b7" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="338" y="545" width="120" height="46" rx="11" fill="white" fill-opacity="0.9" stroke="#6ee7b7" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="398" y="562" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#065f46">⑤📊 Data → ⑥✅ Conclude</text>
+  <text x="398" y="574" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#059669">Record results, analyse</text>
+  <text x="398" y="585" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Was hypothesis right?</text>
+
+  <!-- ═══════════════════════════════════
+       BRANCH 3 — BRANCHES OF SCIENCE (top)
+  ═══════════════════════════════════ -->
+  <ellipse cx="550" cy="130" rx="120" ry="62" fill="url(#g3)" filter="url(#sh)"/>
+  <ellipse cx="550" cy="116" rx="105" ry="50" fill="rgba(255,255,255,0.12)"/>
+  <text x="550" y="116" text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="white">🌿 Branches of Science</text>
+  <text x="550" y="132" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">Different areas of study</text>
+  <text x="550" y="146" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">within Science</text>
+  <!-- Physics -->
+  <path d="M450,100 Q390,72 330,55" fill="none" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="230" y="26" width="116" height="50" rx="12" fill="white" fill-opacity="0.9" stroke="#fbbf24" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="288" y="44" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="900" fill="#92400e">🔵 Physics</text>
+  <text x="288" y="57" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#d97706">Force • Energy</text>
+  <text x="288" y="69" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Motion • Matter</text>
+  <!-- Chemistry -->
+  <path d="M550,68 Q550,42 550,26" fill="none" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="475" y="0" width="150" height="36" rx="12" fill="white" fill-opacity="0.9" stroke="#fbbf24" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="550" y="14" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="900" fill="#92400e">🟢 Chemistry</text>
+  <text x="550" y="28" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#d97706">Matter &amp; Chemical Reactions</text>
+  <!-- Biology -->
+  <path d="M650,100 Q710,72 770,55" fill="none" stroke="#fcd34d" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="740" y="26" width="116" height="50" rx="12" fill="white" fill-opacity="0.9" stroke="#fbbf24" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="798" y="44" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="900" fill="#92400e">🟡 Biology</text>
+  <text x="798" y="57" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#d97706">Living Organisms</text>
+  <text x="798" y="69" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Plants • Animals • Microbes</text>
+  <!-- Astronomy + Geology small -->
+  <path d="M600,192 Q650,210 690,218" fill="none" stroke="#fcd34d" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <rect x="666" y="208" width="110" height="38" rx="10" fill="rgba(255,248,220,0.95)" stroke="#fbbf24" stroke-width="1.2" filter="url(#sh2)"/>
+  <text x="721" y="223" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#92400e">⭐ Astronomy</text>
+  <text x="721" y="235" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#d97706">Stars, Space &amp; Universe</text>
+  <path d="M500,192 Q450,210 410,218" fill="none" stroke="#fcd34d" stroke-width="1.2" stroke-dasharray="4,3"/>
+  <rect x="310" y="208" width="110" height="38" rx="10" fill="rgba(255,248,220,0.95)" stroke="#fbbf24" stroke-width="1.2" filter="url(#sh2)"/>
+  <text x="365" y="223" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#92400e">🌍 Geology</text>
+  <text x="365" y="235" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#d97706">Earth, Rocks &amp; Minerals</text>
+
+  <!-- ═══════════════════════════════════
+       BRANCH 4 — LAB SAFETY (top-right)
+  ═══════════════════════════════════ -->
+  <ellipse cx="900" cy="175" rx="115" ry="65" fill="url(#g4)" filter="url(#sh)"/>
+  <ellipse cx="900" cy="160" rx="100" ry="52" fill="rgba(255,255,255,0.12)"/>
+  <text x="900" y="156" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="900" fill="white">🥼 Lab Safety Rules</text>
+  <text x="900" y="171" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">Safety = Top Priority!</text>
+  <text x="900" y="185" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">Always be careful</text>
+  <!-- Safety sub-rules -->
+  <!-- Wear PPE -->
+  <path d="M980,145 Q1020,120 1048,105" fill="none" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="1010" y="76" width="88" height="50" rx="11" fill="white" fill-opacity="0.9" stroke="#fca5a5" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="1054" y="93" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#991b1b">🥽 Wear PPE</text>
+  <text x="1054" y="105" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#dc2626">Safety glasses</text>
+  <text x="1054" y="117" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">&amp; apron always</text>
+  <!-- No tasting -->
+  <path d="M1000,185 Q1042,185 1060,185" fill="none" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="1030" y="165" width="68" height="42" rx="10" fill="white" fill-opacity="0.9" stroke="#fca5a5" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="1064" y="181" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#991b1b">🚫 No Taste</text>
+  <text x="1064" y="193" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#dc2626">Never taste or</text>
+  <text x="1064" y="202" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">smell chemicals!</text>
+  <!-- Supervision -->
+  <path d="M975,225 Q1020,248 1040,258" fill="none" stroke="#fca5a5" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="1008" y="246" width="90" height="42" rx="10" fill="white" fill-opacity="0.9" stroke="#fca5a5" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="1053" y="262" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#991b1b">👩‍🏫 Supervise</text>
+  <text x="1053" y="274" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#dc2626">Teacher present</text>
+  <text x="1053" y="283" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">for all experiments</text>
+  <!-- More rules (small) -->
+  <path d="M820,115 Q800,85 785,68" fill="none" stroke="#fca5a5" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <rect x="720" y="42" width="130" height="38" rx="10" fill="rgba(255,228,230,0.9)" stroke="#fca5a5" stroke-width="1.2" filter="url(#sh2)"/>
+  <text x="785" y="57" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#991b1b">🧼 Wash hands after</text>
+  <text x="785" y="70" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#dc2626">🍎 No food in lab • 🔥 No loose clothes</text>
+
+  <!-- ═══════════════════════════════════
+       BRANCH 5 — FAMOUS SCIENTISTS (bottom-right)
+  ═══════════════════════════════════ -->
+  <ellipse cx="900" cy="625" rx="115" ry="65" fill="url(#g5)" filter="url(#sh)"/>
+  <ellipse cx="900" cy="610" rx="100" ry="52" fill="rgba(255,255,255,0.12)"/>
+  <text x="900" y="607" text-anchor="middle" font-family="Nunito,sans-serif" font-size="11" font-weight="900" fill="white">🏅 Famous Scientists</text>
+  <text x="900" y="622" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">India's pride + world's</text>
+  <text x="900" y="637" text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" fill="rgba(255,255,255,0.9)">greatest minds!</text>
+  <!-- CV Raman -->
+  <path d="M980,598 Q1030,575 1058,560" fill="none" stroke="#d8b4fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="1008" y="530" width="90" height="56" rx="12" fill="white" fill-opacity="0.9" stroke="#d8b4fe" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="1053" y="547" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#581c87">🏅 C.V. Raman</text>
+  <text x="1053" y="559" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#7c3aed">Raman Effect</text>
+  <text x="1053" y="570" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Nobel Prize 1930</text>
+  <text x="1053" y="580" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">1st Asian winner!</text>
+  <!-- APJ Kalam -->
+  <path d="M1000,635 Q1042,635 1060,635" fill="none" stroke="#d8b4fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="1030" y="614" width="68" height="52" rx="11" fill="white" fill-opacity="0.9" stroke="#d8b4fe" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="1064" y="629" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#581c87">🚀 Kalam</text>
+  <text x="1064" y="641" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#7c3aed">Missile Man</text>
+  <text x="1064" y="653" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Space &amp; Defence</text>
+  <text x="1064" y="660" text-anchor="middle" font-family="Nunito,sans-serif" font-size="7" fill="#94a3b8">India's hero</text>
+  <!-- Aryabhata -->
+  <path d="M975,675 Q1020,698 1040,710" fill="none" stroke="#d8b4fe" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <rect x="1008" y="698" width="90" height="52" rx="11" fill="white" fill-opacity="0.9" stroke="#d8b4fe" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="1053" y="714" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="900" fill="#581c87">🔢 Aryabhata</text>
+  <text x="1053" y="726" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" fill="#7c3aed">Invented Zero!</text>
+  <text x="1053" y="738" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#64748b">Calculated Pi = 3.1416</text>
+  <text x="1053" y="746" text-anchor="middle" font-family="Nunito,sans-serif" font-size="7" fill="#94a3b8">476–550 CE</text>
+  <!-- Homi Bhabha + Ramanujan small -->
+  <path d="M820,665 Q800,695 785,712" fill="none" stroke="#d8b4fe" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <rect x="695" y="710" width="180" height="38" rx="10" fill="rgba(243,232,255,0.9)" stroke="#d8b4fe" stroke-width="1.2" filter="url(#sh2)"/>
+  <text x="785" y="725" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#581c87">⚛️ Homi Bhabha — Nuclear India</text>
+  <text x="785" y="738" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="#7c3aed">🧮 Ramanujan — Mathematical Genius</text>
+
+  <!-- ═══ DECORATIVE ELEMENTS ═══ -->
+  <!-- Floating emojis / illustrations -->
+  <text x="48" y="380" font-size="30" opacity="0.18">🔬</text>
+  <text x="1025" y="400" font-size="26" opacity="0.15">⚗️</text>
+  <text x="500" y="795" font-size="28" opacity="0.18">🌊</text>
+  <text x="620" y="790" font-size="24" opacity="0.15">🪸</text>
+  <text x="440" y="800" font-size="20" opacity="0.14">🐠</text>
+  <text x="700" y="800" font-size="18" opacity="0.13">🐡</text>
+  <text x="80" y="800" font-size="22" opacity="0.14">🌿</text>
+  <text x="970" y="800" font-size="20" opacity="0.13">🐚</text>
+  <text x="48" y="500" font-size="24" opacity="0.13">💡</text>
+  <text x="1010" y="480" font-size="22" opacity="0.13">🏆</text>
+
+  <!-- KEY at bottom -->
+  <rect x="330" y="788" width="440" height="28" rx="10" fill="rgba(255,255,255,0.5)" stroke="rgba(2,132,199,0.2)" stroke-width="1"/>
+  <text x="370" y="807" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#0369a1">🔵 Science </text>
+  <text x="440" y="807" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#059669">🟢 Method </text>
+  <text x="515" y="807" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#d97706">🟡 Branches </text>
+  <text x="605" y="807" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#dc2626">🔴 Safety </text>
+  <text x="667" y="807" font-family="Nunito,sans-serif" font-size="9" font-weight="800" fill="#7c3aed">🟣 Scientists</text>
+</svg>
+</div>
 </div>
 
 <!-- VIDEOS -->
