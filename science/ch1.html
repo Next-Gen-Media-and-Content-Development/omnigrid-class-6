@@ -1565,6 +1565,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
       <button class="aq" onclick="acSend('Why is curiosity important in science?')">🌊 Curiosity</button>
     </div>
     <div style="padding:0 12px 4px;background:#f0f9ff;border-top:1px solid rgba(2,132,199,0.1);display:flex;justify-content:flex-end;">
+      <button onclick="testWorker()" style="background:none;border:none;font-size:10px;color:#0369a1;cursor:pointer;font-weight:700;padding:4px 8px;text-decoration:underline;">🔌 Test Connection</button>
       <button onclick="acClear()" style="background:none;border:none;font-size:10px;color:#94a3b8;cursor:pointer;font-weight:700;padding:4px 8px;">🔄 Clear chat</button>
     </div>
     <div class="anya-inp-row">
@@ -1776,6 +1777,13 @@ RULES:
 // Conversation history for context
 let anyaHistory = [];
 
+
+function setStatus(msg, color) {
+  const st = document.getElementById('anya-status');
+  if (!st) return;
+  st.innerHTML = `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${color || '#4ade80'};margin-right:4px;"></span>${msg}`;
+}
+
 async function acSend(pre) {
   const inp = document.getElementById('ac-inp');
   const msg = (pre || inp.value).trim();
@@ -1785,45 +1793,86 @@ async function acSend(pre) {
   acAdd(msg, 'user');
   anyaHistory.push({ role: 'user', content: msg });
 
-  // Typing indicator
   const body = document.getElementById('ac-body');
   const td = document.createElement('div');
   td.id = 'actd'; td.className = 'ac-msg';
   td.innerHTML = '<div class="ac-typing"><span></span><span></span><span></span></div>';
   body.appendChild(td); body.scrollTop = body.scrollHeight;
 
-  // Status
   const st = document.getElementById('anya-status');
-  if (st) st.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#fbbf24;margin-right:4px;animation:statusPulse 1s infinite;"></span>Thinking...';
+  const setStatus = (txt, col) => {
+    if (st) st.innerHTML = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${col};margin-right:5px;"></span>${txt}`;
+  };
+  setStatus('Thinking...', '#fbbf24');
 
   try {
-    // Send last 10 messages for context
-    const msgs = anyaHistory.slice(-10);
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 25000);
+
     const res = await fetch(PROXY, {
       method: 'POST',
+      signal: controller.signal,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 400,
         system: ANYA_SYS,
-        messages: msgs
+        messages: anyaHistory.slice(-10)
       })
     });
-    const data = await res.json();
+    clearTimeout(timer);
     document.getElementById('actd')?.remove();
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      const errMsg = errData?.error?.message || `HTTP ${res.status}`;
+      // Auth error — likely expired API key
+      if (res.status === 401 || res.status === 403) {
+        acAdd(`🔑 Authentication failed. The Anthropic API key in your Cloudflare Worker needs to be updated.
+
+Steps:
+1. Go to Cloudflare Dashboard → Workers → wispy-sound-1236
+2. Settings → Variables → ANTHROPIC_API_KEY
+3. Replace with a new API key from console.anthropic.com`, 'anya');
+        setStatus('API key issue — see message', '#ef4444');
+      } else {
+        acAdd(`Server returned error ${res.status}: ${errMsg}. Please try again!`, 'anya');
+        setStatus('Error — try again', '#ef4444');
+      }
+      return;
+    }
+
+    const data = await res.json();
     const reply = data.content?.[0]?.text;
     if (reply) {
       anyaHistory.push({ role: 'assistant', content: reply });
       acAdd(reply, 'anya');
+      setStatus('Online • Ready to help!', '#4ade80');
+    } else if (data.error) {
+      acAdd(`Error: ${data.error.message || 'Unknown error'}. Please try again!`, 'anya');
+      setStatus('Error — try again', '#ef4444');
     } else {
-      acAdd("Hmm, I didn't get a response. Please try again!", 'anya');
+      acAdd("I received an empty response. Please try again!", 'anya');
+      setStatus('Online • Ready to help!', '#4ade80');
     }
+
   } catch (e) {
     document.getElementById('actd')?.remove();
-    acAdd("Looks like there's a connection issue. Please check your internet and try again! 🌊", 'anya');
-  }
+    if (e.name === 'AbortError') {
+      acAdd("Request timed out after 25 seconds. The server may be busy — please try again! ⏱️", 'anya');
+      setStatus('Timeout — try again', '#f97316');
+    } else {
+      // Network/CORS error — worker likely down
+      acAdd(`Connection failed: ${e.message}
 
-  if (st) st.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:4px;"></span>Online • Ready to help!';
+Possible fixes:
+• Check that your Cloudflare Worker is deployed and running
+• Worker URL: wispy-sound-1236.shikhakaushik641.workers.dev
+• Verify ANTHROPIC_API_KEY is set in Worker settings
+• Make sure the Worker is not paused in Cloudflare Dashboard`, 'anya');
+      setStatus('Worker unreachable', '#ef4444');
+    }
+  }
 }
 
 function acAdd(txt, cls = 'anya') {
@@ -1843,6 +1892,33 @@ function acClear() {
   anyaHistory = [];
   const body = document.getElementById('ac-body');
   if (body) body.innerHTML = '<div class="ac-msg"><div class="ac-bub anya">Hi! I\'m Anya 🌊 Ask me anything about Chapter 1 — What is Science, Scientific Method, Lab Safety, or Famous Scientists!</div></div>';
+}
+
+// Connection test function
+async function acTest() {
+  acAdd("Testing connection to Anya AI...", 'anya');
+  try {
+    const res = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 30,
+        system: 'Reply with exactly: Connection successful!',
+        messages: [{ role: 'user', content: 'test' }]
+      })
+    });
+    const data = await res.json();
+    if (data.content?.[0]?.text) {
+      acAdd("✅ Connection working! " + data.content[0].text, 'anya');
+    } else if (data.error) {
+      acAdd("❌ API Error: " + data.error.type + " — " + data.error.message, 'anya');
+    } else {
+      acAdd("⚠️ Got response but no content. Raw: " + JSON.stringify(data).slice(0,100), 'anya');
+    }
+  } catch (e) {
+    acAdd("❌ Network Error: " + e.message + " — CORS issue? Try opening from GitHub Pages.", 'anya');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1898,6 +1974,44 @@ function goToNCERTSection(kw) {
 
 
 // tab init handled by switchTab
+
+
+// ── TEST WORKER CONNECTION ──
+async function testWorker() {
+  acAdd('Testing connection to AI server...', 'anya');
+  const st = document.getElementById('anya-status');
+  if (st) st.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#fbbf24;margin-right:5px;"></span>Testing...';
+  try {
+    const res = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 20,
+        system: 'Reply with exactly: CONNECTION_OK',
+        messages: [{ role: 'user', content: 'test' }]
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.content?.[0]?.text) {
+        acAdd('✅ Connection successful! Anya is ready to help.', 'anya');
+        if (st) st.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#4ade80;margin-right:5px;"></span>Online • Ready to help!';
+      } else if (data.error) {
+        acAdd(`❌ Server error: ${data.error.message}\n\nMost likely cause: API key expired or invalid.\nFix: Update ANTHROPIC_API_KEY in Cloudflare Worker settings.`, 'anya');
+        if (st) st.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:5px;"></span>API key issue';
+      }
+    } else if (res.status === 401 || res.status === 403) {
+      acAdd('❌ Authentication failed (401/403).\n\nYour Anthropic API key has expired or is incorrect.\n\nTo fix:\n1. Go to console.anthropic.com → Get a new API key\n2. Go to Cloudflare Dashboard → Workers & Pages → wispy-sound-1236\n3. Settings → Variables and Secrets → Edit ANTHROPIC_API_KEY\n4. Paste the new key and Save', 'anya');
+      if (st) st.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:5px;"></span>API key expired';
+    } else {
+      acAdd(`❌ Server returned ${res.status}. Worker may be misconfigured.`, 'anya');
+    }
+  } catch (e) {
+    acAdd(`❌ Cannot reach server: ${e.message}\n\nYour Cloudflare Worker appears to be offline or paused.\n\nTo fix:\n1. Go to Cloudflare Dashboard → Workers & Pages\n2. Find wispy-sound-1236 → Make sure it is NOT paused\n3. If deleted, redeploy using the cloudflare-worker.js file`, 'anya');
+    if (st) st.innerHTML = '<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#ef4444;margin-right:5px;"></span>Worker offline';
+  }
+}
 
 </script>
 <script>
@@ -2259,7 +2373,6 @@ renderFC();
 
 // ANYA CHAT
 // old chatbot removed
-// acSend removed
 // ac-inp listener removed
 </script>
 </body>
