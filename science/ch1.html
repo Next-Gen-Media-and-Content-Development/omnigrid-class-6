@@ -1287,18 +1287,23 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
       <div><h4>Anya 🌊 — Science Ch.1 Guide</h4><p id="anya-status"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:4px;"></span>Online • Ready to help!</p></div>
     </div>
     <div class="anya-body" id="ac-body">
-      <div class="ac-msg"><div class="ac-bub anya">Hey! Main Anya hoon 🌊 Chapter 1 ke baare mein kuch bhi poochho — Scientific Method, Lab Safety, Famous Scientists — sab explain karungi!</div></div>
+      <div class="ac-msg"><div class="ac-bub anya">Hi! I'm Anya 🌊 Ask me anything about Chapter 1 — What is Science, the Scientific Method, Lab Safety, or Famous Scientists. I'm here to help!</div></div>
     </div>
     <div class="anya-quick">
-      <button class="aq" onclick="acSend('Scientific method kya hota hai?')">🔬 Scientific Method?</button>
-      <button class="aq" onclick="acSend('CV Raman ne kya discover kiya?')">🏅 CV Raman?</button>
-      <button class="aq" onclick="acSend('Lab safety rules kya hain?')">⚗️ Lab Safety?</button>
-      <button class="aq" onclick="acSend('Physics Chemistry Biology mein kya difference hai?')">🌿 Branches?</button>
-      <button class="aq" onclick="acSend('Aryabhata ki discoveries kya thi?')">🔢 Aryabhata?</button>
+      <button class="aq" onclick="acSend('What is the Scientific Method?')">🔬 Scientific Method</button>
+      <button class="aq" onclick="acSend('Tell me about C.V. Raman and his discovery.')">🏅 C.V. Raman</button>
+      <button class="aq" onclick="acSend('What are the important lab safety rules?')">⚗️ Lab Safety</button>
+      <button class="aq" onclick="acSend('What are the main branches of Science?')">🌿 Branches</button>
+      <button class="aq" onclick="acSend('What did Aryabhata discover?')">🔢 Aryabhata</button>
+      <button class="aq" onclick="acSend('What is a hypothesis? Give me a simple example.')">💡 Hypothesis</button>
+      <button class="aq" onclick="acSend('Why is curiosity important in science?')">🌊 Curiosity</button>
+    </div>
+    <div style="padding:0 12px 4px;background:#f0f9ff;border-top:1px solid rgba(2,132,199,0.1);display:flex;justify-content:flex-end;">
+      <button onclick="acClear()" style="background:none;border:none;font-size:10px;color:#94a3b8;cursor:pointer;font-weight:700;padding:4px 8px;">🔄 Clear chat</button>
     </div>
     <div class="anya-inp-row">
-      <input class="ai" id="ac-inp" placeholder="Koi bhi doubt poochho..."/>
-      <button class="as-btn" onclick="acSend()">Send 🌊</button>
+      <input class="ai" id="ac-inp" placeholder="Ask anything about Chapter 1..."/>
+      <button class="as-btn" onclick="acSend()">Send →</button>
     </div>
   </div>
 </div>
@@ -1333,7 +1338,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 </div>
 
 <!-- FLOAT ANYA -->
-<div id="chat-trigger" onclick="switchTab('anya',document.querySelectorAll('.tab-btn')[6])">
+<div id="chat-trigger" onclick="(function(){const btn=document.querySelector('.tab-btn:last-child');switchTab('anya',btn);})()">
   <div class="mini-anya">
     <div class="mh"></div>
     <div class="mb2"></div>
@@ -1449,54 +1454,134 @@ document.addEventListener('keydown',e=>{
 
 
 // ══ ANYA CHAT (Chapter 1) ══
-const PROXY='https://wispy-sound-1236.shikhakaushik641.workers.dev';
-const SYS=`You are Anya — a warm, helpful AI study companion for Class 6 Science Chapter 1.
-Speak in natural Hinglish (Hindi + English mix) like a friendly older sibling.
-Keep answers to 2-4 lines. Be encouraging. Use 1-2 emojis per message.
-Topics: What is Science, Scientific Method, Lab Safety, Famous Scientists (CV Raman, APJ Kalam, Aryabhata, Homi Bhabha, Marie Curie), Branches of Science.
-Only answer Class 6 Science Chapter 1 questions. For other topics, redirect kindly.`;
+// ══ ANYA AI CHATBOT — Science Ch.1 ══
+const PROXY = 'https://wispy-sound-1236.shikhakaushik641.workers.dev';
 
-async function acSend(pre){
-  const inp=document.getElementById('ac-inp');
-  const msg=pre||inp.value.trim();
-  if(!msg)return;
-  inp.value='';
-  acAdd(msg,'user');
+const ANYA_SYS = `You are Anya, an AI study guide for Class 6 students studying Science Chapter 1 — "The Wonderful World of Science" from the NCERT textbook "Curiosity" (2024-25 syllabus).
+
+PERSONALITY:
+- Warm, encouraging and patient — like a knowledgeable older sibling
+- Speak in clear, simple English that an 11-12 year old can easily understand
+- Keep responses concise: 3-5 sentences maximum
+- Use 1-2 relevant emojis naturally (not excessively)
+- Never talk down to the student — always be respectful and humble
+- Celebrate correct understanding genuinely
+
+CHAPTER 1 KNOWLEDGE (your primary focus):
+1. WHAT IS SCIENCE: Science is a systematic way of understanding the natural world through observation and experiments. The word comes from Latin "Scientia" meaning knowledge. Science is like a giant jigsaw puzzle — every discovery adds a new piece.
+
+2. BRANCHES OF SCIENCE:
+   - Physics: study of force, energy, motion and matter
+   - Chemistry: study of composition of matter and chemical reactions  
+   - Biology: study of living organisms
+   - Also: Astronomy (stars/space), Geology (Earth/rocks)
+
+3. SCIENTIFIC METHOD (6 steps):
+   Observation → Question → Hypothesis → Experiment → Data Collection → Conclusion
+   - Observation: noticing something using your senses
+   - Hypothesis: a testable prediction/educated guess
+   - Experiment: a controlled test of the hypothesis
+   - Conclusion: analysing results — was the hypothesis correct?
+   - Key insight: Even a wrong hypothesis is valuable — science is about learning
+
+4. LABORATORY SAFETY RULES:
+   - Always wear safety glasses and apron
+   - Never taste or smell chemicals directly
+   - Only do experiments under teacher supervision
+   - Wash hands thoroughly after experiments
+   - No eating or drinking in the lab
+   - Report accidents immediately to the teacher
+   - No loose clothing near flames
+
+5. FAMOUS SCIENTISTS (NCERT Chapter 1):
+   - C.V. Raman: Discovered Raman Effect (1928), Nobel Prize in Physics 1930 — first Asian to win it. Used very simple equipment.
+   - APJ Abdul Kalam: "Missile Man of India", led India's space and defence programmes
+   - Homi Bhabha: Father of India's nuclear programme, founded TIFR and BARC
+   - Aryabhata (476–550 CE): Ancient Indian mathematician, introduced concept of Zero, calculated value of Pi (3.1416)
+   - Srinivasa Ramanujan: Self-taught mathematical genius, major contributions to number theory
+
+RULES:
+- Only answer questions related to Class 6 Science Chapter 1 content
+- If asked about other chapters or unrelated topics, politely redirect: "That's a great question! That topic is covered in another chapter. For now, let's focus on Chapter 1 — feel free to ask me anything from it!"
+- Never give wrong or made-up information — if unsure, say so honestly
+- If a student seems confused, break the concept into simpler parts
+- Never use "Heh~", "Hehe~" or anime-style expressions`;
+
+// Conversation history for context
+let anyaHistory = [];
+
+async function acSend(pre) {
+  const inp = document.getElementById('ac-inp');
+  const msg = (pre || inp.value).trim();
+  if (!msg) return;
+  inp.value = '';
+
+  acAdd(msg, 'user');
+  anyaHistory.push({ role: 'user', content: msg });
+
   // Typing indicator
-  const body=document.getElementById('ac-body');
-  const td=document.createElement('div');
-  td.id='actd';td.className='ac-msg';
-  td.innerHTML='<div class="ac-typing"><span></span><span></span><span></span></div>';
-  body.appendChild(td);body.scrollTop=body.scrollHeight;
+  const body = document.getElementById('ac-body');
+  const td = document.createElement('div');
+  td.id = 'actd'; td.className = 'ac-msg';
+  td.innerHTML = '<div class="ac-typing"><span></span><span></span><span></span></div>';
+  body.appendChild(td); body.scrollTop = body.scrollHeight;
+
   // Status
-  const st=document.getElementById('anya-status');
-  if(st)st.innerHTML='<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#fbbf24;margin-right:4px;"></span>Typing...';
-  try{
-    const res=await fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:SYS,messages:[{role:'user',content:msg}]})});
-    const data=await res.json();
+  const st = document.getElementById('anya-status');
+  if (st) st.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#fbbf24;margin-right:4px;animation:statusPulse 1s infinite;"></span>Thinking...';
+
+  try {
+    // Send last 10 messages for context
+    const msgs = anyaHistory.slice(-10);
+    const res = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        system: ANYA_SYS,
+        messages: msgs
+      })
+    });
+    const data = await res.json();
     document.getElementById('actd')?.remove();
-    acAdd(data.content?.[0]?.text||'Hmm, kuch problem aayi — dobara poochho!','anya');
-  }catch(e){
+    const reply = data.content?.[0]?.text;
+    if (reply) {
+      anyaHistory.push({ role: 'assistant', content: reply });
+      acAdd(reply, 'anya');
+    } else {
+      acAdd("Hmm, I didn't get a response. Please try again!", 'anya');
+    }
+  } catch (e) {
     document.getElementById('actd')?.remove();
-    acAdd('Network issue lag raha hai — thodi der mein try karo!','anya');
+    acAdd("Looks like there's a connection issue. Please check your internet and try again! 🌊", 'anya');
   }
-  if(st)st.innerHTML='<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:4px;"></span>Online • Ready to help!';
+
+  if (st) st.innerHTML = '<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:4px;"></span>Online • Ready to help!';
 }
 
-function acAdd(txt,cls='anya'){
-  const body=document.getElementById('ac-body');
-  if(!body)return;
-  const m=document.createElement('div');
-  m.className='ac-msg'+(cls==='user'?' user':'');
-  m.innerHTML=`<div class="ac-bub ${cls}">${txt}</div>`;
+function acAdd(txt, cls = 'anya') {
+  const body = document.getElementById('ac-body');
+  if (!body) return;
+  const m = document.createElement('div');
+  m.className = 'ac-msg' + (cls === 'user' ? ' user' : '');
+  // Render newlines as <br>
+  const safe = txt.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  m.innerHTML = `<div class="ac-bub ${cls}">${safe}</div>`;
   body.appendChild(m);
-  body.scrollTop=body.scrollHeight;
+  body.scrollTop = body.scrollHeight;
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const inp=document.getElementById('ac-inp');
-  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')acSend();});
+// Clear conversation
+function acClear() {
+  anyaHistory = [];
+  const body = document.getElementById('ac-body');
+  if (body) body.innerHTML = '<div class="ac-msg"><div class="ac-bub anya">Hi! I\'m Anya 🌊 Ask me anything about Chapter 1 — What is Science, Scientific Method, Lab Safety, or Famous Scientists!</div></div>';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('ac-inp');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') acSend(); });
 });
 
 
@@ -1870,9 +1955,7 @@ document.addEventListener('keydown',e=>{
 renderFC();
 
 // ANYA CHAT
-// PROXY removed - subject chatbot removed
-// SYS removed ='Tu Anya hai — Class 6 Science Chapter 1 expert. Hinglish mein baat kar. Short answers 3-4 lines. Topics: Science definition, Scientific Method, Lab Safety, Famous Scientists (CV Raman, APJ Kalam, Aryabhata, Homi Bhabha), Branches. "Heh~" use kar jab student achha kare.';
-// acAdd removed
+// old chatbot removed
 // acSend removed
 // ac-inp listener removed
 </script>
