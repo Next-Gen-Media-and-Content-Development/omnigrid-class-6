@@ -350,7 +350,16 @@ window.addEventListener('resize', resize); resize();
 
 function shuffle(a){ let b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
 
-let G = {};
+let G = {
+  running:false, paused:false, zone:1, level:1,
+  score:0, lives:3, factsCollected:0, correctAnswers:0, jetpacksUsed:0,
+  camX:0, groundY:500, frame:0, spawnT:0,
+  shark:{x:140,y:460,vy:0,vx:0,w:58,h:38,onGround:false,dir:1,inv:0,jetpack:false,jetpackTimer:0,jetpackMax:360},
+  platforms:[], obstacles:[], collectibles:[], particles:[], bubbles:[],
+  qActive:false, factActive:false, qPool:[], usedFacts:[],
+  holdLeft:false, holdRight:false, holdJump:false,
+  nextJetpackScore:300
+};
 function initG(zone=1) {
   const gY = canvas.height - 85;
   G = {
@@ -373,6 +382,7 @@ function initG(zone=1) {
 
 // ════════ DRAWING ════════
 function drawBg(){
+  if(!G || G.camX===undefined) return;
   const w=canvas.width, h=canvas.height;
   const z2 = G.zone===2;
   const gr=ctx.createLinearGradient(0,0,0,h);
@@ -679,19 +689,21 @@ function spawnWorld(){
   G.obstacles=G.obstacles.filter(o=>o.x>clean);
   G.collectibles=G.collectibles.filter(c=>c.x>clean);
 
-  // Score + level
-  if(G.frame%28===0){G.score+=z2?G.level*2:G.level;document.getElementById('scoreD').textContent=G.score;}
+  // Score only from questions (+50) and facts (+25) — no auto increment
 
-  const lvlThresh=[0,300,650,1100,1650,2400];
-  const newLvl=lvlThresh.findIndex(t=>G.score<t)-1;
+  // Level up based on correct answers (not score)
+  const ansThresh=[0,3,6,10,14,18];
+  const newLvl=ansThresh.findIndex(t=>G.correctAnswers<t)-1;
   if(newLvl>G.level&&newLvl<=5){G.level=newLvl;updateHUD();showLevelBanner(G.level);}
 
-  // Zone 2 transition at score 500+ in zone 1
-  if(G.zone===1&&G.score>=500&&!G._zoneSent){G._zoneSent=true;transitionToZone2();}
+  // Zone 2 transition after 8+ correct answers in zone 1
+  if(G.zone===1&&G.correctAnswers>=8&&!G._zoneSent){G._zoneSent=true;transitionToZone2();}
 }
 
 function updateHUD(){
   document.getElementById('scoreD').textContent=G.score;
+  // Update distance display
+  if(document.getElementById('distD'))document.getElementById('distD').textContent=Math.floor(G.camX/10)+'m';
   document.getElementById('levelD').textContent=G.level;
   document.getElementById('zoneD').textContent=G.zone;
   document.getElementById('factsD').textContent=G.factsCollected;
@@ -859,6 +871,7 @@ canvas.addEventListener('touchend',e=>{
 // ════════ GAME LOOP ════════
 function gameLoop(){
   rafId=requestAnimationFrame(gameLoop);
+  if(!G.running) return;
   G.frame++;
   if(!G.paused){updateShark();spawnWorld();}
   drawBg(); drawGround(); drawPlatforms(); drawCollectibles(); drawObstacles(); drawShark(); drawParticles();
@@ -875,7 +888,8 @@ function startGame(){
   initG(1);
   const gY=G.groundY; G.shark.y=gY-G.shark.h;
   for(let i=0;i<7;i++) G.platforms.push({x:280+i*210,y:gY-100-Math.random()*130,w:85+Math.random()*70,h:14,deco:Z1DECOS[i%Z1DECOS.length]});
-  updateHUD(); G.running=true; G.holdLeft=false; G.holdRight=false; G.holdJump=false;
+  G.running=true; G.holdLeft=false; G.holdRight=false; G.holdJump=false;
+  updateHUD();
   gameLoop();
 }
 
@@ -942,28 +956,47 @@ function initSplashAnim(){
 }
 
 function onPlay(){
-  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
-  SFX.splash();
-  document.getElementById('splash').style.display='none';
-  document.getElementById('instructions').style.display='none';
-  document.getElementById('soundToggle').style.display='flex';
+  // Resume AudioContext on user gesture (required by browsers)
+  try {
+    if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==='suspended') audioCtx.resume();
+    SFX.splash();
+  } catch(e){}
+  const splash = document.getElementById('splash');
+  const inst   = document.getElementById('instructions');
+  const stBtn  = document.getElementById('soundToggle');
+  if(splash) splash.style.display='none';
+  if(inst)   inst.style.display='none';
+  if(stBtn)  stBtn.style.display='flex';
   startGame();
 }
 function showInstructions(){
   try{SFX.question();}catch(e){}
-  const el=document.getElementById('instructions');
-  if(el){el.style.display='flex';el.scrollTop=0;}
+  const splash=document.getElementById('splash');
+  const inst=document.getElementById('instructions');
+  if(splash) splash.style.display='none';
+  if(inst){ inst.style.display='flex'; inst.scrollTop=0; }
 }
-function hideInstructions(){const el=document.getElementById('instructions');if(el)el.style.display='none';}
+function hideInstructions(){
+  const inst=document.getElementById('instructions');
+  const splash=document.getElementById('splash');
+  if(inst)   inst.style.display='none';
+  if(splash) splash.style.display='flex';
+}
 
 window.addEventListener('load',()=>{
-  // Set game canvas size
-  const gc=document.getElementById('gc');
-  if(gc){gc.width=window.innerWidth;gc.height=window.innerHeight;}
-  initSplashAnim();
-  // Ensure splash is visible
+  // Size canvas first
+  resize();
+  // Init splash animation
+  try{ initSplashAnim(); }catch(e){ console.warn('Splash anim error:',e); }
+  // Ensure splash visible and game not running
   const sp=document.getElementById('splash');
-  if(sp){sp.style.display='flex';sp.style.zIndex='9000';}
+  if(sp){ sp.style.display='flex'; sp.style.zIndex='9000'; }
+  const instr=document.getElementById('instructions');
+  if(instr) instr.style.display='none';
+  // Make sure game canvas is behind splash
+  const gc=document.getElementById('gc');
+  if(gc) gc.style.zIndex='1';
 });
 </script>
 </body>
