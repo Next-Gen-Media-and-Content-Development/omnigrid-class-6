@@ -866,6 +866,137 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 .tab-btn{padding:13px 12px;font-size:12px;}
 @media(max-width:500px){.tab-btn{padding:11px 8px;font-size:10.5px;}}
 
+
+@keyframes timerPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.pq-timer.warn{background:#d97706 !important;}
+.pq-timer.danger{background:#dc2626 !important;animation:timerPulse 0.5s ease-in-out infinite;}
+
+
+/* ══ OCEAN PRACTICE LEVEL SELECTOR ══ */
+.pq-ocean-header{
+  border-radius:20px;overflow:hidden;margin-bottom:20px;
+  position:relative;min-height:120px;
+  background:linear-gradient(160deg,#0e3a6b,#0284c7,#38bdf8);
+}
+.pq-ocean-bubbles{position:absolute;inset:0;pointer-events:none;}
+.pq-ob{position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,0.2);}
+.ob1{width:60px;height:60px;bottom:-10px;left:8%;animation:obFloat 5s -1s ease-in-out infinite;}
+.ob2{width:30px;height:30px;bottom:10px;left:30%;animation:obFloat 7s -3s ease-in-out infinite;}
+.ob3{width:44px;height:44px;bottom:-5px;right:20%;animation:obFloat 6s -2s ease-in-out infinite;}
+.ob4{width:20px;height:20px;bottom:20px;right:8%;animation:obFloat 4s ease-in-out infinite;}
+@keyframes obFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.pq-ocean-title{
+  position:relative;z-index:2;padding:20px 24px;text-align:center;color:white;
+}
+.pq-title-emoji{font-size:40px;margin-bottom:8px;animation:titleBob 2.5s ease-in-out infinite;}
+@keyframes titleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.pq-ocean-title h2{font-family:'Fredoka One',cursive;font-size:1.5rem;margin-bottom:4px;
+  text-shadow:0 2px 8px rgba(0,0,0,0.2);}
+.pq-ocean-title p{font-size:12px;opacity:0.85;font-weight:700;max-width:300px;margin:0 auto;}
+
+/* Level cards */
+.pq-level-sel{display:flex;flex-direction:column;gap:12px;}
+.pq-lvl-btn{
+  width:100%;background:rgba(255,255,255,0.92);
+  border-radius:20px;border:2.5px solid transparent;
+  cursor:pointer;font-family:'Nunito',sans-serif;
+  text-align:left;transition:all 0.25s cubic-bezier(0.34,1.2,0.64,1);
+  display:flex;align-items:stretch;overflow:hidden;
+  box-shadow:0 4px 18px rgba(2,132,199,0.1);
+  padding:0;min-height:90px;
+}
+.pq-lvl-btn:hover{transform:translateY(-4px) scale(1.01);box-shadow:0 12px 32px rgba(2,132,199,0.2);}
+.pq-lvl-btn:active{transform:translateY(-1px) scale(0.99);}
+.pq-lvl-btn.beg{border-color:#22c55e;}
+.pq-lvl-btn.mid{border-color:#0ea5e9;}
+.pq-lvl-btn.adv{border-color:#8b5cf6;}
+
+/* Scene strip */
+.lvl-scene{
+  width:88px;flex-shrink:0;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.lvl-scene::after{
+  content:'';position:absolute;right:0;top:0;bottom:0;width:24px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15));
+}
+.lvl-scene-bg{position:absolute;inset:0;}
+.beg-bg{background:linear-gradient(160deg,#06b6d4 0%,#0891b2 40%,#065f46 100%);}
+.mid-bg{background:linear-gradient(160deg,#0ea5e9 0%,#0284c7 45%,#1e3a8a 100%);}
+.adv-bg{background:linear-gradient(160deg,#0f172a 0%,#1e1b4b 50%,#312e81 100%);}
+.lvl-icon-wrap{
+  font-size:38px;position:relative;z-index:1;
+  animation:lvlIconBob 3s ease-in-out infinite;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+}
+@keyframes lvlIconBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* Info block */
+.lvl-info{flex:1;padding:14px 12px;}
+.lvl-depth{
+  font-size:9px;font-weight:900;letter-spacing:1.2px;
+  text-transform:uppercase;margin-bottom:4px;
+  display:flex;align-items:center;gap:4px;
+}
+.pq-lvl-btn.beg .lvl-depth{color:#059669;}
+.pq-lvl-btn.mid .lvl-depth{color:#0284c7;}
+.pq-lvl-btn.adv .lvl-depth{color:#7c3aed;}
+.lvl-name{
+  font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:3px;
+}
+.pq-lvl-btn.beg .lvl-name{color:#065f46;}
+.pq-lvl-btn.mid .lvl-name{color:#0c3a6b;}
+.pq-lvl-btn.adv .lvl-name{color:#4c1d95;}
+.lvl-sub{font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px;}
+.lvl-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px;}
+.lvl-tag{
+  font-size:9px;font-weight:900;padding:2px 7px;border-radius:6px;
+}
+.pq-lvl-btn.beg .lvl-tag{background:rgba(34,197,94,0.12);color:#065f46;}
+.pq-lvl-btn.mid .lvl-tag{background:rgba(2,132,199,0.12);color:#0369a1;}
+.pq-lvl-btn.adv .lvl-tag{background:rgba(124,58,237,0.1);color:#5b21b6;}
+.lvl-desc{font-size:11px;color:#64748b;line-height:1.5;font-weight:600;}
+.lvl-arrow{
+  display:flex;align-items:center;padding:0 14px;
+  font-size:18px;font-weight:900;color:#94a3b8;
+}
+.pq-lvl-btn:hover .lvl-arrow{color:#0284c7;}
+
+/* ── Practice quiz header — refined ── */
+.pq-quiz-hdr{
+  background:rgba(255,255,255,0.9);border-radius:16px;
+  padding:12px 16px;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  border:1px solid rgba(2,132,199,0.12);
+  box-shadow:0 2px 10px rgba(2,132,199,0.08);
+  position:sticky;top:110px;z-index:10;
+}
+
+/* ── Quiz result — ocean style ── */
+.pq-result{
+  background:linear-gradient(160deg,rgba(2,132,199,0.05),rgba(255,255,255,0.97));
+  border-radius:20px;padding:28px 24px;text-align:center;
+  border:1.5px solid rgba(2,132,199,0.15);
+  box-shadow:0 4px 24px rgba(2,132,199,0.1);
+}
+.pq-result .res-icon{font-size:56px;margin-bottom:8px;}
+.pq-result h3{font-family:'Fredoka One',cursive;font-size:1.4rem;color:#0c3a6b;margin-bottom:2px;}
+.pq-result .res-score{font-family:'Fredoka One',cursive;font-size:2.4rem;color:#0284c7;margin:10px 0;}
+
+
+/* ── Practice card top accent ── */
+.pq-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#22d3ee,#0284c7);}
+.pq-card.pc::before{background:linear-gradient(90deg,#22c55e,#16a34a);}
+.pq-card.pw::before{background:linear-gradient(90deg,#ef4444,#dc2626);}
+.pq-card.timed-out::before{background:linear-gradient(90deg,#f59e0b,#d97706);}
+
+/* ── Ocean header shimmer ── */
+@keyframes headerShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.pq-ocean-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
+  animation:headerShimmer 4s linear infinite;}
 </style>
 </head>
 <body>
@@ -1176,6 +1307,18 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
       <div class="qp-dots" id="qz4-dots"></div>
       <div id="qz4-q"></div>
     </div>
+  </div>
+</div>
+
+<!-- ── NOTES TIP BOX ── -->
+<div id="notes-tip-box" style="max-width:860px;margin:0 auto 24px;padding:0 5%;position:relative;z-index:2;">
+  <div style="background:rgba(2,132,199,0.07);border:1.5px solid rgba(2,132,199,0.2);border-radius:16px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 2px 12px rgba(2,132,199,0.06);">
+    <div style="font-size:22px;flex-shrink:0;" id="tip-icon">💡</div>
+    <div style="flex:1;">
+      <div style="font-size:10px;font-weight:900;color:#0369a1;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Study Tip</div>
+      <div style="font-size:13px;font-weight:700;color:#0c3a6b;line-height:1.6;" id="notes-tip-text">Tap highlighted keywords to see their meaning — it helps you remember better!</div>
+    </div>
+    <button onclick="nextNotesTip()" style="background:rgba(2,132,199,0.1);border:1px solid rgba(2,132,199,0.2);border-radius:8px;padding:5px 10px;font-size:11px;font-weight:800;color:#0369a1;cursor:pointer;font-family:'Nunito',sans-serif;flex-shrink:0;white-space:nowrap;">Next tip →</button>
   </div>
 </div>
 
@@ -1540,8 +1683,101 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 
 <!-- PRACTICE -->
 <div class="tab-panel" id="tab-practice">
-  <div class="score-hdr"><h3>✏️ Practice Questions</h3><div class="sc-badge">Score: <span id="pqs">0</span>/5</div></div>
-  <div id="pq-wrap"></div>
+  <div class="pq-container" id="pq-container">
+    <!-- Level selector shown first -->
+    <div id="pq-level-screen">
+      <!-- Ocean header -->
+      <div class="pq-ocean-header">
+        <div class="pq-ocean-bubbles">
+          <div class="pq-ob ob1"></div><div class="pq-ob ob2"></div>
+          <div class="pq-ob ob3"></div><div class="pq-ob ob4"></div>
+        </div>
+        <div class="pq-ocean-title">
+          <div class="pq-title-emoji">🌊</div>
+          <h2>Ocean Quiz Challenge</h2>
+          <p>Dive deeper with each level — each question has a countdown timer!</p>
+        </div>
+      </div>
+      <!-- Level cards -->
+      <div class="pq-level-sel">
+        <!-- Coral Reef -->
+        <button class="pq-lvl-btn beg" onclick="startPQ('beginner')">
+          <div class="lvl-scene">
+            <div class="lvl-scene-bg beg-bg"></div>
+            <div class="lvl-icon-wrap">🪸</div>
+          </div>
+          <div class="lvl-info">
+            <div class="lvl-depth">Depth: 0–50m</div>
+            <div class="lvl-name">Coral Reef</div>
+            <div class="lvl-sub">5 Questions · 40 sec each</div>
+            <div class="lvl-tags">
+              <span class="lvl-tag">MCQ</span>
+              <span class="lvl-tag">Fill Ups</span>
+            </div>
+            <div class="lvl-desc">Warm, bright waters — perfect to start your Science journey!</div>
+          </div>
+          <div class="lvl-arrow">→</div>
+        </button>
+        <!-- Sunlit Zone -->
+        <button class="pq-lvl-btn mid" onclick="startPQ('mid')">
+          <div class="lvl-scene">
+            <div class="lvl-scene-bg mid-bg"></div>
+            <div class="lvl-icon-wrap">🐬</div>
+          </div>
+          <div class="lvl-info">
+            <div class="lvl-depth">Depth: 50–200m</div>
+            <div class="lvl-name">Sunlit Zone</div>
+            <div class="lvl-sub">7 Questions · 35 sec each</div>
+            <div class="lvl-tags">
+              <span class="lvl-tag">MCQ</span>
+              <span class="lvl-tag">Fill Ups</span>
+              <span class="lvl-tag">Match Column</span>
+            </div>
+            <div class="lvl-desc">Deeper waters, trickier questions — stay sharp!</div>
+          </div>
+          <div class="lvl-arrow">→</div>
+        </button>
+        <!-- Midnight Abyss -->
+        <button class="pq-lvl-btn adv" onclick="startPQ('advanced')">
+          <div class="lvl-scene">
+            <div class="lvl-scene-bg adv-bg"></div>
+            <div class="lvl-icon-wrap">🦑</div>
+          </div>
+          <div class="lvl-info">
+            <div class="lvl-depth">Depth: 200m+</div>
+            <div class="lvl-name">Midnight Abyss</div>
+            <div class="lvl-sub">8 Questions · 30 sec each</div>
+            <div class="lvl-tags">
+              <span class="lvl-tag">MCQ</span>
+              <span class="lvl-tag">Fill Ups</span>
+              <span class="lvl-tag">Match</span>
+              <span class="lvl-tag">Diagram</span>
+            </div>
+            <div class="lvl-desc">Dark, deep and challenging — only the boldest dive here!</div>
+          </div>
+          <div class="lvl-arrow">→</div>
+        </button>
+      </div>
+    </div>
+    <!-- Quiz area (hidden initially) -->
+    <div id="pq-quiz-area" style="display:none;">
+      <div class="pq-quiz-hdr">
+        <div class="pq-hdr-left">
+          <div class="pq-hdr-title" id="pq-hdr-title">Beginner Quiz</div>
+          <div class="pq-hdr-sub" id="pq-hdr-sub">Question 1 of 5</div>
+          <div class="pq-progress-row">
+            <div class="pq-bar"><div class="pq-bar-fill" id="pq-bar-fill" style="width:0%"></div></div>
+            <span class="pq-bar-txt" id="pq-bar-txt">0%</span>
+          </div>
+        </div>
+        <div class="pq-timer" id="pq-timer">⏱ 40</div>
+        <div class="pq-score-badge">Score: <span id="pq-score-live">0</span></div>
+      </div>
+      <div id="pq-q-area"></div>
+    </div>
+    <!-- Result screen (hidden) -->
+    <div id="pq-result-screen" style="display:none;"></div>
+  </div>
 </div>
 
 <!-- FUN FACTS -->
@@ -1669,42 +1905,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">
-// ══ FLOATING CHARACTER ══
-const floatTips=[
-  '💡 Yellow keywords click karo — meaning dikhega!',
-  '&#127979; Rohan: Try the &#129513; quiz button at the end of each topic!',
-  '&#128119; Anika: Red badges show 3D models &#8212; rotate and zoom! &#128308;',
-  '✨ Purple badges click karo — animations dekhne ko milenge!',
-  '&#127979; Dev: The Flashcards tab is great for quick revision! &#127183;',
-  '🧠 Mind Map tab mein sab topics ka connection dekho!',
-  '&#128119; Anika: Ask the AI chatbot anything about Chapter 1! &#127800;'
-];
-let floatIdx=0,floatDismissed=false,floatShown=false;
-function showFloat(){
-  if(floatDismissed)return;
-  const _fc=document.getElementById('float-char');
-  if(!_fc)return;
-  _fc.classList.add('show');floatShown=true;
-}
-function dismissFloat(){
-  floatDismissed=true;
-  const _fc2=document.getElementById('float-char');
-  if(!_fc2)return;
-  _fc2.classList.remove('show');_fc2.classList.add('dismiss');
-}
-function nextFloatTip(){
-  floatIdx=(floatIdx+1)%floatTips.length;
-  const _ftt=document.getElementById('float-tip-text');
-  if(_ftt)_ftt.textContent=floatTips[floatIdx];
-}
-setTimeout(()=>showFloat(),3000);
-setInterval(()=>{
-  if(!floatDismissed&&floatShown){
-    floatIdx=(floatIdx+1)%floatTips.length;
-    const _ft=document.getElementById('float-tip-text');
-    if(_ft)_ft.textContent=floatTips[floatIdx];
-  }
-},30000);
+// float tip removed — see notes tab tip box
 
 // ══ SCROLL REVEAL ══
 const revealObs=typeof IntersectionObserver!=='undefined'?new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.15}):null;
@@ -2078,12 +2279,44 @@ async function testWorker() {
 
 
 function openGame(){ window.location.href='game.html'; } // also called by switchTab
+
+// ══ NOTES TAB TIP BOX ══
+const NOTES_TIPS = [
+  {icon:'💡', text:'Tap the highlighted keywords to see their meaning — it helps you remember better!'},
+  {icon:'🃏', text:'Try the Flashcards tab for quick revision — tap each card to flip it!'},
+  {icon:'🔴', text:'Red "3D" badges show 3D models — drag to rotate, scroll to zoom!'},
+  {icon:'✨', text:'Purple "Animation" badges play topic animations — click them!'},
+  {icon:'🧠', text:'Visit the Mind Map tab to see how all topics in Chapter 1 connect!'},
+  {icon:'🔬', text:'Each topic has a Quick Quiz — test yourself after reading the notes!'},
+  {icon:'📚', text:'Click the NCERT Reference link at the bottom of each topic to read the original textbook!'},
+  {icon:'🌊', text:'Ask Anya tab has an AI guide — she can explain any concept from Chapter 1!'},
+  {icon:'🦈', text:'Try the Play Game tab — answer Science questions while playing Ocean Scholar!'},
+  {icon:'⏱️', text:'Practice tab has 3 levels with a timer — Beginner, Mid Level and Advanced!'},
+];
+let notesTipIdx = 0;
+function nextNotesTip() {
+  notesTipIdx = (notesTipIdx + 1) % NOTES_TIPS.length;
+  const t = NOTES_TIPS[notesTipIdx];
+  const el = document.getElementById('notes-tip-text');
+  const ic = document.getElementById('tip-icon');
+  if(el) el.textContent = t.text;
+  if(ic) ic.textContent = t.icon;
+}
+// Auto-rotate tip every 15 seconds
+setInterval(() => {
+  const panel = document.getElementById('tab-notes');
+  if(panel && (panel.classList.contains('active') || panel.style.display !== 'none')) {
+    nextNotesTip();
+  }
+}, 15000);
+
 </script>
 <script>
 // TAB
 function switchTab(id, btn) {
   // Game tab opens game page
   if(id === 'game') { window.location.href = 'game.html'; return; }
+  // float-char removed
   // Remove active from all buttons
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   // Hide ALL panels — clear both class AND inline style
@@ -2343,26 +2576,467 @@ function nextTQ(id){qzSt[id].idx++;renderTQ(id);}
 function resetTQ(id){qzSt[id]={idx:0,score:0};renderTQ(id);}
 
 // PRACTICE
-const PQ=[
-  {q:'Science word kahan se aaya?',opts:['Greek Logos','Latin Scientia','French Connaissance','Sanskrit Vigyan'],ans:1,exp:'Latin "Scientia" = Knowledge!'},
-  {q:'Scientific method ka pehla step?',opts:['Experiment','Conclusion','Observation','Hypothesis'],ans:2,exp:'Observation pehla step!'},
-  {q:'CV Raman kis liye famous?',opts:['Gravity','Raman Effect','Zero','Radioactivity'],ans:1,exp:'Raman Effect — Nobel Prize 1930!'},
-  {q:'Lab mein kya karna bilkul mana?',opts:['Apron pehna','Chemicals taste karna','Data record karna','Experiment with teacher'],ans:1,exp:'Chemicals taste karna MANA!'},
-  {q:'Biology kiska study hai?',opts:['Rocks','Stars','Living organisms','Chemicals'],ans:2,exp:'Bio=life — Living organisms!'},
-];
-let pqsc=0;
-(function(){document.getElementById('pq-wrap').innerHTML=PQ.map((q,i)=>{
-  const ob=q.opts.map((o,j)=>'<button class="pq-opt" onclick="chkPQ('+i+','+j+',this)"><span class="opt-l">'+('ABCD'[j])+'</span>'+o+'</button>').join('');
-  return '<div class="pq-card" id="ppq'+i+'"><div class="pq-num">Q'+(i+1)+'</div><div class="pq-q">'+q.q+'</div><div class="pq-opts">'+ob+'</div><div class="pq-exp" id="pe'+i+'">'+q.exp+'</div></div>';
-}).join('');})();
-function chkPQ(qi,ai,btn){const q=PQ[qi];document.getElementById('ppq'+qi).querySelectorAll('.pq-opt').forEach(b=>b.disabled=true);document.getElementById('ppq'+qi).querySelectorAll('.pq-opt')[q.ans].classList.add('ca');if(ai===q.ans){btn.classList.add('ca');pqsc++;}else btn.classList.add('wa');document.getElementById('pqs').textContent=pqsc;document.getElementById('pe'+qi).classList.add('show');updateProg();}
+// Practice loaded via startPQ()
 
-// PROGRESS
-function updateProg(){
-  let tot=0,dn=0;Object.values(qzSt).forEach(s=>{tot+=5;dn+=s.score;});dn+=pqsc;tot+=5;
-  const p=tot>0?Math.round(dn/tot*100):0;
-  const _hf=document.getElementById('hero-fill');const _hp=document.getElementById('hero-pct');if(_hf)_hf.style.width=p+'%';if(_hp)_hp.textContent=p+'%';
+// ═══════════════════════════════════════════════════════
+// PRACTICE QUESTIONS SYSTEM — 3 Levels, 4 Types, Timer
+// ═══════════════════════════════════════════════════════
+
+const PQ_DATA = {
+
+  beginner: {
+    title:'🪸 Coral Reef Quiz', timePerQ:40, color:'#22c55e',
+    questions:[
+      {type:'mcq', q:'What does the word "Science" come from?',
+       opts:['Latin "Scientia"','Greek "Logos"','French "Savoir"','Arabic "Ilm"'], ans:0,
+       exp:'✅ "Science" comes from Latin "Scientia" meaning Knowledge!'},
+      {type:'fill', q:'Fill in the blank: The word "Science" comes from Latin __________.',
+       blank:'Scientia', hints:['Starts with S','It means Knowledge'],
+       exp:'✅ "Scientia" is the Latin root of Science — it means Knowledge!'},
+      {type:'mcq', q:'Which branch of Science studies living organisms?',
+       opts:['Physics','Geology','Biology','Chemistry'], ans:2,
+       exp:'✅ Biology = Bio (life) + logy (study). It studies all living things!'},
+      {type:'fill', q:'Fill in the blank: The first step of Scientific Method is __________.',
+       blank:'Observation', hints:['You use your senses','It starts with O'],
+       exp:'✅ Observation is Step 1 — you notice something around you!'},
+      {type:'mcq', q:'You must always wear __________ in the laboratory.',
+       opts:['Sunglasses','Safety glasses and apron','Hat','Gloves only'], ans:1,
+       exp:'✅ Safety glasses AND apron — both are required for lab safety!'},
+    ]
+  },
+
+  mid: {
+    title:'🐬 Sunlit Zone Quiz', timePerQ:35, color:'#f59e0b',
+    questions:[
+      {type:'mcq', q:'C.V. Raman won the Nobel Prize in Physics in which year?',
+       opts:['1920','1928','1930','1945'], ans:2,
+       exp:'✅ C.V. Raman won in 1930 — he was the FIRST Asian Nobel Prize winner in Physics!'},
+      {type:'fill', q:'APJ Abdul Kalam is known as the "__________ Man of India".',
+       blank:'Missile', hints:['Related to rockets/weapons','Starts with M'],
+       exp:"✅ APJ Kalam = Missile Man of India — he led India's defence & space!"},
+      {type:'match',
+       q:'Match the Scientists with their contributions:',
+       colA:['C.V. Raman','Aryabhata','Homi Bhabha','Ramanujan'],
+       colB:['Invented Zero','Nuclear programme','Raman Effect','Number Theory'],
+       ans:{'C.V. Raman':'Raman Effect','Aryabhata':'Invented Zero','Homi Bhabha':'Nuclear programme','Ramanujan':'Number Theory'},
+       exp:"✅ Great matching! These are India's proudest scientists!"},
+      {type:'mcq', q:'What is a Hypothesis?',
+       opts:['The final result','A random guess','A testable prediction','An experiment'],ans:2,
+       exp:'✅ Hypothesis = educated testable prediction/guess based on observation!'},
+      {type:'fill', q:'Fill in: Chemistry studies __________ and chemical reactions.',
+       blank:'Matter', hints:['Everything around us is made of this','Starts with M'],
+       exp:'✅ Chemistry studies matter — its composition and how it reacts!'},
+      {type:'mcq', q:'Which of these is NOT a step in the Scientific Method?',
+       opts:['Hypothesis','Observation','Imagination','Conclusion'], ans:2,
+       exp:'✅ Imagination is not a formal step — the 6 steps are Observe → Question → Hypothesise → Experiment → Data → Conclude!'},
+      {type:'match',
+       q:'Match each branch of Science with what it studies:',
+       colA:['Physics','Biology','Astronomy','Geology'],
+       colB:['Stars and space','Living organisms','Earth and rocks','Force and energy'],
+       ans:{'Physics':'Force and energy','Biology':'Living organisms','Astronomy':'Stars and space','Geology':'Earth and rocks'},
+       exp:'✅ Perfect! Now you know all the main branches of Science!'},
+    ]
+  },
+
+  advanced: {
+    title:'🦑 Midnight Abyss Quiz', timePerQ:30, color:'#e11d48',
+    questions:[
+      {type:'mcq', q:'Aryabhata calculated the value of Pi (π) as approximately?',
+       opts:['3.14','3.1416','3.1315','3.1200'], ans:1,
+       exp:'✅ Aryabhata calculated Pi = 3.1416 around 499 CE — amazingly accurate!'},
+      {type:'fill', q:'The Raman Effect was discovered in the year __________.',
+       blank:'1928', hints:['Year before 1929','2 years before Nobel Prize'],
+       exp:'✅ Raman Effect was discovered in 1928 — Nobel Prize came in 1930!'},
+      {type:'diagram',
+       q:'Look at the diagram of Scientific Method steps below. Which step is MISSING (shown as "??")?',
+       diag:'sciMethod', missingStep:'Hypothesis', missingPos:2,
+       opts:['Observation','Hypothesis','Conclusion','Data Collection'], ans:1,
+       exp:'✅ Hypothesis (Step 3) is the testable prediction that comes after asking the question!'},
+      {type:'match',
+       q:'Match each term with its correct definition:',
+       colA:['Observation','Hypothesis','Conclusion','Experiment'],
+       colB:['Controlled test','Final analysis of results','Testable prediction','Noticing with senses'],
+       ans:{'Observation':'Noticing with senses','Hypothesis':'Testable prediction','Conclusion':'Final analysis of results','Experiment':'Controlled test'},
+       exp:'✅ You know all 4 key Scientific Method terms!'},
+      {type:'mcq', q:'Why is a WRONG hypothesis still considered valuable in Science?',
+       opts:['It is not valuable','Scientists can ignore it','It still teaches us something new','It proves the scientist is smart'], ans:2,
+       exp:'✅ Every result teaches us! A wrong hypothesis narrows down possibilities — that\'s how Science works!'},
+      {type:'diagram',
+       q:'The diagram shows branches of Science. Which branch goes in the "??" box — studies stars and planets?',
+       diag:'branches', missingStep:'Astronomy', missingPos:4,
+       opts:['Geology','Chemistry','Astronomy','Biology'], ans:2,
+       exp:'✅ Astronomy studies stars, planets, galaxies and the entire universe!'},
+      {type:'fill', q:'Fill in: TIFR stands for Tata Institute of __________ Research.',
+       blank:'Fundamental', hints:['Means basic/primary','Starts with F'],
+       exp:"✅ TIFR = Tata Institute of Fundamental Research — founded by Homi Bhabha!"},
+      {type:'mcq', q:'Which of the following BEST defines "Science"?',
+       opts:['Reading books about nature','Systematic knowledge gained through observation & experiments','Making guesses about nature','Memorising facts about the world'], ans:1,
+       exp:'✅ Science = systematic & organised knowledge gained through observation and experiments — not just reading or memorising!'},
+    ]
+  }
+};
+
+// ── State ──
+let PQ_STATE = {
+  level: null, questions:[], current:0,
+  score:0, correct:0, timedOut:0, wrong:0,
+  timer:null, timeLeft:0,
+  matchSel:null, matchPairs:{}, fillAnswered:false,
+};
+
+function startPQ(level){
+  PQ_STATE = {
+    level, questions:[...PQ_DATA[level].questions],
+    current:0, score:0, correct:0, timedOut:0, wrong:0,
+    timer:null, timeLeft:0, matchSel:null, matchPairs:{}, fillAnswered:false
+  };
+  document.getElementById('pq-level-screen').style.display='none';
+  document.getElementById('pq-quiz-area').style.display='block';
+  document.getElementById('pq-result-screen').style.display='none';
+  const ld = PQ_DATA[level];
+  document.getElementById('pq-hdr-title').textContent = ld.title;
+  document.getElementById('pq-score-live').textContent='0';
+  renderPQQuestion();
 }
+
+function renderPQQuestion(){
+  const st = PQ_STATE;
+  const ld = PQ_DATA[st.level];
+  const q  = st.questions[st.current];
+  const total = st.questions.length;
+
+  // Header update
+  document.getElementById('pq-hdr-sub').textContent = `Question ${st.current+1} of ${total}`;
+  const pct = Math.round(st.current/total*100);
+  document.getElementById('pq-bar-fill').style.width = pct+'%';
+  document.getElementById('pq-bar-txt').textContent = pct+'%';
+
+  // Timer
+  startPQTimer(ld.timePerQ);
+
+  // Render question
+  let inner = '';
+  const typeBadge = {mcq:'MCQ',fill:'Fill Up',match:'Match Column',diagram:'Diagram'}[q.type];
+  const badgeCls  = {mcq:'mcq',fill:'fill',match:'match',diagram:'diagram'}[q.type];
+
+  inner += `<div class="pq-card" id="pq-cur-card">`;
+  inner += `<div class="pq-card-top">
+    <span class="pq-type-badge ${badgeCls}">${typeBadge}</span>
+    <span class="pq-q-num">Q${st.current+1} / ${total}</span>
+  </div>`;
+  inner += `<div class="pq-q-text">${q.q}</div>`;
+
+  if(q.type==='mcq'){
+    inner += `<div class="pq-opts" id="pq-opts">`;
+    q.opts.forEach((o,i)=>{
+      inner += `<button class="pq-opt" id="pqo${i}" onclick="answerMCQ(${i})"><span class="opt-l">${'ABCD'[i]}</span>${o}</button>`;
+    });
+    inner += `</div>`;
+  }
+  else if(q.type==='fill'){
+    inner += `<div class="pq-fill-wrap">
+      <input class="pq-fill-inp" id="pq-fill-inp" placeholder="Type your answer..." onkeydown="if(event.key==='Enter')submitFill()"/>
+      <button class="pq-fill-btn" onclick="submitFill()">Check ✓</button>
+    </div>
+    <div class="pq-fill-hint" id="pq-fill-hint"></div>`;
+  }
+  else if(q.type==='match'){
+    inner += buildMatchHTML(q);
+  }
+  else if(q.type==='diagram'){
+    inner += buildDiagramHTML(q);
+    inner += `<div class="pq-opts" id="pq-opts" style="margin-top:10px;">`;
+    q.opts.forEach((o,i)=>{
+      inner += `<button class="pq-opt" id="pqo${i}" onclick="answerMCQ(${i})"><span class="opt-l">${'ABCD'[i]}</span>${o}</button>`;
+    });
+    inner += `</div>`;
+  }
+
+  inner += `<div class="pq-exp" id="pq-exp"></div>`;
+  inner += `</div>`;
+
+  document.getElementById('pq-q-area').innerHTML = inner;
+
+  // Focus fill input
+  if(q.type==='fill'){
+    setTimeout(()=>document.getElementById('pq-fill-inp')?.focus(),100);
+  }
+}
+
+function buildMatchHTML(q){
+  let html2 = `<div class="pq-match">
+    <div class="match-col">
+      <div class="match-col-title">Column A</div>`;
+  q.colA.forEach((item,i)=>{
+    html2+=`<div class="match-item" id="ma${i}" onclick="selectMatchA(${i},'${item}')">${item}</div>`;
+  });
+  html2+=`</div><div class="match-col">
+    <div class="match-col-title">Column B</div>`;
+  // Shuffle column B
+  const shuffleB = [...q.colB].sort(()=>Math.random()-0.5);
+  shuffleB.forEach((item,i)=>{
+    html2+=`<div class="match-item" id="mb${i}" onclick="selectMatchB('${item}')">${item}</div>`;
+  });
+  html2+=`</div></div>
+  <div id="match-pairs-display"></div>
+  <button class="match-submit" onclick="submitMatch()" id="match-submit-btn" style="display:none;">Check Matches ✓</button>`;
+  return html2;
+}
+
+function buildDiagramHTML(q){
+  if(q.diag==='sciMethod'){
+    const steps = ['Observation','Question','??','Experiment','Data Collection','Conclusion'];
+    let svg = `<div class="pq-diagram"><svg viewBox="0 0 580 70" style="max-width:100%;height:auto;">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M2 2L8 5L2 8" fill="none" stroke="#64748b" stroke-width="1.5"/></marker></defs>`;
+    const colors=['#e0fff8','#e8f0ff','#ffe4e8','#f0fdf4','#fff8e0','#f3e8ff'];
+    const strokes=['#00c9a7','#4f8ef7','#f43f5e','#22c55e','#f59e0b','#a855f7'];
+    const w=78,gap=18;
+    steps.forEach((s,i)=>{
+      const x=4+i*(w+gap);
+      const isQ = s==='??';
+      svg+=`<rect x="${x}" y="14" width="${w}" height="36" rx="8" fill="${isQ?'#fbbf24':colors[i]}" stroke="${isQ?'#f59e0b':strokes[i]}" stroke-width="${isQ?2.5:1.5}"/>`;
+      svg+=`<text x="${x+w/2}" y="${isQ?37:33}" text-anchor="middle" font-family="Nunito,sans-serif" font-size="${isQ?12:8.5}" font-weight="${isQ?900:700}" fill="${isQ?'white':strokes[i]}">${isQ?'? ? ?':s}</text>`;
+      if(!isQ) svg+=`<text x="${x+w/2}" y="45" text-anchor="middle" font-family="Nunito,sans-serif" font-size="7" fill="${strokes[i]}">Step ${i+1}</text>`;
+      if(i<5) svg+=`<line x1="${x+w}" y1="32" x2="${x+w+gap-2}" y2="32" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ar2)"/>`;
+    });
+    svg+=`</svg><div class="pq-diagram-caption">Scientific Method — What is Step 3 (shown as ???)</div></div>`;
+    return svg;
+  }
+  if(q.diag==='branches'){
+    let svg = `<div class="pq-diagram"><svg viewBox="0 0 500 160" style="max-width:100%;height:auto;">`;
+    svg+=`<ellipse cx="250" cy="80" rx="55" ry="25" fill="#00c9a7"/>
+    <text x="250" y="76" text-anchor="middle" font-family="Fredoka One,cursive" font-size="12" fill="white">Science</text>
+    <text x="250" y="89" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" fill="rgba(255,255,255,0.8)">Branches</text>`;
+    const branches=[
+      {label:'Physics',cx:60,cy:30,fill:'#4f8ef7',lx:196,ly:58,bx:250,by:62},
+      {label:'Chemistry',cx:200,cy:16,fill:'#22c55e',lx:222,ly:57,bx:250,by:62},
+      {label:'Biology',cx:340,cy:30,fill:'#f59e0b',lx:304,ly:58,bx:250,by:62},
+      {label:'Geology',cx:60,cy:130,fill:'#a855f7',lx:196,ly:102,bx:250,by:98},
+      {label:'??',cx:340,cy:130,fill:'#fbbf24',stroke:'#f59e0b',lx:304,ly:102,bx:250,by:98},
+    ];
+    branches.forEach(b=>{
+      svg+=`<line x1="${b.lx}" y1="${b.ly}" x2="${b.bx}" y2="${b.by}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,2"/>`;
+      svg+=`<ellipse cx="${b.cx}" cy="${b.cy}" rx="52" ry="22" fill="${b.fill}" stroke="${b.stroke||b.fill}" stroke-width="${b.stroke?2.5:1}"/>`;
+      svg+=`<text x="${b.cx}" y="${b.cy+4}" text-anchor="middle" font-family="Nunito,sans-serif" font-size="${b.label==='??'?14:10}" font-weight="800" fill="white">${b.label}</text>`;
+    });
+    svg+=`</svg><div class="pq-diagram-caption">Branches of Science — which branch belongs in the "??" box?</div></div>`;
+    return svg;
+  }
+  return '';
+}
+
+// ── Match logic ──
+let matchSelA = null;
+let matchBuf = {};
+
+function selectMatchA(idx, item){
+  if(PQ_STATE.matchPairs && Object.keys(PQ_STATE.matchPairs).includes(item)) return;
+  document.querySelectorAll('[id^="ma"]').forEach(e=>e.classList.remove('selected'));
+  matchSelA = item;
+  document.getElementById('ma'+idx).classList.add('selected');
+}
+
+function selectMatchB(item){
+  if(!matchSelA) return;
+  if(Object.values(PQ_STATE.matchPairs||{}).includes(item)) return;
+  PQ_STATE.matchPairs = PQ_STATE.matchPairs||{};
+  PQ_STATE.matchPairs[matchSelA] = item;
+  // Visual update
+  const q = PQ_STATE.questions[PQ_STATE.current];
+  const correct = q.ans[matchSelA]===item;
+  // Update display
+  let pairsHTML = '';
+  Object.entries(PQ_STATE.matchPairs).forEach(([a,b])=>{
+    const ok = q.ans[a]===b;
+    pairsHTML+=`<div class="match-pair-line ${ok?'cp':'wp'}">${ok?'✅':'❌'} ${a} → ${b}</div>`;
+  });
+  document.getElementById('match-pairs-display').innerHTML = pairsHTML;
+  matchSelA = null;
+  document.querySelectorAll('[id^="ma"]').forEach(e=>e.classList.remove('selected'));
+  if(Object.keys(PQ_STATE.matchPairs).length >= q.colA.length){
+    document.getElementById('match-submit-btn').style.display='block';
+  }
+}
+
+function submitMatch(){
+  stopPQTimer();
+  const q = PQ_STATE.questions[PQ_STATE.current];
+  let correct=0;
+  q.colA.forEach(a=>{ if(PQ_STATE.matchPairs[a]===q.ans[a]) correct++; });
+  const total=q.colA.length;
+  const pts = Math.round((correct/total)*50);
+  if(correct===total){ PQ_STATE.correct++; PQ_STATE.score+=pts; }
+  else if(correct>0){ PQ_STATE.score+=pts; }
+  else PQ_STATE.wrong++;
+  document.getElementById('pq-score-live').textContent=PQ_STATE.score;
+  const card=document.getElementById('pq-cur-card');
+  card.classList.add(correct===total?'pc':'pw');
+  showPQExp(q.exp);
+  document.getElementById('match-submit-btn').style.display='none';
+  document.querySelectorAll('[id^="ma"],[id^="mb"]').forEach(e=>e.onclick=null);
+  nextPQAfterDelay();
+}
+
+// ── MCQ ──
+function answerMCQ(idx){
+  stopPQTimer();
+  const q=PQ_STATE.questions[PQ_STATE.current];
+  document.querySelectorAll('.pq-opt').forEach(b=>b.disabled=true);
+  document.getElementById('pqo'+q.ans).classList.add('ca');
+  if(idx===q.ans){ document.getElementById('pqo'+idx).classList.add('ca'); PQ_STATE.correct++; PQ_STATE.score+=50; }
+  else{ document.getElementById('pqo'+idx).classList.add('wa'); PQ_STATE.wrong++; }
+  document.getElementById('pq-score-live').textContent=PQ_STATE.score;
+  document.getElementById('pq-cur-card').classList.add(idx===q.ans?'pc':'pw');
+  showPQExp(q.exp);
+  nextPQAfterDelay();
+}
+
+// ── Fill ──
+function submitFill(){
+  if(PQ_STATE.fillAnswered) return;
+  stopPQTimer();
+  PQ_STATE.fillAnswered=true;
+  const q=PQ_STATE.questions[PQ_STATE.current];
+  const inp=document.getElementById('pq-fill-inp');
+  if(!inp) return;
+  const val=inp.value.trim().toLowerCase();
+  const ans=q.blank.toLowerCase();
+  const correct=val===ans||val.split(' ').join('')===ans.split(' ').join('');
+  inp.disabled=true;
+  inp.classList.add(correct?'ca':'wa');
+  if(correct){ PQ_STATE.correct++; PQ_STATE.score+=50; }
+  else{ PQ_STATE.wrong++; document.getElementById('pq-fill-hint').textContent='Correct answer: '+q.blank; document.getElementById('pq-fill-hint').classList.add('show'); }
+  document.getElementById('pq-score-live').textContent=PQ_STATE.score;
+  document.getElementById('pq-cur-card').classList.add(correct?'pc':'pw');
+  showPQExp(q.exp);
+  nextPQAfterDelay();
+}
+
+// ── Timer ──
+function startPQTimer(secs){
+  stopPQTimer();
+  PQ_STATE.timeLeft=secs;
+  updateTimerUI(secs);
+  PQ_STATE.timer=setInterval(()=>{
+    PQ_STATE.timeLeft--;
+    updateTimerUI(PQ_STATE.timeLeft);
+    if(PQ_STATE.timeLeft<=0){
+      stopPQTimer();
+      handleTimedOut();
+    }
+  },1000);
+}
+
+function stopPQTimer(){
+  if(PQ_STATE.timer){ clearInterval(PQ_STATE.timer); PQ_STATE.timer=null; }
+}
+
+function updateTimerUI(t){
+  const el=document.getElementById('pq-timer');
+  if(!el) return;
+  el.textContent=`⏱ ${t}`;
+  el.className='pq-timer';
+  if(t<=10) el.classList.add('danger');
+  else if(t<=20) el.classList.add('warn');
+}
+
+function handleTimedOut(){
+  const q=PQ_STATE.questions[PQ_STATE.current];
+  PQ_STATE.timedOut++;
+  document.getElementById('pq-cur-card').classList.add('timed-out');
+  // Disable all inputs
+  document.querySelectorAll('.pq-opt').forEach(b=>b.disabled=true);
+  const inp=document.getElementById('pq-fill-inp');
+  if(inp){inp.disabled=true;inp.classList.add('wa');}
+  document.getElementById('match-submit-btn') && (document.getElementById('match-submit-btn').style.display='none');
+  // Show correct answer for MCQ/diagram
+  if((q.type==='mcq'||q.type==='diagram') && document.getElementById('pqo'+q.ans)){
+    document.getElementById('pqo'+q.ans).classList.add('ca');
+  }
+  showPQExp('⏰ Time up! '+q.exp);
+  nextPQAfterDelay(2000);
+}
+
+function showPQExp(txt){
+  const el=document.getElementById('pq-exp');
+  if(el){el.textContent=txt;el.classList.add('show');}
+}
+
+function nextPQAfterDelay(ms=1600){
+  setTimeout(()=>{
+    PQ_STATE.current++;
+    PQ_STATE.fillAnswered=false;
+    PQ_STATE.matchPairs={};
+    matchSelA=null;
+    if(PQ_STATE.current>=PQ_STATE.questions.length){
+      showPQResult();
+    } else {
+      renderPQQuestion();
+    }
+    // Update bar
+    const total=PQ_STATE.questions.length;
+    const pct=Math.round(PQ_STATE.current/total*100);
+    const bf=document.getElementById('pq-bar-fill');
+    const bt=document.getElementById('pq-bar-txt');
+    if(bf) bf.style.width=pct+'%';
+    if(bt) bt.textContent=pct+'%';
+  },ms);
+}
+
+// ── Result ──
+function showPQResult(){
+  stopPQTimer();
+  document.getElementById('pq-quiz-area').style.display='none';
+  const total=PQ_STATE.questions.length;
+  const sc=PQ_STATE.score;
+  const pct=Math.round(PQ_STATE.correct/total*100);
+  const icons=['😔','🤔','😊','🌟','🏆'];
+  const msgs=[
+    "Keep practising — you will get there! 💪",
+    "Good effort! Revise Chapter 1 and try again!",
+    "Well done! A few more revisions and you will ace it!",
+    "Excellent! You really know Chapter 1! 🔬",
+    "PERFECT! You are a true Science Scholar! 🏅"
+  ];
+  const star = Math.min(4,Math.floor(pct/25));
+  const lvlNames={beginner:'Coral Reef 🪸',mid:'Sunlit Zone 🐬',advanced:'Midnight Abyss 🦑'};
+
+  document.getElementById('pq-result-screen').style.display='block';
+  document.getElementById('pq-result-screen').innerHTML=`
+    <div class="pq-result">
+      <div class="res-icon">${icons[star]}</div>
+      <h3>${lvlNames[PQ_STATE.level]} — Done!</h3>
+      <div class="res-score">${sc} pts</div>
+      <div class="res-stats">
+        <div class="res-stat"><span class="rnum">${PQ_STATE.correct}</span>Correct</div>
+        <div class="res-stat"><span class="rnum">${PQ_STATE.wrong}</span>Wrong</div>
+        <div class="res-stat"><span class="rnum">${PQ_STATE.timedOut}</span>Timed Out</div>
+        <div class="res-stat"><span class="rnum">${pct}%</span>Accuracy</div>
+      </div>
+      <p>${msgs[star]}</p>
+      <button class="retry-btn" onclick="startPQ('${PQ_STATE.level}')">🔄 Try Again</button>
+      <button class="retry-btn sec" onclick="resetPQToLevels()">← Choose Level</button>
+    </div>`;
+
+  updateProg();
+}
+
+function resetPQToLevels(){
+  document.getElementById('pq-level-screen').style.display='block';
+  document.getElementById('pq-quiz-area').style.display='none';
+  document.getElementById('pq-result-screen').style.display='none';
+  stopPQTimer();
+}
+
+function updateProg(){
+  const p=Math.min(100,Math.round((PQ_STATE.score||0)/5));
+  const _hf=document.getElementById('hero-fill');
+  const _hp=document.getElementById('hero-pct');
+  if(_hf)_hf.style.width=p+'%';
+  if(_hp)_hp.textContent=p+'%';
+}
+
 
 // ══ OCEAN FLASHCARDS ══
 const FC=[
@@ -2452,14 +3126,4 @@ renderFC();
 
     <!-- Classroom intro: Topic 4 -->
     
-<!-- FLOATING SIDE CHARACTER -->
-<div id="float-char">
-  <div style="position:relative;">
-    <button class="float-dismiss" onclick="dismissFloat()">&#215;</button>
-    <div class="float-bubble" id="float-bubble" onclick="nextFloatTip()">
-      <span id="float-tip-text">💡 Tap highlighted keywords to see their meaning!</span>
-      <div style="font-size:9px;color:#94a3b8;margin-top:4px;font-weight:600;">tap for next tip &#8594;</div>
-    </div>
-  </div>
-  <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0c3a6b,#0284c7);border:2px solid #22d3ee;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 10px rgba(34,211,238,0.3);">🌊</div>
-</div>
+<!-- float-char removed -->
