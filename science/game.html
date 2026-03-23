@@ -3,298 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Ocean Scholar — Baby Shark Game | OmniGrid 6</title>
+<title>Ocean Scholar — Baby Shark | OmniGrid 6</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:#071a3c;font-family:'Nunito',sans-serif}
-canvas{display:block;width:100%;height:100vh;touch-action:none}
+html,body{width:100%;height:100%;overflow:hidden;background:#071a3c;font-family:'Nunito',sans-serif;touch-action:none}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:1;}
 
-/* ── TOP NAV ── */
-.topnav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;gap:10px;padding:8px 16px;
-  background:rgba(7,26,60,0.92);backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(56,189,248,0.2);
-}
+/* NAV */
+.topnav{position:fixed;top:0;left:0;right:0;z-index:5100;display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(7,26,60,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(56,189,248,0.2);}
 .nav-logo{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#38bdf8;text-decoration:none;}
 .nav-logo span{color:#7dd3fc;}
 .nav-sep{color:rgba(255,255,255,0.3);}
 .nav-curr{font-family:'Fredoka One',cursive;font-size:1rem;color:white;}
-.nav-back{
-  margin-left:auto;background:rgba(56,189,248,0.15);
-  border:1px solid rgba(56,189,248,0.3);color:#7dd3fc;
-  padding:5px 12px;border-radius:16px;text-decoration:none;
-  font-size:12px;font-weight:800;
-}
+.nav-back{margin-left:auto;background:rgba(56,189,248,0.15);border:1px solid rgba(56,189,248,0.3);color:#7dd3fc;padding:5px 12px;border-radius:16px;text-decoration:none;font-size:12px;font-weight:800;}
 
-/* ── HUD ── */
-#hud{
-  position:fixed;top:52px;left:0;right:0;z-index:50;
-  display:flex;justify-content:center;gap:8px;padding:6px 16px;
-  pointer-events:none;
-}
-.hud-pill{
-  background:rgba(0,0,0,0.55);border:1px solid rgba(56,189,248,0.25);
-  border-radius:20px;padding:4px 12px;color:#e0f2fe;
-  font-size:12px;font-weight:800;display:flex;align-items:center;gap:5px;
-}
+/* HUD */
+#hud{position:fixed;top:52px;left:0;right:0;z-index:5000;display:flex;justify-content:center;gap:6px;padding:6px 8px;pointer-events:none;flex-wrap:wrap;}
+.hud-pill{background:rgba(0,0,0,0.6);border:1px solid rgba(56,189,248,0.25);border-radius:20px;padding:4px 10px;color:#e0f2fe;font-size:11px;font-weight:800;display:flex;align-items:center;gap:4px;}
 .hud-pill span{color:#fbbf24;}
 .hud-pill.lives span{color:#f87171;}
 .hud-pill.facts span{color:#4ade80;}
+.hud-pill.zone span{color:#c084fc;}
+#jetpackHud{background:rgba(251,146,60,0.25);border-color:rgba(251,146,60,0.5);display:none;}
+#jetpackHud span{color:#fb923c;}
+#jetpackBar{width:60px;height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;margin-left:2px;}
+#jetpackFill{height:100%;background:linear-gradient(90deg,#fb923c,#fbbf24);border-radius:3px;transition:width 0.1s;}
 
-/* ── QUESTION BOX ── */
-#qBox{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-  background:rgba(4,12,30,0.97);border:2px solid #38bdf8;
-  border-radius:20px;padding:16px 20px;width:min(480px,92vw);
-  z-index:200;display:none;
-  box-shadow:0 8px 40px rgba(14,165,233,0.3);
-}
-#qBox h3{
-  font-family:'Fredoka One',cursive;color:#38bdf8;
-  font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:6px;
-}
-#qBox p{color:#e0f2fe;font-size:13px;line-height:1.5;margin-bottom:12px;}
+/* QUESTION BOX */
+#qBox{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:rgba(4,12,30,0.97);border:2px solid #38bdf8;border-radius:20px;padding:16px 20px;width:min(500px,93vw);z-index:7000;display:none;box-shadow:0 8px 40px rgba(14,165,233,0.3);}
+#qBox h3{font-family:'Fredoka One',cursive;color:#38bdf8;font-size:15px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
+.q-zone-badge{font-size:10px;background:rgba(192,132,252,0.2);border:1px solid rgba(192,132,252,0.4);color:#c084fc;border-radius:8px;padding:2px 8px;}
+#qText{color:#e0f2fe;font-size:13px;line-height:1.5;margin-bottom:12px;}
 #qOpts{display:flex;flex-direction:column;gap:7px;}
-#qOpts button{
-  background:rgba(14,95,160,0.3);border:1.5px solid rgba(56,189,248,0.3);
-  border-radius:12px;color:#e0f2fe;font-family:'Nunito',sans-serif;
-  font-size:12px;font-weight:700;padding:9px 14px;cursor:pointer;
-  text-align:left;transition:all 0.2s;
-}
+#qOpts button{background:rgba(14,95,160,0.3);border:1.5px solid rgba(56,189,248,0.3);border-radius:12px;color:#e0f2fe;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;padding:9px 14px;cursor:pointer;text-align:left;transition:all 0.2s;}
 #qOpts button:hover{background:rgba(56,189,248,0.2);}
 #qOpts button.correct{background:rgba(34,197,94,0.25);border-color:#22c55e;color:#86efac;}
 #qOpts button.wrong{background:rgba(239,68,68,0.2);border-color:#ef4444;color:#fca5a5;}
 
-/* ── FACT POPUP ── */
-#factPop{
-  position:fixed;top:100px;left:50%;transform:translateX(-50%) scale(0.9);
-  background:rgba(4,12,30,0.97);border:2px solid #fbbf24;
-  border-radius:16px;padding:12px 18px;width:min(380px,88vw);
-  text-align:center;z-index:200;display:none;
-  animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
-  box-shadow:0 6px 30px rgba(251,191,36,0.25);
-}
+/* FACT POPUP */
+#factPop{position:fixed;top:100px;left:50%;transform:translateX(-50%) scale(0.9);background:rgba(4,12,30,0.97);border:2px solid #fbbf24;border-radius:16px;padding:12px 18px;width:min(380px,88vw);text-align:center;z-index:7000;display:none;animation:popIn .3s cubic-bezier(.34,1.56,.64,1) forwards;box-shadow:0 6px 30px rgba(251,191,36,0.25);}
 #factPop .fe{font-size:26px;margin-bottom:6px;}
 #factPop p{color:#fef3c7;font-size:12px;line-height:1.6;font-weight:700;}
 @keyframes popIn{from{transform:translateX(-50%) scale(0.8);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
 
-/* ── START SCREEN ── */
-#startScreen{
-  position:fixed;inset:0;z-index:300;
-  background:linear-gradient(160deg,#071a3c,#0c3a6b);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:14px;padding:20px;
-}
-#startScreen .shark-big{font-size:64px;animation:bob 2s ease-in-out infinite;}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-#startScreen h1{
-  font-family:'Fredoka One',cursive;font-size:clamp(22px,5vw,32px);
-  color:white;text-align:center;line-height:1.2;
-}
-#startScreen h1 span{color:#38bdf8;}
-#startScreen .tagline{color:#bae6fd;font-size:14px;text-align:center;max-width:320px;line-height:1.6;}
-.how-to{
-  background:rgba(255,255,255,0.06);border:1px solid rgba(56,189,248,0.2);
-  border-radius:14px;padding:12px 20px;text-align:center;
-  color:#7dd3fc;font-size:12px;line-height:1.9;font-weight:700;
-}
-.start-btn{
-  background:linear-gradient(135deg,#0ea5e9,#0284c7);
-  border:none;border-radius:16px;color:white;
-  font-family:'Fredoka One',cursive;font-size:18px;
-  padding:14px 48px;cursor:pointer;
-  box-shadow:0 6px 24px rgba(14,165,233,0.4);
-  transition:transform 0.2s;
-}
-.start-btn:hover{transform:scale(1.05);}
+/* JETPACK PICKUP POPUP */
+#jetpackPop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,rgba(251,146,60,0.95),rgba(234,88,12,0.95));border:2px solid #fbbf24;border-radius:20px;padding:20px 30px;text-align:center;z-index:7500;display:none;animation:popIn .3s cubic-bezier(.34,1.56,.64,1) forwards;}
+#jetpackPop .jp-icon{font-size:48px;margin-bottom:8px;}
+#jetpackPop h3{font-family:'Fredoka One',cursive;color:white;font-size:20px;margin-bottom:4px;}
+#jetpackPop p{color:rgba(255,255,255,0.85);font-size:13px;}
 
-/* ── GAME OVER ── */
-#gameOver{
-  position:fixed;inset:0;z-index:300;
-  background:rgba(4,8,20,0.97);
-  display:none;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;padding:20px;
-}
+/* LEVEL TRANSITION */
+#levelScreen{position:fixed;inset:0;z-index:8500;background:rgba(4,8,20,0.97);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;}
+#levelScreen .ls-icon{font-size:60px;animation:splashBob 1.5s ease-in-out infinite;}
+#levelScreen h2{font-family:'Fredoka One',cursive;font-size:clamp(22px,5vw,30px);text-align:center;}
+#levelScreen p{color:#bae6fd;font-size:14px;text-align:center;max-width:320px;line-height:1.6;}
+.ls-features{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.ls-feat{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:6px 14px;font-size:12px;font-weight:800;color:#7dd3fc;}
+.ls-btn{background:linear-gradient(135deg,#0ea5e9,#0369a1);border:none;border-radius:14px;color:white;font-family:'Fredoka One',cursive;font-size:18px;padding:12px 40px;cursor:pointer;box-shadow:0 4px 20px rgba(14,165,233,0.4);}
+
+/* GAME OVER */
+#gameOver{position:fixed;inset:0;z-index:8500;background:rgba(4,8,20,0.97);display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;}
 #gameOver h2{font-family:'Fredoka One',cursive;font-size:28px;color:#f87171;}
-#gameOver .final-score{font-family:'Fredoka One',cursive;font-size:48px;color:#fbbf24;}
-#gameOver .stats-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
-#gameOver .stat-card{
-  background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);
-  border-radius:12px;padding:10px 18px;text-align:center;
-}
-#gameOver .stat-card .num{font-family:'Fredoka One',cursive;font-size:24px;color:#38bdf8;}
-#gameOver .stat-card .lbl{font-size:11px;color:rgba(255,255,255,0.5);font-weight:700;}
-#gameOver p{color:#bae6fd;font-size:13px;text-align:center;max-width:300px;line-height:1.6;}
-.replay-btn{
-  background:linear-gradient(135deg,#0ea5e9,#0284c7);
-  border:none;border-radius:14px;color:white;
-  font-family:'Fredoka One',cursive;font-size:16px;
-  padding:12px 36px;cursor:pointer;margin-top:6px;
-}
+.final-score{font-family:'Fredoka One',cursive;font-size:48px;color:#fbbf24;}
+.stats-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.stat-card{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);border-radius:12px;padding:10px 16px;text-align:center;}
+.stat-card .num{font-family:'Fredoka One',cursive;font-size:22px;color:#38bdf8;}
+.stat-card .lbl{font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;}
+.replay-btn{background:linear-gradient(135deg,#0ea5e9,#0369a1);border:none;border-radius:14px;color:white;font-family:'Fredoka One',cursive;font-size:16px;padding:12px 36px;cursor:pointer;margin-top:6px;}
 
-/* ── MOBILE CONTROLS ── */
-#mControls{
-  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
-  display:flex;gap:12px;z-index:50;
-}
-#mControls button{
-  background:rgba(0,0,0,0.5);border:2px solid rgba(255,255,255,0.2);
-  border-radius:50%;color:white;font-size:20px;
-  width:56px;height:56px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background 0.15s;
-}
-#mControls button:active{background:rgba(56,189,248,0.3);}
-
-/* ── LEVEL UP BANNER ── */
-#lvlBanner{
-  position:fixed;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  background:rgba(14,165,233,0.95);
-  border-radius:20px;padding:16px 36px;
-  font-family:'Fredoka One',cursive;font-size:26px;color:white;
-  z-index:150;display:none;text-align:center;
-  box-shadow:0 8px 40px rgba(14,165,233,0.5);
-}
-
-/* ══ SPLASH SCREEN ══ */
-#splash{
-  position:fixed;inset:0;z-index:500;
-  background:linear-gradient(160deg,#04102a 0%,#071d4a 40%,#0a2d6e 70%,#071d4a 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-#splash canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9000;background:linear-gradient(160deg,#04102a,#071d4a 40%,#0a2d6e 70%,#071d4a);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+#splashCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;}
 .splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0;text-align:center;padding:20px;}
-.splash-logo{
-  font-family:'Fredoka One',cursive;
-  font-size:clamp(13px,3vw,18px);
-  color:#38bdf8;letter-spacing:3px;
-  text-transform:uppercase;margin-bottom:8px;opacity:0.8;
-}
-.splash-shark{font-size:clamp(72px,15vw,100px);animation:splashBob 2s ease-in-out infinite;line-height:1;margin-bottom:6px;}
+.splash-logo{font-family:'Fredoka One',cursive;font-size:13px;color:#38bdf8;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;opacity:0.8;}
+.splash-shark{font-size:clamp(70px,14vw,96px);animation:splashBob 2s ease-in-out infinite;line-height:1;margin-bottom:6px;}
 @keyframes splashBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
-.splash-title{
-  font-family:'Fredoka One',cursive;
-  font-size:clamp(28px,7vw,52px);
-  line-height:1.1;margin-bottom:4px;
-}
-.splash-title .t1{color:white;}
-.splash-title .t2{color:#38bdf8;}
-.splash-sub{color:rgba(186,230,253,0.7);font-size:clamp(11px,2.5vw,14px);margin-bottom:28px;max-width:300px;line-height:1.5;}
+.splash-title{font-family:'Fredoka One',cursive;font-size:clamp(26px,6vw,48px);line-height:1.1;margin-bottom:4px;}
+.splash-title .t1{color:white;}.splash-title .t2{color:#38bdf8;}
+.splash-sub{color:rgba(186,230,253,0.7);font-size:clamp(11px,2.5vw,14px);margin-bottom:24px;max-width:300px;line-height:1.5;}
+.splash-zones{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;justify-content:center;}
+.zone-chip{border-radius:12px;padding:8px 14px;font-size:12px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.zone-chip .zc-icon{font-size:22px;}
+.zone-chip.z1{background:rgba(56,189,248,0.12);border:1.5px solid rgba(56,189,248,0.3);color:#7dd3fc;}
+.zone-chip.z2{background:rgba(192,132,252,0.12);border:1.5px solid rgba(192,132,252,0.3);color:#c084fc;}
 .splash-btns{display:flex;flex-direction:column;gap:10px;align-items:center;width:min(300px,80vw);}
-.btn-play{
-  width:100%;background:linear-gradient(135deg,#0ea5e9,#0369a1);
-  border:none;border-radius:18px;color:white;
-  font-family:'Fredoka One',cursive;font-size:clamp(16px,4vw,20px);
-  padding:14px 0;cursor:pointer;
-  box-shadow:0 6px 24px rgba(14,165,233,0.45);
-  transition:transform 0.15s,box-shadow 0.15s;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-play:hover{transform:scale(1.04);box-shadow:0 8px 30px rgba(14,165,233,0.55);}
-.btn-play:active{transform:scale(0.97);}
-.btn-how{
-  width:100%;background:rgba(56,189,248,0.1);
-  border:1.5px solid rgba(56,189,248,0.35);border-radius:14px;color:#7dd3fc;
-  font-family:'Fredoka One',cursive;font-size:clamp(14px,3.5vw,17px);
-  padding:11px 0;cursor:pointer;transition:background 0.2s;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-}
-.btn-how:hover{background:rgba(56,189,248,0.2);}
-.splash-credit{margin-top:14px;color:rgba(125,211,252,0.4);font-size:11px;font-weight:700;}
+.btn-play{width:100%;background:linear-gradient(135deg,#0ea5e9,#0369a1);border:none;border-radius:18px;color:white;font-family:'Fredoka One',cursive;font-size:clamp(16px,4vw,20px);padding:14px 0;cursor:pointer;box-shadow:0 6px 24px rgba(14,165,233,0.45);display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-how{width:100%;background:rgba(56,189,248,0.1);border:1.5px solid rgba(56,189,248,0.35);border-radius:14px;color:#7dd3fc;font-family:'Fredoka One',cursive;font-size:clamp(14px,3.5vw,17px);padding:11px 0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
 .splash-waves{position:absolute;bottom:0;left:0;right:0;height:80px;overflow:hidden;}
-.splash-waves::before,.splash-waves::after{
-  content:'';position:absolute;bottom:0;left:-50%;
-  width:200%;height:80px;
-  background:rgba(14,165,233,0.07);
-  border-radius:45% 55% 0 0;
-  animation:waveMove 7s linear infinite;
-}
-.splash-waves::after{
-  height:60px;background:rgba(14,165,233,0.05);
-  animation:waveMove 5s linear infinite reverse;animation-delay:-2s;
-}
+.splash-waves::before,.splash-waves::after{content:'';position:absolute;bottom:0;left:-50%;width:200%;height:80px;background:rgba(14,165,233,0.07);border-radius:45% 55% 0 0;animation:waveMove 7s linear infinite;}
+.splash-waves::after{height:60px;background:rgba(14,165,233,0.05);animation:waveMove 5s linear infinite reverse;animation-delay:-2s;}
 @keyframes waveMove{0%{transform:translateX(0)}100%{transform:translateX(50%)}}
 
-/* ══ INSTRUCTIONS SCREEN ══ */
-#instructions{
-  position:fixed;inset:0;z-index:400;
-  background:linear-gradient(160deg,#04102a,#071d4a);
-  display:none;flex-direction:column;align-items:center;
-  padding:0;overflow-y:auto;
-}
-.inst-nav{
-  width:100%;padding:12px 20px;
-  display:flex;align-items:center;gap:12px;
-  background:rgba(255,255,255,0.04);
-  border-bottom:1px solid rgba(56,189,248,0.15);
-  flex-shrink:0;
-}
+/* INSTRUCTIONS */
+#instructions{position:fixed;inset:0;z-index:8900;background:linear-gradient(160deg,#04102a 0%,#071d4a 100%);display:none;flex-direction:column;align-items:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.inst-nav{width:100%;padding:12px 20px;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(56,189,248,0.15);flex-shrink:0;}
 .inst-nav h2{font-family:'Fredoka One',cursive;color:#38bdf8;font-size:1.2rem;flex:1;text-align:center;}
-.inst-back{background:none;border:1.5px solid rgba(56,189,248,0.3);border-radius:10px;color:#7dd3fc;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
-.inst-body{padding:20px;width:min(560px,100%);margin:0 auto;}
-.inst-section{margin-bottom:22px;}
-.inst-section h3{
-  font-family:'Fredoka One',cursive;font-size:1.05rem;color:#38bdf8;
-  margin-bottom:10px;display:flex;align-items:center;gap:8px;
-}
+.inst-back{background:rgba(56,189,248,0.1);border:1.5px solid rgba(56,189,248,0.35);border-radius:10px;color:#7dd3fc;padding:7px 16px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;}
+.inst-body{padding:20px;width:min(560px,100%);margin:0 auto;color:#e0f2fe;}
+.inst-section{margin-bottom:20px;}
+.inst-section h3{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#38bdf8 !important;margin-bottom:12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(56,189,248,0.12);padding-bottom:8px;}
 .inst-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.inst-card{
-  background:rgba(255,255,255,0.05);border:1px solid rgba(56,189,248,0.15);
-  border-radius:14px;padding:12px 14px;
-  display:flex;align-items:flex-start;gap:10px;
-}
-.inst-card .ic-icon{font-size:22px;flex-shrink:0;margin-top:1px;}
-.inst-card .ic-title{font-size:12px;font-weight:900;color:#e0f2fe;margin-bottom:3px;}
-.inst-card .ic-desc{font-size:11px;color:rgba(125,211,252,0.7);line-height:1.5;}
-.ctrl-row{display:flex;gap:8px;flex-wrap:wrap;}
-.ctrl-chip{
-  background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);
-  border-radius:8px;padding:5px 12px;color:#7dd3fc;
-  font-size:11px;font-weight:800;display:flex;align-items:center;gap:5px;
-}
-.ctrl-chip .key{
-  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
-  border-radius:5px;padding:2px 7px;font-size:10px;font-weight:900;color:white;
-  font-family:monospace;
-}
+.inst-card{background:rgba(255,255,255,0.05);border:1px solid rgba(56,189,248,0.15);border-radius:14px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;}
+.inst-card .ic-icon{font-size:22px;flex-shrink:0;}
+.inst-card .ic-title{font-size:13px;font-weight:900;color:#e0f2fe;margin-bottom:4px;}
+.inst-card .ic-desc{font-size:12px;color:rgba(186,230,253,0.85);line-height:1.55;}
+.ctrl-chip{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.25);border-radius:8px;padding:5px 12px;color:#7dd3fc;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:5px;margin:3px;}
+.ctrl-chip .key{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:5px;padding:2px 7px;font-size:10px;font-weight:900;color:white;font-family:monospace;}
 .scoring-table{width:100%;border-collapse:collapse;}
-.scoring-table td{padding:8px 10px;border-bottom:1px solid rgba(56,189,248,0.08);font-size:12px;color:#bae6fd;}
+.scoring-table td{padding:8px 10px;border-bottom:1px solid rgba(56,189,248,0.1);font-size:13px;color:#bae6fd;}
 .scoring-table td:first-child{font-size:16px;width:36px;}
 .scoring-table td:last-child{font-weight:800;color:#fbbf24;text-align:right;}
-.level-strip{
-  display:flex;gap:6px;flex-wrap:wrap;
-}
-.lv-badge{
-  background:rgba(14,165,233,0.12);border:1px solid rgba(14,165,233,0.25);
-  border-radius:10px;padding:6px 12px;font-size:11px;font-weight:800;
-  color:#7dd3fc;display:flex;flex-direction:column;align-items:center;gap:2px;
-}
-.lv-badge .lv-num{font-family:'Fredoka One',cursive;font-size:18px;color:#38bdf8;}
-.inst-start{
-  width:100%;background:linear-gradient(135deg,#0ea5e9,#0369a1);
-  border:none;border-radius:16px;color:white;
-  font-family:'Fredoka One',cursive;font-size:18px;
-  padding:14px;cursor:pointer;margin-top:8px;margin-bottom:20px;
-  box-shadow:0 4px 20px rgba(14,165,233,0.4);
-}
-.sound-toggle{
-  position:fixed;top:8px;right:70px;z-index:600;
-  background:rgba(0,0,0,0.4);border:1px solid rgba(56,189,248,0.25);
-  border-radius:50%;width:36px;height:36px;cursor:pointer;
-  display:none;align-items:center;justify-content:center;
-  font-size:16px;color:white;transition:background 0.2s;
-}
-.sound-toggle:hover{background:rgba(56,189,248,0.2);}
+.zone-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.zone-card{border-radius:14px;padding:14px;font-size:12px;line-height:1.6;color:#bae6fd;}
+.zone-card h4{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:6px;}
+.zone-card.z1{background:rgba(56,189,248,0.08);border:1.5px solid rgba(56,189,248,0.25);}
+.zone-card.z1 h4{color:#38bdf8;}
+.zone-card.z2{background:rgba(192,132,252,0.08);border:1.5px solid rgba(192,132,252,0.25);}
+.zone-card.z2 h4{color:#c084fc;}
+.zone-card p{color:rgba(186,230,253,0.75);}
+.inst-start{width:100%;background:linear-gradient(135deg,#0ea5e9,#0369a1);border:none;border-radius:16px;color:white;font-family:'Fredoka One',cursive;font-size:18px;padding:14px;cursor:pointer;margin-top:8px;margin-bottom:20px;}
 
+/* SOUND TOGGLE */
+.sound-toggle{position:fixed;top:8px;right:70px;z-index:600;background:rgba(0,0,0,0.4);border:1px solid rgba(56,189,248,0.25);border-radius:50%;width:36px;height:36px;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:16px;color:white;}
+
+/* LEVEL UP BANNER */
+#lvlBanner{z-index:6000;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(14,165,233,0.95);border-radius:20px;padding:16px 36px;font-family:'Fredoka One',cursive;font-size:24px;color:white;z-index:150;display:none;text-align:center;box-shadow:0 8px 40px rgba(14,165,233,0.5);}
+
+/* MOBILE CONTROLS */
+#mControls{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:50;}
+#mControls button{background:rgba(0,0,0,0.5);border:2px solid rgba(255,255,255,0.2);border-radius:50%;color:white;font-size:20px;width:54px;height:54px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+#mControls button:active{background:rgba(56,189,248,0.3);}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="topnav">
   <a class="nav-logo" href="../index.html">OMNI<span>GRID</span></a>
   <span class="nav-sep">›</span>
@@ -302,64 +145,79 @@ canvas{display:block;width:100%;height:100vh;touch-action:none}
   <a class="nav-back" href="ch1.html">← Ch.1</a>
 </nav>
 
-<!-- HUD -->
 <div id="hud">
   <div class="hud-pill">🏆 <span id="scoreD">0</span></div>
+  <div class="hud-pill zone">Zone <span id="zoneD">1</span></div>
   <div class="hud-pill">🌊 Lvl <span id="levelD">1</span></div>
-  <div class="hud-pill facts">⭐ Facts <span id="factsD">0</span></div>
+  <div class="hud-pill facts">⭐ <span id="factsD">0</span></div>
   <div class="hud-pill lives">❤️ <span id="livesD">3</span></div>
+  <div class="hud-pill" id="jetpackHud">🚀 <span id="jetpackTime">5</span>s <div id="jetpackBar"><div id="jetpackFill" style="width:100%"></div></div></div>
 </div>
 
-<!-- CANVAS -->
-<canvas id="gc"></canvas>
+<canvas id="gc" style="z-index:1;"></canvas>
 
-<!-- QUESTION BOX -->
 <div id="qBox">
-  <h3>🔬 Science Question!</h3>
+  <h3>🔬 Science Question! <span class="q-zone-badge" id="qZoneBadge">Zone 1</span></h3>
   <p id="qText"></p>
   <div id="qOpts"></div>
 </div>
 
-<!-- FACT POPUP -->
 <div id="factPop">
   <div class="fe" id="factEmoji">⭐</div>
   <p id="factText"></p>
 </div>
 
-<!-- LEVEL UP BANNER -->
-<div id="lvlBanner" id="lvlBanner"></div>
-
-<!-- MOBILE CONTROLS -->
-<div id="mControls">
-  <button ontouchstart="startLeft()" ontouchend="stopH()" onmousedown="startLeft()" onmouseup="stopH()">◀</button>
-  <button ontouchstart="doJump()" onmousedown="doJump()">▲</button>
-  <button ontouchstart="startRight()" ontouchend="stopH()" onmousedown="startRight()" onmouseup="stopH()">▶</button>
+<div id="jetpackPop">
+  <div class="jp-icon">🚀</div>
+  <h3>JETPACK BOOSTER!</h3>
+  <p>You got a jetpack! Hold UP/Jump to fly high!<br>Lasts 6 seconds — use it wisely! ⚡</p>
 </div>
 
-<!-- SOUND TOGGLE -->
-<button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+<div id="lvlBanner"></div>
 
-<!-- SPLASH SCREEN -->
+<div id="levelScreen">
+  <div class="ls-icon" id="lsIcon">🌊</div>
+  <h2 id="lsTitle" style="color:#38bdf8;"></h2>
+  <p id="lsDesc"></p>
+  <div class="ls-features" id="lsFeats"></div>
+  <button class="ls-btn" id="lsBtn" onclick="continueToZone()">Let's Go! 🦈</button>
+</div>
+
+<div id="gameOver">
+  <div style="font-size:52px">🦈</div>
+  <h2>Game Over!</h2>
+  <div class="final-score" id="finalScore">0</div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="num" id="goZone">1</div><div class="lbl">Zone Reached</div></div>
+    <div class="stat-card"><div class="num" id="goLevel">1</div><div class="lbl">Level Reached</div></div>
+    <div class="stat-card"><div class="num" id="goFacts">0</div><div class="lbl">Facts Collected</div></div>
+    <div class="stat-card"><div class="num" id="goCorrect">0</div><div class="lbl">Correct Answers</div></div>
+    <div class="stat-card"><div class="num" id="goJetpacks">0</div><div class="lbl">Jetpacks Used</div></div>
+  </div>
+  <p id="goMsg"></p>
+  <button class="replay-btn" onclick="startGame()">🔄 Play Again</button>
+  <a href="ch1.html" style="color:#7dd3fc;font-size:13px;font-weight:700;text-decoration:none;margin-top:4px;">← Back to Chapter 1</a>
+</div>
+
 <div id="splash">
   <canvas id="splashCanvas"></canvas>
   <div class="splash-content">
-    <div class="splash-logo">OmniGrid 6 · Science</div>
+    <div class="splash-logo">OmniGrid 6 · Science Ch.1</div>
     <div class="splash-shark">🦈</div>
-    <div class="splash-title">
-      <div class="t1">Ocean Scholar</div>
-      <div class="t2">Baby Shark</div>
+    <div class="splash-title"><div class="t1">Ocean Scholar</div><div class="t2">Baby Shark</div></div>
+    <p class="splash-sub">2 Zones · 25 Questions · Jetpack Boosters · Science Facts!</p>
+    <div class="splash-zones">
+      <div class="zone-chip z1"><div class="zc-icon">🐠</div><div>Zone 1</div><div style="font-size:10px;opacity:0.7;">Coral Reef</div></div>
+      <div class="zone-chip z2"><div class="zc-icon">🦑</div><div>Zone 2</div><div style="font-size:10px;opacity:0.7;">Deep Abyss</div></div>
     </div>
-    <p class="splash-sub">Swim, jump, collect Science facts and answer NCERT questions!</p>
     <div class="splash-btns">
-      <button class="btn-play" onclick="onPlay()">🌊 Play Now!</button>
+      <button class="btn-play" onclick="onPlay()">🌊 Dive In!</button>
       <button class="btn-how" onclick="showInstructions()">📖 How to Play</button>
     </div>
-    <div class="splash-credit">Class 6 · NCERT Science Ch.1</div>
   </div>
   <div class="splash-waves"></div>
 </div>
 
-<!-- INSTRUCTIONS SCREEN -->
 <div id="instructions">
   <div class="inst-nav">
     <button class="inst-back" onclick="hideInstructions()">← Back</button>
@@ -367,366 +225,319 @@ canvas{display:block;width:100%;height:100vh;touch-action:none}
     <div style="width:60px"></div>
   </div>
   <div class="inst-body">
-
     <div class="inst-section">
-      <h3>🎯 Goal</h3>
-      <div class="inst-card" style="grid-column:1/-1">
-        <div class="ic-icon">🦈</div>
-        <div><div class="ic-title">Be the Ocean Scholar!</div>
-        <div class="ic-desc">Swim as far as possible, collect Science facts, answer questions correctly, and reach Level 5 to become the Ocean Champion!</div></div>
+      <h3>🎮 2 Zones to Master</h3>
+      <div class="zone-cards">
+        <div class="zone-card z1">
+          <h4>🐠 Zone 1 — Coral Reef</h4>
+          <p>15 shuffled NCERT questions · Basic Science facts · Jellyfish + rocks · Jetpack boosters spawn every 300 pts</p>
+        </div>
+        <div class="zone-card z2">
+          <h4>🦑 Zone 2 — Deep Abyss</h4>
+          <p>10 harder questions · Rare deep-sea facts · More obstacles · Faster pace · Extra jetpack power!</p>
+        </div>
       </div>
     </div>
-
     <div class="inst-section">
       <h3>🕹️ Controls</h3>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div class="ctrl-row">
-          <div class="ctrl-chip"><span class="key">←</span><span class="key">→</span> Move left / right</div>
-          <div class="ctrl-chip"><span class="key">Space</span> Jump</div>
-          <div class="ctrl-chip"><span class="key">↑</span> Also jumps</div>
-        </div>
-        <div class="ctrl-row">
-          <div class="ctrl-chip">📱 Swipe left/right = Move</div>
-          <div class="ctrl-chip">📱 Swipe up / Tap = Jump</div>
-        </div>
-        <div class="ctrl-row">
-          <div class="ctrl-chip">🔘 On-screen buttons at the bottom</div>
-        </div>
-      </div>
+      <div><span class="ctrl-chip"><span class="key">←</span><span class="key">→</span> Move</span><span class="ctrl-chip"><span class="key">Space</span><span class="key">↑</span> Jump / Fly</span><span class="ctrl-chip">📱 Swipe = Move/Jump</span><span class="ctrl-chip">🔘 On-screen buttons</span></div>
     </div>
-
     <div class="inst-section">
-      <h3>🌊 What to Collect</h3>
+      <h3>🌊 Collectibles</h3>
       <div class="inst-grid">
-        <div class="inst-card">
-          <div class="ic-icon">⭐</div>
-          <div><div class="ic-title">Golden Star</div>
-          <div class="ic-desc">Collect to unlock a Science fun fact! +25 points</div></div>
-        </div>
-        <div class="inst-card">
-          <div class="ic-icon">🔵</div>
-          <div><div class="ic-title">Question Orb</div>
-          <div class="ic-desc">Answer an NCERT question correctly! +50 points</div></div>
-        </div>
+        <div class="inst-card"><div class="ic-icon">⭐</div><div><div class="ic-title">Golden Star</div><div class="ic-desc">Science fun fact +25 pts</div></div></div>
+        <div class="inst-card"><div class="ic-icon">🔵</div><div><div class="ic-title">Question Orb</div><div class="ic-desc">Answer correctly +50 pts</div></div></div>
+        <div class="inst-card" style="border-color:rgba(251,146,60,0.4);background:rgba(251,146,60,0.08);"><div class="ic-icon">🚀</div><div><div class="ic-title" style="color:#fb923c;">Jetpack Booster!</div><div class="ic-desc">Fly high for 6 seconds! Reach hidden platforms!</div></div></div>
+        <div class="inst-card"><div class="ic-icon">🪸</div><div><div class="ic-title">Coral Platforms</div><div class="ic-desc">Jump on them to avoid obstacles and reach stars!</div></div></div>
       </div>
     </div>
-
-    <div class="inst-section">
-      <h3>⚠️ Avoid These!</h3>
-      <div class="inst-grid">
-        <div class="inst-card">
-          <div class="ic-icon">🪼</div>
-          <div><div class="ic-title">Jellyfish</div>
-          <div class="ic-desc">Floating and bobbing. Touch = lose a life!</div></div>
-        </div>
-        <div class="inst-card">
-          <div class="ic-icon">🪨</div>
-          <div><div class="ic-title">Rocks</div>
-          <div class="ic-desc">Sitting on the seabed. Swim over them!</div></div>
-        </div>
-      </div>
-    </div>
-
     <div class="inst-section">
       <h3>🏆 Scoring</h3>
       <table class="scoring-table">
         <tr><td>⭐</td><td>Collect a Science fact</td><td>+25</td></tr>
         <tr><td>✅</td><td>Correct answer</td><td>+50</td></tr>
+        <tr><td>🚀</td><td>Jetpack collected</td><td>+30</td></tr>
         <tr><td>❌</td><td>Wrong answer</td><td>−1 Life</td></tr>
-        <tr><td>🪼</td><td>Hit a jellyfish/rock</td><td>−1 Life</td></tr>
-        <tr><td>⏱️</td><td>Survival score (per level)</td><td>+1/sec</td></tr>
+        <tr><td>🪼</td><td>Hit jellyfish/rock</td><td>−1 Life</td></tr>
+        <tr><td>⏱️</td><td>Survival (per level)</td><td>+1–3/sec</td></tr>
       </table>
     </div>
-
     <div class="inst-section">
-      <h3>🌊 Levels</h3>
-      <div class="level-strip">
-        <div class="lv-badge"><div class="lv-num">1</div><div>Shallow Reef</div></div>
-        <div class="lv-badge"><div class="lv-num">2</div><div>Sunlit Zone</div></div>
-        <div class="lv-badge"><div class="lv-num">3</div><div>Twilight Zone</div></div>
-        <div class="lv-badge"><div class="lv-num">4</div><div>Midnight Zone</div></div>
-        <div class="lv-badge" style="border-color:rgba(251,191,36,0.4);"><div class="lv-num" style="color:#fbbf24;">5</div><div>Abyss Master!</div></div>
-      </div>
-      <p style="color:rgba(125,211,252,0.6);font-size:11px;margin-top:8px;">Each level = faster obstacles + more questions!</p>
-    </div>
-
-    <div class="inst-section">
-      <h3>💡 Tips</h3>
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div class="inst-card"><div class="ic-icon">🪸</div><div><div class="ic-title">Use coral platforms!</div><div class="ic-desc">Jump on them to avoid jellyfish and reach collectibles above.</div></div></div>
-        <div class="inst-card"><div class="ic-icon">🔬</div><div><div class="ic-title">Revise Chapter 1 first!</div><div class="ic-desc">All questions are from NCERT Science Ch.1 — the better you know it, the higher you score!</div></div></div>
+      <h3>🚀 Jetpack Tips</h3>
+      <div class="inst-card" style="border-color:rgba(251,146,60,0.4);background:rgba(251,146,60,0.08);margin-bottom:8px;">
+        <div class="ic-icon">💡</div>
+        <div><div class="ic-title" style="color:#fb923c;">How to use the Jetpack</div>
+        <div class="ic-desc">When active, hold Space / Up Arrow / Tap — the shark shoots upward! Use it to jump over large groups of obstacles or reach high platforms with stars!</div></div>
       </div>
     </div>
-
     <button class="inst-start" onclick="onPlay()">🦈 Start Playing!</button>
   </div>
 </div>
 
-<!-- GAME OVER -->
-<div id="gameOver">
-  <div style="font-size:52px">🦈</div>
-  <h2>Game Over!</h2>
-  <div class="final-score" id="finalScore">0</div>
-  <div class="stats-row">
-    <div class="stat-card"><div class="num" id="goLevel">1</div><div class="lbl">Level Reached</div></div>
-    <div class="stat-card"><div class="num" id="goFacts">0</div><div class="lbl">Facts Collected</div></div>
-    <div class="stat-card"><div class="num" id="goCorrect">0</div><div class="lbl">Correct Answers</div></div>
-  </div>
-  <p id="goMsg">Keep practising — Science champions never give up! 💪</p>
-  <button class="replay-btn" onclick="startGame()">🔄 Play Again</button>
-  <a href="ch1.html" style="color:#7dd3fc;font-size:13px;font-weight:700;text-decoration:none;margin-top:4px;">← Back to Chapter 1</a>
+<button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+
+<div id="mControls">
+  <button ontouchstart="startLeft()" ontouchend="stopH()" onmousedown="startLeft()" onmouseup="stopH()">◀</button>
+  <button ontouchstart="doJump()" onmousedown="doJump()">▲</button>
+  <button ontouchstart="startRight()" ontouchend="stopH()" onmousedown="startRight()" onmouseup="stopH()">▶</button>
 </div>
 
 <script>
-const canvas = document.getElementById('gc');
-const ctx = canvas.getContext('2d');
-
-function resize(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener('resize', resize);
-resize();
-
-// ── QUESTIONS (NCERT Class 6 Science Ch.1) ──
-const QUESTIONS = [
-  {q:"What does the word 'Science' come from?",opts:["Latin 'Scientia'","Greek 'Logos'","French 'Savant'","Arabic 'Ilm'"],ans:0,exp:"'Science' comes from Latin 'Scientia' — meaning Knowledge! "},
-  {q:"What is the FIRST step of the Scientific Method?",opts:["Experiment","Hypothesis","Observation","Conclusion"],ans:2,exp:"Step 1 is Observation — noticing something with your senses! "},
-  {q:"C.V. Raman won the Nobel Prize in which year?",opts:["1920","1930","1945","1928"],ans:1,exp:"C.V. Raman won the Nobel Prize in Physics in 1930! First Asian ever! "},
-  {q:"Who invented the concept of ZERO?",opts:["Newton","Einstein","Aryabhata","Galileo"],ans:2,exp:"Aryabhata (476 CE) introduced Zero — changed mathematics forever! "},
-  {q:"Which branch of Science studies LIVING organisms?",opts:["Physics","Geology","Astronomy","Biology"],ans:3,exp:"Biology studies living organisms — plants, animals and microbes! "},
-  {q:"What must you ALWAYS wear in a science lab?",opts:["Sunglasses","Safety glasses & apron","Hat","Gloves only"],ans:1,exp:"Always wear safety glasses AND apron — safety is the top priority! "},
-  {q:"A testable prediction in Science is called?",opts:["Theory","Law","Hypothesis","Fact"],ans:2,exp:"A Hypothesis is an educated, testable guess or prediction! "},
-  {q:"APJ Abdul Kalam is known as?",opts:["Father of Chemistry","Missile Man of India","Space Explorer","Nuclear Scientist"],ans:1,exp:"APJ Kalam is the Missile Man of India — led space and defence! "},
-  {q:"Chemistry studies?",opts:["Living things","Force and energy","Matter and reactions","Stars and planets"],ans:2,exp:"Chemistry studies matter — what things are made of and how they change! "},
-  {q:"What is the LAST step of the Scientific Method?",opts:["Hypothesis","Experiment","Observation","Conclusion"],ans:3,exp:"Conclusion is last — analyse results and find out if hypothesis was right! "},
-  {q:"Who founded India's nuclear programme?",opts:["CV Raman","Aryabhata","Homi Bhabha","Kalam"],ans:2,exp:"Homi Bhabha is the Father of India's nuclear programme! He founded TIFR and BARC."},
-  {q:"Physics studies?",opts:["Living things","Force, energy and motion","Chemical reactions","Earth and rocks"],ans:1,exp:"Physics studies force, energy, motion and matter — like why things fall! "},
+// ════════════════════════════════════════════
+// ZONE 1 — CORAL REEF (15 questions shuffled)
+// ════════════════════════════════════════════
+const ZONE1_Q = [
+  {q:"What does the word 'Science' come from?",opts:["Latin 'Scientia'","Greek 'Logos'","French 'Savant'","Arabic 'Ilm'"],ans:0,exp:"'Science' comes from Latin 'Scientia' — meaning Knowledge!"},
+  {q:"What is the FIRST step of the Scientific Method?",opts:["Experiment","Hypothesis","Observation","Conclusion"],ans:2,exp:"Observation is step 1 — notice something using your senses!"},
+  {q:"C.V. Raman won the Nobel Prize in which year?",opts:["1920","1930","1945","1928"],ans:1,exp:"C.V. Raman won the Nobel Prize in Physics in 1930! First Asian ever!"},
+  {q:"Who introduced the concept of ZERO?",opts:["Newton","Einstein","Aryabhata","Galileo"],ans:2,exp:"Aryabhata (476 CE) introduced Zero — changed mathematics forever!"},
+  {q:"Which branch studies LIVING organisms?",opts:["Physics","Geology","Astronomy","Biology"],ans:3,exp:"Biology studies living organisms — plants, animals and microbes!"},
+  {q:"What MUST you always wear in a science lab?",opts:["Sunglasses","Safety glasses & apron","Hat","Gloves only"],ans:1,exp:"Always wear safety glasses AND apron — safety is top priority!"},
+  {q:"A testable prediction in Science is called?",opts:["Theory","Law","Hypothesis","Fact"],ans:2,exp:"A Hypothesis is an educated, testable prediction!"},
+  {q:"APJ Abdul Kalam is known as?",opts:["Father of Chemistry","Missile Man of India","Space Explorer","Nuclear Scientist"],ans:1,exp:"APJ Kalam is the Missile Man of India — led space and defence!"},
+  {q:"Chemistry studies?",opts:["Living things","Force & energy","Matter & reactions","Stars & planets"],ans:2,exp:"Chemistry studies matter — its composition and chemical reactions!"},
+  {q:"What is the LAST step of the Scientific Method?",opts:["Hypothesis","Experiment","Observation","Conclusion"],ans:3,exp:"Conclusion — analyse results to see if hypothesis was correct!"},
+  {q:"Who founded India's nuclear programme?",opts:["CV Raman","Aryabhata","Homi Bhabha","Kalam"],ans:2,exp:"Homi Bhabha! He founded TIFR and BARC for India's nuclear programme."},
+  {q:"Physics studies?",opts:["Living things","Force, energy & motion","Chemical reactions","Earth & rocks"],ans:1,exp:"Physics studies force, energy, motion and matter!"},
+  {q:"What does Geology study?",opts:["Stars & space","Earth, rocks & minerals","Living organisms","Chemical reactions"],ans:1,exp:"Geology is the study of Earth — its rocks, minerals and structure!"},
+  {q:"Why is a WRONG hypothesis still valuable?",opts:["It isn't valuable","It teaches us something new","It proves the scientist is smart","It saves time"],ans:1,exp:"A wrong hypothesis still teaches us something — that is the beauty of science!"},
+  {q:"What does Astronomy study?",opts:["Living organisms","Chemical reactions","Stars, planets & space","Earth's rocks"],ans:2,exp:"Astronomy studies stars, planets, galaxies and the entire universe!"},
 ];
 
-const FACTS = [
-  {e:"🔬",t:"Science is like a giant jigsaw puzzle — every discovery adds a new piece to our knowledge!"},
+const ZONE1_FACTS = [
+  {e:"🔬",t:"Science is like a giant jigsaw puzzle — every discovery adds a new piece!"},
   {e:"🏅",t:"C.V. Raman discovered the Raman Effect using very SIMPLE equipment — curiosity is the real tool!"},
   {e:"🔢",t:"Aryabhata calculated Pi = 3.1416 in 476 CE — ancient India was way ahead of its time!"},
-  {e:"🚀",t:"APJ Kalam dreamed of flying from childhood. He became India's Missile Man through hard work!"},
-  {e:"⚗️",t:"Even a WRONG hypothesis teaches something valuable — science is all about learning from every result!"},
-  {e:"💡",t:"The word 'Science' is over 600 years old! It comes from Latin 'Scientia' meaning pure knowledge."},
+  {e:"🚀",t:"APJ Kalam dreamed of flying from childhood — he became India's Missile Man through hard work!"},
+  {e:"⚗️",t:"Even a WRONG hypothesis is valuable — science is all about learning from every result!"},
+  {e:"💡",t:"The word 'Science' is over 600 years old! It comes from Latin 'Scientia' meaning Knowledge."},
+  {e:"🌊",t:"Homi Bhabha founded TIFR in 1945 — paving the way for India's nuclear and scientific research!"},
 ];
 
-// ── GAME STATE ──
-let G = {};
+// ════════════════════════════════════════════
+// ZONE 2 — DEEP ABYSS (10 harder questions shuffled)
+// ════════════════════════════════════════════
+const ZONE2_Q = [
+  {q:"Ramanujan's main contribution was to which area?",opts:["Biology","Number Theory & Mathematics","Chemical Reactions","Astronomy"],ans:1,exp:"Srinivasa Ramanujan was a self-taught genius who transformed Number Theory!"},
+  {q:"The Raman Effect explains how light behaves when it passes through?",opts:["A vacuum","A transparent substance","A mirror","Outer space"],ans:1,exp:"The Raman Effect explains how light scatters when it passes through a transparent substance — scattering changes its frequency!"},
+  {q:"What is the full form of TIFR founded by Homi Bhabha?",opts:["Tata Institute of Fundamental Research","Technical Institute For Research","Tata International Foundation Research","Total Institute For Research"],ans:0,exp:"TIFR = Tata Institute of Fundamental Research — India's premier science institution!"},
+  {q:"Pi (π) was first accurately calculated in India by?",opts:["Ramanujan","Homi Bhabha","Aryabhata","CV Raman"],ans:2,exp:"Aryabhata calculated Pi as 3.1416 around 499 CE — incredibly precise for that era!"},
+  {q:"Which of these is NOT a step in the Scientific Method?",opts:["Observation","Imagination","Hypothesis","Conclusion"],ans:1,exp:"Imagination is not a formal step — the 6 steps are: Observe, Question, Hypothesise, Experiment, Collect Data, Conclude!"},
+  {q:"Aryabhata belonged to which era?",opts:["200 BCE","476 CE","1200 CE","300 BCE"],ans:1,exp:"Aryabhata lived around 476–550 CE — he was an ancient Indian mathematical genius!"},
+  {q:"A scientist observes ice melting in sun. What is the NEXT step?",opts:["Write a conclusion","Form a hypothesis","Conduct an experiment","Collect data"],ans:1,exp:"After observation, the next step is to ask a question and form a hypothesis — why is the ice melting?"},
+  {q:"Which scientist is associated with 'BARC' in India?",opts:["CV Raman","APJ Kalam","Homi Bhabha","Aryabhata"],ans:2,exp:"BARC (Bhabha Atomic Research Centre) is named after Homi Bhabha, Father of India's nuclear programme!"},
+  {q:"What does 'systematic knowledge' mean in the definition of Science?",opts:["Random facts","Knowledge collected by guessing","Organised knowledge gained through observation & method","Knowledge from books only"],ans:2,exp:"Systematic means organised and methodical — science is not random, it follows a clear process!"},
+  {q:"C.V. Raman was the first Asian Nobel Prize winner in Physics. What was his discovery called?",opts:["Raman Spectrum","Raman Effect","Raman Law","Raman Theory"],ans:1,exp:"The Raman Effect (1928) describes how light changes frequency when scattered through a medium — a Nobel-worthy discovery!"},
+];
 
-function initG() {
+const ZONE2_FACTS = [
+  {e:"🦑",t:"The deep ocean is Earth's largest habitat — over 80% of it remains unexplored! Science still has much to discover!"},
+  {e:"🔭",t:"Ramanujan had no formal training but independently discovered thousands of mathematical formulas — pure genius!"},
+  {e:"⚛️",t:"BARC (Bhabha Atomic Research Centre) was founded in 1954 and powers India's nuclear energy & medicine research today!"},
+  {e:"🌌",t:"The Raman Effect helped scientists understand the structure of molecules — it is used in cancer detection today!"},
+  {e:"🧮",t:"Aryabhata also proposed that the Earth rotates on its axis in the 5th century CE — 1,000 years before Copernicus!"},
+  {e:"🔬",t:"A single drop of ocean water contains millions of microorganisms — biology, chemistry AND physics all at once!"},
+  {e:"💎",t:"Homi Bhabha once said: 'No power can stop the march of India's science.' He was right!"},
+];
+
+// ════════════════════════════════════════════
+// CANVAS + STATE
+// ════════════════════════════════════════════
+const canvas = document.getElementById('gc');
+const ctx = canvas.getContext('2d');
+function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+
+function shuffle(a){ let b=[...a]; for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+
+let G = {};
+function initG(zone=1) {
   const gY = canvas.height - 85;
   G = {
-    running: false, paused: false,
-    score: 0, lives: 3, level: 1,
-    factsCollected: 0, correctAnswers: 0,
-    shark: {x:140, y:gY-40, vy:0, vx:0, w:58, h:38, onGround:false, dir:1, inv:0},
-    platforms: [], obstacles: [], collectibles: [],
-    particles: [], bubbles: [],
-    camX: 0, groundY: gY,
-    frame: 0, spawnT: 0,
-    qActive: false, factActive: false,
-    qPool: [], lastLevel: 0,
-    holdLeft: false, holdRight: false,
+    running:false, paused:false,
+    score:0, lives:3, level:1, zone,
+    factsCollected:0, correctAnswers:0, jetpacksUsed:0,
+    shark:{x:140,y:gY-40,vy:0,vx:0,w:58,h:38,onGround:false,dir:1,inv:0,
+           jetpack:false,jetpackTimer:0,jetpackMax:360},
+    platforms:[], obstacles:[], collectibles:[],
+    particles:[], bubbles:[],
+    camX:0, groundY:gY,
+    frame:0, spawnT:0, nextJetpackScore:300,
+    qActive:false, factActive:false,
+    qPool:[], usedFacts:[],
   };
-  G.qPool = shuffle([...QUESTIONS]);
+  // Shuffle questions for this zone on each game start
+  G.qPool = zone===1 ? shuffle(ZONE1_Q) : shuffle(ZONE2_Q);
+  G.usedFacts = [];
 }
 
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-// ── DRAWING ──
-function drawBg() {
+// ════════ DRAWING ════════
+function drawBg(){
   const w=canvas.width, h=canvas.height;
-  // Deep ocean gradient
-  const gr = ctx.createLinearGradient(0,0,0,h);
-  gr.addColorStop(0,'#0e2d5c');
-  gr.addColorStop(0.45,'#08214a');
-  gr.addColorStop(1,'#040e24');
+  const z2 = G.zone===2;
+  const gr=ctx.createLinearGradient(0,0,0,h);
+  if(z2){ gr.addColorStop(0,'#050818'); gr.addColorStop(0.5,'#060c20'); gr.addColorStop(1,'#020508'); }
+  else  { gr.addColorStop(0,'#0e2d5c'); gr.addColorStop(0.5,'#08214a'); gr.addColorStop(1,'#040e24'); }
   ctx.fillStyle=gr; ctx.fillRect(0,0,w,h);
-
-  // Light rays from top
-  ctx.save(); ctx.globalAlpha=0.05;
+  // Rays
+  ctx.save(); ctx.globalAlpha=z2?0.03:0.05;
   for(let i=0;i<6;i++){
-    const rx = ((i*180 - G.camX*0.08) % (w+360) + w+360) % (w+360) - 180;
-    const g2 = ctx.createLinearGradient(rx,0,rx+30,h*0.7);
-    g2.addColorStop(0,'rgba(56,189,248,0.8)');
-    g2.addColorStop(1,'transparent');
+    const rx=((i*180-G.camX*0.08)%(w+360)+w+360)%(w+360)-180;
+    const g2=ctx.createLinearGradient(rx,0,rx+30,h*0.7);
+    g2.addColorStop(0,z2?'rgba(192,132,252,0.8)':'rgba(56,189,248,0.8)'); g2.addColorStop(1,'transparent');
     ctx.fillStyle=g2;
-    ctx.beginPath(); ctx.moveTo(rx-10,0); ctx.lineTo(rx+50,h*0.7); ctx.lineTo(rx-50,h*0.7); ctx.closePath();
-    ctx.fill();
+    ctx.beginPath(); ctx.moveTo(rx-10,0); ctx.lineTo(rx+50,h*0.7); ctx.lineTo(rx-50,h*0.7); ctx.closePath(); ctx.fill();
   }
   ctx.restore();
-
-  // Bubbles
-  G.bubbles.forEach(b => {
-    ctx.beginPath(); ctx.arc(b.x - G.camX*b.s, b.y, b.r, 0, Math.PI*2);
-    ctx.strokeStyle = `rgba(125,211,252,${0.2+b.r*0.03})`; ctx.lineWidth=1; ctx.stroke();
+  G.bubbles.forEach(b=>{
+    ctx.beginPath(); ctx.arc(b.x-G.camX*b.s,b.y,b.r,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(${z2?'192,132,252':'125,211,252'},${0.15+b.r*0.03})`; ctx.lineWidth=1; ctx.stroke();
   });
 }
 
-function drawGround() {
-  const gY = G.groundY, w = canvas.width;
-  // Sandy seabed
-  ctx.fillStyle = '#9a7a50'; ctx.fillRect(0, gY+8, w, canvas.height);
-  ctx.fillStyle = '#b5956a'; ctx.fillRect(0, gY+8, w, 18);
-  // Sand ripples
-  ctx.save(); ctx.globalAlpha=0.35;
-  ctx.strokeStyle='#c8a87a'; ctx.lineWidth=1.5;
+function drawGround(){
+  const gY=G.groundY, w=canvas.width, z2=G.zone===2;
+  ctx.fillStyle=z2?'#1a0e2e':'#9a7a50'; ctx.fillRect(0,gY+8,w,canvas.height);
+  ctx.fillStyle=z2?'#2a1545':'#b5956a'; ctx.fillRect(0,gY+8,w,18);
+  ctx.save(); ctx.globalAlpha=0.3; ctx.strokeStyle=z2?'#4a2080':'#c8a87a'; ctx.lineWidth=1.5;
   for(let i=0;i<18;i++){
-    const sx = ((i*65 - G.camX*0.25) % (w+65) + w+65)%( w+65) - 65;
-    ctx.beginPath(); ctx.ellipse(sx, gY+16, 16,3, 0, 0, Math.PI); ctx.stroke();
+    const sx=((i*65-G.camX*0.25)%(w+65)+w+65)%(w+65)-65;
+    ctx.beginPath(); ctx.ellipse(sx,gY+16,16,3,0,0,Math.PI); ctx.stroke();
   }
   ctx.restore();
-  // Water shimmer at seabed top
-  ctx.globalAlpha=0.12;
-  ctx.fillStyle='#38bdf8';
-  ctx.fillRect(0, gY, w, 10);
-  ctx.globalAlpha=1;
 }
 
-function drawPlatforms() {
-  G.platforms.forEach(p => {
-    const px = p.x - G.camX;
-    if(px < -p.w-10 || px > canvas.width+10) return;
-    // Coral platform
-    const pg = ctx.createLinearGradient(px, p.y, px, p.y+p.h);
-    pg.addColorStop(0,'#0e7490'); pg.addColorStop(1,'#0c6a84');
-    ctx.fillStyle=pg;
-    ctx.beginPath(); ctx.roundRect(px,p.y,p.w,p.h,6); ctx.fill();
-    // Shine line
-    ctx.globalAlpha=0.25; ctx.fillStyle='#67e8f9';
+function drawPlatforms(){
+  G.platforms.forEach(p=>{
+    const px=p.x-G.camX;
+    if(px<-p.w-10||px>canvas.width+10) return;
+    const z2=G.zone===2;
+    const col1=z2?'#4c1d95':'#0e7490', col2=z2?'#3b0764':'#0c6a84';
+    const pg=ctx.createLinearGradient(px,p.y,px,p.y+p.h);
+    pg.addColorStop(0,col1); pg.addColorStop(1,col2);
+    ctx.fillStyle=pg; ctx.beginPath(); ctx.roundRect(px,p.y,p.w,p.h,6); ctx.fill();
+    ctx.globalAlpha=0.25; ctx.fillStyle=z2?'#a78bfa':'#67e8f9';
     ctx.fillRect(px+6,p.y+2,p.w-12,3); ctx.globalAlpha=1;
-    // Coral decoration
-    ctx.font='14px serif';
-    ctx.fillText(p.deco||'🪸', px+p.w/2-7, p.y+p.h+14);
+    ctx.font='14px serif'; ctx.fillText(p.deco||'🪸',px+p.w/2-7,p.y+p.h+14);
   });
 }
 
-function drawObstacles() {
-  G.obstacles.forEach(o => {
-    const ox = o.x - G.camX;
-    if(ox < -60 || ox > canvas.width+60) return;
-    const bob = Math.sin(G.frame*0.05 + o.phase)*8;
-    ctx.save(); ctx.translate(ox, o.y+bob);
-    if(o.type==='jellyfish') {
-      // Bell
-      const jg = ctx.createRadialGradient(0,-4,2,0,-4,o.r);
-      jg.addColorStop(0,'rgba(240,100,255,0.85)'); jg.addColorStop(1,'rgba(190,30,220,0.5)');
-      ctx.fillStyle=jg;
-      ctx.beginPath(); ctx.ellipse(0,0,o.r,o.r*0.65,0,0,Math.PI*2); ctx.fill();
-      ctx.strokeStyle='rgba(255,180,255,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
-      // Glow ring
-      ctx.globalAlpha=0.12;
-      ctx.beginPath(); ctx.ellipse(0,0,o.r+6,o.r*0.8,0,0,Math.PI*2); ctx.fill();
-      ctx.globalAlpha=1;
-      // Tentacles
-      ctx.strokeStyle='rgba(210,60,240,0.5)'; ctx.lineWidth=1.2;
-      for(let i=-2;i<=2;i++) {
-        ctx.beginPath(); ctx.moveTo(i*7, o.r*0.55);
-        ctx.quadraticCurveTo(i*7+Math.sin(G.frame*0.1+i)*6, o.r*0.55+14, i*7, o.r*0.55+24);
-        ctx.stroke();
+function drawObstacles(){
+  G.obstacles.forEach(o=>{
+    const ox=o.x-G.camX;
+    if(ox<-60||ox>canvas.width+60) return;
+    const bob=Math.sin(G.frame*0.05+o.phase)*8;
+    ctx.save(); ctx.translate(ox,o.y+bob);
+    if(o.type==='jellyfish'){
+      const z2=G.zone===2;
+      const jg=ctx.createRadialGradient(0,-4,2,0,-4,o.r);
+      jg.addColorStop(0,z2?'rgba(120,40,255,0.9)':'rgba(240,100,255,0.85)');
+      jg.addColorStop(1,z2?'rgba(60,0,180,0.5)':'rgba(190,30,220,0.5)');
+      ctx.fillStyle=jg; ctx.beginPath(); ctx.ellipse(0,0,o.r,o.r*0.65,0,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle=z2?'rgba(180,100,255,0.5)':'rgba(255,180,255,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.strokeStyle=z2?'rgba(140,60,255,0.5)':'rgba(210,60,240,0.5)'; ctx.lineWidth=1.2;
+      for(let i=-2;i<=2;i++){
+        ctx.beginPath(); ctx.moveTo(i*7,o.r*0.55);
+        ctx.quadraticCurveTo(i*7+Math.sin(G.frame*0.1+i)*6,o.r*0.55+14,i*7,o.r*0.55+24); ctx.stroke();
       }
     } else {
-      // Rock
-      ctx.fillStyle='#1e3a5f';
-      ctx.beginPath(); ctx.ellipse(0, o.r*0.35, o.r*1.15, o.r*0.72, 0, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle='#2d5480';
-      ctx.beginPath(); ctx.ellipse(-4, o.r*0.18, o.r*0.82, o.r*0.55, -0.3, 0, Math.PI*2); ctx.fill();
-      // Highlight
-      ctx.globalAlpha=0.18; ctx.fillStyle='#7dd3fc';
-      ctx.beginPath(); ctx.ellipse(-5, o.r*0.05, o.r*0.45, o.r*0.22, -0.4, 0, Math.PI*2); ctx.fill();
-      ctx.globalAlpha=1;
+      ctx.fillStyle='#1e3a5f'; ctx.beginPath(); ctx.ellipse(0,o.r*0.35,o.r*1.15,o.r*0.72,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='#2d5480'; ctx.beginPath(); ctx.ellipse(-4,o.r*0.18,o.r*0.82,o.r*0.55,-0.3,0,Math.PI*2); ctx.fill();
     }
     ctx.restore();
   });
 }
 
-function drawCollectibles() {
-  G.collectibles.forEach(c => {
-    const cx2 = c.x - G.camX;
-    if(cx2 < -30 || cx2 > canvas.width+30) return;
-    const bob = Math.sin(G.frame*0.09+c.phase)*5;
-    ctx.save(); ctx.translate(cx2, c.y+bob);
-    if(c.type==='fact') {
-      // Golden star
-      const glow = ctx.createRadialGradient(0,0,0,0,0,20);
-      glow.addColorStop(0,'rgba(251,191,36,0.3)'); glow.addColorStop(1,'transparent');
-      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(0,0,20,0,Math.PI*2); ctx.fill();
-      drawStar(ctx,0,0,5,14,7);
-      ctx.fillStyle='rgba(255,250,200,0.9)'; ctx.font='bold 10px sans-serif';
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('!',0,0.5);
-    } else {
-      // Question orb
-      const og = ctx.createRadialGradient(-4,-4,0,0,0,15);
-      og.addColorStop(0,'#38bdf8'); og.addColorStop(1,'#0284c7');
+function drawCollectibles(){
+  G.collectibles.forEach(c=>{
+    const cx2=c.x-G.camX;
+    if(cx2<-30||cx2>canvas.width+30) return;
+    const bob=Math.sin(G.frame*0.09+c.phase)*5;
+    ctx.save(); ctx.translate(cx2,c.y+bob);
+    if(c.type==='fact'){
+      drawStar(0,0); ctx.fillStyle='rgba(255,250,200,0.9)';
+      ctx.font='bold 10px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('!',0,0.5);
+    } else if(c.type==='question'){
+      const og=ctx.createRadialGradient(-4,-4,0,0,0,15);
+      const z2=G.zone===2;
+      og.addColorStop(0,z2?'#c084fc':'#38bdf8'); og.addColorStop(1,z2?'#7c3aed':'#0284c7');
       ctx.fillStyle=og; ctx.beginPath(); ctx.arc(0,0,14,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle='rgba(255,255,255,0.15)';
-      ctx.beginPath(); ctx.ellipse(-4,-5,6,4,0,0,Math.PI*2); ctx.fill();
       ctx.fillStyle='white'; ctx.font='bold 13px Fredoka One,cursive';
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('Q',0,1);
+      ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('Q',0,1);
+    } else if(c.type==='jetpack'){
+      // Jetpack orb — orange glow
+      const glow=ctx.createRadialGradient(0,0,0,0,0,22);
+      glow.addColorStop(0,'rgba(251,146,60,0.4)'); glow.addColorStop(1,'transparent');
+      ctx.fillStyle=glow; ctx.beginPath(); ctx.arc(0,0,22,0,Math.PI*2); ctx.fill();
+      // Pulsing ring
+      const pulse=0.7+Math.sin(G.frame*0.15)*0.3;
+      ctx.strokeStyle=`rgba(251,191,36,${pulse})`; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.arc(0,0,17,0,Math.PI*2); ctx.stroke();
+      // Rocket emoji
+      ctx.font='22px serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('🚀',0,2);
     }
     ctx.restore();
   });
 }
 
-function drawStar(ctx2,cx,cy,spikes,outerR,innerR){
+function drawStar(cx,cy){
+  const spikes=5,outerR=14,innerR=7;
   let rot=Math.PI/2*3,step=Math.PI/spikes;
-  ctx2.beginPath();
+  ctx.beginPath();
   for(let i=0;i<spikes;i++){
-    ctx2.lineTo(cx+Math.cos(rot)*outerR, cy+Math.sin(rot)*outerR);
-    rot+=step;
-    ctx2.lineTo(cx+Math.cos(rot)*innerR, cy+Math.sin(rot)*innerR);
-    rot+=step;
+    ctx.lineTo(cx+Math.cos(rot)*outerR,cy+Math.sin(rot)*outerR); rot+=step;
+    ctx.lineTo(cx+Math.cos(rot)*innerR,cy+Math.sin(rot)*innerR); rot+=step;
   }
-  ctx2.closePath();
-  ctx2.fillStyle='#fbbf24'; ctx2.fill();
-  ctx2.strokeStyle='#f59e0b'; ctx2.lineWidth=1; ctx2.stroke();
+  ctx.closePath(); ctx.fillStyle='#fbbf24'; ctx.fill(); ctx.strokeStyle='#f59e0b'; ctx.lineWidth=1; ctx.stroke();
 }
 
-function drawShark() {
+function drawJetpackFlame(){
+  const s=G.shark, sx=s.x-G.camX;
+  if(!s.jetpack) return;
+  ctx.save(); ctx.translate(sx+s.w/2,s.y+s.h-4);
+  if(s.dir<0) ctx.scale(-1,1);
+  // Flame
+  const flicker=Math.random()*8;
+  const fg=ctx.createLinearGradient(0,0,0,24+flicker);
+  fg.addColorStop(0,'rgba(251,146,60,0.9)'); fg.addColorStop(0.5,'rgba(251,191,36,0.7)'); fg.addColorStop(1,'transparent');
+  ctx.fillStyle=fg;
+  ctx.beginPath(); ctx.moveTo(-10,0); ctx.quadraticCurveTo(-5,16+flicker,0,22+flicker);
+  ctx.quadraticCurveTo(5,16+flicker,10,0); ctx.closePath(); ctx.fill();
+  // Jetpack body
+  ctx.fillStyle='#fb923c'; ctx.fillRect(-14,-8,10,18); ctx.fillRect(4,-8,10,18);
+  ctx.fillStyle='#fbbf24'; ctx.fillRect(-12,-6,6,8); ctx.fillRect(6,-6,6,8);
+  ctx.restore();
+}
+
+function drawShark(){
   const s=G.shark, sx=s.x-G.camX;
   ctx.save();
-  if(s.inv>0 && Math.floor(G.frame/4)%2===0) ctx.globalAlpha=0.35;
-  ctx.translate(sx+s.w/2, s.y+s.h/2);
+  if(s.inv>0&&Math.floor(G.frame/4)%2===0) ctx.globalAlpha=0.35;
+  ctx.translate(sx+s.w/2,s.y+s.h/2);
   if(s.dir<0) ctx.scale(-1,1);
-  const wag = Math.sin(G.frame*0.22)*0.18;
-
+  const wag=Math.sin(G.frame*0.22)*0.18;
+  // Jetpack frame
+  drawJetpackFlame();
   // Shadow
-  ctx.save(); ctx.globalAlpha=0.15;
-  ctx.fillStyle='#000'; ctx.beginPath(); ctx.ellipse(0,s.h/2+4,s.w/2,5,0,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-
+  ctx.save(); ctx.globalAlpha=0.15; ctx.fillStyle='#000';
+  ctx.beginPath(); ctx.ellipse(0,s.h/2+4,s.w/2,5,0,0,Math.PI*2); ctx.fill(); ctx.restore();
   // Tail
   ctx.fillStyle='#5294e8'; ctx.save(); ctx.translate(-s.w/2+4,0); ctx.rotate(wag);
-  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-18,-13); ctx.lineTo(-18,13); ctx.closePath(); ctx.fill();
-  ctx.restore();
-
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(-18,-13); ctx.lineTo(-18,13); ctx.closePath(); ctx.fill(); ctx.restore();
   // Body
   const bg=ctx.createRadialGradient(-4,-4,0,0,0,s.w/2);
   bg.addColorStop(0,'#7bbcf5'); bg.addColorStop(1,'#4a8fd4');
   ctx.fillStyle=bg; ctx.beginPath(); ctx.ellipse(0,0,s.w/2,s.h/2,0,0,Math.PI*2); ctx.fill();
-
   // Belly
-  ctx.fillStyle='#d6eeff';
-  ctx.beginPath(); ctx.ellipse(5,7,s.w/3,s.h/3.2,0.1,0,Math.PI*2); ctx.fill();
-
+  ctx.fillStyle='#d6eeff'; ctx.beginPath(); ctx.ellipse(5,7,s.w/3,s.h/3.2,0.1,0,Math.PI*2); ctx.fill();
   // Dorsal fin
-  ctx.fillStyle='#3b82f6';
-  ctx.beginPath(); ctx.moveTo(0,-s.h/2); ctx.lineTo(13,-s.h/2-16); ctx.lineTo(20,-s.h/2+2); ctx.closePath(); ctx.fill();
-
+  ctx.fillStyle='#3b82f6'; ctx.beginPath(); ctx.moveTo(0,-s.h/2); ctx.lineTo(13,-s.h/2-16); ctx.lineTo(20,-s.h/2+2); ctx.closePath(); ctx.fill();
   // Pectoral fin
-  ctx.fillStyle='#5294e8';
-  ctx.beginPath(); ctx.moveTo(6,4); ctx.lineTo(20,12); ctx.lineTo(8,16); ctx.closePath(); ctx.fill();
-
+  ctx.fillStyle='#5294e8'; ctx.beginPath(); ctx.moveTo(6,4); ctx.lineTo(20,12); ctx.lineTo(8,16); ctx.closePath(); ctx.fill();
   // Eye
   ctx.fillStyle='#0c2447'; ctx.beginPath(); ctx.arc(s.w/3,-3,4.5,0,Math.PI*2); ctx.fill();
   ctx.fillStyle='#1e5a9e'; ctx.beginPath(); ctx.arc(s.w/3,-3,2.5,0,Math.PI*2); ctx.fill();
   ctx.fillStyle='white'; ctx.beginPath(); ctx.arc(s.w/3+1.5,-4.5,1.5,0,Math.PI*2); ctx.fill();
-
   // Smile
   ctx.strokeStyle='#0c2447'; ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.arc(s.w/3+2,3,6,0.2,Math.PI-0.2); ctx.stroke();
@@ -735,532 +546,425 @@ function drawShark() {
   for(let t=0;t<3;t++){
     ctx.beginPath(); ctx.moveTo(s.w/3-2+t*4,3); ctx.lineTo(s.w/3+t*4,8); ctx.lineTo(s.w/3+2+t*4,3); ctx.closePath(); ctx.fill();
   }
-
   ctx.restore();
 }
 
-function drawParticles() {
-  G.particles = G.particles.filter(p=>p.life>0);
+function drawParticles(){
+  G.particles=G.particles.filter(p=>p.life>0);
   G.particles.forEach(p=>{
     p.x+=p.vx; p.y+=p.vy; p.vy+=0.12; p.life--;
-    ctx.globalAlpha = p.life/p.maxLife * 0.8;
-    ctx.fillStyle = p.c;
-    ctx.beginPath(); ctx.arc(p.x-G.camX, p.y, p.r, 0, Math.PI*2); ctx.fill();
-  });
-  ctx.globalAlpha=1;
+    ctx.globalAlpha=p.life/p.maxLife*0.8; ctx.fillStyle=p.c;
+    ctx.beginPath(); ctx.arc(p.x-G.camX,p.y,p.r,0,Math.PI*2); ctx.fill();
+  }); ctx.globalAlpha=1;
 }
 
-function spawnParticles(x,y,c,n=10) {
-  for(let i=0;i<n;i++) {
-    G.particles.push({
-      x, y,
-      vx:(Math.random()-0.5)*6,
-      vy:(Math.random()-2.5)*4,
-      r:Math.random()*5+2, c,
-      life:30+Math.random()*10, maxLife:40
-    });
-  }
+function spawnParticles(x,y,c,n=10){
+  for(let i=0;i<n;i++) G.particles.push({x,y,vx:(Math.random()-0.5)*6,vy:(Math.random()-2.5)*4,r:Math.random()*5+2,c,life:35,maxLife:35});
 }
 
-// ── PHYSICS ──
-const GRAV=0.55, JUMP_V=-13.5, MOVE_V=5;
+// ════════ PHYSICS ════════
+const GRAV=0.55, JUMP_V=-13.5, JETPACK_V=-6, MOVE_V=5;
 
-function updateShark() {
+function updateShark(){
   const s=G.shark;
-  if(G.holdLeft){ s.vx=-MOVE_V; s.dir=-1; }
-  else if(G.holdRight){ s.vx=MOVE_V; s.dir=1; }
+  if(G.holdLeft){s.vx=-MOVE_V;s.dir=-1;} else if(G.holdRight){s.vx=MOVE_V;s.dir=1;}
 
-  s.vy += GRAV;
-  s.y += s.vy;
-  s.x += s.vx;
-  s.vx *= 0.82;
+  // Jetpack thrust
+  if(s.jetpack && s.jetpackTimer>0 && (G.holdJump)){
+    s.vy=Math.max(s.vy+JETPACK_V*0.25, -10);
+    spawnParticles(s.x+s.w/2,s.y+s.h,'#fb923c',1);
+  }
+  s.vy+=GRAV; s.y+=s.vy; s.x+=s.vx; s.vx*=0.82;
+
+  // Jetpack timer
+  if(s.jetpack){
+    s.jetpackTimer--;
+    const pct=s.jetpackTimer/s.jetpackMax*100;
+    document.getElementById('jetpackFill').style.width=pct+'%';
+    document.getElementById('jetpackTime').textContent=Math.ceil(s.jetpackTimer/60);
+    if(s.jetpackTimer<=0){
+      s.jetpack=false;
+      document.getElementById('jetpackHud').style.display='none';
+    }
+  }
 
   // Ground
-  if(s.y+s.h >= G.groundY+10) {
-    s.y = G.groundY+10-s.h; s.vy=0; s.onGround=true;
-  } else {
-    s.onGround=false;
-  }
+  if(s.y+s.h>=G.groundY+10){s.y=G.groundY+10-s.h;s.vy=0;s.onGround=true;} else {s.onGround=false;}
 
   // Platforms
   G.platforms.forEach(p=>{
-    if(s.x+s.w>p.x+6 && s.x<p.x+p.w-6 && s.y+s.h>p.y && s.y+s.h<p.y+p.h+12 && s.vy>=0) {
-      s.y=p.y-s.h; s.vy=0; s.onGround=true;
+    if(s.x+s.w>p.x+6&&s.x<p.x+p.w-6&&s.y+s.h>p.y&&s.y+s.h<p.y+p.h+12&&s.vy>=0){
+      s.y=p.y-s.h;s.vy=0;s.onGround=true;
     }
   });
 
-  // Camera
-  G.camX += (s.x - G.camX - canvas.width/3.5) * 0.1;
+  G.camX+=(s.x-G.camX-canvas.width/3.5)*0.1;
 
-  // Obstacles
-  if(s.inv<=0) {
+  // Obstacle collision
+  if(s.inv<=0){
     G.obstacles.forEach(o=>{
       const bob=Math.sin(G.frame*0.05+o.phase)*8;
-      const dist=Math.hypot(s.x+s.w/2-o.x, s.y+s.h/2-(o.y+bob));
-      if(dist < o.r + s.h/2 - 8) {
-        G.lives--; spawnParticles(s.x+s.w/2, s.y+s.h/2,'#f87171',14);
-        s.inv=130; s.vy=-8;
-        SFX.hit();
-        updateHUD();
+      const dist=Math.hypot(s.x+s.w/2-o.x,s.y+s.h/2-(o.y+bob));
+      if(dist<o.r+s.h/2-8){
+        G.lives--;spawnParticles(s.x+s.w/2,s.y+s.h/2,'#f87171',14);
+        s.inv=130;s.vy=-8;SFX.hit();updateHUD();
         if(G.lives<=0) endGame();
       }
     });
   }
-  if(s.inv>0) s.inv--;
+  if(s.inv>0)s.inv--;
 
-  // Collectibles
-  G.collectibles = G.collectibles.filter(c=>{
-    const dist=Math.hypot(s.x+s.w/2-c.x, s.y+s.h/2-c.y);
-    if(dist<32) {
-      spawnParticles(c.x, c.y, c.type==='fact'?'#fbbf24':'#38bdf8', 12);
-      if(c.type==='fact') collectFact();
-      else showQuestion();
+  // Collectible collision
+  G.collectibles=G.collectibles.filter(c=>{
+    const dist=Math.hypot(s.x+s.w/2-c.x,s.y+s.h/2-c.y);
+    if(dist<32){
+      if(c.type==='fact'){spawnParticles(c.x,c.y,'#fbbf24',12);collectFact();}
+      else if(c.type==='question'){spawnParticles(c.x,c.y,'#38bdf8',12);showQuestion();}
+      else if(c.type==='jetpack'){spawnParticles(c.x,c.y,'#fb923c',16);collectJetpack();}
       return false;
     }
     return true;
   });
 
   // Abyss
-  if(s.y > canvas.height+120) {
-    s.y=G.groundY-60; s.vy=0;
-    G.lives--; updateHUD();
-    if(G.lives<=0) endGame();
-  }
+  if(s.y>canvas.height+120){s.y=G.groundY-60;s.vy=0;G.lives--;updateHUD();if(G.lives<=0)endGame();}
 }
 
-// ── SPAWN WORLD ──
-const DECOS=['🪸','🌿','🐚','🪸','🌿'];
-function spawnWorld() {
+// ════════ SPAWN ════════
+const Z1DECOS=['🪸','🌿','🐚','🪸','🌿'];
+const Z2DECOS=['🦑','🪸','💎','🦀','🌑'];
+
+function spawnWorld(){
   G.spawnT++;
-  const edge = G.camX + canvas.width + 250;
-  const interval = Math.max(38, 95 - G.level*7);
+  const edge=G.camX+canvas.width+250;
+  const z2=G.zone===2;
+  const interval=Math.max(36, (z2?80:95)-G.level*6);
 
-  if(G.spawnT % interval === 0) {
-    const last = G.platforms[G.platforms.length-1];
-    const baseY = last ? last.y + (Math.random()-0.5)*110 : G.groundY-120;
-    const py = Math.max(G.groundY-280, Math.min(G.groundY-55, baseY));
-    G.platforms.push({
-      x: edge + Math.random()*100,
-      y: py,
-      w: 75+Math.random()*90,
-      h: 14,
-      deco: DECOS[Math.floor(Math.random()*DECOS.length)]
-    });
+  if(G.spawnT%interval===0){
+    const last=G.platforms[G.platforms.length-1];
+    const baseY=last?last.y+(Math.random()-0.5)*110:G.groundY-120;
+    const py=Math.max(G.groundY-300,Math.min(G.groundY-55,baseY));
+    const decos=z2?Z2DECOS:Z1DECOS;
+    G.platforms.push({x:edge+Math.random()*100,y:py,w:75+Math.random()*90,h:14,deco:decos[Math.floor(Math.random()*decos.length)]});
   }
 
-  const obstInterval = Math.max(55, 115 - G.level*8);
-  if(G.spawnT % obstInterval === 0) {
-    const type = Math.random()<0.55 ? 'jellyfish':'rock';
-    G.obstacles.push({
-      x: edge + Math.random()*160,
-      y: G.groundY - 55 - Math.random()*130,
-      r: 18+Math.random()*14,
-      type, phase: Math.random()*Math.PI*2
-    });
+  const obstInterval=Math.max(50,(z2?100:115)-G.level*7);
+  if(G.spawnT%obstInterval===0){
+    G.obstacles.push({x:edge+Math.random()*160,y:G.groundY-55-Math.random()*130,r:18+Math.random()*14+(z2?4:0),type:Math.random()<0.55?'jellyfish':'rock',phase:Math.random()*Math.PI*2});
   }
 
-  if(G.spawnT % 95===0 && G.collectibles.length<5) {
-    const type = Math.random()<0.42 ? 'question':'fact';
-    const lastP = G.platforms[G.platforms.length-1];
-    const cy = lastP ? lastP.y-45 : G.groundY-200;
-    G.collectibles.push({
-      x: edge+Math.random()*130,
-      y: cy,
-      type, phase: Math.random()*Math.PI*2
-    });
+  if(G.spawnT%95===0&&G.collectibles.length<5){
+    const lastP=G.platforms[G.platforms.length-1];
+    const cy=lastP?lastP.y-45:G.groundY-200;
+    const r=Math.random();
+    let type=r<0.38?'question':r<0.72?'fact':'question';
+    G.collectibles.push({x:edge+Math.random()*130,y:cy,type,phase:Math.random()*Math.PI*2});
+  }
+
+  // Jetpack spawn
+  if(G.score>=G.nextJetpackScore&&G.collectibles.filter(c=>c.type==='jetpack').length===0){
+    const lastP=G.platforms[G.platforms.length-1];
+    const cy=lastP?lastP.y-60:G.groundY-240;
+    G.collectibles.push({x:edge+80,y:cy,type:'jetpack',phase:Math.random()*Math.PI*2});
+    G.nextJetpackScore+=z2?250:300;
   }
 
   // Bubbles
-  if(G.frame%18===0) {
-    G.bubbles.push({
-      x: Math.random()*canvas.width + G.camX,
-      y: canvas.height+8,
-      r: 2+Math.random()*5,
-      s: 0.08+Math.random()*0.25,
-      vy: 0.9+Math.random()*1.3
-    });
-  }
-  G.bubbles = G.bubbles.filter(b=>{ b.y-=b.vy; return b.y>-15; });
+  if(G.frame%18===0) G.bubbles.push({x:Math.random()*canvas.width+G.camX,y:canvas.height+8,r:2+Math.random()*5,s:0.08+Math.random()*0.25,vy:0.9+Math.random()*1.3});
+  G.bubbles=G.bubbles.filter(b=>{b.y-=b.vy;return b.y>-15;});
 
   // Cleanup
-  const clean = G.camX - 500;
-  G.platforms = G.platforms.filter(p=>p.x>clean);
-  G.obstacles = G.obstacles.filter(o=>o.x>clean);
-  G.collectibles = G.collectibles.filter(c=>c.x>clean);
+  const clean=G.camX-500;
+  G.platforms=G.platforms.filter(p=>p.x>clean);
+  G.obstacles=G.obstacles.filter(o=>o.x>clean);
+  G.collectibles=G.collectibles.filter(c=>c.x>clean);
 
-  // Score
-  if(G.frame%28===0) {
-    G.score += G.level;
-    document.getElementById('scoreD').textContent = G.score;
-  }
+  // Score + level
+  if(G.frame%28===0){G.score+=z2?G.level*2:G.level;document.getElementById('scoreD').textContent=G.score;}
 
-  // Level up
-  const lvlThresh = [0,300,650,1100,1650,2400];
-  const newLevel = lvlThresh.findIndex(t=>G.score<t) - 1;
-  if(newLevel>G.level && newLevel<=5) {
-    G.level = newLevel;
-    updateHUD();
-    showLevelUp(G.level);
-  }
+  const lvlThresh=[0,300,650,1100,1650,2400];
+  const newLvl=lvlThresh.findIndex(t=>G.score<t)-1;
+  if(newLvl>G.level&&newLvl<=5){G.level=newLvl;updateHUD();showLevelBanner(G.level);}
+
+  // Zone 2 transition at score 500+ in zone 1
+  if(G.zone===1&&G.score>=500&&!G._zoneSent){G._zoneSent=true;transitionToZone2();}
 }
 
-function updateHUD() {
-  document.getElementById('scoreD').textContent = G.score;
-  document.getElementById('levelD').textContent = G.level;
-  document.getElementById('factsD').textContent = G.factsCollected;
-  document.getElementById('livesD').textContent = G.lives;
+function updateHUD(){
+  document.getElementById('scoreD').textContent=G.score;
+  document.getElementById('levelD').textContent=G.level;
+  document.getElementById('zoneD').textContent=G.zone;
+  document.getElementById('factsD').textContent=G.factsCollected;
+  document.getElementById('livesD').textContent=G.lives;
 }
 
-function showLevelUp(lvl) {
+function showLevelBanner(lvl){
   SFX.levelUp();
-  const el = document.getElementById('lvlBanner');
-  const msgs = ['','Level 2 — Getting Deeper!','Level 3 — Mid Ocean!','Level 4 — Deep Zone!','Level 5 — Abyss Master!'];
-  el.textContent = '🌊 ' + (msgs[lvl]||`Level ${lvl}!`);
+  const el=document.getElementById('lvlBanner');
+  const msgs=['','Deeper Reefs!','Mid Ocean!','Dark Zone!','Midnight Zone!','Abyss Master!'];
+  el.textContent='🌊 Level '+lvl+' — '+(msgs[lvl]||'');
   el.style.display='block';
-  setTimeout(()=>el.style.display='none', 1800);
+  setTimeout(()=>el.style.display='none',1800);
 }
 
-// ── COLLECTIBLES ──
-let usedFacts=[], factTimer=null;
-
-function collectFact() {
-  if(G.factActive) return;
-  G.factActive=true; G.factsCollected++;
-  SFX.collect();
-  G.score+=25; updateHUD();
-  const avail = FACTS.filter(f=>!usedFacts.includes(f.t));
-  if(!avail.length){ usedFacts=[]; }
-  const f = (avail.length?avail:FACTS)[Math.floor(Math.random()*(avail.length||FACTS.length))];
-  usedFacts.push(f.t);
-  document.getElementById('factEmoji').textContent=f.e;
-  document.getElementById('factText').textContent=f.t;
-  const fp=document.getElementById('factPop');
-  fp.style.display='block';
-  fp.style.animation='none'; fp.offsetHeight;
-  fp.style.animation='popIn 0.3s cubic-bezier(0.34,1.56,0.64,1) forwards';
-  clearTimeout(factTimer);
-  factTimer=setTimeout(()=>{ fp.style.display='none'; G.factActive=false; }, 2800);
+// ════════ JETPACK ════════
+function collectJetpack(){
+  const s=G.shark;
+  SFX.jetpack();
+  s.jetpack=true; s.jetpackTimer=s.jetpackMax;
+  G.score+=30; G.jetpacksUsed++; updateHUD();
+  document.getElementById('jetpackHud').style.display='flex';
+  document.getElementById('jetpackFill').style.width='100%';
+  // Show popup briefly
+  const jp=document.getElementById('jetpackPop');
+  jp.style.display='block';
+  setTimeout(()=>jp.style.display='none',2000);
 }
 
-let currentQ=null;
-function showQuestion() {
-  if(G.qActive||G.factActive) return;
-  G.qActive=true; G.paused=true;
-  SFX.question();
-  if(!G.qPool.length) G.qPool=shuffle([...QUESTIONS]);
-  currentQ=G.qPool.pop();
-  document.getElementById('qText').textContent=currentQ.q;
-  const opts=document.getElementById('qOpts'); opts.innerHTML='';
-  currentQ.opts.forEach((o,i)=>{
-    const b=document.createElement('button');
-    b.textContent=o;
-    b.onclick=()=>answerQ(i,b);
-    opts.appendChild(b);
-  });
-  document.getElementById('qBox').style.display='block';
+// ════════ ZONE TRANSITION ════════
+function transitionToZone2(){
+  G.running=false; G.paused=true;
+  cancelAnimationFrame(rafId);
+  const ls=document.getElementById('levelScreen');
+  document.getElementById('lsIcon').textContent='🦑';
+  document.getElementById('lsTitle').innerHTML='<span style="color:#c084fc;">Zone 2 — Deep Abyss!</span>';
+  document.getElementById('lsDesc').textContent='You survived the Coral Reef! Now dive into the mysterious Deep Abyss — harder questions, darker waters, and more powerful jetpacks await!';
+  document.getElementById('lsFeats').innerHTML=
+    '<div class="ls-feat" style="border-color:rgba(192,132,252,0.4);color:#c084fc;">🦑 10 Harder Questions</div>'+
+    '<div class="ls-feat" style="border-color:rgba(192,132,252,0.4);color:#c084fc;">💎 Deep Sea Facts</div>'+
+    '<div class="ls-feat" style="border-color:rgba(251,146,60,0.4);color:#fb923c;">🚀 Stronger Jetpacks</div>'+
+    '<div class="ls-feat" style="border-color:rgba(239,68,68,0.4);color:#f87171;">⚡ Faster Obstacles</div>';
+  ls.style.display='flex';
 }
 
-function answerQ(i,btn) {
-  document.querySelectorAll('#qOpts button').forEach(b=>b.onclick=null);
-  if(i===currentQ.ans) {
-    btn.classList.add('correct');
-    G.score+=50; G.correctAnswers++; updateHUD();
-    SFX.correct();
-    setTimeout(()=>{
-      document.getElementById('qBox').style.display='none';
-      G.qActive=false; G.paused=false;
-      collectFact(); // Show explanation as fact
-      document.getElementById('factEmoji').textContent='✅';
-      document.getElementById('factText').textContent=currentQ.exp;
-      const fp=document.getElementById('factPop');
-      fp.style.display='block';
-      clearTimeout(factTimer);
-      factTimer=setTimeout(()=>{ fp.style.display='none'; G.factActive=false; }, 2600);
-    }, 500);
-  } else {
-    btn.classList.add('wrong');
-    SFX.wrong();
-    const corr=document.querySelectorAll('#qOpts button')[currentQ.ans];
-    corr.classList.add('correct');
-    G.lives--;  updateHUD();
-    setTimeout(()=>{
-      document.getElementById('qBox').style.display='none';
-      G.qActive=false; G.paused=false;
-      if(G.lives<=0) endGame();
-    }, 1400);
-  }
-}
-
-// ── CONTROLS ──
-const keys={};
-document.addEventListener('keydown',e=>{
-  keys[e.code]=true;
-  if(e.code==='Space'||e.code==='ArrowUp'){ e.preventDefault(); doJump(); }
-  if(e.code==='ArrowLeft'||e.code==='KeyA') G.holdLeft=true;
-  if(e.code==='ArrowRight'||e.code==='KeyD') G.holdRight=true;
-});
-document.addEventListener('keyup',e=>{
-  keys[e.code]=false;
-  if(e.code==='ArrowLeft'||e.code==='KeyA') G.holdLeft=false;
-  if(e.code==='ArrowRight'||e.code==='KeyD') G.holdRight=false;
-});
-
-function doJump(){
-  if(G.running&&!G.paused&&G.shark.onGround){
-    G.shark.vy=JUMP_V; G.shark.onGround=false;
-    SFX.jump();
-  }
-}
-function startLeft(){ G.holdLeft=true; G.shark.dir=-1; }
-function startRight(){ G.holdRight=true; G.shark.dir=1; }
-function stopH(){ G.holdLeft=false; G.holdRight=false; }
-
-// Touch swipe
-let tX=0,tY=0;
-canvas.addEventListener('touchstart',e=>{tX=e.touches[0].clientX;tY=e.touches[0].clientY;e.preventDefault();},{passive:false});
-canvas.addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-tX, dy=e.changedTouches[0].clientY-tY;
-  if(Math.abs(dy)>40&&dy<0) doJump();
-  else if(Math.abs(dx)>40){
-    if(dx<0){G.holdLeft=true;G.shark.dir=-1;setTimeout(()=>G.holdLeft=false,120);}
-    else{G.holdRight=true;G.shark.dir=1;setTimeout(()=>G.holdRight=false,120);}
-  } else doJump();
-  e.preventDefault();
-},{passive:false});
-
-// ── GAME LOOP ──
-let rafId=null;
-function gameLoop() {
-  rafId=requestAnimationFrame(gameLoop);
-  G.frame++;
-  if(!G.paused) {
-    updateShark();
-    spawnWorld();
-  }
-  SFX.swim();
-  drawBg();
-  drawGround();
-  drawPlatforms();
-  drawCollectibles();
-  drawObstacles();
-  drawShark();
-  drawParticles();
-}
-
-function startGame() {
-  document.getElementById('splash').style.display='none';
-  document.getElementById('instructions').style.display='none';
-  document.getElementById('gameOver').style.display='none';
-  document.getElementById('qBox').style.display='none';
-  document.getElementById('factPop').style.display='none';
-  if(rafId){ cancelAnimationFrame(rafId); rafId=null; }
-  initG();
+function continueToZone(){
+  document.getElementById('levelScreen').style.display='none';
+  const savedScore=G.score, savedLives=G.lives, savedFacts=G.factsCollected, savedCorrect=G.correctAnswers, savedJP=G.jetpacksUsed;
+  initG(2);
+  G.score=savedScore; G.lives=savedLives; G.factsCollected=savedFacts;
+  G.correctAnswers=savedCorrect; G.jetpacksUsed=savedJP;
+  G.nextJetpackScore=G.score+250;
   const gY=G.groundY;
   G.shark.y=gY-G.shark.h;
-  // Seed initial platforms
-  for(let i=0;i<7;i++){
-    G.platforms.push({
-      x: 280+i*210,
-      y: gY-100-Math.random()*130,
-      w: 85+Math.random()*70,
-      h: 14,
-      deco: DECOS[i%DECOS.length]
-    });
-  }
+  for(let i=0;i<7;i++) G.platforms.push({x:280+i*210,y:gY-100-Math.random()*150,w:80+Math.random()*70,h:14,deco:Z2DECOS[i%Z2DECOS.length]});
+  updateHUD();
   G.running=true;
   gameLoop();
 }
 
-function endGame() {
-  SFX.gameOver();
+// ════════ QUESTIONS / FACTS ════════
+let currentQ=null, factTimer=null;
+
+function showQuestion(){
+  if(G.qActive||G.factActive) return;
+  G.qActive=true; G.paused=true;
+  // Refill pool with fresh shuffle when exhausted
+  if(!G.qPool.length) G.qPool=G.zone===1?shuffle(ZONE1_Q):shuffle(ZONE2_Q);
+  currentQ=G.qPool.pop();
+  document.getElementById('qZoneBadge').textContent=G.zone===1?'Zone 1 · Coral Reef':'Zone 2 · Deep Abyss';
+  document.getElementById('qZoneBadge').style.background=G.zone===2?'rgba(192,132,252,0.2)':'rgba(56,189,248,0.2)';
+  document.getElementById('qZoneBadge').style.color=G.zone===2?'#c084fc':'#38bdf8';
+  document.getElementById('qText').textContent=currentQ.q;
+  const opts=document.getElementById('qOpts'); opts.innerHTML='';
+  // Shuffle answer options display order
+  const shuffled=shuffle(currentQ.opts.map((o,i)=>({o,i})));
+  shuffled.forEach(({o,i})=>{
+    const b=document.createElement('button'); b.textContent=o;
+    b.onclick=()=>answerQ(i,b,opts,shuffled);
+    opts.appendChild(b);
+  });
+  SFX.question();
+  document.getElementById('qBox').style.display='block';
+}
+
+function answerQ(i,btn,opts,shuffled){
+  document.querySelectorAll('#qOpts button').forEach(b=>b.onclick=null);
+  if(i===currentQ.ans){
+    btn.classList.add('correct'); G.score+=50; G.correctAnswers++; updateHUD(); SFX.correct();
+    setTimeout(()=>{
+      document.getElementById('qBox').style.display='none';
+      G.qActive=false; G.paused=false;
+      showFactPopup({e:'✅',t:'Correct! '+currentQ.exp});
+    },500);
+  } else {
+    btn.classList.add('wrong'); SFX.wrong();
+    // Highlight correct answer
+    document.querySelectorAll('#qOpts button').forEach((b,idx)=>{
+      if(shuffled[idx].i===currentQ.ans) b.classList.add('correct');
+    });
+    G.lives--; updateHUD();
+    setTimeout(()=>{
+      document.getElementById('qBox').style.display='none';
+      G.qActive=false; G.paused=false;
+      if(G.lives<=0) endGame();
+    },1500);
+  }
+}
+
+function collectFact(){
+  if(G.factActive) return;
+  G.factActive=true; G.factsCollected++; G.score+=25; updateHUD();
+  const pool=G.zone===1?ZONE1_FACTS:ZONE2_FACTS;
+  const avail=pool.filter(f=>!G.usedFacts.includes(f.t));
+  const f=(avail.length?avail:pool)[Math.floor(Math.random()*(avail.length||pool.length))];
+  G.usedFacts.push(f.t);
+  showFactPopup(f);
+}
+
+function showFactPopup(f){
+  G.factActive=true;
+  document.getElementById('factEmoji').textContent=f.e;
+  document.getElementById('factText').textContent=f.t;
+  const fp=document.getElementById('factPop');
+  fp.style.display='block'; fp.style.animation='none'; fp.offsetHeight;
+  fp.style.animation='popIn .3s cubic-bezier(.34,1.56,.64,1) forwards';
+  clearTimeout(factTimer);
+  factTimer=setTimeout(()=>{fp.style.display='none';G.factActive=false;},2800);
+}
+
+// ════════ CONTROLS ════════
+let rafId=null;
+G.holdLeft=false; G.holdRight=false; G.holdJump=false;
+
+document.addEventListener('keydown',e=>{
+  if(e.code==='ArrowLeft'||e.code==='KeyA'){G.holdLeft=true;G.shark&&(G.shark.dir=-1);}
+  if(e.code==='ArrowRight'||e.code==='KeyD'){G.holdRight=true;G.shark&&(G.shark.dir=1);}
+  if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();G.holdJump=true;doJump();}
+});
+document.addEventListener('keyup',e=>{
+  if(e.code==='ArrowLeft'||e.code==='KeyA') G.holdLeft=false;
+  if(e.code==='ArrowRight'||e.code==='KeyD') G.holdRight=false;
+  if(e.code==='Space'||e.code==='ArrowUp') G.holdJump=false;
+});
+
+function doJump(){if(G.running&&!G.paused&&G.shark.onGround){G.shark.vy=JUMP_V;G.shark.onGround=false;SFX.jump();}}
+function startLeft(){G.holdLeft=true;G.shark&&(G.shark.dir=-1);}
+function startRight(){G.holdRight=true;G.shark&&(G.shark.dir=1);}
+function stopH(){G.holdLeft=false;G.holdRight=false;}
+
+// Touch
+let tX=0,tY=0;
+canvas.addEventListener('touchstart',e=>{tX=e.touches[0].clientX;tY=e.touches[0].clientY;G.holdJump=true;e.preventDefault();},{passive:false});
+canvas.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tX,dy=e.changedTouches[0].clientY-tY;
+  G.holdJump=false;
+  if(Math.abs(dy)>40&&dy<0) doJump();
+  else if(Math.abs(dx)>40){
+    if(dx<0){G.holdLeft=true;G.shark&&(G.shark.dir=-1);setTimeout(()=>G.holdLeft=false,140);}
+    else{G.holdRight=true;G.shark&&(G.shark.dir=1);setTimeout(()=>G.holdRight=false,140);}
+  } else doJump();
+  e.preventDefault();
+},{passive:false});
+
+// ════════ GAME LOOP ════════
+function gameLoop(){
+  rafId=requestAnimationFrame(gameLoop);
+  G.frame++;
+  if(!G.paused){updateShark();spawnWorld();}
+  drawBg(); drawGround(); drawPlatforms(); drawCollectibles(); drawObstacles(); drawShark(); drawParticles();
+  SFX.swim();
+}
+
+function startGame(){
+  ['splash','instructions','gameOver','levelScreen','qBox','factPop','jetpackPop'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display='none';
+  });
+  document.getElementById('soundToggle').style.display='flex';
+  if(rafId){cancelAnimationFrame(rafId);rafId=null;}
+  initG(1);
+  const gY=G.groundY; G.shark.y=gY-G.shark.h;
+  for(let i=0;i<7;i++) G.platforms.push({x:280+i*210,y:gY-100-Math.random()*130,w:85+Math.random()*70,h:14,deco:Z1DECOS[i%Z1DECOS.length]});
+  updateHUD(); G.running=true; G.holdLeft=false; G.holdRight=false; G.holdJump=false;
+  gameLoop();
+}
+
+function endGame(){
   G.running=false; G.paused=false;
   cancelAnimationFrame(rafId);
-  document.getElementById('qBox').style.display='none';
-  document.getElementById('factPop').style.display='none';
+  ['qBox','factPop','jetpackPop','levelScreen'].forEach(id=>{ const e=document.getElementById(id); if(e)e.style.display='none'; });
   document.getElementById('finalScore').textContent=G.score;
+  document.getElementById('goZone').textContent=G.zone;
   document.getElementById('goLevel').textContent=G.level;
   document.getElementById('goFacts').textContent=G.factsCollected;
   document.getElementById('goCorrect').textContent=G.correctAnswers;
-  const msgs=[
-    "Keep practising — Science champions never give up! 💪",
-    "Not bad! You're getting the hang of it! 🌊",
-    "Great run! You know your Science well! 🔬",
-    "Excellent! You're a real Ocean Scholar! 🏅",
-    "AMAZING! You're a Science superstar! 🌟"
-  ];
+  document.getElementById('goJetpacks').textContent=G.jetpacksUsed;
+  const msgs=["Keep practising — Science champions never give up! 💪","Not bad! You're getting there! 🌊","Great run! You know your Science well! 🔬","Excellent! You're a real Ocean Scholar! 🏅","AMAZING! Science superstar! 🌟"];
   document.getElementById('goMsg').textContent=msgs[Math.min(G.correctAnswers,4)];
+  SFX.gameOver();
   document.getElementById('gameOver').style.display='flex';
 }
 
-// ══ WEB AUDIO SOUND SYSTEM ══
-let audioCtx = null;
-let soundEnabled = true;
-
-function getAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
+// ════════ SOUND ════════
+let audioCtx=null, soundEnabled=true;
+function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function playTone(freq,type,dur,vol=0.3,delay=0){
+  if(!soundEnabled)return;
+  try{
+    const ac=getAudio(),osc=ac.createOscillator(),gain=ac.createGain();
+    osc.connect(gain);gain.connect(ac.destination);
+    osc.type=type; osc.frequency.setValueAtTime(freq,ac.currentTime+delay);
+    gain.gain.setValueAtTime(vol,ac.currentTime+delay);
+    gain.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+dur);
+    osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+dur+0.05);
+  }catch(e){}
 }
-
-function playTone(freq, type, duration, volume=0.3, delay=0) {
-  if (!soundEnabled) return;
-  try {
-    const ac = getAudio();
-    const osc = ac.createOscillator();
-    const gain = ac.createGain();
-    osc.connect(gain); gain.connect(ac.destination);
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, ac.currentTime + delay);
-    gain.gain.setValueAtTime(volume, ac.currentTime + delay);
-    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + duration);
-    osc.start(ac.currentTime + delay);
-    osc.stop(ac.currentTime + delay + duration + 0.05);
-  } catch(e) {}
-}
-
-function playChord(freqs, type, duration, volume=0.2) {
-  freqs.forEach((f,i) => playTone(f, type, duration, volume, i*0.04));
-}
-
-// Sound effects
-const SFX = {
-  jump() {
-    playTone(300, 'sine', 0.08, 0.25);
-    playTone(500, 'sine', 0.12, 0.2, 0.06);
-  },
-  collect() {
-    [523, 659, 784, 1047].forEach((f,i) => playTone(f, 'sine', 0.12, 0.18, i*0.05));
-  },
-  question() {
-    playTone(440, 'triangle', 0.1, 0.3);
-    playTone(554, 'triangle', 0.12, 0.25, 0.08);
-    playTone(659, 'triangle', 0.18, 0.2, 0.16);
-  },
-  correct() {
-    [523, 659, 784, 1047, 1319].forEach((f,i) => playTone(f, 'sine', 0.15, 0.22, i*0.06));
-  },
-  wrong() {
-    playTone(200, 'sawtooth', 0.15, 0.3);
-    playTone(150, 'sawtooth', 0.2, 0.25, 0.12);
-  },
-  hit() {
-    playTone(120, 'square', 0.08, 0.4);
-    playTone(80, 'sawtooth', 0.15, 0.35, 0.07);
-  },
-  levelUp() {
-    [261, 329, 392, 523, 659, 784].forEach((f,i) => playTone(f, 'sine', 0.2, 0.2, i*0.07));
-  },
-  gameOver() {
-    playTone(440, 'sine', 0.3, 0.3);
-    playTone(330, 'sine', 0.3, 0.25, 0.25);
-    playTone(220, 'sine', 0.5, 0.35, 0.5);
-    playTone(110, 'sawtooth', 0.6, 0.3, 0.9);
-  },
-  splash() {
-    // Underwater ambience chord
-    [110, 165, 220, 330].forEach((f,i) => {
-      const ac = getAudio();
-      if(!soundEnabled) return;
-      const osc = ac.createOscillator();
-      const gain = ac.createGain();
-      osc.connect(gain); gain.connect(ac.destination);
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(f, ac.currentTime);
-      osc.frequency.linearRampToValueAtTime(f*1.01, ac.currentTime+2);
-      gain.gain.setValueAtTime(0, ac.currentTime);
-      gain.gain.linearRampToValueAtTime(0.06, ac.currentTime+0.5+i*0.15);
-      gain.gain.linearRampToValueAtTime(0.04, ac.currentTime+2.5);
-      gain.gain.linearRampToValueAtTime(0, ac.currentTime+3.5);
-      osc.start(ac.currentTime);
-      osc.stop(ac.currentTime+4);
-    });
-  },
-  swim() {
-    if(Math.random()>0.08) return;
-    playTone(80+Math.random()*40, 'sine', 0.06, 0.05);
-  }
+const SFX={
+  jump(){playTone(300,'sine',0.08,0.25);playTone(500,'sine',0.12,0.2,0.06);},
+  collect(){[523,659,784,1047].forEach((f,i)=>playTone(f,'sine',0.12,0.18,i*0.05));},
+  question(){playTone(440,'triangle',0.1,0.3);playTone(554,'triangle',0.12,0.25,0.08);playTone(659,'triangle',0.18,0.2,0.16);},
+  correct(){[523,659,784,1047,1319].forEach((f,i)=>playTone(f,'sine',0.15,0.22,i*0.06));},
+  wrong(){playTone(200,'sawtooth',0.15,0.3);playTone(150,'sawtooth',0.2,0.25,0.12);},
+  hit(){playTone(120,'square',0.08,0.4);playTone(80,'sawtooth',0.15,0.35,0.07);},
+  levelUp(){[261,329,392,523,659,784].forEach((f,i)=>playTone(f,'sine',0.2,0.2,i*0.07));},
+  gameOver(){playTone(440,'sine',0.3,0.3);playTone(330,'sine',0.3,0.25,0.25);playTone(220,'sine',0.5,0.35,0.5);playTone(110,'sawtooth',0.6,0.3,0.9);},
+  jetpack(){[400,500,650,800].forEach((f,i)=>playTone(f,'sine',0.1,0.25,i*0.04));playTone(200,'sine',0.3,0.15,0.18);},
+  swim(){if(Math.random()>0.08)return;playTone(80+Math.random()*40,'sine',0.06,0.04);},
+  splash(){[110,165,220,330].forEach((f,i)=>{try{const ac=getAudio(),osc=ac.createOscillator(),gain=ac.createGain();osc.connect(gain);gain.connect(ac.destination);osc.type='sine';osc.frequency.setValueAtTime(f,ac.currentTime);gain.gain.setValueAtTime(0,ac.currentTime);gain.gain.linearRampToValueAtTime(0.05,ac.currentTime+0.5+i*0.15);gain.gain.linearRampToValueAtTime(0,ac.currentTime+3.5);osc.start(ac.currentTime);osc.stop(ac.currentTime+4);}catch(e){}});}
 };
+function toggleSound(){soundEnabled=!soundEnabled;document.getElementById('soundToggle').textContent=soundEnabled?'🔊':'🔇';}
 
-function toggleSound() {
-  soundEnabled = !soundEnabled;
-  document.getElementById('soundToggle').textContent = soundEnabled ? '🔊' : '🔇';
-}
-
-// ══ SPLASH CANVAS ANIMATION ══
-function initSplashAnim() {
-  const sc = document.getElementById('splashCanvas');
-  const sctx = sc.getContext('2d');
-  sc.width = window.innerWidth;
-  sc.height = window.innerHeight;
-  const bubbles = Array.from({length:30},()=>({
-    x: Math.random()*sc.width,
-    y: sc.height + Math.random()*sc.height,
-    r: 2+Math.random()*8,
-    vy: 0.4+Math.random()*1.2,
-    s: 0.05+Math.random()*0.2
-  }));
-  const fishes = Array.from({length:4},(_,i)=>({
-    x: -80, y: 80+i*90, vx: 0.8+i*0.3,
-    wave: Math.random()*Math.PI*2
-  }));
-
-  function drawSplash() {
+// ════════ SPLASH ANIMATION ════════
+function initSplashAnim(){
+  const sc=document.getElementById('splashCanvas');
+  const sctx=sc.getContext('2d');
+  sc.width=window.innerWidth; sc.height=window.innerHeight;
+  const bubs=Array.from({length:28},()=>({x:Math.random()*sc.width,y:sc.height+Math.random()*sc.height,r:2+Math.random()*7,vy:0.5+Math.random()*1.2,s:0.1+Math.random()*0.2}));
+  const fish=Array.from({length:4},(_,i)=>({x:-80,y:80+i*80,vx:0.7+i*0.3,wave:Math.random()*Math.PI*2}));
+  function drawSplash(){
     sctx.clearRect(0,0,sc.width,sc.height);
-    // Bubbles
-    bubbles.forEach(b=>{
-      b.y -= b.vy;
-      if(b.y < -20){ b.y=sc.height+10; b.x=Math.random()*sc.width; }
-      sctx.beginPath(); sctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-      sctx.strokeStyle=`rgba(125,211,252,${0.15+b.s})`; sctx.lineWidth=1; sctx.stroke();
-    });
-    // Fish
-    fishes.forEach(f=>{
-      f.x += f.vx; f.wave += 0.05;
-      f.y += Math.sin(f.wave)*0.5;
-      if(f.x > sc.width+100){ f.x=-80; }
-      sctx.save(); sctx.translate(f.x, f.y);
-      sctx.fillStyle='rgba(56,189,248,0.25)';
-      sctx.beginPath(); sctx.ellipse(0,0,18,9,0,0,Math.PI*2); sctx.fill();
-      sctx.beginPath(); sctx.moveTo(-18,0); sctx.lineTo(-28,-8); sctx.lineTo(-28,8); sctx.closePath(); sctx.fill();
-      sctx.restore();
-    });
-    // Light rays
-    sctx.save(); sctx.globalAlpha=0.03;
-    for(let i=0;i<5;i++){
-      const rx=(i*200+(Date.now()*0.01))%sc.width;
-      sctx.fillStyle='#38bdf8';
-      sctx.beginPath(); sctx.moveTo(rx,0); sctx.lineTo(rx+60,sc.height*0.8); sctx.lineTo(rx-60,sc.height*0.8); sctx.closePath(); sctx.fill();
-    }
-    sctx.restore();
+    bubs.forEach(b=>{b.y-=b.vy;if(b.y<-20){b.y=sc.height+10;b.x=Math.random()*sc.width;}sctx.beginPath();sctx.arc(b.x,b.y,b.r,0,Math.PI*2);sctx.strokeStyle=`rgba(125,211,252,${0.15+b.s})`;sctx.lineWidth=1;sctx.stroke();});
+    fish.forEach(f=>{f.x+=f.vx;f.wave+=0.05;f.y+=Math.sin(f.wave)*0.5;if(f.x>sc.width+100)f.x=-80;sctx.save();sctx.translate(f.x,f.y);sctx.fillStyle='rgba(56,189,248,0.2)';sctx.beginPath();sctx.ellipse(0,0,18,9,0,0,Math.PI*2);sctx.fill();sctx.beginPath();sctx.moveTo(-18,0);sctx.lineTo(-28,-8);sctx.lineTo(-28,8);sctx.closePath();sctx.fill();sctx.restore();});
+    sctx.save();sctx.globalAlpha=0.03;for(let i=0;i<5;i++){const rx=(i*200+(Date.now()*0.01))%sc.width;sctx.fillStyle='#38bdf8';sctx.beginPath();sctx.moveTo(rx,0);sctx.lineTo(rx+60,sc.height*0.8);sctx.lineTo(rx-60,sc.height*0.8);sctx.closePath();sctx.fill();}sctx.restore();
     requestAnimationFrame(drawSplash);
   }
   drawSplash();
 }
 
-// ══ SCREEN TRANSITIONS ══
-function onPlay() {
+function onPlay(){
+  if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
   SFX.splash();
-  // Resume AudioContext on user gesture
-  if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
   document.getElementById('splash').style.display='none';
   document.getElementById('instructions').style.display='none';
   document.getElementById('soundToggle').style.display='flex';
   startGame();
 }
-
-function showInstructions() {
-  SFX.question();
-  document.getElementById('instructions').style.display='flex';
+function showInstructions(){
+  try{SFX.question();}catch(e){}
+  const el=document.getElementById('instructions');
+  if(el){el.style.display='flex';el.scrollTop=0;}
 }
+function hideInstructions(){const el=document.getElementById('instructions');if(el)el.style.display='none';}
 
-function hideInstructions() {
-  document.getElementById('instructions').style.display='none';
-}
-
-// Init splash animation on load
-window.addEventListener('load', ()=>{
+window.addEventListener('load',()=>{
+  // Set game canvas size
+  const gc=document.getElementById('gc');
+  if(gc){gc.width=window.innerWidth;gc.height=window.innerHeight;}
   initSplashAnim();
+  // Ensure splash is visible
+  const sp=document.getElementById('splash');
+  if(sp){sp.style.display='flex';sp.style.zIndex='9000';}
 });
-
 </script>
 </body>
 </html>
