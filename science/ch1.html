@@ -832,10 +832,39 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 
 
 /* ── Tab panel overrides for specific tabs ── */
-#tab-flashcards,#tab-mindmap,#tab-videos,#tab-practice,#tab-funfacts,#tab-anya{
+#tab-flashcards,#tab-mindmap,#tab-videos,#tab-practice,#tab-funfacts,#tab-anya,#tab-game{
+  text-align:center;
   padding:0;max-width:100%;
 }
 #tab-flashcards .fc-scene{padding:20px 5% 60px;}
+
+@keyframes bobAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* Game tab special styling */
+.game-tab-btn{
+  color:#0284c7 !important;
+  opacity:1 !important;
+  position:relative;
+}
+.game-tab-btn::after{
+  content:'NEW';
+  position:absolute;
+  top:6px;right:2px;
+  font-size:7px;font-weight:900;
+  background:#0284c7;color:white;
+  border-radius:4px;padding:1px 3px;
+  letter-spacing:0.5px;
+}
+.game-tab-btn.active{
+  color:#0284c7 !important;
+  border-bottom-color:#0284c7 !important;
+}
+.game-tab-btn.active::after{display:none;}
+
+/* Ensure tabs-bar always scrollable with gap */
+.tabs-bar{gap:0;padding:0 2%;}
+.tab-btn{padding:13px 12px;font-size:12px;}
+@media(max-width:500px){.tab-btn{padding:11px 8px;font-size:10.5px;}}
 
 </style>
 </head>
@@ -897,6 +926,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
   <button class="tab-btn" onclick="switchTab('practice',this)">✏️ Practice</button>
   <button class="tab-btn" onclick="switchTab('funfacts',this)">🎲 Fun Facts</button>
   <button class="tab-btn" onclick="switchTab('anya',this)">🌊 Ask Anya</button>
+  <button class="tab-btn game-tab-btn" onclick="switchTab('game',this)">🦈 Play!</button>
 
 </div>
 
@@ -1576,6 +1606,28 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 </div>
 
 
+
+<!-- GAME TAB — opens standalone game -->
+<div class="tab-panel" id="tab-game">
+  <div style="max-width:480px;margin:0 auto;padding:40px 20px;">
+    <div style="font-size:64px;margin-bottom:12px;animation:bobAnim 2s ease-in-out infinite;">🦈</div>
+    <h2 style="font-family:'Fredoka One',cursive;color:#0c3a6b;font-size:1.6rem;margin-bottom:8px;">Ocean Scholar — Baby Shark</h2>
+    <p style="color:#0369a1;font-size:14px;line-height:1.7;margin-bottom:20px;">
+      Swim through the ocean, collect Science facts, dodge jellyfish, and answer Chapter 1 questions to level up! 🌊
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:24px;">
+      <div style="background:rgba(251,191,36,0.12);border:1.5px solid rgba(251,191,36,0.3);border-radius:12px;padding:8px 16px;font-size:12px;font-weight:800;color:#92400e;">⭐ Collect Facts</div>
+      <div style="background:rgba(56,189,248,0.12);border:1.5px solid rgba(56,189,248,0.3);border-radius:12px;padding:8px 16px;font-size:12px;font-weight:800;color:#0369a1;">🔵 Answer Questions</div>
+      <div style="background:rgba(34,197,94,0.12);border:1.5px solid rgba(34,197,94,0.3);border-radius:12px;padding:8px 16px;font-size:12px;font-weight:800;color:#065f46;">🏆 Level Up!</div>
+      <div style="background:rgba(239,68,68,0.1);border:1.5px solid rgba(239,68,68,0.25);border-radius:12px;padding:8px 16px;font-size:12px;font-weight:800;color:#991b1b;">🪼 Dodge Jellyfish</div>
+    </div>
+    <a href="game.html" style="display:inline-block;background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white;font-family:'Fredoka One',cursive;font-size:18px;padding:14px 48px;border-radius:16px;text-decoration:none;box-shadow:0 6px 24px rgba(14,165,233,0.35);transition:transform 0.2s;">
+      🌊 Play Now!
+    </a>
+    <p style="margin-top:14px;color:#64748b;font-size:11px;">Opens in full screen for the best experience</p>
+  </div>
+</div>
+
 <!-- KEYWORD POPUP -->
 <div class="kw-popup" id="kw-popup">
   <button class="kw-close" onclick="closeKW()">×</button>
@@ -1605,7 +1657,7 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 </div>
 
 <!-- FLOAT ANYA -->
-<div id="chat-trigger" onclick="(function(){const btn=document.querySelector('.tab-btn:last-child');switchTab('anya',btn);})()">
+<div id="chat-trigger" onclick="(function(){const btns=document.querySelectorAll('.tab-btn');const anyaBtn=[...btns].find(b=>b.textContent.includes('Ask Anya'));switchTab('anya',anyaBtn);})()">
   <div class="mini-anya">
     <div class="mh"></div>
     <div class="mb2"></div>
@@ -2024,10 +2076,14 @@ async function testWorker() {
   }
 }
 
+
+function openGame(){ window.location.href='game.html'; } // also called by switchTab
 </script>
 <script>
 // TAB
 function switchTab(id, btn) {
+  // Game tab opens game page
+  if(id === 'game') { window.location.href = 'game.html'; return; }
   // Remove active from all buttons
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   // Hide ALL panels — clear both class AND inline style
