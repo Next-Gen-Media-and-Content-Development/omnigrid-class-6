@@ -366,14 +366,14 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 .vtitle{font-size:13px;font-weight:800;color:#0c3a6b;margin-bottom:3px;}
 .vmeta{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:center;}
 .yt{background:#ff0000;color:white;font-size:9px;font-weight:800;padding:2px 5px;border-radius:3px;}
-.pq-card{background:white;border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 3px 10px rgba(0,0,0,0.06);border:2px solid transparent;}
+.pq-card{background:white;border-radius:18px;padding:20px 22px;margin-bottom:14px;border:1.5px solid rgba(2,132,199,0.12);box-shadow:0 4px 18px rgba(2,132,199,0.09);transition:border-color 0.25s,box-shadow 0.25s;animation:cardIn 0.35s cubic-bezier(0.34,1.2,0.64,1) both;position:relative;overflow:hidden;}
 .pq-card.pc{border-color:#22c55e;background:rgba(34,197,94,0.1);}
 .pq-card.pw{border-color:#ef4444;background:#fef2f2;}
 .pq-num{font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase;margin-bottom:6px;}
 .pq-q{font-size:14px;font-weight:800;margin-bottom:12px;}
 .pq-opts{display:flex;flex-direction:column;gap:7px;}
-.pq-opt{background:#f8fafc;border:2px solid #e2e8f0;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;cursor:pointer;text-align:left;font-family:'Nunito',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
-.pq-opt:hover:not(:disabled){border-color:#22d3ee;background:rgba(56,189,248,0.1);}
+.pq-opt{background:rgba(255,255,255,0.95);border:1.5px solid rgba(2,132,199,0.15);border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;cursor:pointer;text-align:left;font-family:'Nunito',sans-serif;transition:all 0.2s;display:flex;align-items:center;gap:10px;color:#0f172a;box-shadow:0 1px 4px rgba(2,132,199,0.06);}
+.pq-opt:hover:not(:disabled){border-color:#0284c7;background:rgba(2,132,199,0.07);transform:translateX(3px);}
 .pq-opt.ca{background:rgba(34,197,94,0.15);border-color:#22c55e;color:#4ade80;}
 .pq-opt.wa{background:#fef2f2;border-color:#ef4444;color:#dc2626;}
 .pq-opt:disabled{cursor:default;}
@@ -969,12 +969,16 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 
 /* ── Practice quiz header — refined ── */
 .pq-quiz-hdr{
-  background:rgba(255,255,255,0.9);border-radius:16px;
-  padding:12px 16px;margin-bottom:14px;
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  border:1px solid rgba(2,132,199,0.12);
-  box-shadow:0 2px 10px rgba(2,132,199,0.08);
-  position:sticky;top:110px;z-index:10;
+  background:linear-gradient(135deg,#0c3a6b,#0369a1);
+  border-radius:16px;padding:14px 18px;margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  box-shadow:0 4px 20px rgba(2,132,199,0.25);
+  position:sticky;top:110px;z-index:10;overflow:hidden;
+}
+.pq-quiz-hdr::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 2px,transparent 2px,transparent 20px);
+  pointer-events:none;
 }
 
 /* ── Quiz result — ocean style ── */
@@ -1001,6 +1005,19 @@ body{font-family:'Nunito',sans-serif;background:linear-gradient(180deg,#e0f7ff 0
 .pq-ocean-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
   animation:headerShimmer 4s linear infinite;}
+
+/* Question number label */
+.pq-q-label{
+  font-size:11px;font-weight:900;color:#0369a1;
+  text-transform:uppercase;letter-spacing:0.8px;
+  margin-bottom:5px;
+}
+/* Question text — bold and larger */
+.pq-q-text{
+  font-size:15px;font-weight:800;color:#0f172a;
+  line-height:1.55;margin-bottom:14px;
+}
+
 </style>
 </head>
 <body>
@@ -2738,9 +2755,31 @@ let PQ_STATE = {
   matchSel:null, matchPairs:{}, fillAnswered:false,
 };
 
+// Track which questions have been shown per level across retries
+const PQ_USED = { beginner:new Set(), mid:new Set(), advanced:new Set() };
+
+function shuffleArr(arr){ return [...arr].sort(()=>Math.random()-0.5); }
+
 function startPQ(level){
+  const all = PQ_DATA[level].questions;
+  const used = PQ_USED[level];
+
+  // Get questions NOT yet shown — if all used, reset the used set
+  let available = all.filter((_,i) => !used.has(i));
+  if(available.length === 0){ used.clear(); available = [...all]; }
+
+  // Shuffle and take required number
+  const needed = PQ_DATA[level].questions.length;
+  const shuffled = shuffleArr(available).slice(0, needed);
+
+  // Mark these indices as used
+  shuffled.forEach(q => {
+    const idx = all.indexOf(q);
+    if(idx >= 0) used.add(idx);
+  });
+
   PQ_STATE = {
-    level, questions:[...PQ_DATA[level].questions],
+    level, questions: shuffled,
     current:0, score:0, correct:0, timedOut:0, wrong:0,
     timer:null, timeLeft:0, matchSel:null, matchPairs:{}, fillAnswered:false
   };
@@ -2776,8 +2815,8 @@ function renderPQQuestion(){
   inner += `<div class="pq-card" id="pq-cur-card">`;
   inner += `<div class="pq-card-top">
     <span class="pq-type-badge ${badgeCls}">${typeBadge}</span>
-    <span class="pq-q-num">Q${st.current+1} / ${total}</span>
   </div>`;
+  inner += `<div class="pq-q-label">Question ${st.current+1}.</div>`;
   inner += `<div class="pq-q-text">${q.q}</div>`;
 
   if(q.type==='mcq'){
@@ -2936,12 +2975,23 @@ function submitMatch(){
 function answerMCQ(idx){
   stopPQTimer();
   const q=PQ_STATE.questions[PQ_STATE.current];
+  // Disable all options first
   document.querySelectorAll('.pq-opt').forEach(b=>b.disabled=true);
-  document.getElementById('pqo'+q.ans).classList.add('ca');
-  if(idx===q.ans){ document.getElementById('pqo'+idx).classList.add('ca'); PQ_STATE.correct++; PQ_STATE.score+=50; }
-  else{ document.getElementById('pqo'+idx).classList.add('wa'); PQ_STATE.wrong++; }
+
+  if(idx===q.ans){
+    // ✅ Correct — only the clicked button gets green
+    document.getElementById('pqo'+idx).classList.add('ca');
+    PQ_STATE.correct++;
+    PQ_STATE.score+=50;
+    document.getElementById('pq-cur-card').classList.add('pc');
+  } else {
+    // ❌ Wrong — clicked button gets red, correct answer gets green
+    document.getElementById('pqo'+idx).classList.add('wa');
+    document.getElementById('pqo'+q.ans).classList.add('ca');
+    PQ_STATE.wrong++;
+    document.getElementById('pq-cur-card').classList.add('pw');
+  }
   document.getElementById('pq-score-live').textContent=PQ_STATE.score;
-  document.getElementById('pq-cur-card').classList.add(idx===q.ans?'pc':'pw');
   showPQExp(q.exp);
   nextPQAfterDelay();
 }
